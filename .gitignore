@@ -42,6 +42,12 @@ yarn-error.log*
 /playwright-report
 /playwright/.cache
 
+# e2e experimentales / scratch (NO trackeadas).
+# Cuando una prueba sea esencial, moverla a /e2e (fuera de temp) para versionarla.
+/e2e/temp/*
+!/e2e/temp/.gitkeep
+!/e2e/temp/README.md
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -1,0 +1,159 @@
+// Prisma schema — catálogo y ventas (Productos + Servicios).
+// Reglas de dominio aplicadas:
+//  - Dinero SIEMPRE en enteros (centavos). Nunca floats.
+//  - Estados modelados como enums, nunca strings sueltos.
+//  - Payment lleva una clave de idempotencia única para tolerar webhooks duplicados.
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ──────────────────────────────────────────────────────────────
+// Enums (máquina de estados explícita)
+// ──────────────────────────────────────────────────────────────
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+/// Ciclo de vida de un pedido. Las transiciones válidas se validan en la capa de servicio.
+enum OrderStatus {
+  PENDING // recién creado, carrito confirmado
+  AWAITING_PAYMENT // se generó el cobro en Ualá, esperando webhook
+  PAID // pago aprobado y confirmado de forma atómica
+  FULFILLED // entregado / servicio prestado
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  REFUNDED
+}
+
+/// Discriminador para OrderItem: un ítem es un Producto o un Servicio.
+enum ItemKind {
+  PRODUCT
+  SERVICE
+}
+
+// ──────────────────────────────────────────────────────────────
+// Modelos
+// ──────────────────────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  /// `sub` de Auth0 — fuente de verdad de identidad. Único.
+  auth0Id   String   @unique
+  email     String   @unique
+  name      String?
+  picture   String?
+  role      UserRole @default(CUSTOMER)
+  orders    Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  name        String
+  description String?
+  /// Precio en centavos de la moneda (`currency`).
+  priceCents  Int
+  currency    String      @default("ARS")
+  stock       Int         @default(0)
+  imageUrl    String?
+  active      Boolean     @default(true)
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([active])
+}
+
+model Service {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  name        String
+  description String?
+  priceCents  Int
+  currency    String      @default("ARS")
+  /// Duración estimada del servicio en minutos.
+  durationMin Int?
+  active      Boolean     @default(true)
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([active])
+}
+
+model Order {
+  id         String      @id @default(cuid())
+  user       User        @relation(fields: [userId], references: [id])
+  userId     String
+  status     OrderStatus @default(PENDING)
+  /// Total congelado al momento de la compra (suma de los ítems). En centavos.
+  totalCents Int
+  currency   String      @default("ARS")
+  items      OrderItem[]
+  payment    Payment?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+/// Snapshot de la línea de pedido. Guarda precio y nombre al momento de la compra
+/// para que cambios futuros en el catálogo no alteren pedidos históricos.
+model OrderItem {
+  id             String   @id @default(cuid())
+  order          Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId        String
+  kind           ItemKind
+  product        Product? @relation(fields: [productId], references: [id])
+  productId      String?
+  service        Service? @relation(fields: [serviceId], references: [id])
+  serviceId      String?
+  /// Nombre congelado al comprar.
+  nameSnapshot   String
+  unitPriceCents Int
+  quantity       Int      @default(1)
+
+  @@index([orderId])
+}
+
+/// Un pago por pedido (1:1). La clave de idempotencia evita doble procesamiento
+/// cuando Ualá reenvía el webhook.
+model Payment {
+  id                String        @id @default(cuid())
+  order             Order         @relation(fields: [orderId], references: [id])
+  orderId           String        @unique
+  provider          String        @default("uala_bis")
+  /// ID del cobro del lado de Ualá.
+  providerPaymentId String?
+  /// Clave única que generamos por intento de cobro; el webhook la usa para deduplicar.
+  idempotencyKey    String        @unique
+  status            PaymentStatus @default(PENDING)
+  amountCents       Int
+  currency          String        @default("ARS")
+  /// Payload crudo del webhook para auditoría.
+  rawPayload        Json?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([providerPaymentId])
+}

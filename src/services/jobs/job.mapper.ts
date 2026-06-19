@@ -1,5 +1,9 @@
 import type { JobPosting } from "@/generated/prisma/client";
-import type { JobVM, NormalizedJob } from "@/domain/jobs/job.types";
+import type {
+  JobDetailVM,
+  JobVM,
+  NormalizedJob,
+} from "@/domain/jobs/job.types";
 
 /** Mappers puros del módulo de empleos (sin prisma ni server-only). */
 
@@ -30,6 +34,11 @@ export function jobToVM(job: JobPosting): JobVM {
     url: job.url,
     postedAt: job.postedAt,
   };
+}
+
+/** Vacante de la DB -> detalle (incluye descripción). */
+export function jobToDetailVM(job: JobPosting): JobDetailVM {
+  return { ...jobToVM(job), description: job.description };
 }
 
 /** Deduplica vacantes normalizadas por (source, externalId). */

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/lib/date";
@@ -15,7 +16,11 @@ export function JobCard({ job }: JobCardProps) {
   return (
     <article className="flex flex-col gap-2 rounded-lg border border-neutral-200 p-4">
       <div className="flex items-start justify-between gap-2">
-        <h3 className="text-lg font-medium">{job.title}</h3>
+        <h3 className="text-lg font-medium">
+          <Link href={`/jobs/${job.id}`} className="hover:underline">
+            {job.title}
+          </Link>
+        </h3>
         {job.remote ? (
           <span className="shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800">
             Remoto

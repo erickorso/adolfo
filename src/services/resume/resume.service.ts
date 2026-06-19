@@ -84,6 +84,31 @@ export async function deleteResume(
   await prisma.resume.delete({ where: { id: resumeId } });
 }
 
+/** Texto extraído de un CV (si pertenece al usuario), para el asistente de IA. */
+export async function getResumeTextById(
+  userId: string,
+  resumeId: string,
+): Promise<{ label: string; text: string } | null> {
+  const resume = await prisma.resume.findFirst({
+    where: { id: resumeId, userId },
+  });
+  if (!resume?.extractedText) {
+    return null;
+  }
+  return { label: resume.label, text: resume.extractedText };
+}
+
+/** Guarda el resultado de una mejora asistida por IA. */
+export async function saveResumeReview(input: {
+  resumeId: string;
+  jobId: string | null;
+  suggestions: string;
+  rewrite: string;
+  model: string;
+}): Promise<void> {
+  await prisma.resumeReview.create({ data: input });
+}
+
 /** Devuelve los bytes de un CV por id si pertenece al usuario (para servirlo). */
 export async function getOwnedResumeFileById(
   userId: string,

@@ -30,6 +30,11 @@ export type JobVM = {
   postedAt: Date | null;
 };
 
+/** Detalle de vacante (incluye la descripción para la página de detalle/IA). */
+export type JobDetailVM = JobVM & {
+  description: string | null;
+};
+
 /** Criterios de búsqueda/filtrado aplicados por las fuentes o la lectura. */
 export type JobQuery = {
   /** Palabras clave; matchean contra el título (case-insensitive, OR). */

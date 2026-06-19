@@ -33,6 +33,12 @@ export const env = createEnv({
     JOBS_GREENHOUSE_BOARDS: z.string().default(""),
     /** Bearer secret para autorizar el endpoint de ingesta (cron). Opcional. */
     JOBS_INGEST_SECRET: z.string().optional(),
+
+    // IA (asistente de CV) — proveedor swappable
+    AI_PROVIDER: z.enum(["gemini"]).default("gemini"),
+    /** API key de Google AI Studio (Gemini). Opcional hasta usar el feature. */
+    GEMINI_API_KEY: z.string().optional(),
+    GEMINI_MODEL: z.string().default("gemini-2.0-flash"),
   },
 
   /** Expuestas al browser. Deben empezar con NEXT_PUBLIC_. */
@@ -57,6 +63,9 @@ export const env = createEnv({
     UALA_WEBHOOK_SECRET: process.env.UALA_WEBHOOK_SECRET,
     JOBS_GREENHOUSE_BOARDS: process.env.JOBS_GREENHOUSE_BOARDS,
     JOBS_INGEST_SECRET: process.env.JOBS_INGEST_SECRET,
+    AI_PROVIDER: process.env.AI_PROVIDER,
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+    GEMINI_MODEL: process.env.GEMINI_MODEL,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
   },
 

@@ -60,6 +60,7 @@ model User {
   role      UserRole   @default(CUSTOMER)
   orders    Order[]
   savedJobs SavedJob[]
+  resumes   Resume[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 
@@ -179,10 +180,11 @@ model JobPosting {
   description String?
   postedAt    DateTime?
   /// Última vez que la ingesta vio esta vacante.
-  fetchedAt   DateTime   @default(now())
+  fetchedAt   DateTime       @default(now())
   savedBy     SavedJob[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  reviews     ResumeReview[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 
   @@unique([source, externalId])
   @@index([company])
@@ -200,4 +202,42 @@ model SavedJob {
 
   @@unique([userId, jobId])
   @@index([userId])
+}
+
+/// CV subido por un usuario (máx. 3, validado en la capa de servicio).
+model Resume {
+  id            String         @id @default(cuid())
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+  label         String
+  /// Key del objeto en el storage (no la URL: los buckets privados firman URLs on-demand).
+  storageKey    String
+  mimeType      String
+  sizeBytes     Int
+  /// Texto extraído del archivo, para alimentar a la IA.
+  extractedText String?
+  isDefault     Boolean        @default(false)
+  reviews       ResumeReview[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([userId])
+}
+
+/// Resultado de la mejora asistida por IA de un CV para una oferta puntual.
+model ResumeReview {
+  id          String      @id @default(cuid())
+  resume      Resume      @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  resumeId    String
+  job         JobPosting? @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  jobId       String?
+  /// Sugerencias de mejora (markdown).
+  suggestions String?
+  /// Reescritura completa adaptada a la oferta (markdown).
+  rewrite     String?
+  /// Modelo de IA utilizado.
+  model       String?
+  createdAt   DateTime    @default(now())
+
+  @@index([resumeId])
 }

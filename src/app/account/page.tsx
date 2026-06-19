@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { syncUserFromSession } from "@/services/users/user.service";
 
@@ -28,6 +29,9 @@ export default async function AccountPage() {
         <dt className="font-medium text-neutral-500">ID interno</dt>
         <dd className="font-mono text-xs">{user.id}</dd>
       </dl>
+      <Link href="/account/cvs" className="text-sm font-medium underline">
+        Gestionar mis CVs
+      </Link>
     </main>
   );
 }

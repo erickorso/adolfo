@@ -7,6 +7,10 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+      // `server-only` lanza fuera de RSC; en tests lo neutralizamos.
+      "server-only": fileURLToPath(
+        new URL("./src/test/server-only.stub.ts", import.meta.url),
+      ),
     },
   },
   test: {

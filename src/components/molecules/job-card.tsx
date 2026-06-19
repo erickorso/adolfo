@@ -22,7 +22,7 @@ export function JobCard({ job }: JobCardProps) {
           </Link>
         </h3>
         {job.remote ? (
-          <span className="shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800 dark:bg-green-900 dark:text-green-200">
+          <span className="shrink-0 rounded-full bg-accent px-2 py-0.5 text-xs text-accent-foreground">
             Remoto
           </span>
         ) : null}

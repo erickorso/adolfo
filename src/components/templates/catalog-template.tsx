@@ -1,14 +1,14 @@
-import { CatalogGrid } from "@/components/organisms/catalog-grid";
-import type { CatalogItemVM } from "@/domain/view/catalog-item";
+import { CatalogInfiniteGrid } from "@/components/organisms/catalog-infinite-grid";
+import type { CatalogPage } from "@/services/catalog/catalog.service";
 
 type CatalogTemplateProps = {
-  products: CatalogItemVM[];
-  services: CatalogItemVM[];
+  products: CatalogPage;
+  services: CatalogPage;
 };
 
 /**
- * Template del catálogo: estructura la página en secciones de productos y
- * servicios. Sin lógica de datos — solo layout. Recibe los VMs ya resueltos.
+ * Template del catálogo: secciones de productos y servicios, cada una con
+ * scroll infinito. Recibe la primera página ya resuelta por el servidor.
  */
 export function CatalogTemplate({ products, services }: CatalogTemplateProps) {
   return (
@@ -20,16 +20,20 @@ export function CatalogTemplate({ products, services }: CatalogTemplateProps) {
 
       <section className="flex flex-col gap-4">
         <h2 className="text-xl font-semibold">Productos</h2>
-        <CatalogGrid
-          items={products}
+        <CatalogInfiniteGrid
+          kind="product"
+          initialItems={products.items}
+          initialCursor={products.nextCursor}
           emptyMessage="Todavía no hay productos cargados."
         />
       </section>
 
       <section className="flex flex-col gap-4">
         <h2 className="text-xl font-semibold">Servicios</h2>
-        <CatalogGrid
-          items={services}
+        <CatalogInfiniteGrid
+          kind="service"
+          initialItems={services.items}
+          initialCursor={services.nextCursor}
           emptyMessage="Todavía no hay servicios cargados."
         />
       </section>

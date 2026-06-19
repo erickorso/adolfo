@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import Image from "next/image";
 import { toast } from "sonner";
 import { Price } from "@/components/atoms/price";
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,22 @@ export function CatalogItemCard({ item }: CatalogItemCardProps) {
 
   return (
     <article className="flex flex-col gap-3 rounded-lg border border-border bg-card p-4 text-card-foreground">
+      <div className="relative h-40 w-full overflow-hidden rounded-md bg-muted">
+        {item.imageUrl ? (
+          <Image
+            src={item.imageUrl}
+            alt={item.name}
+            fill
+            loading="lazy"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
+            Sin imagen
+          </div>
+        )}
+      </div>
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-lg font-medium">{item.name}</h3>
         {item.meta ? (

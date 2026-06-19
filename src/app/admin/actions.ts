@@ -11,6 +11,10 @@ import {
   setProductActive,
   setServiceActive,
 } from "@/services/admin/moderation.service";
+import {
+  uploadCatalogImage,
+  type CatalogItemType,
+} from "@/services/catalog/catalog-image.service";
 import type { UserRole } from "@/generated/prisma/client";
 
 /** Banea / desbanea un usuario. */
@@ -57,6 +61,27 @@ export async function setServiceActiveAction(
     formData.get("active") === "true",
   );
   revalidatePath("/admin/catalog");
+}
+
+/** Sube una imagen a un producto/servicio. */
+export async function uploadCatalogImageAction(
+  formData: FormData,
+): Promise<void> {
+  await requireAdmin();
+  const type = String(formData.get("type") ?? "") as CatalogItemType;
+  const id = String(formData.get("id") ?? "");
+  const file = formData.get("file");
+  if (!(file instanceof File) || file.size === 0 || !id) {
+    return;
+  }
+  const bytes = Buffer.from(await file.arrayBuffer());
+  await uploadCatalogImage({
+    type,
+    id,
+    file: { mimeType: file.type, bytes },
+  });
+  revalidatePath("/admin/catalog");
+  revalidatePath("/");
 }
 
 /** Oculta / muestra una vacante. */

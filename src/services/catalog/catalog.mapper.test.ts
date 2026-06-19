@@ -25,6 +25,7 @@ const baseService: Service = {
   priceCents: 5000000,
   currency: "ARS",
   durationMin: 60,
+  imageUrl: null,
   active: true,
   createdAt: new Date(0),
   updatedAt: new Date(0),

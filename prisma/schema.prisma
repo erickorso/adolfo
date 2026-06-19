@@ -150,6 +150,7 @@ model Service {
   currency    String      @default("ARS")
   /// Duración estimada del servicio en minutos.
   durationMin Int?
+  imageUrl    String?
   active      Boolean     @default(true)
   orderItems  OrderItem[]
   createdAt   DateTime    @default(now())

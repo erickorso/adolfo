@@ -31,7 +31,7 @@ export function serviceToVM(service: Service): CatalogItemVM {
     description: service.description,
     priceCents: service.priceCents,
     currency: service.currency,
-    imageUrl: null,
+    imageUrl: service.imageUrl,
     // Un servicio listado siempre se puede contratar.
     available: true,
     meta: service.durationMin ? `${service.durationMin} min` : null,

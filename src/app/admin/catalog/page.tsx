@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Price } from "@/components/atoms/price";
@@ -8,6 +9,7 @@ import {
 import {
   setProductActiveAction,
   setServiceActiveAction,
+  uploadCatalogImageAction,
 } from "@/app/admin/actions";
 
 type Row = {
@@ -16,16 +18,19 @@ type Row = {
   priceCents: number;
   currency: string;
   active: boolean;
+  imageUrl: string | null;
 };
 
 function ModerationTable({
   title,
+  type,
   rows,
-  action,
+  toggleAction,
 }: {
   title: string;
+  type: "product" | "service";
   rows: Row[];
-  action: (formData: FormData) => Promise<void>;
+  toggleAction: (formData: FormData) => Promise<void>;
 }) {
   return (
     <div className="flex flex-col gap-3">
@@ -36,15 +41,29 @@ function ModerationTable({
         <table className="w-full text-sm">
           <thead className="bg-muted text-left text-muted-foreground">
             <tr>
+              <th className="px-3 py-2 font-medium">Imagen</th>
               <th className="px-3 py-2 font-medium">Nombre</th>
               <th className="px-3 py-2 font-medium">Precio</th>
               <th className="px-3 py-2 font-medium">Estado</th>
-              <th className="px-3 py-2 font-medium">Acción</th>
+              <th className="px-3 py-2 font-medium">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => (
               <tr key={r.id} className="border-t border-border">
+                <td className="px-3 py-2">
+                  {r.imageUrl ? (
+                    <Image
+                      src={r.imageUrl}
+                      alt={r.name}
+                      width={44}
+                      height={44}
+                      className="size-11 rounded object-cover"
+                    />
+                  ) : (
+                    <span className="text-xs text-muted-foreground">—</span>
+                  )}
+                </td>
                 <td className="px-3 py-2">{r.name}</td>
                 <td className="px-3 py-2">
                   <Price cents={r.priceCents} currency={r.currency} />
@@ -55,17 +74,36 @@ function ModerationTable({
                   </Badge>
                 </td>
                 <td className="px-3 py-2">
-                  <form action={action}>
-                    <input type="hidden" name="id" value={r.id} />
-                    <input
-                      type="hidden"
-                      name="active"
-                      value={r.active ? "false" : "true"}
-                    />
-                    <Button type="submit" size="sm" variant="outline">
-                      {r.active ? "Desactivar" : "Activar"}
-                    </Button>
-                  </form>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <form action={toggleAction}>
+                      <input type="hidden" name="id" value={r.id} />
+                      <input
+                        type="hidden"
+                        name="active"
+                        value={r.active ? "false" : "true"}
+                      />
+                      <Button type="submit" size="sm" variant="outline">
+                        {r.active ? "Desactivar" : "Activar"}
+                      </Button>
+                    </form>
+                    <form
+                      action={uploadCatalogImageAction}
+                      className="flex items-center gap-1"
+                    >
+                      <input type="hidden" name="type" value={type} />
+                      <input type="hidden" name="id" value={r.id} />
+                      <input
+                        type="file"
+                        name="file"
+                        required
+                        accept="image/jpeg,image/png,image/webp"
+                        className="max-w-40 text-xs"
+                      />
+                      <Button type="submit" size="sm" variant="outline">
+                        Subir foto
+                      </Button>
+                    </form>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -76,7 +114,7 @@ function ModerationTable({
   );
 }
 
-/** Moderación de catálogo: activar / desactivar productos y servicios. */
+/** Moderación de catálogo: activar / desactivar + subir foto. */
 export default async function AdminCatalogPage() {
   const [products, services] = await Promise.all([
     listAllProducts(),
@@ -87,13 +125,15 @@ export default async function AdminCatalogPage() {
     <div className="flex flex-col gap-8">
       <ModerationTable
         title="Productos"
+        type="product"
         rows={products}
-        action={setProductActiveAction}
+        toggleAction={setProductActiveAction}
       />
       <ModerationTable
         title="Servicios"
+        type="service"
         rows={services}
-        action={setServiceActiveAction}
+        toggleAction={setServiceActiveAction}
       />
     </div>
   );

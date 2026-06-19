@@ -38,7 +38,7 @@ export const env = createEnv({
     AI_PROVIDER: z.enum(["gemini"]).default("gemini"),
     /** API key de Google AI Studio (Gemini). Opcional hasta usar el feature. */
     GEMINI_API_KEY: z.string().optional(),
-    GEMINI_MODEL: z.string().default("gemini-2.0-flash"),
+    GEMINI_MODEL: z.string().default("gemini-2.5-flash"),
   },
 
   /** Expuestas al browser. Deben empezar con NEXT_PUBLIC_. */

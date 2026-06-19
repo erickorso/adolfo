@@ -20,13 +20,13 @@ export function CartContents() {
 
   // Antes de hidratar localStorage evitamos renderizar para no parpadear.
   if (!hydrated) {
-    return <div className="h-40 animate-pulse rounded-lg bg-neutral-100" />;
+    return <div className="h-40 animate-pulse rounded-lg bg-muted" />;
   }
 
   if (items.length === 0) {
     return (
       <div className="flex flex-col items-start gap-4">
-        <p className="text-neutral-600">Tu carrito está vacío.</p>
+        <p className="text-muted-foreground">Tu carrito está vacío.</p>
         <Link href="/" className="text-sm font-medium underline">
           Ver catálogo
         </Link>
@@ -45,7 +45,7 @@ export function CartContents() {
       </div>
 
       <div className="flex items-center justify-between">
-        <span className="text-sm text-neutral-500">
+        <span className="text-sm text-muted-foreground">
           {totalItems} {totalItems === 1 ? "ítem" : "ítems"}
         </span>
         <div className="flex items-center gap-2 text-lg">

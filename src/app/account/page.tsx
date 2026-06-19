@@ -20,13 +20,13 @@ export default async function AccountPage() {
     <main className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-10">
       <h1 className="text-2xl font-semibold">Mi cuenta</h1>
       <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-sm">
-        <dt className="font-medium text-neutral-500">Nombre</dt>
+        <dt className="font-medium text-muted-foreground">Nombre</dt>
         <dd>{user.name ?? "—"}</dd>
-        <dt className="font-medium text-neutral-500">Email</dt>
+        <dt className="font-medium text-muted-foreground">Email</dt>
         <dd>{user.email}</dd>
-        <dt className="font-medium text-neutral-500">Rol</dt>
+        <dt className="font-medium text-muted-foreground">Rol</dt>
         <dd>{user.role}</dd>
-        <dt className="font-medium text-neutral-500">ID interno</dt>
+        <dt className="font-medium text-muted-foreground">ID interno</dt>
         <dd className="font-mono text-xs">{user.id}</dd>
       </dl>
       <Link href="/account/cvs" className="text-sm font-medium underline">

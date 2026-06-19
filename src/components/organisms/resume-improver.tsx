@@ -27,7 +27,7 @@ export function ResumeImprover({ jobId, resumes }: ResumeImproverProps) {
 
   if (usable.length === 0) {
     return (
-      <p className="text-sm text-neutral-600">
+      <p className="text-sm text-muted-foreground">
         Necesitás un CV en PDF con texto.{" "}
         <Link href="/account/cvs" className="font-medium underline">
           Subí uno acá
@@ -48,7 +48,7 @@ export function ResumeImprover({ jobId, resumes }: ResumeImproverProps) {
           <select
             id="resumeId"
             name="resumeId"
-            className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
+            className="rounded-md border border-input px-3 py-2 text-sm"
             defaultValue={usable[0].id}
           >
             {usable.map((r) => (
@@ -82,7 +82,7 @@ function ResultSection({ title, body }: { title: string; body: string }) {
   return (
     <section className="flex flex-col gap-2">
       <h3 className="text-lg font-semibold">{title}</h3>
-      <pre className="whitespace-pre-wrap rounded-lg border border-neutral-200 bg-neutral-50 p-4 font-sans text-sm">
+      <pre className="whitespace-pre-wrap rounded-lg border border-border bg-muted p-4 font-sans text-sm">
         {body}
       </pre>
     </section>

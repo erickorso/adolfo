@@ -47,7 +47,7 @@ export function LoginForm() {
           name="email"
           type="email"
           required
-          className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
+          className="rounded-md border border-input px-3 py-2 text-sm"
         />
       </div>
       <div className="flex flex-col gap-1">
@@ -59,7 +59,7 @@ export function LoginForm() {
           name="password"
           type="password"
           required
-          className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
+          className="rounded-md border border-input px-3 py-2 text-sm"
         />
       </div>
       <Button type="submit" disabled={pending}>

@@ -16,7 +16,7 @@ export function CatalogGrid({
   emptyMessage = "No hay ítems disponibles por ahora.",
 }: CatalogGridProps) {
   if (items.length === 0) {
-    return <p className="text-sm text-neutral-500">{emptyMessage}</p>;
+    return <p className="text-sm text-muted-foreground">{emptyMessage}</p>;
   }
 
   return (

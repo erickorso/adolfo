@@ -31,12 +31,12 @@ export default async function JobDetailPage({
     <main className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-10">
       <header className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold">{job.title}</h1>
-        <p className="text-neutral-600">
+        <p className="text-muted-foreground">
           {job.company}
           {job.location ? ` · ${job.location}` : ""}
           {job.remote ? " · Remoto" : ""}
         </p>
-        <span className="text-xs text-neutral-400">
+        <span className="text-xs text-muted-foreground">
           Publicado: {formatDate(job.postedAt)}
         </span>
         <a
@@ -54,17 +54,17 @@ export default async function JobDetailPage({
 
       <section className="flex flex-col gap-2">
         <h2 className="text-xl font-semibold">Descripción</h2>
-        <p className="whitespace-pre-wrap text-sm text-neutral-700">
+        <p className="whitespace-pre-wrap text-sm text-foreground">
           {job.description ? htmlToText(job.description) : "Sin descripción."}
         </p>
       </section>
 
-      <section className="flex flex-col gap-3 rounded-lg border border-neutral-200 p-4">
+      <section className="flex flex-col gap-3 rounded-lg border border-border p-4">
         <h2 className="text-xl font-semibold">Asistente de CV (IA)</h2>
         {user ? (
           <ResumeImprover jobId={job.id} resumes={resumes} />
         ) : (
-          <p className="text-sm text-neutral-600">
+          <p className="text-sm text-muted-foreground">
             <Link href="/login" className="font-medium underline">
               Iniciá sesión
             </Link>{" "}

@@ -14,7 +14,7 @@ type JobCardProps = {
  */
 export function JobCard({ job }: JobCardProps) {
   return (
-    <article className="flex flex-col gap-2 rounded-lg border border-neutral-200 p-4">
+    <article className="flex flex-col gap-2 rounded-lg border border-border bg-card p-4 text-card-foreground">
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-lg font-medium">
           <Link href={`/jobs/${job.id}`} className="hover:underline">
@@ -22,17 +22,17 @@ export function JobCard({ job }: JobCardProps) {
           </Link>
         </h3>
         {job.remote ? (
-          <span className="shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800">
+          <span className="shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800 dark:bg-green-900 dark:text-green-200">
             Remoto
           </span>
         ) : null}
       </div>
-      <p className="text-sm text-neutral-600">
+      <p className="text-sm text-muted-foreground">
         {job.company}
         {job.location ? ` · ${job.location}` : ""}
       </p>
       <div className="mt-2 flex items-center justify-between">
-        <span className="text-xs text-neutral-400">
+        <span className="text-xs text-muted-foreground">
           {formatDate(job.postedAt)}
         </span>
         <a

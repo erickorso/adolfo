@@ -17,7 +17,7 @@ export function ResumeManager({ resumes }: ResumeManagerProps) {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
         {resumes.length === 0 ? (
-          <p className="text-sm text-neutral-500">
+          <p className="text-sm text-muted-foreground">
             Todavía no subiste ningún CV.
           </p>
         ) : (
@@ -27,7 +27,7 @@ export function ResumeManager({ resumes }: ResumeManagerProps) {
         )}
       </div>
 
-      <div className="rounded-lg border border-dashed border-neutral-300 p-4">
+      <div className="rounded-lg border border-dashed border-input p-4">
         <h2 className="mb-3 text-sm font-semibold">
           Subir CV ({resumes.length}/{MAX_RESUMES})
         </h2>

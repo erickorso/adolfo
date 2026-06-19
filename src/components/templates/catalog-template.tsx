@@ -15,7 +15,7 @@ export function CatalogTemplate({ products, services }: CatalogTemplateProps) {
     <main className="mx-auto flex max-w-5xl flex-col gap-10 px-4 py-10">
       <header className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold">Catálogo</h1>
-        <p className="text-neutral-600">Productos y servicios disponibles.</p>
+        <p className="text-muted-foreground">Productos y servicios disponibles.</p>
       </header>
 
       <section className="flex flex-col gap-4">

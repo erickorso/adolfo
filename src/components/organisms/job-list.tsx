@@ -11,7 +11,7 @@ type JobListProps = {
 export function JobList({ jobs }: JobListProps) {
   if (jobs.length === 0) {
     return (
-      <p className="text-sm text-neutral-500">
+      <p className="text-sm text-muted-foreground">
         No hay vacantes todavía. Corré la ingesta para traer ofertas.
       </p>
     );

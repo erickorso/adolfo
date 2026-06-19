@@ -14,7 +14,7 @@ export function JobsTemplate({ jobs }: JobsTemplateProps) {
     <main className="mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
       <header className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold">Empleos</h1>
-        <p className="text-neutral-600">
+        <p className="text-muted-foreground">
           Vacantes agregadas desde fuentes oficiales (Greenhouse y más).
         </p>
       </header>

@@ -17,7 +17,7 @@ export function UserNav() {
   }, []);
 
   if (status === "loading") {
-    return <div className="h-10 w-24 animate-pulse rounded-md bg-neutral-200" />;
+    return <div className="h-10 w-24 animate-pulse rounded-md bg-muted" />;
   }
 
   if (!session?.user) {
@@ -30,7 +30,7 @@ export function UserNav() {
 
   return (
     <div className="flex items-center gap-3">
-      <span className="hidden text-sm text-neutral-700 sm:inline">
+      <span className="hidden text-sm text-foreground sm:inline">
         {session.user.name ?? session.user.email}
       </span>
       <Button type="button" variant="outline" size="sm" onClick={handleSignOut}>

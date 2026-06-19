@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   uploadResumeAction,
@@ -25,9 +26,15 @@ export function ResumeUploadForm({ disabled }: ResumeUploadFormProps) {
     INITIAL,
   );
 
+  useEffect(() => {
+    if (state.ok) {
+      toast.success("CV subido correctamente");
+    }
+  }, [state.ok]);
+
   if (disabled) {
     return (
-      <p className="text-sm text-neutral-500">
+      <p className="text-sm text-muted-foreground">
         Alcanzaste el máximo de {MAX_RESUMES} CVs. Eliminá uno para subir otro.
       </p>
     );
@@ -44,7 +51,7 @@ export function ResumeUploadForm({ disabled }: ResumeUploadFormProps) {
           name="label"
           type="text"
           placeholder="Ej. CV Frontend"
-          className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
+          className="rounded-md border border-input px-3 py-2 text-sm"
         />
       </div>
       <div className="flex flex-col gap-1">

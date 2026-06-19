@@ -32,13 +32,13 @@ export function CartLineItem({ item }: CartLineItemProps) {
   const lineTotalCents = item.unitPriceCents * item.quantity;
 
   return (
-    <div className="flex items-center justify-between gap-4 border-b border-neutral-200 py-4">
+    <div className="flex items-center justify-between gap-4 border-b border-border py-4">
       <div className="flex flex-col gap-1">
         <span className="font-medium">{item.name}</span>
         <Price
           cents={item.unitPriceCents}
           currency={item.currency}
-          className="text-sm font-normal text-neutral-500"
+          className="text-sm font-normal text-muted-foreground"
         />
       </div>
       <div className="flex items-center gap-4">

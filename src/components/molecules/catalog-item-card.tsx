@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import { toast } from "sonner";
 import { Price } from "@/components/atoms/price";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/use-cart";
@@ -29,20 +30,21 @@ export function CatalogItemCard({ item }: CatalogItemCardProps) {
       imageUrl: item.imageUrl ?? undefined,
       quantity: 1,
     });
+    toast.success(`${item.name} agregado al carrito`);
   }, [addItem, item]);
 
   return (
-    <article className="flex flex-col gap-3 rounded-lg border border-neutral-200 p-4">
+    <article className="flex flex-col gap-3 rounded-lg border border-border bg-card p-4 text-card-foreground">
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-lg font-medium">{item.name}</h3>
         {item.meta ? (
-          <span className="shrink-0 rounded-full bg-neutral-100 px-2 py-0.5 text-xs text-neutral-600">
+          <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
             {item.meta}
           </span>
         ) : null}
       </div>
       {item.description ? (
-        <p className="text-sm text-neutral-600">{item.description}</p>
+        <p className="text-sm text-muted-foreground">{item.description}</p>
       ) : null}
       <div className="mt-auto flex items-center justify-between">
         <Price cents={item.priceCents} currency={item.currency} />

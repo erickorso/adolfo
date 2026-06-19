@@ -21,7 +21,7 @@ export default function CatalogError({ error, reset }: CatalogErrorProps) {
   return (
     <main className="mx-auto flex max-w-5xl flex-col items-start gap-4 px-4 py-10">
       <h1 className="text-2xl font-semibold">Algo salió mal</h1>
-      <p className="text-neutral-600">
+      <p className="text-muted-foreground">
         No pudimos cargar el catálogo. Probá de nuevo.
       </p>
       <Button type="button" onClick={reset}>

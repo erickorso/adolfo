@@ -19,17 +19,17 @@ export function ResumeCard({ resume }: ResumeCardProps) {
   const kind = resume.mimeType === "application/pdf" ? "PDF" : "DOCX";
 
   return (
-    <div className="flex items-center justify-between gap-4 rounded-lg border border-neutral-200 p-4">
+    <div className="flex items-center justify-between gap-4 rounded-lg border border-border p-4">
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
           <span className="font-medium">{resume.label}</span>
           {resume.isDefault ? (
-            <span className="rounded-full bg-neutral-900 px-2 py-0.5 text-xs text-neutral-50">
+            <span className="rounded-full bg-primary px-2 py-0.5 text-xs text-primary-foreground">
               Default
             </span>
           ) : null}
         </div>
-        <span className="text-xs text-neutral-500">
+        <span className="text-xs text-muted-foreground">
           {kind} · {formatBytes(resume.sizeBytes)} ·{" "}
           {resume.hasText ? "texto listo para IA" : "sin texto extraíble"}
         </span>

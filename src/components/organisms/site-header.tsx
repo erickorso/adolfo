@@ -8,7 +8,7 @@ import { CartNavButton } from "@/components/molecules/cart-nav-button";
  */
 export function SiteHeader() {
   return (
-    <header className="border-b border-neutral-200">
+    <header className="border-b border-border bg-background">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <nav className="flex items-center gap-6">
           <Link href="/" className="text-lg font-bold">
@@ -16,13 +16,13 @@ export function SiteHeader() {
           </Link>
           <Link
             href="/jobs"
-            className="text-sm text-neutral-600 hover:text-neutral-900"
+            className="text-sm text-muted-foreground hover:text-foreground"
           >
             Empleos
           </Link>
           <Link
             href="/account"
-            className="text-sm text-neutral-600 hover:text-neutral-900"
+            className="text-sm text-muted-foreground hover:text-foreground"
           >
             Mi cuenta
           </Link>

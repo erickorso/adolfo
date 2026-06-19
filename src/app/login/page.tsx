@@ -8,11 +8,11 @@ export default function LoginPage() {
     <main className="mx-auto flex max-w-sm flex-col gap-6 px-4 py-12">
       <h1 className="text-2xl font-semibold">Ingresar</h1>
       <Suspense
-        fallback={<div className="h-48 animate-pulse rounded-lg bg-neutral-100" />}
+        fallback={<div className="h-48 animate-pulse rounded-lg bg-muted" />}
       >
         <LoginForm />
       </Suspense>
-      <p className="text-sm text-neutral-600">
+      <p className="text-sm text-muted-foreground">
         ¿No tenés cuenta?{" "}
         <Link href="/signup" className="font-medium underline">
           Registrate

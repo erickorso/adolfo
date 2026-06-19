@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { SiteHeader } from "@/components/organisms/site-header";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <Providers>
           <SiteHeader />
           <div className="flex flex-1 flex-col">{children}</div>
+          <Toaster richColors position="top-right" />
         </Providers>
       </body>
     </html>

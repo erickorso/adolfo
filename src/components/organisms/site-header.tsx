@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { UserNav } from "@/components/molecules/user-nav";
+import { CartNavButton } from "@/components/molecules/cart-nav-button";
 
 /**
  * Organismo: header del sitio. Marca + navegación + área de usuario.
@@ -20,7 +21,10 @@ export function SiteHeader() {
             Mi cuenta
           </Link>
         </nav>
-        <UserNav />
+        <div className="flex items-center gap-4">
+          <CartNavButton />
+          <UserNav />
+        </div>
       </div>
     </header>
   );

@@ -15,6 +15,12 @@ export function SiteHeader() {
             Catálogo
           </Link>
           <Link
+            href="/jobs"
+            className="text-sm text-neutral-600 hover:text-neutral-900"
+          >
+            Empleos
+          </Link>
+          <Link
             href="/account"
             className="text-sm text-neutral-600 hover:text-neutral-900"
           >

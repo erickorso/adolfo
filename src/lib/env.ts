@@ -27,6 +27,12 @@ export const env = createEnv({
     UALA_CLIENT_SECRET: z.string().min(1),
     /** Secreto compartido para verificar la firma del webhook. */
     UALA_WEBHOOK_SECRET: z.string().min(1),
+
+    // Módulo de empleos
+    /** Boards de Greenhouse a ingestar, separados por coma (ej. "stripe,vercel"). */
+    JOBS_GREENHOUSE_BOARDS: z.string().default(""),
+    /** Bearer secret para autorizar el endpoint de ingesta (cron). Opcional. */
+    JOBS_INGEST_SECRET: z.string().optional(),
   },
 
   /** Expuestas al browser. Deben empezar con NEXT_PUBLIC_. */
@@ -49,6 +55,8 @@ export const env = createEnv({
     UALA_CLIENT_ID: process.env.UALA_CLIENT_ID,
     UALA_CLIENT_SECRET: process.env.UALA_CLIENT_SECRET,
     UALA_WEBHOOK_SECRET: process.env.UALA_WEBHOOK_SECRET,
+    JOBS_GREENHOUSE_BOARDS: process.env.JOBS_GREENHOUSE_BOARDS,
+    JOBS_INGEST_SECRET: process.env.JOBS_INGEST_SECRET,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
   },
 

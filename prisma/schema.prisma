@@ -57,10 +57,11 @@ model User {
   email     String   @unique
   name      String?
   picture   String?
-  role      UserRole @default(CUSTOMER)
+  role      UserRole   @default(CUSTOMER)
   orders    Order[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  savedJobs SavedJob[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
   @@index([email])
 }
@@ -156,4 +157,47 @@ model Payment {
   updatedAt         DateTime      @updatedAt
 
   @@index([providerPaymentId])
+}
+
+// ──────────────────────────────────────────────────────────────
+// Módulo de empleos (bounded context separado del comercio).
+// Ingesta desde fuentes estructuradas (APIs/feeds oficiales).
+// ──────────────────────────────────────────────────────────────
+
+/// Vacante normalizada proveniente de una fuente (Greenhouse, Lever, etc.).
+model JobPosting {
+  id          String     @id @default(cuid())
+  /// Identificador de la fuente, ej. "greenhouse".
+  source      String
+  /// ID de la vacante dentro de la fuente. Único junto con `source`.
+  externalId  String
+  company     String
+  title       String
+  location    String?
+  remote      Boolean    @default(false)
+  url         String
+  description String?
+  postedAt    DateTime?
+  /// Última vez que la ingesta vio esta vacante.
+  fetchedAt   DateTime   @default(now())
+  savedBy     SavedJob[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@unique([source, externalId])
+  @@index([company])
+  @@index([remote])
+}
+
+/// Vacante guardada por un usuario (favoritos).
+model SavedJob {
+  id        String     @id @default(cuid())
+  user      User       @relation(fields: [userId], references: [id])
+  userId    String
+  job       JobPosting @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId     String
+  createdAt DateTime   @default(now())
+
+  @@unique([userId, jobId])
+  @@index([userId])
 }

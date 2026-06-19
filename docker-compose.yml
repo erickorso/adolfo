@@ -1,0 +1,25 @@
+# Postgres local para desarrollo. No requiere DockerHub login (imagen pública).
+# Levantar:  docker compose up -d
+# Apagar:    docker compose down   (agregar -v para borrar también los datos)
+
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: adolfo-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: adolfo
+      POSTGRES_PASSWORD: adolfo
+      POSTGRES_DB: adolfo
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U adolfo -d adolfo"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:

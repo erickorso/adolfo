@@ -289,3 +289,22 @@ model ResumeReview {
 
   @@index([resumeId])
 }
+
+// ──────────────────────────────────────────────────────────────
+// Cotización de moneda (cache). Display-only: el cobro sigue en ARS.
+// Una fila por (source, type); se refresca por cron / read-through.
+// ──────────────────────────────────────────────────────────────
+
+model ExchangeRate {
+  id        String   @id @default(cuid())
+  source    String   @default("dolarapi")
+  /// Tipo de dólar: "tarjeta" | "oficial" | "blue" | "mep" | ...
+  type      String
+  /// Compra: ARS por 1 USD.
+  buyArs    Float
+  /// Venta: ARS por 1 USD (usada para convertir precios ARS -> USD).
+  sellArs   Float
+  fetchedAt DateTime @default(now())
+
+  @@unique([source, type])
+}

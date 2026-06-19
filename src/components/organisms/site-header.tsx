@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { UserNav } from "@/components/molecules/user-nav";
 import { CartNavButton } from "@/components/molecules/cart-nav-button";
+import { CurrencySwitcher } from "@/components/molecules/currency-switcher";
 
 /**
  * Organismo: header del sitio. Marca + navegación + área de usuario.
@@ -28,6 +29,7 @@ export function SiteHeader() {
           </Link>
         </nav>
         <div className="flex items-center gap-4">
+          <CurrencySwitcher />
           <CartNavButton />
           <UserNav />
         </div>

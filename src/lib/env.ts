@@ -41,6 +41,11 @@ export const env = createEnv({
     /** API key de Google AI Studio (Gemini). Opcional hasta usar el feature. */
     GEMINI_API_KEY: z.string().optional(),
     GEMINI_MODEL: z.string().default("gemini-2.5-flash"),
+
+    // Conversión de moneda (display). "tarjeta" = lo más fiel a lo que descuentan.
+    EXCHANGE_RATE_TYPE: z
+      .enum(["tarjeta", "oficial", "blue", "mep"])
+      .default("tarjeta"),
   },
 
   /** Expuestas al browser. Deben empezar con NEXT_PUBLIC_. */
@@ -67,6 +72,7 @@ export const env = createEnv({
     AI_PROVIDER: process.env.AI_PROVIDER,
     GEMINI_API_KEY: process.env.GEMINI_API_KEY,
     GEMINI_MODEL: process.env.GEMINI_MODEL,
+    EXCHANGE_RATE_TYPE: process.env.EXCHANGE_RATE_TYPE,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
   },
 

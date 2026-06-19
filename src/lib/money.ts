@@ -46,3 +46,22 @@ export function formatMoney(
     currency,
   }).format(cents / 100);
 }
+
+/**
+ * Convierte un monto en centavos ARS a dólares (float), dada la cotización
+ * `sellArs` (ARS por 1 USD). Display-only: el cobro sigue en ARS.
+ */
+export function arsCentsToUsd(arsCents: number, sellArs: number): number {
+  if (sellArs <= 0) {
+    return 0;
+  }
+  return arsCents / 100 / sellArs;
+}
+
+/** Formatea un monto en dólares (float) como USD. Ej: 12.5 -> "US$ 12.50" */
+export function formatUsd(usd: number, locale = "en-US"): string {
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: "USD",
+  }).format(usd);
+}

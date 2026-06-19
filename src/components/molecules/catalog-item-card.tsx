@@ -2,10 +2,12 @@
 
 import { useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { toast } from "sonner";
 import { Price } from "@/components/atoms/price";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/use-cart";
+import { ITEM_KIND } from "@/domain/catalog/item-kind";
 import type { CatalogItemVM } from "@/domain/view/catalog-item";
 
 type CatalogItemCardProps = {
@@ -53,7 +55,15 @@ export function CatalogItemCard({ item }: CatalogItemCardProps) {
         )}
       </div>
       <div className="flex items-start justify-between gap-2">
-        <h3 className="text-lg font-medium">{item.name}</h3>
+        <h3 className="text-lg font-medium">
+          {item.kind === ITEM_KIND.PRODUCT ? (
+            <Link href={`/products/${item.slug}`} className="hover:underline">
+              {item.name}
+            </Link>
+          ) : (
+            item.name
+          )}
+        </h3>
         {item.meta ? (
           <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
             {item.meta}

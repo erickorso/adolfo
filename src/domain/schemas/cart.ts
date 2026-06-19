@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ItemKind } from "@/generated/prisma/client";
+import { ITEM_KIND } from "@/domain/catalog/item-kind";
 
 /**
  * Esquema de un ítem del carrito (estado de CLIENTE).
@@ -9,7 +9,7 @@ import { ItemKind } from "@/generated/prisma/client";
 export const cartItemSchema = z.object({
   /** id del Product o Service según `kind`. */
   refId: z.string().min(1),
-  kind: z.enum(ItemKind),
+  kind: z.enum(ITEM_KIND),
   slug: z.string().min(1),
   name: z.string().min(1),
   unitPriceCents: z.number().int().nonnegative(),

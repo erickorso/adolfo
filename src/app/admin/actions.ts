@@ -1,7 +1,10 @@
 "use server";
 
+import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin-guard";
+import { updateProduct } from "@/services/admin/product-admin.service";
+import { parseAttributesJson } from "@/domain/catalog/product-attributes";
 import {
   setUserBanned,
   setUserRole,
@@ -61,6 +64,49 @@ export async function setServiceActiveAction(
     formData.get("active") === "true",
   );
   revalidatePath("/admin/catalog");
+}
+
+export type UpdateProductResult = { ok?: boolean; error?: string };
+
+const updateProductSchema = z.object({
+  name: z.string().trim().min(1, "El nombre es obligatorio"),
+  description: z.string().trim().optional(),
+  priceCents: z.coerce.number().int().nonnegative("Precio inválido"),
+  stock: z.coerce.number().int().nonnegative("Stock inválido"),
+});
+
+/** Edita un producto: campos básicos + reemplazo de propiedades custom. */
+export async function updateProductAction(
+  _prev: UpdateProductResult,
+  formData: FormData,
+): Promise<UpdateProductResult> {
+  await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  if (!id) {
+    return { error: "Falta el identificador del producto." };
+  }
+  const parsed = updateProductSchema.safeParse({
+    name: formData.get("name"),
+    description: formData.get("description") || undefined,
+    priceCents: formData.get("priceCents"),
+    stock: formData.get("stock"),
+  });
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Datos inválidos." };
+  }
+  const attributes = parseAttributesJson(
+    String(formData.get("attributes") ?? "[]"),
+  );
+  await updateProduct(id, {
+    name: parsed.data.name,
+    description: parsed.data.description ?? null,
+    priceCents: parsed.data.priceCents,
+    stock: parsed.data.stock,
+    attributes,
+  });
+  revalidatePath("/admin/catalog");
+  revalidatePath("/");
+  return { ok: true };
 }
 
 /** Sube una imagen a un producto/servicio. */

@@ -1,4 +1,4 @@
-import { ItemKind } from "@/generated/prisma/client";
+import { ITEM_KIND } from "@/domain/catalog/item-kind";
 import type { Product, Service } from "@/generated/prisma/client";
 import type { CatalogItemVM } from "@/domain/view/catalog-item";
 
@@ -10,7 +10,7 @@ import type { CatalogItemVM } from "@/domain/view/catalog-item";
 export function productToVM(product: Product): CatalogItemVM {
   return {
     id: product.id,
-    kind: ItemKind.PRODUCT,
+    kind: ITEM_KIND.PRODUCT,
     slug: product.slug,
     name: product.name,
     description: product.description,
@@ -25,7 +25,7 @@ export function productToVM(product: Product): CatalogItemVM {
 export function serviceToVM(service: Service): CatalogItemVM {
   return {
     id: service.id,
-    kind: ItemKind.SERVICE,
+    kind: ITEM_KIND.SERVICE,
     slug: service.slug,
     name: service.name,
     description: service.description,

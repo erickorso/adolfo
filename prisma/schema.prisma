@@ -135,10 +135,24 @@ model Product {
   imageUrl    String?
   active      Boolean     @default(true)
   orderItems  OrderItem[]
+  attributes  ProductAttribute[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
   @@index([active])
+}
+
+/// Atributo/propiedad custom de un producto (EAV). Flexible (cualquier name)
+/// y consultable/indexado para búsquedas por propiedad.
+model ProductAttribute {
+  id        String  @id @default(cuid())
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  name      String
+  value     String
+
+  @@index([productId])
+  @@index([name, value])
 }
 
 model Service {

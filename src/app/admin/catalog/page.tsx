@@ -1,5 +1,7 @@
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Price } from "@/components/atoms/price";
 import {
@@ -75,6 +77,16 @@ function ModerationTable({
                 </td>
                 <td className="px-3 py-2">
                   <div className="flex flex-wrap items-center gap-2">
+                    {type === "product" ? (
+                      <Link
+                        href={`/admin/catalog/products/${r.id}`}
+                        className={cn(
+                          buttonVariants({ variant: "outline", size: "sm" }),
+                        )}
+                      >
+                        Editar
+                      </Link>
+                    ) : null}
                     <form action={toggleAction}>
                       <input type="hidden" name="id" value={r.id} />
                       <input

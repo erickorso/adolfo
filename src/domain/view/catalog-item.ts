@@ -1,4 +1,4 @@
-import type { ItemKind } from "@/generated/prisma/client";
+import type { ItemKind } from "@/domain/catalog/item-kind";
 
 /**
  * View model de un ítem del catálogo (producto o servicio).

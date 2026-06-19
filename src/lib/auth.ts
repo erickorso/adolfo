@@ -71,6 +71,33 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     ...googleProvider,
   ],
   callbacks: {
+    // Bloquea baneados y promueve a SUPERADMIN los emails configurados (bootstrap).
+    async signIn({ user }) {
+      if (!user?.email) {
+        return true;
+      }
+      const dbUser = await prisma.user.findUnique({
+        where: { email: user.email },
+        select: { id: true, role: true, status: true },
+      });
+      if (dbUser?.status === "BANNED") {
+        return false;
+      }
+      const supers = env.SUPERADMIN_EMAILS.split(",")
+        .map((e) => e.trim().toLowerCase())
+        .filter(Boolean);
+      if (
+        dbUser &&
+        supers.includes(user.email.toLowerCase()) &&
+        dbUser.role !== "SUPERADMIN"
+      ) {
+        await prisma.user.update({
+          where: { id: dbUser.id },
+          data: { role: "SUPERADMIN" },
+        });
+      }
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;

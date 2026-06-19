@@ -46,6 +46,9 @@ export const env = createEnv({
     EXCHANGE_RATE_TYPE: z
       .enum(["tarjeta", "oficial", "blue", "mep"])
       .default("tarjeta"),
+
+    /** Emails que se promueven a SUPERADMIN al loguearse (bootstrap), separados por coma. */
+    SUPERADMIN_EMAILS: z.string().default(""),
   },
 
   /** Expuestas al browser. Deben empezar con NEXT_PUBLIC_. */
@@ -73,6 +76,7 @@ export const env = createEnv({
     GEMINI_API_KEY: process.env.GEMINI_API_KEY,
     GEMINI_MODEL: process.env.GEMINI_MODEL,
     EXCHANGE_RATE_TYPE: process.env.EXCHANGE_RATE_TYPE,
+    SUPERADMIN_EMAILS: process.env.SUPERADMIN_EMAILS,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
   },
 

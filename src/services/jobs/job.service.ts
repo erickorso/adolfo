@@ -10,6 +10,7 @@ import { jobToDetailVM, jobToVM } from "./job.mapper";
 export async function listJobs(query: JobQuery = {}): Promise<JobVM[]> {
   const jobs = await prisma.jobPosting.findMany({
     where: {
+      hidden: false,
       ...(query.remoteOnly ? { remote: true } : {}),
       ...(query.keywords && query.keywords.length > 0
         ? {

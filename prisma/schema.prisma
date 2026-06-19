@@ -21,6 +21,12 @@ datasource db {
 enum UserRole {
   CUSTOMER
   ADMIN
+  SUPERADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  BANNED
 }
 
 /// Ciclo de vida de un pedido. Las transiciones válidas se validan en la capa de servicio.
@@ -60,6 +66,8 @@ model User {
   /// Hash de contraseña (proveedor Credentials). Null si solo usa OAuth.
   passwordHash  String?
   role          UserRole   @default(CUSTOMER)
+  status        UserStatus @default(ACTIVE)
+  bannedAt      DateTime?
   // Tablas estándar de Auth.js
   accounts      Account[]
   sessions      Session[]
@@ -224,6 +232,8 @@ model JobPosting {
   title       String
   location    String?
   remote      Boolean    @default(false)
+  /// Moderación: oculta la vacante del listado público.
+  hidden      Boolean    @default(false)
   url         String
   description String?
   postedAt    DateTime?

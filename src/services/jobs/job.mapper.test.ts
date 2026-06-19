@@ -37,6 +37,7 @@ describe("job.mapper", () => {
       title: "Frontend Engineer",
       location: "Remote",
       remote: true,
+      hidden: false,
       url: "https://jobs.example/1",
       description: "<p>desc</p>",
       postedAt: new Date("2026-01-01T00:00:00Z"),

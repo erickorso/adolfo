@@ -15,5 +15,10 @@ export async function getCurrentUser(): Promise<User | null> {
   if (!session?.user?.id) {
     return null;
   }
-  return prisma.user.findUnique({ where: { id: session.user.id } });
+  const user = await prisma.user.findUnique({ where: { id: session.user.id } });
+  // Un usuario baneado se trata como sin sesión en las páginas protegidas.
+  if (!user || user.status === "BANNED") {
+    return null;
+  }
+  return user;
 }

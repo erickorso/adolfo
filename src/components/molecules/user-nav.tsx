@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { AuthLink } from "@/components/atoms/auth-link";
 import { Button } from "@/components/ui/button";
@@ -28,8 +29,19 @@ export function UserNav() {
     );
   }
 
+  const role = session.user.role;
+  const isStaff = role === "ADMIN" || role === "SUPERADMIN";
+
   return (
     <div className="flex items-center gap-3">
+      {isStaff ? (
+        <Link
+          href="/admin"
+          className="text-sm font-medium text-muted-foreground hover:text-foreground"
+        >
+          Admin
+        </Link>
+      ) : null}
       <span className="hidden text-sm text-foreground sm:inline">
         {session.user.name ?? session.user.email}
       </span>

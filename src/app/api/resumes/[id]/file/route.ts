@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { syncUserFromSession } from "@/services/users/user.service";
+import { getCurrentUser } from "@/services/users/user.service";
 import { getOwnedResumeFileById } from "@/services/resume/resume.service";
 
 export const runtime = "nodejs";
@@ -12,7 +12,7 @@ export async function GET(
   _request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const user = await syncUserFromSession();
+  const user = await getCurrentUser();
   if (!user) {
     return new NextResponse("No autorizado", { status: 401 });
   }

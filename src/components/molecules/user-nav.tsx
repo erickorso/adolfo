@@ -1,25 +1,28 @@
 "use client";
 
-import { useUser } from "@auth0/nextjs-auth0";
+import { useCallback } from "react";
+import { signOut, useSession } from "next-auth/react";
 import { AuthLink } from "@/components/atoms/auth-link";
+import { Button } from "@/components/ui/button";
 
 /**
  * Molécula: área de usuario del header.
- * Usa el hook `useUser()` (client) para reaccionar a login/logout sin recargar.
- *
- * El user NO se guarda en ningún store: Auth0 es la fuente de verdad (estado
- * de servidor expuesto vía SWR por el SDK).
+ * Usa useSession() de Auth.js (client) para reaccionar a login/logout.
  */
 export function UserNav() {
-  const { user, isLoading } = useUser();
+  const { data: session, status } = useSession();
 
-  if (isLoading) {
+  const handleSignOut = useCallback(() => {
+    void signOut({ callbackUrl: "/" });
+  }, []);
+
+  if (status === "loading") {
     return <div className="h-10 w-24 animate-pulse rounded-md bg-neutral-200" />;
   }
 
-  if (!user) {
+  if (!session?.user) {
     return (
-      <AuthLink href="/auth/login" size="sm">
+      <AuthLink href="/login" size="sm">
         Ingresar
       </AuthLink>
     );
@@ -28,11 +31,11 @@ export function UserNav() {
   return (
     <div className="flex items-center gap-3">
       <span className="hidden text-sm text-neutral-700 sm:inline">
-        {user.name ?? user.email}
+        {session.user.name ?? session.user.email}
       </span>
-      <AuthLink href="/auth/logout" variant="outline" size="sm">
+      <Button type="button" variant="outline" size="sm" onClick={handleSignOut}>
         Salir
-      </AuthLink>
+      </Button>
     </div>
   );
 }

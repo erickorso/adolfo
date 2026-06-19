@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { auth0 } from "@/lib/auth0";
 import { Providers } from "./providers";
 import { SiteHeader } from "@/components/organisms/site-header";
 
@@ -20,21 +19,18 @@ export const metadata: Metadata = {
   description: "Catálogo de productos y servicios con checkout.",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Sesión resuelta en el servidor para hidratar el provider sin parpadeo.
-  const session = await auth0.getSession();
-
   return (
     <html
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <Providers user={session?.user}>
+        <Providers>
           <SiteHeader />
           <div className="flex flex-1 flex-col">{children}</div>
         </Providers>

@@ -7,9 +7,8 @@ type AuthLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> &
   VariantProps<typeof buttonVariants>;
 
 /**
- * Átomo: enlace con estilo de botón para las rutas de auth (/auth/login,
- * /auth/logout). Usa `<a>` (no <Link>) porque el flujo de Auth0 necesita una
- * navegación completa del navegador, no una transición de cliente.
+ * Átomo: enlace con estilo de botón (ej. "Ingresar" → /login).
+ * Anchor genérico estilado con las variantes del botón.
  */
 export function AuthLink({
   className,

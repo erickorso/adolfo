@@ -14,19 +14,21 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.url(),
 
-    // Auth0 (@auth0/nextjs-auth0 v4)
-    AUTH0_SECRET: z.string().min(32),
-    AUTH0_DOMAIN: z.string().min(1),
-    AUTH0_CLIENT_ID: z.string().min(1),
-    AUTH0_CLIENT_SECRET: z.string().min(1),
-    APP_BASE_URL: z.url(),
+    // Auth.js (NextAuth v5)
+    /** Secreto para firmar JWT/cookies. Generar con: openssl rand -base64 32 */
+    AUTH_SECRET: z.string().min(1),
+    /** URL pública (Auth.js la infiere en dev; setear en prod). */
+    AUTH_URL: z.url().optional(),
+    /** OAuth de Google — opcional, para sumar login con Google más adelante. */
+    AUTH_GOOGLE_ID: z.string().optional(),
+    AUTH_GOOGLE_SECRET: z.string().optional(),
 
-    // Ualá Bis
-    UALA_API_BASE_URL: z.url(),
-    UALA_CLIENT_ID: z.string().min(1),
-    UALA_CLIENT_SECRET: z.string().min(1),
+    // Ualá Bis (opcionales: el checkout aún no está conectado)
+    UALA_API_BASE_URL: z.url().optional(),
+    UALA_CLIENT_ID: z.string().optional(),
+    UALA_CLIENT_SECRET: z.string().optional(),
     /** Secreto compartido para verificar la firma del webhook. */
-    UALA_WEBHOOK_SECRET: z.string().min(1),
+    UALA_WEBHOOK_SECRET: z.string().optional(),
 
     // Módulo de empleos
     /** Boards de Greenhouse a ingestar, separados por coma (ej. "stripe,vercel"). */
@@ -52,11 +54,10 @@ export const env = createEnv({
    */
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
-    AUTH0_SECRET: process.env.AUTH0_SECRET,
-    AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
-    AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
-    AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
-    APP_BASE_URL: process.env.APP_BASE_URL,
+    AUTH_SECRET: process.env.AUTH_SECRET,
+    AUTH_URL: process.env.AUTH_URL,
+    AUTH_GOOGLE_ID: process.env.AUTH_GOOGLE_ID,
+    AUTH_GOOGLE_SECRET: process.env.AUTH_GOOGLE_SECRET,
     UALA_API_BASE_URL: process.env.UALA_API_BASE_URL,
     UALA_CLIENT_ID: process.env.UALA_CLIENT_ID,
     UALA_CLIENT_SECRET: process.env.UALA_CLIENT_SECRET,

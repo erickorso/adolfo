@@ -1,19 +1,19 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { syncUserFromSession } from "@/services/users/user.service";
+import { getCurrentUser } from "@/services/users/user.service";
 
 /**
  * Página "Mi cuenta" — protegida.
  *
- * Demuestra la estrategia de sync: `syncUserFromSession()` lee la sesión de
+ * Demuestra la estrategia de sync: `getCurrentUser()` lee la sesión de
  * Auth0 y hace upsert del usuario en la DB local (lazy sync en el primer
  * request autenticado). Si no hay sesión, redirige a login.
  */
 export default async function AccountPage() {
-  const user = await syncUserFromSession();
+  const user = await getCurrentUser();
 
   if (!user) {
-    redirect("/auth/login?returnTo=/account");
+    redirect("/login?callbackUrl=/account");
   }
 
   return (

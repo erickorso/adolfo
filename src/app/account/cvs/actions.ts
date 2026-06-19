@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { syncUserFromSession } from "@/services/users/user.service";
+import { getCurrentUser } from "@/services/users/user.service";
 import {
   createResume,
   deleteResume,
@@ -22,7 +22,7 @@ export async function uploadResumeAction(
   _prev: ActionResult,
   formData: FormData,
 ): Promise<ActionResult> {
-  const user = await syncUserFromSession();
+  const user = await getCurrentUser();
   if (!user) {
     return { ok: false, error: "Tenés que iniciar sesión." };
   }
@@ -56,7 +56,7 @@ export async function uploadResumeAction(
 
 /** Marca un CV como default. */
 export async function setDefaultResumeAction(formData: FormData): Promise<void> {
-  const user = await syncUserFromSession();
+  const user = await getCurrentUser();
   if (!user) return;
   const resumeId = String(formData.get("resumeId") ?? "");
   if (!resumeId) return;
@@ -66,7 +66,7 @@ export async function setDefaultResumeAction(formData: FormData): Promise<void> 
 
 /** Elimina un CV. */
 export async function deleteResumeAction(formData: FormData): Promise<void> {
-  const user = await syncUserFromSession();
+  const user = await getCurrentUser();
   if (!user) return;
   const resumeId = String(formData.get("resumeId") ?? "");
   if (!resumeId) return;

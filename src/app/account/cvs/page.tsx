@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { syncUserFromSession } from "@/services/users/user.service";
+import { getCurrentUser } from "@/services/users/user.service";
 import { listResumes } from "@/services/resume/resume.service";
 import { ResumeManager } from "@/components/organisms/resume-manager";
 
@@ -8,9 +8,9 @@ import { ResumeManager } from "@/components/organisms/resume-manager";
  * hasta 3. La mejora asistida por IA se hace desde cada oferta.
  */
 export default async function ResumesPage() {
-  const user = await syncUserFromSession();
+  const user = await getCurrentUser();
   if (!user) {
-    redirect("/auth/login?returnTo=/account/cvs");
+    redirect("/login?callbackUrl=/account/cvs");
   }
 
   const resumes = await listResumes(user.id);

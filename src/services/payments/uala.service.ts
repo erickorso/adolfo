@@ -103,10 +103,13 @@ export class UalaApiError extends Error {
   }
 }
 
-/** Instancia configurada desde el entorno tipado. */
+/**
+ * Instancia configurada desde el entorno. Las vars de Ualá son opcionales (el
+ * checkout aún no está conectado); si se invoca sin configurar, fallará en uso.
+ */
 export const ualaService = new UalaService({
-  baseUrl: env.UALA_API_BASE_URL,
-  clientId: env.UALA_CLIENT_ID,
-  clientSecret: env.UALA_CLIENT_SECRET,
-  webhookSecret: env.UALA_WEBHOOK_SECRET,
+  baseUrl: env.UALA_API_BASE_URL ?? "",
+  clientId: env.UALA_CLIENT_ID ?? "",
+  clientSecret: env.UALA_CLIENT_SECRET ?? "",
+  webhookSecret: env.UALA_WEBHOOK_SECRET ?? "",
 });

@@ -6,7 +6,7 @@ import { formatDate } from "@/lib/date";
 import { htmlToText } from "@/lib/text";
 import { getJobDetail } from "@/services/jobs/job.service";
 import { listResumes } from "@/services/resume/resume.service";
-import { syncUserFromSession } from "@/services/users/user.service";
+import { getCurrentUser } from "@/services/users/user.service";
 import { ResumeImprover } from "@/components/organisms/resume-improver";
 
 /**
@@ -24,7 +24,7 @@ export default async function JobDetailPage({
     notFound();
   }
 
-  const user = await syncUserFromSession();
+  const user = await getCurrentUser();
   const resumes = user ? await listResumes(user.id) : [];
 
   return (
@@ -65,7 +65,7 @@ export default async function JobDetailPage({
           <ResumeImprover jobId={job.id} resumes={resumes} />
         ) : (
           <p className="text-sm text-neutral-600">
-            <Link href="/auth/login" className="font-medium underline">
+            <Link href="/login" className="font-medium underline">
               Iniciá sesión
             </Link>{" "}
             para adaptar tu CV a esta oferta.

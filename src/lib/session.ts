@@ -1,16 +1,16 @@
 import "server-only";
 import { redirect } from "next/navigation";
-import { auth0 } from "@/lib/auth0";
-import type { SessionData } from "@auth0/nextjs-auth0/types";
+import { auth } from "@/lib/auth";
 
 /**
  * Exige una sesión activa en un Server Component / Server Action.
- * Si no hay sesión, redirige a login conservando el destino (`returnTo`).
+ * Si no hay sesión, redirige a /login conservando el destino (`callbackUrl`).
+ * Devuelve el id del usuario autenticado.
  */
-export async function requireSession(returnTo = "/"): Promise<SessionData> {
-  const session = await auth0.getSession();
-  if (!session) {
-    redirect(`/auth/login?returnTo=${encodeURIComponent(returnTo)}`);
+export async function requireUserId(returnTo = "/"): Promise<string> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    redirect(`/login?callbackUrl=${encodeURIComponent(returnTo)}`);
   }
-  return session;
+  return session.user.id;
 }

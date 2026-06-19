@@ -1,45 +1,54 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useSession } from "next-auth/react";
 import { UserNav } from "./user-nav";
 
-// Mockeamos el hook de Auth0 para controlar el estado de sesión en cada test.
-vi.mock("@auth0/nextjs-auth0", () => ({ useUser: vi.fn() }));
+// Mockeamos Auth.js para controlar el estado de sesión en cada test.
+vi.mock("next-auth/react", () => ({
+  useSession: vi.fn(),
+  signOut: vi.fn(),
+}));
 
-const mockUseUser = vi.mocked(useUser);
+const mockUseSession = vi.mocked(useSession);
 
-function setUser(value: { user?: unknown; isLoading?: boolean }) {
-  mockUseUser.mockReturnValue({
-    user: value.user ?? null,
-    isLoading: value.isLoading ?? false,
-  } as ReturnType<typeof useUser>);
+function setSession(value: {
+  user?: { name?: string; email?: string } | null;
+  status?: "authenticated" | "unauthenticated" | "loading";
+}) {
+  mockUseSession.mockReturnValue({
+    data: value.user ? { user: value.user, expires: "" } : null,
+    status: value.status ?? (value.user ? "authenticated" : "unauthenticated"),
+    update: vi.fn(),
+  } as unknown as ReturnType<typeof useSession>);
 }
 
 describe("UserNav", () => {
-  it("muestra 'Ingresar' cuando no hay sesión", () => {
-    setUser({ user: null });
+  it("muestra 'Ingresar' (link a /login) sin sesión", () => {
+    setSession({ user: null });
     render(<UserNav />);
-    const link = screen.getByRole("link", { name: "Ingresar" });
-    expect(link).toHaveAttribute("href", "/auth/login");
+    expect(screen.getByRole("link", { name: "Ingresar" })).toHaveAttribute(
+      "href",
+      "/login",
+    );
   });
 
-  it("muestra el nombre y 'Salir' cuando hay sesión", () => {
-    setUser({ user: { name: "Erick Vargas", email: "e@x.com" } });
+  it("muestra el nombre y botón 'Salir' con sesión", () => {
+    setSession({ user: { name: "Erick Vargas", email: "e@x.com" } });
     render(<UserNav />);
     expect(screen.getByText("Erick Vargas")).toBeInTheDocument();
-    const link = screen.getByRole("link", { name: "Salir" });
-    expect(link).toHaveAttribute("href", "/auth/logout");
+    expect(screen.getByRole("button", { name: "Salir" })).toBeInTheDocument();
   });
 
   it("cae al email si no hay nombre", () => {
-    setUser({ user: { email: "e@x.com" } });
+    setSession({ user: { email: "e@x.com" } });
     render(<UserNav />);
     expect(screen.getByText("e@x.com")).toBeInTheDocument();
   });
 
-  it("no muestra enlaces mientras carga", () => {
-    setUser({ isLoading: true });
+  it("no muestra acciones mientras carga", () => {
+    setSession({ status: "loading" });
     render(<UserNav />);
     expect(screen.queryByRole("link")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button")).not.toBeInTheDocument();
   });
 });

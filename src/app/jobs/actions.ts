@@ -1,6 +1,6 @@
 "use server";
 
-import { syncUserFromSession } from "@/services/users/user.service";
+import { getCurrentUser } from "@/services/users/user.service";
 import {
   getResumeTextById,
   saveResumeReview,
@@ -23,7 +23,7 @@ export async function improveResumeAction(
   _prev: ImproveResult,
   formData: FormData,
 ): Promise<ImproveResult> {
-  const user = await syncUserFromSession();
+  const user = await getCurrentUser();
   if (!user) {
     return { ok: false, error: "Iniciá sesión para usar el asistente." };
   }

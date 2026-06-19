@@ -1,32 +1,34 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import {
   selectTotalCents,
   selectTotalItems,
   useCartStore,
 } from "@/stores/cart.store";
 
+/** Suscribe al evento de fin de hidratación del store persistido. */
+function subscribeHydration(callback: () => void) {
+  return useCartStore.persist.onFinishHydration(callback);
+}
+
 /**
  * Hook de carrito para componentes cliente.
- * Encapsula la suscripción al store y resuelve la hidratación de `persist`
- * para evitar mismatches de SSR (en el primer render el carrito está vacío
- * hasta que localStorage rehidrata).
+ *
+ * La hidratación se resuelve con useSyncExternalStore: en el servidor el
+ * snapshot es `false` (no se toca `persist`), evitando el error de SSR; en el
+ * cliente refleja el estado real de la rehidratación desde localStorage.
  */
 export function useCart() {
-  const [hydrated, setHydrated] = useState(() =>
-    useCartStore.persist.hasHydrated(),
+  const hydrated = useSyncExternalStore(
+    subscribeHydration,
+    () => useCartStore.persist.hasHydrated(),
+    () => false,
   );
 
   useEffect(() => {
-    // setState va dentro del callback de hidratación (no síncrono en el effect),
-    // que es lo recomendado por react-hooks.
-    const unsub = useCartStore.persist.onFinishHydration(() =>
-      setHydrated(true),
-    );
-    // Rehidrata desde localStorage solo en el cliente (store con skipHydration).
+    // Store con skipHydration: disparamos la rehidratación solo en el cliente.
     void useCartStore.persist.rehydrate();
-    return unsub;
   }, []);
 
   const items = useCartStore((s) => s.items);

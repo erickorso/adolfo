@@ -1,10 +1,26 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { env } from "@/lib/env";
 import type { UserRole } from "@/generated/prisma/client";
+
+/** Google se habilita solo si están las credenciales (OAuth opcional). */
+const googleProvider =
+  env.AUTH_GOOGLE_ID && env.AUTH_GOOGLE_SECRET
+    ? [
+        Google({
+          clientId: env.AUTH_GOOGLE_ID,
+          clientSecret: env.AUTH_GOOGLE_SECRET,
+        }),
+      ]
+    : [];
+
+/** ¿Está habilitado el login con Google? (para mostrar el botón en la UI). */
+export const isGoogleEnabled = googleProvider.length > 0;
 
 /**
  * Configuración de Auth.js (NextAuth v5).
@@ -52,12 +68,23 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         };
       },
     }),
+    ...googleProvider,
   ],
   callbacks: {
-    jwt({ token, user }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role;
+        // Credentials trae role en `user`; OAuth (Google) no -> lo leemos de la DB.
+        const role = (user as { role?: UserRole }).role;
+        if (role) {
+          token.role = role;
+        } else if (user.id) {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: user.id },
+            select: { role: true },
+          });
+          token.role = dbUser?.role;
+        }
       }
       return token;
     },

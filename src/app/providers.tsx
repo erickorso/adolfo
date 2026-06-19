@@ -1,12 +1,13 @@
 "use client";
 
 import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "next-themes";
 import { RateProvider } from "@/hooks/use-rate";
 import type { RateVM } from "@/domain/money/rate.types";
 
 /**
- * Providers de cliente: sesión (Auth.js) + cotización actual (para conversión
- * de moneda en `Price`). La tasa se resuelve en el servidor y se pasa acá.
+ * Providers de cliente: tema (next-themes), sesión (Auth.js) y cotización actual
+ * (para conversión de moneda en `Price`).
  */
 export function Providers({
   rate,
@@ -16,8 +17,15 @@ export function Providers({
   children: React.ReactNode;
 }) {
   return (
-    <SessionProvider>
-      <RateProvider rate={rate}>{children}</RateProvider>
-    </SessionProvider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <SessionProvider>
+        <RateProvider rate={rate}>{children}</RateProvider>
+      </SessionProvider>
+    </ThemeProvider>
   );
 }

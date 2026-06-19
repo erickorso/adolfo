@@ -6,10 +6,10 @@ import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 
 /**
- * Formulario de login (Credentials). Llama a signIn de Auth.js con redirect
- * manual para poder mostrar el error inline.
+ * Formulario de login (Credentials + Google opcional). Llama a signIn de Auth.js
+ * con redirect manual para poder mostrar el error inline.
  */
-export function LoginForm() {
+export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
   const params = useSearchParams();
   const callbackUrl = params.get("callbackUrl") ?? "/";
   const [error, setError] = useState<string | null>(null);
@@ -36,8 +36,20 @@ export function LoginForm() {
     [callbackUrl],
   );
 
+  const handleGoogle = useCallback(() => {
+    void signIn("google", { callbackUrl });
+  }, [callbackUrl]);
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+      {googleEnabled ? (
+        <>
+          <Button type="button" variant="outline" onClick={handleGoogle}>
+            Continuar con Google
+          </Button>
+          <div className="text-center text-xs text-muted-foreground">o</div>
+        </>
+      ) : null}
       <div className="flex flex-col gap-1">
         <label htmlFor="email" className="text-sm font-medium">
           Email

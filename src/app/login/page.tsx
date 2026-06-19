@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { LoginForm } from "@/components/organisms/login-form";
+import { isGoogleEnabled } from "@/lib/auth";
 
 /** Página de login. LoginForm va en Suspense porque usa useSearchParams. */
 export default function LoginPage() {
@@ -10,7 +11,7 @@ export default function LoginPage() {
       <Suspense
         fallback={<div className="h-48 animate-pulse rounded-lg bg-muted" />}
       >
-        <LoginForm />
+        <LoginForm googleEnabled={isGoogleEnabled} />
       </Suspense>
       <p className="text-sm text-muted-foreground">
         ¿No tenés cuenta?{" "}

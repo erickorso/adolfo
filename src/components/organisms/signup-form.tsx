@@ -1,17 +1,30 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useCallback } from "react";
+import { signIn } from "next-auth/react";
 import { signupAction, type SignupResult } from "@/app/signup/actions";
 import { Button } from "@/components/ui/button";
 
 const INITIAL: SignupResult = {};
 
-/** Formulario de registro (email + contraseña). Postea a la Server Action. */
-export function SignupForm() {
+/** Formulario de registro (email + contraseña + Google opcional). */
+export function SignupForm({ googleEnabled }: { googleEnabled: boolean }) {
   const [state, action, pending] = useActionState(signupAction, INITIAL);
+
+  const handleGoogle = useCallback(() => {
+    void signIn("google", { callbackUrl: "/" });
+  }, []);
 
   return (
     <form action={action} className="flex flex-col gap-3">
+      {googleEnabled ? (
+        <>
+          <Button type="button" variant="outline" onClick={handleGoogle}>
+            Continuar con Google
+          </Button>
+          <div className="text-center text-xs text-muted-foreground">o</div>
+        </>
+      ) : null}
       <div className="flex flex-col gap-1">
         <label htmlFor="name" className="text-sm font-medium">
           Nombre

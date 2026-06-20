@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Price } from "@/components/atoms/price";
 import { QuantityStepper } from "@/components/atoms/quantity-stepper";
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,7 @@ type CartLineItemProps = {
  * Handlers extraídos con useCallback (sin lógica anónima en el JSX).
  */
 export function CartLineItem({ item }: CartLineItemProps) {
+  const t = useTranslations("cart");
   const { setQuantity, removeItem } = useCart();
 
   const handleQuantityChange = useCallback(
@@ -49,9 +51,9 @@ export function CartLineItem({ item }: CartLineItemProps) {
           variant="ghost"
           size="sm"
           onClick={handleRemove}
-          aria-label={`Quitar ${item.name}`}
+          aria-label={t("remove", { name: item.name })}
         >
-          Quitar
+          {t("removeShort")}
         </Button>
       </div>
     </div>

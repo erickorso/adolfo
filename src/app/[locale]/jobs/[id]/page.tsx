@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import { buttonVariants } from "@/components/ui/button";
@@ -26,6 +27,7 @@ export default async function JobDetailPage({
 
   const user = await getCurrentUser();
   const resumes = user ? await listResumes(user.id) : [];
+  const t = await getTranslations("jobs");
 
   return (
     <main className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-10">
@@ -34,10 +36,10 @@ export default async function JobDetailPage({
         <p className="text-muted-foreground">
           {job.company}
           {job.location ? ` · ${job.location}` : ""}
-          {job.remote ? " · Remoto" : ""}
+          {job.remote ? ` · ${t("remote")}` : ""}
         </p>
         <span className="text-xs text-muted-foreground">
-          Publicado: {formatDate(job.postedAt)}
+          {t("posted", { date: formatDate(job.postedAt) })}
         </span>
         <a
           href={job.url}
@@ -48,27 +50,27 @@ export default async function JobDetailPage({
             "mt-2 w-fit",
           )}
         >
-          Ver oferta original
+          {t("viewOfferOriginal")}
         </a>
       </header>
 
       <section className="flex flex-col gap-2">
-        <h2 className="text-xl font-semibold">Descripción</h2>
+        <h2 className="text-xl font-semibold">{t("description")}</h2>
         <p className="whitespace-pre-wrap text-sm text-foreground">
-          {job.description ? htmlToText(job.description) : "Sin descripción."}
+          {job.description ? htmlToText(job.description) : t("noDescription")}
         </p>
       </section>
 
       <section className="flex flex-col gap-3 rounded-lg border border-border p-4">
-        <h2 className="text-xl font-semibold">Asistente de CV (IA)</h2>
+        <h2 className="text-xl font-semibold">{t("aiTitle")}</h2>
         {user ? (
           <ResumeImprover jobId={job.id} resumes={resumes} />
         ) : (
           <p className="text-sm text-muted-foreground">
             <Link href="/login" className="font-medium underline">
-              Iniciá sesión
+              {t("loginCta")}
             </Link>{" "}
-            para adaptar tu CV a esta oferta.
+            {t("loginToTailor")}
           </p>
         )}
       </section>

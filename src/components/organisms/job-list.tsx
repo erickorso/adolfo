@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { JobCard } from "@/components/molecules/job-card";
 import type { JobVM } from "@/domain/jobs/job.types";
 
@@ -8,13 +9,11 @@ type JobListProps = {
 /**
  * Organismo: lista de vacantes con estado vacío.
  */
-export function JobList({ jobs }: JobListProps) {
+export async function JobList({ jobs }: JobListProps) {
+  const t = await getTranslations("jobs");
+
   if (jobs.length === 0) {
-    return (
-      <p className="text-sm text-muted-foreground">
-        No hay vacantes todavía. Corré la ingesta para traer ofertas.
-      </p>
-    );
+    return <p className="text-sm text-muted-foreground">{t("empty")}</p>;
   }
 
   return (

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -23,17 +24,18 @@ type Row = {
   imageUrl: string | null;
 };
 
-function ModerationTable({
-  title,
+async function ModerationTable({
   type,
   rows,
   toggleAction,
 }: {
-  title: string;
   type: "product" | "service";
   rows: Row[];
   toggleAction: (formData: FormData) => Promise<void>;
 }) {
+  const t = await getTranslations("admin");
+  const title = type === "product" ? t("products") : t("services");
+
   return (
     <div className="flex flex-col gap-3">
       <h2 className="text-xl font-semibold">
@@ -43,11 +45,11 @@ function ModerationTable({
         <table className="w-full text-sm">
           <thead className="bg-muted text-left text-muted-foreground">
             <tr>
-              <th className="px-3 py-2 font-medium">Imagen</th>
-              <th className="px-3 py-2 font-medium">Nombre</th>
-              <th className="px-3 py-2 font-medium">Precio</th>
-              <th className="px-3 py-2 font-medium">Estado</th>
-              <th className="px-3 py-2 font-medium">Acciones</th>
+              <th className="px-3 py-2 font-medium">{t("image")}</th>
+              <th className="px-3 py-2 font-medium">{t("name")}</th>
+              <th className="px-3 py-2 font-medium">{t("price")}</th>
+              <th className="px-3 py-2 font-medium">{t("status")}</th>
+              <th className="px-3 py-2 font-medium">{t("actions")}</th>
             </tr>
           </thead>
           <tbody>
@@ -72,7 +74,7 @@ function ModerationTable({
                 </td>
                 <td className="px-3 py-2">
                   <Badge variant={r.active ? "secondary" : "destructive"}>
-                    {r.active ? "Activo" : "Inactivo"}
+                    {r.active ? t("active") : t("inactive")}
                   </Badge>
                 </td>
                 <td className="px-3 py-2">
@@ -84,7 +86,7 @@ function ModerationTable({
                           buttonVariants({ variant: "outline", size: "sm" }),
                         )}
                       >
-                        Editar
+                        {t("edit")}
                       </Link>
                     ) : null}
                     <form action={toggleAction}>
@@ -95,7 +97,7 @@ function ModerationTable({
                         value={r.active ? "false" : "true"}
                       />
                       <Button type="submit" size="sm" variant="outline">
-                        {r.active ? "Desactivar" : "Activar"}
+                        {r.active ? t("deactivate") : t("activate")}
                       </Button>
                     </form>
                     <form
@@ -112,7 +114,7 @@ function ModerationTable({
                         className="max-w-40 text-xs"
                       />
                       <Button type="submit" size="sm" variant="outline">
-                        Subir foto
+                        {t("uploadPhoto")}
                       </Button>
                     </form>
                   </div>
@@ -136,13 +138,11 @@ export default async function AdminCatalogPage() {
   return (
     <div className="flex flex-col gap-8">
       <ModerationTable
-        title="Productos"
         type="product"
         rows={products}
         toggleAction={setProductActiveAction}
       />
       <ModerationTable
-        title="Servicios"
         type="service"
         rows={services}
         toggleAction={setServiceActiveAction}

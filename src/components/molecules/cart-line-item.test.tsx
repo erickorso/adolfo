@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { renderWithIntl as render, screen, waitFor } from "@/test/render";
 import userEvent from "@testing-library/user-event";
 import { CartLineItem } from "./cart-line-item";
 import { useCartStore } from "@/stores/cart.store";

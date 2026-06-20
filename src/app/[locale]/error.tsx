@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 
 type CatalogErrorProps = {
@@ -13,6 +14,8 @@ type CatalogErrorProps = {
  * client components y reciben `reset` para reintentar el render del segmento.
  */
 export default function CatalogError({ error, reset }: CatalogErrorProps) {
+  const t = useTranslations("error");
+
   useEffect(() => {
     // En producción esto iría a un logger (Sentry, etc.).
     console.error(error);
@@ -20,12 +23,10 @@ export default function CatalogError({ error, reset }: CatalogErrorProps) {
 
   return (
     <main className="mx-auto flex max-w-5xl flex-col items-start gap-4 px-4 py-10">
-      <h1 className="text-2xl font-semibold">Algo salió mal</h1>
-      <p className="text-muted-foreground">
-        No pudimos cargar el catálogo. Probá de nuevo.
-      </p>
+      <h1 className="text-2xl font-semibold">{t("title")}</h1>
+      <p className="text-muted-foreground">{t("message")}</p>
       <Button type="button" onClick={reset}>
-        Reintentar
+        {t("retry")}
       </Button>
     </main>
   );

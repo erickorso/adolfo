@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { redirect } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getCurrentUser } from "@/services/users/user.service";
 
 /**
@@ -18,21 +18,23 @@ export default async function AccountPage() {
     redirect(`/${locale}/login?callbackUrl=/${locale}/account`);
   }
 
+  const t = await getTranslations("account");
+
   return (
     <main className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-10">
-      <h1 className="text-2xl font-semibold">Mi cuenta</h1>
+      <h1 className="text-2xl font-semibold">{t("title")}</h1>
       <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-sm">
-        <dt className="font-medium text-muted-foreground">Nombre</dt>
+        <dt className="font-medium text-muted-foreground">{t("name")}</dt>
         <dd>{user.name ?? "—"}</dd>
-        <dt className="font-medium text-muted-foreground">Email</dt>
+        <dt className="font-medium text-muted-foreground">{t("email")}</dt>
         <dd>{user.email}</dd>
-        <dt className="font-medium text-muted-foreground">Rol</dt>
+        <dt className="font-medium text-muted-foreground">{t("role")}</dt>
         <dd>{user.role}</dd>
-        <dt className="font-medium text-muted-foreground">ID interno</dt>
+        <dt className="font-medium text-muted-foreground">{t("internalId")}</dt>
         <dd className="font-mono text-xs">{user.id}</dd>
       </dl>
       <Link href="/account/cvs" className="text-sm font-medium underline">
-        Gestionar mis CVs
+        {t("manageCvs")}
       </Link>
     </main>
   );

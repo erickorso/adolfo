@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -9,10 +12,12 @@ type JobCardProps = {
 };
 
 /**
- * Molécula: tarjeta de una vacante. Presentacional (recibe un JobVM).
- * El enlace a la oferta abre la fuente original en una pestaña nueva.
+ * Molécula: tarjeta de una vacante. El enlace a la oferta abre la fuente
+ * original en una pestaña nueva.
  */
 export function JobCard({ job }: JobCardProps) {
+  const t = useTranslations("jobs");
+
   return (
     <article className="flex flex-col gap-2 rounded-lg border border-border bg-card p-4 text-card-foreground">
       <div className="flex items-start justify-between gap-2">
@@ -23,7 +28,7 @@ export function JobCard({ job }: JobCardProps) {
         </h3>
         {job.remote ? (
           <span className="shrink-0 rounded-full bg-accent px-2 py-0.5 text-xs text-accent-foreground">
-            Remoto
+            {t("remote")}
           </span>
         ) : null}
       </div>
@@ -41,7 +46,7 @@ export function JobCard({ job }: JobCardProps) {
           rel="noopener noreferrer"
           className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
         >
-          Ver oferta
+          {t("viewOffer")}
         </a>
       </div>
     </article>

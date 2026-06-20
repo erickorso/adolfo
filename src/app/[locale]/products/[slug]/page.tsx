@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import { Price } from "@/components/atoms/price";
@@ -18,6 +19,9 @@ export default async function ProductDetailPage({
     notFound();
   }
 
+  const t = await getTranslations("product");
+  const tc = await getTranslations("common");
+
   return (
     <main className="mx-auto grid max-w-5xl gap-8 px-4 py-10 md:grid-cols-2">
       <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-muted">
@@ -31,7 +35,7 @@ export default async function ProductDetailPage({
           />
         ) : (
           <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-            Sin imagen
+            {t("noImage")}
           </div>
         )}
       </div>
@@ -41,7 +45,7 @@ export default async function ProductDetailPage({
           href="/"
           className="text-sm text-muted-foreground hover:text-foreground"
         >
-          ← Volver al catálogo
+          {tc("back")}
         </Link>
         <h1 className="text-3xl font-bold">{product.name}</h1>
         <Price
@@ -55,7 +59,7 @@ export default async function ProductDetailPage({
 
         {product.attributes.length > 0 ? (
           <section className="flex flex-col gap-2">
-            <h2 className="text-lg font-semibold">Especificaciones</h2>
+            <h2 className="text-lg font-semibold">{t("specs")}</h2>
             <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm">
               {product.attributes.map((a) => (
                 <Fragment key={`${a.name}:${a.value}`}>

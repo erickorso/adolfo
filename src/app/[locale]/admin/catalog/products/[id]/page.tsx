@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import { getProductForEdit } from "@/services/admin/product-admin.service";
@@ -15,15 +16,19 @@ export default async function AdminProductEditPage({
     notFound();
   }
 
+  const t = await getTranslations("admin");
+
   return (
     <div className="flex flex-col gap-4">
       <Link
         href="/admin/catalog"
         className="text-sm text-muted-foreground hover:text-foreground"
       >
-        ← Volver al catálogo
+        {t("backToCatalog")}
       </Link>
-      <h2 className="text-xl font-semibold">Editar: {product.name}</h2>
+      <h2 className="text-xl font-semibold">
+        {t("editProduct", { name: product.name })}
+      </h2>
       <ProductEditForm
         product={{
           id: product.id,

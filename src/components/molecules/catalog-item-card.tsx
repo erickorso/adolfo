@@ -2,6 +2,7 @@
 
 import { useCallback } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { toast } from "sonner";
 import { Price } from "@/components/atoms/price";
@@ -20,6 +21,7 @@ type CatalogItemCardProps = {
  * (sin funciones anónimas con lógica en el JSX).
  */
 export function CatalogItemCard({ item }: CatalogItemCardProps) {
+  const t = useTranslations("catalog");
   const { addItem } = useCart();
 
   const handleAddToCart = useCallback(() => {
@@ -33,8 +35,8 @@ export function CatalogItemCard({ item }: CatalogItemCardProps) {
       imageUrl: item.imageUrl ?? undefined,
       quantity: 1,
     });
-    toast.success(`${item.name} agregado al carrito`);
-  }, [addItem, item]);
+    toast.success(t("addedToCart", { name: item.name }));
+  }, [addItem, item, t]);
 
   return (
     <article className="flex flex-col gap-3 rounded-lg border border-border bg-card p-4 text-card-foreground">
@@ -81,7 +83,7 @@ export function CatalogItemCard({ item }: CatalogItemCardProps) {
           onClick={handleAddToCart}
           disabled={!item.available}
         >
-          {item.available ? "Agregar" : "Sin stock"}
+          {item.available ? t("add") : t("outOfStock")}
         </Button>
       </div>
     </article>

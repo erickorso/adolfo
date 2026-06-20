@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { improveResumeAction, type ImproveResult } from "@/app/[locale]/jobs/actions";
@@ -18,6 +19,7 @@ type ResumeImproverProps = {
  * Elige uno de los CVs del usuario y muestra sugerencias + reescritura.
  */
 export function ResumeImprover({ jobId, resumes }: ResumeImproverProps) {
+  const t = useTranslations("jobs");
   const [state, formAction, pending] = useActionState(
     improveResumeAction,
     INITIAL,
@@ -28,9 +30,9 @@ export function ResumeImprover({ jobId, resumes }: ResumeImproverProps) {
   if (usable.length === 0) {
     return (
       <p className="text-sm text-muted-foreground">
-        Necesitás un CV en PDF con texto.{" "}
+        {t("needPdf")}{" "}
         <Link href="/account/cvs" className="font-medium underline">
-          Subí uno acá
+          {t("uploadHere")}
         </Link>
         .
       </p>
@@ -43,7 +45,7 @@ export function ResumeImprover({ jobId, resumes }: ResumeImproverProps) {
         <input type="hidden" name="jobId" value={jobId} />
         <div className="flex flex-col gap-1">
           <label htmlFor="resumeId" className="text-sm font-medium">
-            Elegí un CV
+            {t("chooseCv")}
           </label>
           <select
             id="resumeId"
@@ -59,18 +61,21 @@ export function ResumeImprover({ jobId, resumes }: ResumeImproverProps) {
           </select>
         </div>
         <Button type="submit" disabled={pending}>
-          {pending ? "Generando…" : "Mejorar mi CV para esta vacante"}
+          {pending ? t("generating") : t("improveCta")}
         </Button>
       </form>
 
       {state.error ? (
-        <p className="text-sm text-red-600">{state.error}</p>
+        <p className="text-sm text-destructive">{state.error}</p>
       ) : null}
 
       {state.ok ? (
         <div className="flex flex-col gap-6">
-          <ResultSection title="Sugerencias" body={state.suggestions ?? ""} />
-          <ResultSection title="CV reescrito" body={state.rewrite ?? ""} />
+          <ResultSection
+            title={t("suggestions")}
+            body={state.suggestions ?? ""}
+          />
+          <ResultSection title={t("rewrite")} body={state.rewrite ?? ""} />
         </div>
       ) : null}
     </div>

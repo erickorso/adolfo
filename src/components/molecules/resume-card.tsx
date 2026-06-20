@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formatBytes } from "@/lib/bytes";
@@ -15,7 +16,8 @@ type ResumeCardProps = {
  * Molécula: tarjeta de un CV. Las acciones (default/eliminar) son formularios
  * que postean a Server Actions — sin lógica de cliente.
  */
-export function ResumeCard({ resume }: ResumeCardProps) {
+export async function ResumeCard({ resume }: ResumeCardProps) {
+  const t = await getTranslations("cvs");
   const kind = resume.mimeType === "application/pdf" ? "PDF" : "DOCX";
 
   return (
@@ -25,13 +27,13 @@ export function ResumeCard({ resume }: ResumeCardProps) {
           <span className="font-medium">{resume.label}</span>
           {resume.isDefault ? (
             <span className="rounded-full bg-primary px-2 py-0.5 text-xs text-primary-foreground">
-              Default
+              {t("default")}
             </span>
           ) : null}
         </div>
         <span className="text-xs text-muted-foreground">
           {kind} · {formatBytes(resume.sizeBytes)} ·{" "}
-          {resume.hasText ? "texto listo para IA" : "sin texto extraíble"}
+          {resume.hasText ? t("textReady") : t("noText")}
         </span>
       </div>
 
@@ -42,20 +44,20 @@ export function ResumeCard({ resume }: ResumeCardProps) {
           rel="noopener noreferrer"
           className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
         >
-          Ver
+          {t("view")}
         </a>
         {!resume.isDefault ? (
           <form action={setDefaultResumeAction}>
             <input type="hidden" name="resumeId" value={resume.id} />
             <Button type="submit" variant="ghost" size="sm">
-              Hacer default
+              {t("makeDefault")}
             </Button>
           </form>
         ) : null}
         <form action={deleteResumeAction}>
           <input type="hidden" name="resumeId" value={resume.id} />
           <Button type="submit" variant="ghost" size="sm">
-            Eliminar
+            {t("delete")}
           </Button>
         </form>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useCallback, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   updateProductAction,
   type UpdateProductResult,
@@ -27,6 +28,7 @@ const INITIAL: UpdateProductResult = {};
  * Las propiedades viajan como JSON en un input oculto; la action las valida.
  */
 export function ProductEditForm({ product }: ProductEditFormProps) {
+  const t = useTranslations("admin");
   const [state, action, pending] = useActionState(updateProductAction, INITIAL);
   const [attrs, setAttrs] = useState<Attr[]>(product.attributes);
 
@@ -52,7 +54,7 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
       <input type="hidden" name="id" value={product.id} />
       <input type="hidden" name="attributes" value={JSON.stringify(attrs)} />
 
-      <Field label="Nombre">
+      <Field label={t("name")}>
         <input
           name="name"
           defaultValue={product.name}
@@ -61,7 +63,7 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
         />
       </Field>
 
-      <Field label="Descripción">
+      <Field label={t("descriptionLabel")}>
         <textarea
           name="description"
           defaultValue={product.description ?? ""}
@@ -71,7 +73,7 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
       </Field>
 
       <div className="flex gap-4">
-        <Field label="Precio (centavos)">
+        <Field label={t("priceCentsLabel")}>
           <input
             name="priceCents"
             type="number"
@@ -81,7 +83,7 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
             className="w-40 rounded-md border border-input bg-background px-3 py-2 text-sm"
           />
         </Field>
-        <Field label="Stock">
+        <Field label={t("stockLabel")}>
           <input
             name="stock"
             type="number"
@@ -95,15 +97,13 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium">Propiedades custom</span>
+          <span className="text-sm font-medium">{t("customProps")}</span>
           <Button type="button" size="sm" variant="outline" onClick={addRow}>
-            Agregar propiedad
+            {t("addProp")}
           </Button>
         </div>
         {attrs.length === 0 ? (
-          <p className="text-xs text-muted-foreground">
-            Sin propiedades. Ej: Color → Azul, Talle → M.
-          </p>
+          <p className="text-xs text-muted-foreground">{t("noProps")}</p>
         ) : (
           attrs.map((attr, i) => (
             <div key={i} className="flex items-center gap-2">
@@ -137,10 +137,10 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
 
       <div className="flex items-center gap-3">
         <Button type="submit" disabled={pending}>
-          {pending ? "Guardando…" : "Guardar"}
+          {pending ? t("saving") : t("save")}
         </Button>
         {state.ok ? (
-          <span className="text-sm text-green-700">Guardado.</span>
+          <span className="text-sm text-green-700">{t("saved")}</span>
         ) : null}
         {state.error ? (
           <span className="text-sm text-destructive">{state.error}</span>

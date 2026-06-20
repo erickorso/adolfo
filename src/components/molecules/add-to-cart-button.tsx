@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/use-cart";
@@ -20,6 +21,7 @@ type AddToCartButtonProps = {
 
 /** Botón de "agregar al carrito" para la página de detalle (producto). */
 export function AddToCartButton({ item, disabled }: AddToCartButtonProps) {
+  const t = useTranslations();
   const { addItem } = useCart();
 
   const handleAdd = useCallback(() => {
@@ -33,12 +35,12 @@ export function AddToCartButton({ item, disabled }: AddToCartButtonProps) {
       imageUrl: item.imageUrl ?? undefined,
       quantity: 1,
     });
-    toast.success(`${item.name} agregado al carrito`);
-  }, [addItem, item]);
+    toast.success(t("catalog.addedToCart", { name: item.name }));
+  }, [addItem, item, t]);
 
   return (
     <Button type="button" size="lg" onClick={handleAdd} disabled={disabled}>
-      {disabled ? "Sin stock" : "Agregar al carrito"}
+      {disabled ? t("product.outOfStock") : t("product.addToCart")}
     </Button>
   );
 }

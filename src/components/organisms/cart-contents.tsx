@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { CartLineItem } from "@/components/molecules/cart-line-item";
 import { Price } from "@/components/atoms/price";
@@ -12,6 +13,7 @@ import { useCart } from "@/hooks/use-cart";
  * Cubre los estados: hidratando, vacío y con ítems.
  */
 export function CartContents() {
+  const t = useTranslations("cart");
   const { items, totalCents, totalItems, clear, hydrated } = useCart();
 
   const handleClear = useCallback(() => {
@@ -26,9 +28,9 @@ export function CartContents() {
   if (items.length === 0) {
     return (
       <div className="flex flex-col items-start gap-4">
-        <p className="text-muted-foreground">Tu carrito está vacío.</p>
+        <p className="text-muted-foreground">{t("empty")}</p>
         <Link href="/" className="text-sm font-medium underline">
-          Ver catálogo
+          {t("viewCatalog")}
         </Link>
       </div>
     );
@@ -46,20 +48,20 @@ export function CartContents() {
 
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground">
-          {totalItems} {totalItems === 1 ? "ítem" : "ítems"}
+          {t("itemCount", { count: totalItems })}
         </span>
         <div className="flex items-center gap-2 text-lg">
-          <span className="font-medium">Total</span>
+          <span className="font-medium">{t("total")}</span>
           <Price cents={totalCents} currency={currency} />
         </div>
       </div>
 
       <div className="flex items-center justify-between">
         <Button type="button" variant="ghost" size="sm" onClick={handleClear}>
-          Vaciar carrito
+          {t("clear")}
         </Button>
         <Button type="button" size="lg" disabled>
-          Proceder al pago
+          {t("checkout")}
         </Button>
       </div>
     </div>

@@ -1,14 +1,16 @@
+import { getTranslations } from "next-intl/server";
 import { adminCounts } from "@/services/admin/moderation.service";
 
 /** Dashboard del backoffice: conteos básicos. */
 export default async function AdminDashboardPage() {
   const counts = await adminCounts();
+  const t = await getTranslations("admin");
   const cards = [
-    { label: "Usuarios", value: counts.users },
-    { label: "Productos", value: counts.products },
-    { label: "Servicios", value: counts.services },
-    { label: "Empleos", value: counts.jobs },
-    { label: "Pedidos", value: counts.orders },
+    { label: t("users"), value: counts.users },
+    { label: t("products"), value: counts.products },
+    { label: t("services"), value: counts.services },
+    { label: t("jobs"), value: counts.jobs },
+    { label: t("orders"), value: counts.orders },
   ];
 
   return (

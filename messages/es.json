@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "catalog": "Catálogo",
+    "jobs": "Empleos",
+    "account": "Mi cuenta",
+    "cart": "Carrito",
+    "admin": "Admin",
+    "login": "Ingresar",
+    "logout": "Salir"
+  },
+  "catalog": {
+    "title": "Catálogo",
+    "subtitle": "Productos y servicios disponibles.",
+    "products": "Productos",
+    "services": "Servicios",
+    "search": "Buscar por nombre, descripción o propiedad…",
+    "loadMore": "Cargar más",
+    "loading": "Cargando…",
+    "emptyProducts": "Todavía no hay productos cargados.",
+    "emptyServices": "Todavía no hay servicios cargados.",
+    "noResults": "Sin resultados para «{q}»."
+  },
+  "auth": {
+    "loginTitle": "Ingresar",
+    "signupTitle": "Crear cuenta",
+    "email": "Email",
+    "password": "Contraseña",
+    "passwordMin": "Contraseña (mín. 8)",
+    "name": "Nombre",
+    "loginCta": "Ingresar",
+    "loggingIn": "Ingresando…",
+    "signupCta": "Crear cuenta",
+    "creating": "Creando cuenta…",
+    "google": "Continuar con Google",
+    "or": "o",
+    "noAccount": "¿No tenés cuenta?",
+    "register": "Registrate",
+    "hasAccount": "¿Ya tenés cuenta?",
+    "loginLink": "Ingresá",
+    "invalidCredentials": "Email o contraseña incorrectos."
+  }
+}

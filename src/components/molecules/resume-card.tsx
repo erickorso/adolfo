@@ -4,7 +4,7 @@ import { formatBytes } from "@/lib/bytes";
 import {
   deleteResumeAction,
   setDefaultResumeAction,
-} from "@/app/account/cvs/actions";
+} from "@/app/[locale]/account/cvs/actions";
 import type { ResumeVM } from "@/domain/resume/resume.types";
 
 type ResumeCardProps = {

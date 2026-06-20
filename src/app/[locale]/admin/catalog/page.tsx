@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +12,7 @@ import {
   setProductActiveAction,
   setServiceActiveAction,
   uploadCatalogImageAction,
-} from "@/app/admin/actions";
+} from "@/app/[locale]/admin/actions";
 
 type Row = {
   id: string;

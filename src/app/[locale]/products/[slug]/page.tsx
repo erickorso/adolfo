@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import { Price } from "@/components/atoms/price";
 import { AddToCartButton } from "@/components/molecules/add-to-cart-button";

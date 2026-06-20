@@ -1,16 +1,18 @@
 "use client";
 
 import { useCallback } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { signOut, useSession } from "next-auth/react";
-import { AuthLink } from "@/components/atoms/auth-link";
-import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 /**
  * Molécula: área de usuario del header.
  * Usa useSession() de Auth.js (client) para reaccionar a login/logout.
  */
 export function UserNav() {
+  const t = useTranslations("nav");
   const { data: session, status } = useSession();
 
   const handleSignOut = useCallback(() => {
@@ -23,9 +25,9 @@ export function UserNav() {
 
   if (!session?.user) {
     return (
-      <AuthLink href="/login" size="sm">
-        Ingresar
-      </AuthLink>
+      <Link href="/login" className={cn(buttonVariants({ size: "sm" }))}>
+        {t("login")}
+      </Link>
     );
   }
 
@@ -39,14 +41,14 @@ export function UserNav() {
           href="/admin"
           className="text-sm font-medium text-muted-foreground hover:text-foreground"
         >
-          Admin
+          {t("admin")}
         </Link>
       ) : null}
       <span className="hidden text-sm text-foreground sm:inline">
         {session.user.name ?? session.user.email}
       </span>
       <Button type="button" variant="outline" size="sm" onClick={handleSignOut}>
-        Salir
+        {t("logout")}
       </Button>
     </div>
   );

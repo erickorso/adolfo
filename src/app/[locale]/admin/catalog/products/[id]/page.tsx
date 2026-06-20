@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import { getProductForEdit } from "@/services/admin/product-admin.service";
 import { ProductEditForm } from "@/components/organisms/product-edit-form";

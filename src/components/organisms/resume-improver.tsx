@@ -1,9 +1,9 @@
 "use client";
 
 import { useActionState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
-import { improveResumeAction, type ImproveResult } from "@/app/jobs/actions";
+import { improveResumeAction, type ImproveResult } from "@/app/[locale]/jobs/actions";
 import type { ResumeVM } from "@/domain/resume/resume.types";
 
 const INITIAL: ImproveResult = { ok: false };

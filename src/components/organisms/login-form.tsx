@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 
@@ -10,6 +11,7 @@ import { Button } from "@/components/ui/button";
  * con redirect manual para poder mostrar el error inline.
  */
 export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
+  const t = useTranslations("auth");
   const params = useSearchParams();
   const callbackUrl = params.get("callbackUrl") ?? "/";
   const [error, setError] = useState<string | null>(null);
@@ -28,12 +30,12 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
       });
       setPending(false);
       if (result?.error) {
-        setError("Email o contraseña incorrectos.");
+        setError(t("invalidCredentials"));
         return;
       }
       window.location.href = callbackUrl;
     },
-    [callbackUrl],
+    [callbackUrl, t],
   );
 
   const handleGoogle = useCallback(() => {
@@ -45,14 +47,16 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
       {googleEnabled ? (
         <>
           <Button type="button" variant="outline" onClick={handleGoogle}>
-            Continuar con Google
+            {t("google")}
           </Button>
-          <div className="text-center text-xs text-muted-foreground">o</div>
+          <div className="text-center text-xs text-muted-foreground">
+            {t("or")}
+          </div>
         </>
       ) : null}
       <div className="flex flex-col gap-1">
         <label htmlFor="email" className="text-sm font-medium">
-          Email
+          {t("email")}
         </label>
         <input
           id="email"
@@ -64,7 +68,7 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
       </div>
       <div className="flex flex-col gap-1">
         <label htmlFor="password" className="text-sm font-medium">
-          Contraseña
+          {t("password")}
         </label>
         <input
           id="password"
@@ -75,9 +79,9 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
         />
       </div>
       <Button type="submit" disabled={pending}>
-        {pending ? "Ingresando…" : "Ingresar"}
+        {pending ? t("loggingIn") : t("loginCta")}
       </Button>
-      {error ? <p className="text-sm text-red-600">{error}</p> : null}
+      {error ? <p className="text-sm text-destructive">{error}</p> : null}
     </form>
   );
 }

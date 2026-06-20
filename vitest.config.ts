@@ -6,6 +6,10 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      // Específico antes que "@": navegación i18n -> stub (evita next-intl/next/navigation).
+      "@/i18n/navigation": fileURLToPath(
+        new URL("./src/test/i18n-navigation.stub.tsx", import.meta.url),
+      ),
       "@": fileURLToPath(new URL("./src", import.meta.url)),
       // `server-only` lanza fuera de RSC; en tests lo neutralizamos.
       "server-only": fileURLToPath(

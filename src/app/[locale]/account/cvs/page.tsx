@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
 import { getCurrentUser } from "@/services/users/user.service";
 import { listResumes } from "@/services/resume/resume.service";
 import { ResumeManager } from "@/components/organisms/resume-manager";
@@ -10,7 +11,8 @@ import { ResumeManager } from "@/components/organisms/resume-manager";
 export default async function ResumesPage() {
   const user = await getCurrentUser();
   if (!user) {
-    redirect("/login?callbackUrl=/account/cvs");
+    const locale = await getLocale();
+    redirect(`/${locale}/login?callbackUrl=/${locale}/account/cvs`);
   }
 
   const resumes = await listResumes(user.id);

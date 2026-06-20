@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { listUsers } from "@/services/admin/user-admin.service";
-import { banUserAction, setRoleAction } from "@/app/admin/actions";
+import { banUserAction, setRoleAction } from "@/app/[locale]/admin/actions";
 
 const ROLES = ["CUSTOMER", "ADMIN", "SUPERADMIN"] as const;
 

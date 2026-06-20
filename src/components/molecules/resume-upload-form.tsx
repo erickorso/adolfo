@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
   uploadResumeAction,
   type ActionResult,
-} from "@/app/account/cvs/actions";
+} from "@/app/[locale]/account/cvs/actions";
 import { MAX_RESUMES } from "@/services/resume/resume.policy";
 
 const INITIAL: ActionResult = { ok: false };

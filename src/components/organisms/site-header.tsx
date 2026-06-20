@@ -1,35 +1,40 @@
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { UserNav } from "@/components/molecules/user-nav";
 import { CartNavButton } from "@/components/molecules/cart-nav-button";
 import { CurrencySwitcher } from "@/components/molecules/currency-switcher";
 import { ThemeToggle } from "@/components/molecules/theme-toggle";
+import { LanguageSwitcher } from "@/components/molecules/language-switcher";
 
 /**
  * Organismo: header del sitio. Marca + navegación + área de usuario.
- * El estado de sesión lo resuelve `UserNav` (client) vía useUser.
+ * Las etiquetas se traducen (i18n); el estado de sesión lo resuelve UserNav.
  */
-export function SiteHeader() {
+export async function SiteHeader() {
+  const t = await getTranslations("nav");
+
   return (
     <header className="border-b border-border bg-background">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <nav className="flex items-center gap-6">
           <Link href="/" className="text-lg font-bold">
-            Catálogo
+            {t("catalog")}
           </Link>
           <Link
             href="/jobs"
             className="text-sm text-muted-foreground hover:text-foreground"
           >
-            Empleos
+            {t("jobs")}
           </Link>
           <Link
             href="/account"
             className="text-sm text-muted-foreground hover:text-foreground"
           >
-            Mi cuenta
+            {t("account")}
           </Link>
         </nav>
         <div className="flex items-center gap-4">
+          <LanguageSwitcher />
           <ThemeToggle />
           <CurrencySwitcher />
           <CartNavButton />

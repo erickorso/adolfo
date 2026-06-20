@@ -1,5 +1,6 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
 import { getCurrentUser } from "@/services/users/user.service";
 
 /**
@@ -13,7 +14,8 @@ export default async function AccountPage() {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect("/login?callbackUrl=/account");
+    const locale = await getLocale();
+    redirect(`/${locale}/login?callbackUrl=/${locale}/account`);
   }
 
   return (

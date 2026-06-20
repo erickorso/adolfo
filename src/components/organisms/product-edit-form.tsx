@@ -4,7 +4,7 @@ import { useActionState, useCallback, useState } from "react";
 import {
   updateProductAction,
   type UpdateProductResult,
-} from "@/app/admin/actions";
+} from "@/app/[locale]/admin/actions";
 import { Button } from "@/components/ui/button";
 
 type Attr = { name: string; value: string };

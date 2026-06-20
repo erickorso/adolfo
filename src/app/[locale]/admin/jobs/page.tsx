@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { listAllJobs } from "@/services/admin/moderation.service";
-import { setJobHiddenAction } from "@/app/admin/actions";
+import { setJobHiddenAction } from "@/app/[locale]/admin/actions";
 
 /** Moderación de empleos: ocultar / mostrar vacantes del listado público. */
 export default async function AdminJobsPage() {

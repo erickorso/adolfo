@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { CartLineItem } from "@/components/molecules/cart-line-item";
 import { Price } from "@/components/atoms/price";
 import { Button } from "@/components/ui/button";

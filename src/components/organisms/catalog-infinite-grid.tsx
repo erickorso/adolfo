@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { CatalogItemCard } from "@/components/molecules/catalog-item-card";
 import { Button } from "@/components/ui/button";
 import type { CatalogItemVM } from "@/domain/view/catalog-item";
@@ -9,7 +10,6 @@ type CatalogInfiniteGridProps = {
   kind: "product" | "service";
   initialItems: CatalogItemVM[];
   initialCursor: string | null;
-  emptyMessage: string;
 };
 
 type Page = { items: CatalogItemVM[]; nextCursor: string | null };
@@ -35,8 +35,8 @@ export function CatalogInfiniteGrid({
   kind,
   initialItems,
   initialCursor,
-  emptyMessage,
 }: CatalogInfiniteGridProps) {
+  const t = useTranslations("catalog");
   const [items, setItems] = useState(initialItems);
   const [cursor, setCursor] = useState(initialCursor);
   const [q, setQ] = useState("");
@@ -96,13 +96,17 @@ export function CatalogInfiniteGrid({
         type="search"
         value={q}
         onChange={(e) => setQ(e.target.value)}
-        placeholder="Buscar por nombre, descripción o propiedad…"
+        placeholder={t("search")}
         className="w-full max-w-sm rounded-md border border-input bg-background px-3 py-2 text-sm"
       />
 
       {items.length === 0 ? (
         <p className="text-sm text-muted-foreground">
-          {q ? `Sin resultados para "${q}".` : emptyMessage}
+          {q
+            ? t("noResults", { q })
+            : kind === "product"
+              ? t("emptyProducts")
+              : t("emptyServices")}
         </p>
       ) : (
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -124,7 +128,7 @@ export function CatalogInfiniteGrid({
             onClick={loadMore}
             disabled={loading}
           >
-            {loading ? "Cargando…" : "Cargar más"}
+            {loading ? t("loading") : t("loadMore")}
           </Button>
         </div>
       ) : null}

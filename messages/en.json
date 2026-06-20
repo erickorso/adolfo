@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "catalog": "Catalog",
+    "jobs": "Jobs",
+    "account": "My account",
+    "cart": "Cart",
+    "admin": "Admin",
+    "login": "Sign in",
+    "logout": "Sign out"
+  },
+  "catalog": {
+    "title": "Catalog",
+    "subtitle": "Products and services available.",
+    "products": "Products",
+    "services": "Services",
+    "search": "Search by name, description or property…",
+    "loadMore": "Load more",
+    "loading": "Loading…",
+    "emptyProducts": "No products yet.",
+    "emptyServices": "No services yet.",
+    "noResults": "No results for “{q}”."
+  },
+  "auth": {
+    "loginTitle": "Sign in",
+    "signupTitle": "Create account",
+    "email": "Email",
+    "password": "Password",
+    "passwordMin": "Password (min. 8)",
+    "name": "Name",
+    "loginCta": "Sign in",
+    "loggingIn": "Signing in…",
+    "signupCta": "Create account",
+    "creating": "Creating account…",
+    "google": "Continue with Google",
+    "or": "or",
+    "noAccount": "No account yet?",
+    "register": "Sign up",
+    "hasAccount": "Already have an account?",
+    "loginLink": "Sign in",
+    "invalidCredentials": "Wrong email or password."
+  }
+}

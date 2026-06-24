@@ -18,7 +18,8 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "smoke:pre-deploy": "tsx scripts/smoke-pre-deploy.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",

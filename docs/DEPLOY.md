@@ -106,6 +106,16 @@ Ver [`GIT-WORKFLOW.md`](./GIT-WORKFLOW.md). Checks requeridos:
 3. PR `develop` → `main` → merge.
 4. Push a `main` → CI + **migrate** + **deploy production**.
 
+## Smoke local (pre-deploy)
+
+Con `npm run dev` en `:3000`:
+
+```bash
+npm run smoke:pre-deploy
+```
+
+Verifica home, carrito, postulaciones, upload/serve de imágenes.
+
 ## Troubleshooting
 
 | Error | Solución |

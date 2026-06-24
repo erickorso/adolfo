@@ -98,14 +98,14 @@ Configurar en **Settings → Branches → Branch protection rules**:
 ### `main`
 
 - [x] Require a pull request before merging
-- [x] Require status checks to pass (`validate`, `e2e`)
+- [x] Require status checks to pass: **`validate`**, **`e2e`**
 - [x] Do not allow bypassing
 - [ ] Require approvals: 1 (cuando haya más colaboradores)
 
 ### `develop`
 
 - [x] Require a pull request before merging
-- [x] Require status checks to pass (`validate`)
+- [x] Require status checks to pass: **`validate`**, **`e2e`**
 - [ ] Require approvals: 0–1 (solo o equipo)
 
 ## Comandos útiles
@@ -116,6 +116,15 @@ git log --oneline develop..main          # qué falta en main
 git log --oneline main..develop          # qué hay listo para release
 git branch -d feature/nombre             # borrar rama local mergeada
 ```
+
+## Deploy automático
+
+Tras merge, GitHub Actions despliega a Vercel si CI pasa. Ver [`DEPLOY.md`](./DEPLOY.md).
+
+| Rama | Vercel |
+|---|---|
+| `main` | Production |
+| `develop` | Preview |
 
 ## Referencias
 

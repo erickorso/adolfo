@@ -172,6 +172,18 @@ npx vercel --prod
 
 `vercel.json` incluye ingesta de cotización (diaria) y empleos (lunes). Requieren `JOBS_INGEST_SECRET` + `CRON_SECRET` + boards configurados.
 
+## Deploy (Vercel + CI)
+
+Deploy automático tras CI verde. Guía completa: [`docs/DEPLOY.md`](./docs/DEPLOY.md).
+
+| Push a | Resultado |
+|---|---|
+| `main` | Production en Vercel |
+| `develop` | Preview en Vercel |
+| PR / feature | Solo CI (sin deploy) |
+
+Secrets requeridos en GitHub: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `DATABASE_URL`.
+
 ## Git workflow
 
 Ramas: **`main`** (producción) · **`develop`** (integración) · **`feature/*`** (trabajo diario).

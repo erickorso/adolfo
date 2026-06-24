@@ -52,6 +52,18 @@ enum ItemKind {
   SERVICE
 }
 
+/// Pipeline de búsqueda laboral del usuario (manual o vinculada a JobPosting).
+enum JobApplicationStatus {
+  SAVED
+  APPLIED
+  SCREEN
+  TECH
+  FINAL
+  OFFER
+  REJECTED
+  GHOSTED
+}
+
 // ──────────────────────────────────────────────────────────────
 // Modelos
 // ──────────────────────────────────────────────────────────────
@@ -75,6 +87,7 @@ model User {
   orders        Order[]
   savedJobs     SavedJob[]
   resumes       Resume[]
+  jobApplications JobApplication[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
@@ -256,6 +269,7 @@ model JobPosting {
   fetchedAt   DateTime       @default(now())
   savedBy     SavedJob[]
   reviews     ResumeReview[]
+  applications JobApplication[]
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 
@@ -275,6 +289,29 @@ model SavedJob {
 
   @@unique([userId, jobId])
   @@index([userId])
+}
+
+/// Seguimiento de postulaciones (ofertas externas o vacantes ingestadas).
+model JobApplication {
+  id           String               @id @default(cuid())
+  user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  job          JobPosting?          @relation(fields: [jobPostingId], references: [id], onDelete: SetNull)
+  jobPostingId String?
+  company      String
+  title        String
+  url          String?
+  /// Fuente de la oferta: Remotive, LinkedIn, inbound, etc.
+  source       String?
+  status       JobApplicationStatus @default(SAVED)
+  appliedAt    DateTime?
+  nextStep     String?
+  notes        String?
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+
+  @@index([userId])
+  @@index([userId, status])
 }
 
 /// CV subido por un usuario (máx. 3, validado en la capa de servicio).
@@ -325,10 +362,10 @@ model ExchangeRate {
   source    String   @default("dolarapi")
   /// Tipo de dólar: "tarjeta" | "oficial" | "blue" | "mep" | ...
   type      String
-  /// Compra: ARS por 1 USD.
-  buyArs    Float
-  /// Venta: ARS por 1 USD (usada para convertir precios ARS -> USD).
-  sellArs   Float
+  /// Compra: centavos ARS por 1 USD (ej. $1.450,00 → 145000).
+  buyArsCents  Int
+  /// Venta: centavos ARS por 1 USD (usada para convertir precios ARS → USD).
+  sellArsCents Int
   fetchedAt DateTime @default(now())
 
   @@unique([source, type])

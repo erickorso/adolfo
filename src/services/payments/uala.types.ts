@@ -1,21 +1,32 @@
-/** Contratos de la integración con Ualá Bis. Aislados del cliente HTTP. */
+/** Contratos Ualá Bis API Cobros Online v2. */
 
-export type CreateChargeInput = {
-  /** Monto total en centavos. */
+export type CreateUalaOrderInput = {
+  /** Monto total en centavos (se convierte a string decimal ARS). */
   amountCents: number;
-  currency: string;
-  /** ID interno del pedido para reconciliar. */
+  /** ID interno del pedido → `external_reference`. */
   orderId: string;
-  /** Clave de idempotencia que viajará y volverá en el webhook. */
-  idempotencyKey: string;
-  /** URL a la que Ualá redirige al finalizar. */
-  returnUrl: string;
-  description?: string;
+  description: string;
+  callbackSuccess: string;
+  callbackFail: string;
+  /** Webhook POST de estado (notification_url). */
+  notificationUrl: string;
 };
 
-export type CreateChargeResult = {
-  /** ID del cobro del lado de Ualá. */
-  paymentId: string;
-  /** URL de checkout a la que redirigir al comprador. */
+export type CreateUalaOrderResult = {
+  /** UUID de la orden en Ualá. */
+  orderUuid: string;
   checkoutUrl: string;
+};
+
+/** Respuesta de POST /checkout (v2). */
+export type UalaCheckoutResponse = {
+  uuid: string;
+  amount: number;
+  status: string;
+  external_reference: string;
+  links: {
+    checkout_link: string;
+    success: string;
+    failed: string;
+  };
 };

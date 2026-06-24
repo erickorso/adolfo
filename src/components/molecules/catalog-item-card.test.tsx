@@ -1,8 +1,6 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { renderWithIntl as render, screen } from "@/test/render";
-import userEvent from "@testing-library/user-event";
 import { CatalogItemCard } from "./catalog-item-card";
-import { useCartStore } from "@/stores/cart.store";
 import { ItemKind } from "@/generated/prisma/client";
 import type { CatalogItemVM } from "@/domain/view/catalog-item";
 
@@ -33,10 +31,6 @@ const service: CatalogItemVM = {
 };
 
 describe("CatalogItemCard", () => {
-  beforeEach(() => {
-    useCartStore.setState({ items: [] });
-  });
-
   it("muestra nombre y precio", () => {
     render(<CatalogItemCard item={product} />);
     expect(screen.getByText("Remera básica")).toBeInTheDocument();
@@ -48,16 +42,12 @@ describe("CatalogItemCard", () => {
     expect(screen.getByText("60 min")).toBeInTheDocument();
   });
 
-  it("agrega al carrito con el kind correcto", async () => {
-    const user = userEvent.setup();
+  it("postea a /api/cart/add con refId y kind", () => {
     render(<CatalogItemCard item={service} />);
-
-    await user.click(screen.getByRole("button", { name: "Agregar" }));
-
-    const items = useCartStore.getState().items;
-    expect(items).toHaveLength(1);
-    expect(items[0].kind).toBe(ItemKind.SERVICE);
-    expect(items[0].refId).toBe("s1");
+    const form = screen.getByRole("button", { name: "Agregar" }).closest("form");
+    expect(form).toHaveAttribute("action", "/api/cart/add");
+    expect(form).toHaveAttribute("method", "POST");
+    expect(form?.querySelector('input[name="refId"]')).toHaveValue("s1");
   });
 
   it("deshabilita el botón cuando no está disponible", () => {

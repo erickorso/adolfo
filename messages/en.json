@@ -27,6 +27,7 @@
     "emptyServices": "No services yet.",
     "noResults": "No results for “{q}”.",
     "add": "Add",
+    "adding": "Adding…",
     "outOfStock": "Out of stock",
     "addedToCart": "{name} added to cart"
   },
@@ -47,7 +48,20 @@
     "register": "Sign up",
     "hasAccount": "Already have an account?",
     "loginLink": "Sign in",
-    "invalidCredentials": "Wrong email or password."
+    "invalidCredentials": "Wrong email or password.",
+    "forgotLink": "Forgot password?",
+    "forgotTitle": "Reset password",
+    "forgotHint": "We'll email you a link to reset your password.",
+    "forgotCta": "Send reset link",
+    "forgotSending": "Sending…",
+    "forgotSent": "If that email is registered, you'll receive a reset link shortly.",
+    "backToLogin": "Back to sign in",
+    "resetTitle": "New password",
+    "resetHint": "Choose a new password (min. 8 characters).",
+    "resetCta": "Save password",
+    "resetSaving": "Saving…",
+    "resetSuccess": "Password updated. You can sign in now.",
+    "resetInvalidLink": "This link is invalid or has already been used."
   },
   "cart": {
     "title": "Your cart",
@@ -57,8 +71,12 @@
     "itemCount": "{count, plural, one {# item} other {# items}}",
     "clear": "Empty cart",
     "checkout": "Proceed to payment",
+    "checkoutLoading": "Redirecting to payment…",
     "removeShort": "Remove",
-    "remove": "Remove {name}"
+    "remove": "Remove {name}",
+    "decreaseQuantity": "Decrease quantity of {name}",
+    "increaseQuantity": "Increase quantity of {name}",
+    "quantityLabel": "Quantity: {count}"
   },
   "product": {
     "specs": "Specifications",
@@ -113,7 +131,59 @@
     "email": "Email",
     "role": "Role",
     "internalId": "Internal ID",
-    "manageCvs": "Manage my CVs"
+    "manageCvs": "Manage my CVs",
+    "manageOrders": "View my orders",
+    "manageApplications": "My applications"
+  },
+  "applications": {
+    "title": "My applications",
+    "subtitle": "Track your job search pipeline (manual entries or catalog jobs).",
+    "backToAccount": "← Back to my account",
+    "empty": "You haven't logged any applications yet.",
+    "addTitle": "Add application",
+    "company": "Company",
+    "role": "Role",
+    "url": "Link",
+    "source": "Source",
+    "sourcePlaceholder": "Remotive, LinkedIn, inbound…",
+    "status": "Status",
+    "appliedAt": "Applied on",
+    "nextStep": "Next step",
+    "notes": "Notes",
+    "actions": "Actions",
+    "save": "Save",
+    "saving": "Saving…",
+    "savedOk": "Application saved.",
+    "updateStatus": "Update",
+    "delete": "Delete",
+    "viewOffer": "View offer",
+    "statTotal": "Total",
+    "statApplied": "Applied",
+    "statActive": "Active",
+    "trackJob": "Add to my pipeline",
+    "status_SAVED": "Saved",
+    "status_APPLIED": "Applied",
+    "status_SCREEN": "Screen",
+    "status_TECH": "Technical",
+    "status_FINAL": "Final",
+    "status_OFFER": "Offer",
+    "status_REJECTED": "Rejected",
+    "status_GHOSTED": "Ghosted"
+  },
+  "orders": {
+    "title": "My orders",
+    "empty": "You don't have any orders yet.",
+    "backToAccount": "← Back to my account",
+    "orderId": "Order",
+    "status": "Status",
+    "total": "Total",
+    "date": "Date",
+    "status_PENDING": "Pending",
+    "status_AWAITING_PAYMENT": "Awaiting payment",
+    "status_PAID": "Paid",
+    "status_FULFILLED": "Fulfilled",
+    "status_CANCELLED": "Cancelled",
+    "status_REFUNDED": "Refunded"
   },
   "error": {
     "title": "Something went wrong",
@@ -156,7 +226,7 @@
     "client": "Client",
     "date": "Date",
     "noJobs": "No jobs ingested yet.",
-    "noOrders": "No orders yet (created when checkout is connected).",
+    "noOrders": "No orders yet.",
     "editProduct": "Edit: {name}",
     "backToCatalog": "← Back to catalog",
     "descriptionLabel": "Description",
@@ -165,5 +235,14 @@
     "customProps": "Custom properties",
     "addProp": "Add property",
     "noProps": "No properties. e.g. Color → Blue, Size → M."
+  },
+  "checkout": {
+    "successTitle": "Thank you for your purchase!",
+    "successBody": "We received your payment. A confirmation email was sent.",
+    "viewOrders": "View my orders",
+    "backToCatalog": "Back to catalog",
+    "failTitle": "Payment could not be completed",
+    "failBody": "The payment was rejected or cancelled. You can retry from your cart.",
+    "backToCart": "Back to cart"
   }
 }

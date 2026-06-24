@@ -1,21 +1,38 @@
 import { http, HttpResponse } from "msw";
 
-/**
- * Handlers de MSW: interceptan llamadas HTTP en los tests.
- * Acá mockeamos la API de Ualá Bis para no pegarle a la red real.
- * El base URL coincide con UALA_API_BASE_URL del entorno de test.
- */
+let mockCartItems: unknown[] = [];
+
+/** MSW: mock Ualá Bis API Cobros Online v2. */
 export const handlers = [
-  // OAuth token
-  http.post("*/oauth/token", () =>
+  http.post("*/v2/api/auth/token", () =>
     HttpResponse.json({ access_token: "test-token", expires_in: 3600 }),
   ),
 
-  // Crear cobro
-  http.post("*/v1/charges", () =>
+  http.post("*/v2/api/checkout", () =>
     HttpResponse.json({
-      id: "uala_charge_test_123",
-      checkout_url: "https://checkout.uala.test/pay/uala_charge_test_123",
+      uuid: "uala-order-test-123",
+      amount: 1000,
+      status: "PENDING",
+      external_reference: "ord_test",
+      links: {
+        checkout_link: "https://checkout.uala.test/orders/test",
+        success: "http://localhost:3000/es/checkout/success",
+        failed: "http://localhost:3000/es/checkout/fail",
+      },
     }),
   ),
+
+  http.get("/api/cart", () => HttpResponse.json({ items: mockCartItems })),
+
+  http.post("/api/cart", async ({ request }) => {
+    const body = (await request.json()) as { items?: unknown[] };
+    mockCartItems = Array.isArray(body.items) ? body.items : [];
+    return HttpResponse.json({ ok: true });
+  }),
+
+  http.post("/api/cart/add", () => HttpResponse.redirect("/", 303)),
 ];
+
+export function resetMockCart(items: unknown[] = []): void {
+  mockCartItems = items;
+}

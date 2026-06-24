@@ -1,13 +1,11 @@
 "use client";
 
-import { useCallback } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { toast } from "sonner";
 import { Price } from "@/components/atoms/price";
-import { Button } from "@/components/ui/button";
-import { useCart } from "@/hooks/use-cart";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { ITEM_KIND } from "@/domain/catalog/item-kind";
 import type { CatalogItemVM } from "@/domain/view/catalog-item";
 
@@ -16,27 +14,11 @@ type CatalogItemCardProps = {
 };
 
 /**
- * Molécula: tarjeta de un ítem del catálogo (producto o servicio).
- * Genérica vía CatalogItemVM. La lógica de evento se extrae a un handler
- * (sin funciones anónimas con lógica en el JSX).
+ * Tarjeta de catálogo. Agregar usa POST HTML a /api/cart/add (sin JS obligatorio).
+ * Zustand se sincroniza al volver con ?added= en la URL.
  */
 export function CatalogItemCard({ item }: CatalogItemCardProps) {
   const t = useTranslations("catalog");
-  const { addItem } = useCart();
-
-  const handleAddToCart = useCallback(() => {
-    addItem({
-      refId: item.id,
-      kind: item.kind,
-      slug: item.slug,
-      name: item.name,
-      unitPriceCents: item.priceCents,
-      currency: item.currency,
-      imageUrl: item.imageUrl ?? undefined,
-      quantity: 1,
-    });
-    toast.success(t("addedToCart", { name: item.name }));
-  }, [addItem, item, t]);
 
   return (
     <article className="flex flex-col gap-3 rounded-lg border border-border bg-card p-4 text-card-foreground">
@@ -77,14 +59,17 @@ export function CatalogItemCard({ item }: CatalogItemCardProps) {
       ) : null}
       <div className="mt-auto flex items-center justify-between">
         <Price cents={item.priceCents} currency={item.currency} />
-        <Button
-          type="button"
-          size="sm"
-          onClick={handleAddToCart}
-          disabled={!item.available}
-        >
-          {item.available ? t("add") : t("outOfStock")}
-        </Button>
+        <form method="POST" action="/api/cart/add">
+          <input type="hidden" name="refId" value={item.id} />
+          <input type="hidden" name="kind" value={item.kind} />
+          <button
+            type="submit"
+            disabled={!item.available}
+            className={cn(buttonVariants({ size: "sm" }))}
+          >
+            {item.available ? t("add") : t("outOfStock")}
+          </button>
+        </form>
       </div>
     </article>
   );

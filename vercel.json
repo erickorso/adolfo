@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "installCommand": "npm ci",
+  "crons": [
+    {
+      "path": "/api/rates/ingest",
+      "schedule": "0 12 * * *"
+    },
+    {
+      "path": "/api/jobs/ingest",
+      "schedule": "0 6 * * 1"
+    }
+  ]
+}

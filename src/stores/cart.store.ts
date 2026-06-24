@@ -8,7 +8,7 @@ import { sumLineItemsCents } from "@/lib/money";
  * Vive en localStorage, funciona sin login y es efímero.
  *
  * REGLA DE ARQUITECTURA: el `user`/sesión NO va acá. Eso es estado de servidor
- * y lo provee Auth0. No duplicar identidad en este store.
+ * y lo provee Auth.js. No duplicar identidad en este store.
  */
 
 /** Identidad única de una línea: un producto y un servicio nunca colisionan. */

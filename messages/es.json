@@ -27,6 +27,7 @@
     "emptyServices": "Todavía no hay servicios cargados.",
     "noResults": "Sin resultados para «{q}».",
     "add": "Agregar",
+    "adding": "Agregando…",
     "outOfStock": "Sin stock",
     "addedToCart": "{name} agregado al carrito"
   },
@@ -47,7 +48,20 @@
     "register": "Registrate",
     "hasAccount": "¿Ya tenés cuenta?",
     "loginLink": "Ingresá",
-    "invalidCredentials": "Email o contraseña incorrectos."
+    "invalidCredentials": "Email o contraseña incorrectos.",
+    "forgotLink": "¿Olvidaste tu contraseña?",
+    "forgotTitle": "Recuperar contraseña",
+    "forgotHint": "Te enviaremos un enlace para restablecer tu contraseña.",
+    "forgotCta": "Enviar enlace",
+    "forgotSending": "Enviando…",
+    "forgotSent": "Si el email está registrado, recibirás un enlace para restablecer tu contraseña.",
+    "backToLogin": "Volver al login",
+    "resetTitle": "Nueva contraseña",
+    "resetHint": "Elegí una contraseña nueva (mínimo 8 caracteres).",
+    "resetCta": "Guardar contraseña",
+    "resetSaving": "Guardando…",
+    "resetSuccess": "Contraseña actualizada. Ya podés ingresar.",
+    "resetInvalidLink": "El enlace no es válido o ya fue usado."
   },
   "cart": {
     "title": "Tu carrito",
@@ -57,8 +71,12 @@
     "itemCount": "{count, plural, one {# ítem} other {# ítems}}",
     "clear": "Vaciar carrito",
     "checkout": "Proceder al pago",
+    "checkoutLoading": "Redirigiendo al pago…",
     "removeShort": "Quitar",
-    "remove": "Quitar {name}"
+    "remove": "Quitar {name}",
+    "decreaseQuantity": "Restar uno de {name}",
+    "increaseQuantity": "Sumar uno de {name}",
+    "quantityLabel": "Cantidad: {count}"
   },
   "product": {
     "specs": "Especificaciones",
@@ -113,7 +131,59 @@
     "email": "Email",
     "role": "Rol",
     "internalId": "ID interno",
-    "manageCvs": "Gestionar mis CVs"
+    "manageCvs": "Gestionar mis CVs",
+    "manageOrders": "Ver mis pedidos",
+    "manageApplications": "Mis postulaciones"
+  },
+  "applications": {
+    "title": "Mis postulaciones",
+    "subtitle": "Seguí tu pipeline de búsqueda laboral (manual o desde vacantes del catálogo).",
+    "backToAccount": "← Volver a mi cuenta",
+    "empty": "Todavía no registraste postulaciones.",
+    "addTitle": "Agregar postulación",
+    "company": "Empresa",
+    "role": "Rol",
+    "url": "Link",
+    "source": "Fuente",
+    "sourcePlaceholder": "Remotive, LinkedIn, inbound…",
+    "status": "Estado",
+    "appliedAt": "Fecha apply",
+    "nextStep": "Próximo paso",
+    "notes": "Notas",
+    "actions": "Acciones",
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "savedOk": "Postulación guardada.",
+    "updateStatus": "Actualizar",
+    "delete": "Eliminar",
+    "viewOffer": "Ver oferta",
+    "statTotal": "Total",
+    "statApplied": "Aplicadas",
+    "statActive": "Activas",
+    "trackJob": "Agregar a mi pipeline",
+    "status_SAVED": "Guardada",
+    "status_APPLIED": "Aplicada",
+    "status_SCREEN": "Screen",
+    "status_TECH": "Técnica",
+    "status_FINAL": "Final",
+    "status_OFFER": "Oferta",
+    "status_REJECTED": "Rechazada",
+    "status_GHOSTED": "Ghosted"
+  },
+  "orders": {
+    "title": "Mis pedidos",
+    "empty": "Todavía no tenés pedidos.",
+    "backToAccount": "← Volver a mi cuenta",
+    "orderId": "Pedido",
+    "status": "Estado",
+    "total": "Total",
+    "date": "Fecha",
+    "status_PENDING": "Pendiente",
+    "status_AWAITING_PAYMENT": "Esperando pago",
+    "status_PAID": "Pagado",
+    "status_FULFILLED": "Entregado",
+    "status_CANCELLED": "Cancelado",
+    "status_REFUNDED": "Reembolsado"
   },
   "error": {
     "title": "Algo salió mal",
@@ -156,7 +226,7 @@
     "client": "Cliente",
     "date": "Fecha",
     "noJobs": "No hay vacantes ingestadas todavía.",
-    "noOrders": "Todavía no hay pedidos (se crean al conectar el checkout).",
+    "noOrders": "Todavía no hay pedidos.",
     "editProduct": "Editar: {name}",
     "backToCatalog": "← Volver al catálogo",
     "descriptionLabel": "Descripción",
@@ -165,5 +235,14 @@
     "customProps": "Propiedades custom",
     "addProp": "Agregar propiedad",
     "noProps": "Sin propiedades. Ej: Color → Azul, Talle → M."
+  },
+  "checkout": {
+    "successTitle": "¡Gracias por tu compra!",
+    "successBody": "Recibimos tu pago. Te enviamos un email de confirmación.",
+    "viewOrders": "Ver mis pedidos",
+    "backToCatalog": "Volver al catálogo",
+    "failTitle": "No se pudo completar el pago",
+    "failBody": "El pago fue rechazado o cancelado. Podés reintentar desde el carrito.",
+    "backToCart": "Volver al carrito"
   }
 }

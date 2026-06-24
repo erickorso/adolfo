@@ -9,6 +9,7 @@ import { getJobDetail } from "@/services/jobs/job.service";
 import { listResumes } from "@/services/resume/resume.service";
 import { getCurrentUser } from "@/services/users/user.service";
 import { ResumeImprover } from "@/components/organisms/resume-improver";
+import { TrackJobPostingForm } from "@/components/molecules/track-job-posting-form";
 
 /**
  * Detalle de una vacante + asistente de IA para adaptar el CV.
@@ -52,6 +53,9 @@ export default async function JobDetailPage({
         >
           {t("viewOfferOriginal")}
         </a>
+        {user ? (
+          <TrackJobPostingForm jobPostingId={job.id} source={job.source} />
+        ) : null}
       </header>
 
       <section className="flex flex-col gap-2">

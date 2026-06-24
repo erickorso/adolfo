@@ -1,10 +1,13 @@
 import { getTranslations } from "next-intl/server";
 import { CatalogInfiniteGrid } from "@/components/organisms/catalog-infinite-grid";
+import { CartQueryToast } from "@/components/molecules/cart-query-toast";
 import type { CatalogPage } from "@/services/catalog/catalog.service";
 
 type CatalogTemplateProps = {
   products: CatalogPage;
   services: CatalogPage;
+  added?: string;
+  cartError?: string;
 };
 
 /**
@@ -14,11 +17,14 @@ type CatalogTemplateProps = {
 export async function CatalogTemplate({
   products,
   services,
+  added,
+  cartError,
 }: CatalogTemplateProps) {
   const t = await getTranslations("catalog");
 
   return (
     <main className="mx-auto flex max-w-5xl flex-col gap-10 px-4 py-10">
+      <CartQueryToast added={added} cartError={cartError} />
       <header className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold">{t("title")}</h1>
         <p className="text-muted-foreground">{t("subtitle")}</p>

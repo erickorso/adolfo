@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { arsCentsToUsd, formatUsd, money, sumLineItemsCents } from "./money";
+import {
+  arsCentsToUsd,
+  arsRateFromCents,
+  arsRateToCents,
+  formatUsd,
+  money,
+  sumLineItemsCents,
+} from "./money";
 
 describe("money", () => {
   it("crea un Money válido", () => {
@@ -23,7 +30,6 @@ describe("money", () => {
   });
 
   it("convierte centavos ARS a USD con la cotización", () => {
-    // 1.450.000 centavos = $14.500 ARS; a $1450/USD = 10 USD
     expect(arsCentsToUsd(1450000, 1450)).toBeCloseTo(10, 5);
   });
 
@@ -33,5 +39,13 @@ describe("money", () => {
 
   it("formatea USD", () => {
     expect(formatUsd(10)).toMatch(/10\.00/);
+  });
+});
+
+describe("arsRateToCents / arsRateFromCents", () => {
+  it("convierte ARS ↔ centavos sin perder precisión práctica", () => {
+    expect(arsRateToCents(1450)).toBe(145_000);
+    expect(arsRateToCents(1450.5)).toBe(145_050);
+    expect(arsRateFromCents(145_000)).toBe(1450);
   });
 });

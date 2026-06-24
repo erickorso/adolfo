@@ -1,24 +1,26 @@
 "use client";
 
-import { useEffect, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useSyncExternalStore } from "react";
+import type { CartItem } from "@/domain/schemas/cart";
 import {
   selectTotalCents,
   selectTotalItems,
   useCartStore,
 } from "@/stores/cart.store";
 
-/** Suscribe al evento de fin de hidratación del store persistido. */
 function subscribeHydration(callback: () => void) {
   return useCartStore.persist.onFinishHydration(callback);
 }
 
-/**
- * Hook de carrito para componentes cliente.
- *
- * La hidratación se resuelve con useSyncExternalStore: en el servidor el
- * snapshot es `false` (no se toca `persist`), evitando el error de SSR; en el
- * cliente refleja el estado real de la rehidratación desde localStorage.
- */
+async function syncCartToServer(items: CartItem[]): Promise<void> {
+  await fetch("/api/cart", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ items }),
+  });
+}
+
+/** Hook de carrito. Sincroniza con cookie de servidor vía /api/cart. */
 export function useCart() {
   const hydrated = useSyncExternalStore(
     subscribeHydration,
@@ -27,21 +29,70 @@ export function useCart() {
   );
 
   useEffect(() => {
-    // Store con skipHydration: disparamos la rehidratación solo en el cliente.
     void useCartStore.persist.rehydrate();
   }, []);
 
+  useEffect(() => {
+    if (!hydrated) {
+      return;
+    }
+    void fetch("/api/cart")
+      .then((res) => res.json())
+      .then((data: { items?: CartItem[] }) => {
+        if (Array.isArray(data.items)) {
+          useCartStore.setState({ items: data.items });
+        }
+      })
+      .catch(() => undefined);
+  }, [hydrated]);
+
   const items = useCartStore((s) => s.items);
-  const addItem = useCartStore((s) => s.addItem);
-  const removeItem = useCartStore((s) => s.removeItem);
-  const setQuantity = useCartStore((s) => s.setQuantity);
-  const clear = useCartStore((s) => s.clear);
+  const addItemRaw = useCartStore((s) => s.addItem);
+  const removeItemRaw = useCartStore((s) => s.removeItem);
+  const setQuantityRaw = useCartStore((s) => s.setQuantity);
+  const clearRaw = useCartStore((s) => s.clear);
+
+  const addItem = useCallback(
+    (...args: Parameters<typeof addItemRaw>) => {
+      addItemRaw(...args);
+      void syncCartToServer(useCartStore.getState().items);
+    },
+    [addItemRaw],
+  );
+
+  const removeItem = useCallback(
+    (...args: Parameters<typeof removeItemRaw>) => {
+      removeItemRaw(...args);
+      void syncCartToServer(useCartStore.getState().items);
+    },
+    [removeItemRaw],
+  );
+
+  const setQuantity = useCallback(
+    (...args: Parameters<typeof setQuantityRaw>) => {
+      setQuantityRaw(...args);
+      void syncCartToServer(useCartStore.getState().items);
+    },
+    [setQuantityRaw],
+  );
+
+  const clear = useCallback(() => {
+    clearRaw();
+    void syncCartToServer([]);
+  }, [clearRaw]);
+
+  const syncFromServer = useCallback(async () => {
+    const res = await fetch("/api/cart");
+    const data = (await res.json()) as { items?: CartItem[] };
+    if (Array.isArray(data.items)) {
+      useCartStore.setState({ items: data.items });
+    }
+  }, []);
 
   const totalItems = useCartStore(selectTotalItems);
   const totalCents = useCartStore(selectTotalCents);
 
   return {
-    /** false hasta que localStorage rehidrató; útil para evitar parpadeos. */
     hydrated,
     items: hydrated ? items : [],
     totalItems: hydrated ? totalItems : 0,
@@ -50,5 +101,6 @@ export function useCart() {
     removeItem,
     setQuantity,
     clear,
+    syncFromServer,
   };
 }

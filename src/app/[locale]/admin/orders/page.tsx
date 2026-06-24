@@ -4,7 +4,7 @@ import { Price } from "@/components/atoms/price";
 import { formatDate } from "@/lib/date";
 import { listOrders } from "@/services/admin/moderation.service";
 
-/** Pedidos (solo lectura). Se poblará al conectar el checkout. */
+/** Pedidos (solo lectura). */
 export default async function AdminOrdersPage() {
   const orders = await listOrders();
   const t = await getTranslations("admin");

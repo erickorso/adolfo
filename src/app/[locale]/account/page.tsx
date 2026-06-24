@@ -6,9 +6,8 @@ import { getCurrentUser } from "@/services/users/user.service";
 /**
  * Página "Mi cuenta" — protegida.
  *
- * Demuestra la estrategia de sync: `getCurrentUser()` lee la sesión de
- * Auth0 y hace upsert del usuario en la DB local (lazy sync en el primer
- * request autenticado). Si no hay sesión, redirige a login.
+ * Demuestra la estrategia de sesión: `getCurrentUser()` lee Auth.js y la fila
+ * local en Prisma. Si no hay sesión, redirige a login.
  */
 export default async function AccountPage() {
   const user = await getCurrentUser();
@@ -33,9 +32,17 @@ export default async function AccountPage() {
         <dt className="font-medium text-muted-foreground">{t("internalId")}</dt>
         <dd className="font-mono text-xs">{user.id}</dd>
       </dl>
-      <Link href="/account/cvs" className="text-sm font-medium underline">
-        {t("manageCvs")}
-      </Link>
+      <div className="flex flex-col gap-2">
+        <Link href="/account/orders" className="text-sm font-medium underline">
+          {t("manageOrders")}
+        </Link>
+        <Link href="/account/cvs" className="text-sm font-medium underline">
+          {t("manageCvs")}
+        </Link>
+        <Link href="/account/applications" className="text-sm font-medium underline">
+          {t("manageApplications")}
+        </Link>
+      </div>
     </main>
   );
 }

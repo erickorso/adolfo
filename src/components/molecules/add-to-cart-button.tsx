@@ -1,10 +1,8 @@
 "use client";
 
-import { useCallback } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { useCart } from "@/hooks/use-cart";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { ITEM_KIND } from "@/domain/catalog/item-kind";
 
 type AddToCartButtonProps = {
@@ -19,28 +17,21 @@ type AddToCartButtonProps = {
   disabled?: boolean;
 };
 
-/** Botón de "agregar al carrito" para la página de detalle (producto). */
+/** Agregar al carrito en detalle — POST HTML nativo. */
 export function AddToCartButton({ item, disabled }: AddToCartButtonProps) {
   const t = useTranslations();
-  const { addItem } = useCart();
-
-  const handleAdd = useCallback(() => {
-    addItem({
-      refId: item.id,
-      kind: ITEM_KIND.PRODUCT,
-      slug: item.slug,
-      name: item.name,
-      unitPriceCents: item.priceCents,
-      currency: item.currency,
-      imageUrl: item.imageUrl ?? undefined,
-      quantity: 1,
-    });
-    toast.success(t("catalog.addedToCart", { name: item.name }));
-  }, [addItem, item, t]);
 
   return (
-    <Button type="button" size="lg" onClick={handleAdd} disabled={disabled}>
-      {disabled ? t("product.outOfStock") : t("product.addToCart")}
-    </Button>
+    <form method="POST" action="/api/cart/add">
+      <input type="hidden" name="refId" value={item.id} />
+      <input type="hidden" name="kind" value={ITEM_KIND.PRODUCT} />
+      <button
+        type="submit"
+        disabled={disabled}
+        className={cn(buttonVariants({ size: "lg" }))}
+      >
+        {disabled ? t("product.outOfStock") : t("product.addToCart")}
+      </button>
+    </form>
   );
 }

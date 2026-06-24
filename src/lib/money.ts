@@ -32,6 +32,16 @@ export function sumLineItemsCents(
   );
 }
 
+/** Convierte ARS (float del proveedor) a centavos enteros. */
+export function arsRateToCents(ars: number): number {
+  return Math.round(ars * 100);
+}
+
+/** Convierte centavos ARS por USD a float para display/cálculo. */
+export function arsRateFromCents(cents: number): number {
+  return cents / 100;
+}
+
 /**
  * Formatea centavos a string legible según la moneda y el locale.
  * Ej: formatMoney(150000, "ARS") -> "$ 1.500,00"

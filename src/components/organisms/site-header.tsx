@@ -5,6 +5,10 @@ import { CartNavButton } from "@/components/molecules/cart-nav-button";
 import { CurrencySwitcher } from "@/components/molecules/currency-switcher";
 import { ThemeToggle } from "@/components/molecules/theme-toggle";
 import { LanguageSwitcher } from "@/components/molecules/language-switcher";
+import {
+  countCartItems,
+  getCartFromCookie,
+} from "@/lib/cart-cookie";
 
 /**
  * Organismo: header del sitio. Marca + navegación + área de usuario.
@@ -12,6 +16,7 @@ import { LanguageSwitcher } from "@/components/molecules/language-switcher";
  */
 export async function SiteHeader() {
   const t = await getTranslations("nav");
+  const serverItemCount = countCartItems(await getCartFromCookie());
 
   return (
     <header className="border-b border-border bg-background">
@@ -37,7 +42,7 @@ export async function SiteHeader() {
           <LanguageSwitcher />
           <ThemeToggle />
           <CurrencySwitcher />
-          <CartNavButton />
+          <CartNavButton serverItemCount={serverItemCount} />
           <UserNav />
         </div>
       </div>

@@ -1,6 +1,7 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import { env } from "@/lib/env";
+import { arsRateFromCents, arsRateToCents } from "@/lib/money";
 import type { RateType, RateVM } from "@/domain/money/rate.types";
 import { DolarApiProvider } from "./dolarapi.provider";
 
@@ -11,7 +12,7 @@ const FRESH_MS = 12 * 60 * 60 * 1000;
 
 /** Tipo de dólar por defecto (configurable por entorno). */
 export function defaultRateType(): RateType {
-  return env.EXCHANGE_RATE_TYPE;
+  return env.EXCHANGE_RATE_TYPE ?? "tarjeta";
 }
 
 /** Trae todas las cotizaciones del proveedor y las cachea (upsert). Para cron. */
@@ -23,13 +24,13 @@ export async function ingestRates(): Promise<{ updated: number }> {
       create: {
         source: provider.name,
         type: rate.type,
-        buyArs: rate.buyArs,
-        sellArs: rate.sellArs,
+        buyArsCents: arsRateToCents(rate.buyArs),
+        sellArsCents: arsRateToCents(rate.sellArs),
         fetchedAt: new Date(),
       },
       update: {
-        buyArs: rate.buyArs,
-        sellArs: rate.sellArs,
+        buyArsCents: arsRateToCents(rate.buyArs),
+        sellArsCents: arsRateToCents(rate.sellArs),
         fetchedAt: new Date(),
       },
     });
@@ -52,7 +53,7 @@ export async function getCurrentRate(
   const isFresh =
     existing && Date.now() - existing.fetchedAt.getTime() < FRESH_MS;
   if (existing && isFresh) {
-    return { type, sellArs: existing.sellArs };
+    return { type, sellArs: arsRateFromCents(existing.sellArsCents) };
   }
 
   try {
@@ -61,12 +62,14 @@ export async function getCurrentRate(
       where: { source_type: { source: provider.name, type } },
     });
     if (updated) {
-      return { type, sellArs: updated.sellArs };
+      return { type, sellArs: arsRateFromCents(updated.sellArsCents) };
     }
   } catch (error) {
     console.error("No se pudo actualizar la cotización:", error);
   }
 
   // Fallback al valor viejo si existe.
-  return existing ? { type, sellArs: existing.sellArs } : null;
+  return existing
+    ? { type, sellArs: arsRateFromCents(existing.sellArsCents) }
+    : null;
 }

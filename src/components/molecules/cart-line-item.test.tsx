@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { renderWithIntl as render, screen, waitFor } from "@/test/render";
 import userEvent from "@testing-library/user-event";
+import { resetMockCart } from "@/test/mocks/handlers";
 import { CartLineItem } from "./cart-line-item";
 import { useCartStore } from "@/stores/cart.store";
 import { ItemKind } from "@/generated/prisma/client";
@@ -39,6 +40,7 @@ describe("CartLineItem", () => {
 
   it("sumar cantidad actualiza el store", async () => {
     seedCart([item]);
+    resetMockCart([item]);
     const user = userEvent.setup();
     render(<CartLineItem item={item} />);
 
@@ -51,6 +53,7 @@ describe("CartLineItem", () => {
 
   it("quitar elimina el ítem del store", async () => {
     seedCart([item]);
+    resetMockCart([item]);
     const user = userEvent.setup();
     render(<CartLineItem item={item} />);
 

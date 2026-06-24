@@ -13,6 +13,13 @@ const prisma = new PrismaClient({ adapter });
 
 const products = [
   {
+    slug: "producto-prueba-uala",
+    name: "Producto prueba Ualá",
+    description: "Solo para checkout STAGE. Precio $50 ARS (límite Ualá: $25–$100).",
+    priceCents: 5000, // $50,00
+    stock: 999,
+  },
+  {
     slug: "remera-basica",
     name: "Remera básica",
     description: "Algodón 100%, varios talles.",

@@ -4,25 +4,29 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/hooks/use-cart";
 
+type CartNavButtonProps = {
+  serverItemCount?: number;
+};
+
 /**
- * Molécula: acceso al carrito en el header, con badge de cantidad.
- * Client porque lee el store; el badge solo aparece tras hidratar.
+ * Acceso al carrito en el header. `serverItemCount` viene de la cookie (SSR).
  */
-export function CartNavButton() {
+export function CartNavButton({ serverItemCount = 0 }: CartNavButtonProps) {
   const t = useTranslations("nav");
   const { totalItems, hydrated } = useCart();
-  const showBadge = hydrated && totalItems > 0;
+  const count = hydrated ? Math.max(totalItems, serverItemCount) : serverItemCount;
+  const showBadge = count > 0;
 
   return (
     <Link
       href="/cart"
       className="relative inline-flex items-center text-sm text-foreground hover:text-foreground"
-      aria-label={`${t("cart")} (${hydrated ? totalItems : 0})`}
+      aria-label={`${t("cart")} (${count})`}
     >
       {t("cart")}
       {showBadge ? (
         <span className="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs text-primary-foreground">
-          {totalItems}
+          {count}
         </span>
       ) : null}
     </Link>

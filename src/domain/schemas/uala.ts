@@ -1,22 +1,17 @@
 import { z } from "zod";
 
 /**
- * Esquema del webhook de Ualá Bis.
- * NOTA: ajustar los campos exactos contra la documentación oficial de Ualá.
- * Modelamos lo necesario para deduplicar e impactar el pago de forma segura.
+ * Webhook de estado de orden (notification_url).
+ * Docs: https://developers.ualabis.com.ar/v2/orders/create/webhook
  *
- * El body se valida con este esquema SOLO después de verificar la firma.
+ * Ualá notifica vía POST JSON plano (sin firma HMAC documentada).
  */
 export const ualaWebhookSchema = z.object({
-  /** ID del cobro del lado de Ualá. */
-  paymentId: z.string().min(1),
-  /** Estado del pago reportado por Ualá. */
-  status: z.enum(["APPROVED", "REJECTED", "PENDING", "REFUNDED"]),
-  /** Monto en centavos. */
-  amountCents: z.number().int().nonnegative(),
-  currency: z.string().min(1),
-  /** Eco de la clave de idempotencia que enviamos al crear el cobro. */
-  idempotencyKey: z.string().min(1),
+  uuid: z.string().min(1),
+  external_reference: z.string().min(1),
+  status: z.enum(["APPROVED", "PROCESSED", "REJECTED"]),
+  created_date: z.string(),
+  api_version: z.string().optional(),
 });
 
 export type UalaWebhookPayload = z.infer<typeof ualaWebhookSchema>;

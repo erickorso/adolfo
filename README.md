@@ -172,6 +172,19 @@ npx vercel --prod
 
 `vercel.json` incluye ingesta de cotización (diaria) y empleos (lunes). Requieren `JOBS_INGEST_SECRET` + `CRON_SECRET` + boards configurados.
 
+## Git workflow
+
+Ramas: **`main`** (producción) · **`develop`** (integración) · **`feature/*`** (trabajo diario).
+
+Todo cambio entra por **Pull Request** con CI verde. Ver [`docs/GIT-WORKFLOW.md`](./docs/GIT-WORKFLOW.md).
+
+```bash
+git checkout develop && git pull
+git checkout -b feature/mi-cambio
+# … commits …
+git push -u origin feature/mi-cambio   # → PR a develop
+```
+
 ## CI
 
 Cada push/PR ejecuta typecheck, lint, tests unitarios y build. Job E2E opcional con Postgres + mock de Ualá (`.github/workflows/ci.yml`).

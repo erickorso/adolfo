@@ -33,3 +33,4 @@
 
 - 2026-06-22: Inicio tracking. Prioridad: reactivar Thaloz (Nayla).
 - 2026-06-20: Aplicado Lemon.io — Head of Engineering (Remotive).
+- 2026-06-24: Pipeline también en app → `/account/applications` (registrar Lemon.io ahí si no está).

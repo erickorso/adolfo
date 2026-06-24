@@ -17,6 +17,7 @@
 | **Remote** explícito en roles recientes | ✅ |
 | Summary más denso con keywords | ✅ |
 | `linkedin-apply.md` sincronizado | ✅ |
+| Pipeline en app (`/account/applications`) documentado en `progress.md` | ✅ |
 
 ## Pendiente (manual — puede sumar puntos en RezPass)
 
@@ -25,6 +26,11 @@
 | **GitHub URL** | ✅ `github.com/erickorso/adolfo` |
 | **Job Posting** en RezPass | Pegar JD y re-score (tailoring) |
 | **Certificaciones** | Solo si tenés (AWS, Scrum, etc.) — no inventar |
+| **Alinear testing en CV** | Unificar Jest (summary) vs Vitest (proyecto Adolfo) → una línea: *Vitest, Jest, Playwright* |
+
+## Próxima mejora (candidata a PR)
+
+> Sincronizar `cv.html` + `linkedin-apply.md`: en Summary y Skills, listar **Vitest y Jest** juntos (no solo Jest) para consistencia con el proyecto Adolfo y evitar contradicciones en entrevistas técnicas.
 
 ## Re-importar en RezPass
 
@@ -35,4 +41,5 @@
 ## Score objetivo
 
 - v1: **92%** (33/36)
-- v2 esperado: **95–100%** (falta GitHub URL + tailoring por oferta)
+- v2 esperado: **95–100%** (tailoring por oferta en Job Posting)
+- v2 actual: **~89–92%** (sin Premium — 4 checks ocultos en RezPass)

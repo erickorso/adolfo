@@ -18,6 +18,7 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts",
+    "jobs:ingest": "tsx scripts/jobs-ingest-local.ts",
     "db:studio": "prisma studio",
     "smoke:pre-deploy": "tsx scripts/smoke-pre-deploy.ts"
   },

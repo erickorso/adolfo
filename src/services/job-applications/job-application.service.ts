@@ -3,9 +3,14 @@ import type { JobApplicationStatus } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import type {
   CreateJobApplicationInput,
+  JobApplicationDetailVM,
   JobApplicationVM,
+  UpdateJobApplicationInput,
 } from "@/domain/job-applications/job-application.types";
-import { jobApplicationToVM } from "./job-application.mapper";
+import {
+  jobApplicationDetailToVM,
+  jobApplicationToVM,
+} from "./job-application.mapper";
 
 const ACTIVE_STATUSES: JobApplicationStatus[] = [
   "SAVED",
@@ -44,6 +49,21 @@ export async function listUserJobApplications(
     });
 }
 
+/** Detalle con historial de progreso. */
+export async function getJobApplicationDetail(
+  userId: string,
+  applicationId: string,
+): Promise<JobApplicationDetailVM | null> {
+  const row = await prisma.jobApplication.findFirst({
+    where: { id: applicationId, userId },
+    include: {
+      statusLogs: { orderBy: { createdAt: "asc" } },
+    },
+  });
+  if (!row) return null;
+  return jobApplicationDetailToVM(row);
+}
+
 /** Crea una postulación manual o vinculada a JobPosting. */
 export async function createJobApplication(
   userId: string,
@@ -51,19 +71,29 @@ export async function createJobApplication(
 ): Promise<JobApplicationVM> {
   const status = input.status ?? "SAVED";
 
-  const row = await prisma.jobApplication.create({
-    data: {
-      userId,
-      jobPostingId: input.jobPostingId ?? null,
-      company: input.company.trim(),
-      title: input.title.trim(),
-      url: input.url?.trim() || null,
-      source: input.source?.trim() || null,
-      status,
-      appliedAt: resolveAppliedAt(status, input.appliedAt),
-      nextStep: input.nextStep?.trim() || null,
-      notes: input.notes?.trim() || null,
-    },
+  const row = await prisma.$transaction(async (tx) => {
+    const created = await tx.jobApplication.create({
+      data: {
+        userId,
+        jobPostingId: input.jobPostingId ?? null,
+        company: input.company.trim(),
+        title: input.title.trim(),
+        url: input.url?.trim() || null,
+        source: input.source?.trim() || null,
+        status,
+        appliedAt: resolveAppliedAt(status, input.appliedAt),
+        nextStep: input.nextStep?.trim() || null,
+        notes: input.notes?.trim() || null,
+      },
+    });
+    await tx.jobApplicationStatusLog.create({
+      data: {
+        applicationId: created.id,
+        status,
+        note: "Postulación creada",
+      },
+    });
+    return created;
   });
 
   return jobApplicationToVM(row);
@@ -96,11 +126,12 @@ export async function createJobApplicationFromPosting(
   });
 }
 
-/** Actualiza estado (y appliedAt si pasa de saved → applied). */
+/** Actualiza estado y registra progreso. */
 export async function updateJobApplicationStatus(
   userId: string,
   applicationId: string,
   status: JobApplicationStatus,
+  note?: string | null,
 ): Promise<void> {
   const existing = await prisma.jobApplication.findFirst({
     where: { id: applicationId, userId },
@@ -109,14 +140,70 @@ export async function updateJobApplicationStatus(
     throw new Error("Postulación no encontrada");
   }
 
-  await prisma.jobApplication.update({
-    where: { id: applicationId },
-    data: {
-      status,
-      appliedAt:
-        existing.appliedAt ??
-        (status !== "SAVED" ? new Date() : null),
-    },
+  await prisma.$transaction(async (tx) => {
+    await tx.jobApplication.update({
+      where: { id: applicationId },
+      data: {
+        status,
+        appliedAt:
+          existing.appliedAt ??
+          (status !== "SAVED" ? new Date() : null),
+      },
+    });
+    if (existing.status !== status) {
+      await tx.jobApplicationStatusLog.create({
+        data: {
+          applicationId,
+          status,
+          note: note?.trim() || `Movido a ${status}`,
+        },
+      });
+    }
+  });
+}
+
+/** Actualiza notas / próximo paso / estado desde el detalle. */
+export async function updateJobApplication(
+  userId: string,
+  applicationId: string,
+  input: UpdateJobApplicationInput,
+): Promise<void> {
+  const existing = await prisma.jobApplication.findFirst({
+    where: { id: applicationId, userId },
+  });
+  if (!existing) {
+    throw new Error("Postulación no encontrada");
+  }
+
+  const nextStatus = input.status ?? existing.status;
+
+  await prisma.$transaction(async (tx) => {
+    await tx.jobApplication.update({
+      where: { id: applicationId },
+      data: {
+        status: nextStatus,
+        nextStep:
+          input.nextStep !== undefined
+            ? input.nextStep?.trim() || null
+            : existing.nextStep,
+        notes:
+          input.notes !== undefined
+            ? input.notes?.trim() || null
+            : existing.notes,
+        appliedAt:
+          existing.appliedAt ??
+          (nextStatus !== "SAVED" ? new Date() : null),
+      },
+    });
+    if (input.status && input.status !== existing.status) {
+      await tx.jobApplicationStatusLog.create({
+        data: {
+          applicationId,
+          status: input.status,
+          note: `Actualizado a ${input.status}`,
+        },
+      });
+    }
   });
 }
 

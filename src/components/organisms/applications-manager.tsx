@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { ApplicationAddForm } from "@/components/molecules/application-add-form";
-import { ApplicationRow } from "@/components/molecules/application-row";
+import { ApplicationsKanban } from "@/components/organisms/applications-kanban";
 import type { JobApplicationVM } from "@/domain/job-applications/job-application.types";
 
 type ApplicationsManagerProps = {
@@ -8,7 +8,7 @@ type ApplicationsManagerProps = {
   stats: { total: number; applied: number; active: number };
 };
 
-/** Organismo: pipeline de postulaciones + formulario de alta. */
+/** Organismo: Kanban + stats + formulario de alta. */
 export async function ApplicationsManager({
   applications,
   stats,
@@ -35,25 +35,7 @@ export async function ApplicationsManager({
       {applications.length === 0 ? (
         <p className="text-sm text-muted-foreground">{t("empty")}</p>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-border">
-          <table className="w-full text-sm">
-            <thead className="bg-muted text-left text-muted-foreground">
-              <tr>
-                <th className="px-3 py-2 font-medium">{t("company")}</th>
-                <th className="px-3 py-2 font-medium">{t("status")}</th>
-                <th className="px-3 py-2 font-medium">{t("appliedAt")}</th>
-                <th className="px-3 py-2 font-medium">{t("url")}</th>
-                <th className="px-3 py-2 font-medium">{t("notes")}</th>
-                <th className="px-3 py-2 font-medium">{t("actions")}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {applications.map((application) => (
-                <ApplicationRow key={application.id} application={application} />
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ApplicationsKanban applications={applications} />
       )}
 
       <ApplicationAddForm />

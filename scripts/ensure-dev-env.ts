@@ -20,6 +20,7 @@ const DEV_DEFAULTS: Record<string, string> = {
   STORAGE_DRIVER: "local",
   NEXT_PUBLIC_APP_NAME: "Catálogo",
   EXCHANGE_RATE_TYPE: "tarjeta",
+  DEV_LOGIN_SECRET: "dev-local-secret",
 };
 
 function parseKeys(content: string): Set<string> {

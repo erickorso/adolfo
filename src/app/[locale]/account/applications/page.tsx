@@ -23,7 +23,7 @@ export default async function AccountApplicationsPage() {
   const t = await getTranslations("applications");
 
   return (
-    <main className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-10">
+    <main className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-10">
       <div className="flex flex-col gap-2">
         <Link
           href="/account"

@@ -1,5 +1,1 @@
-export const E2E_USER = {
-  email: "e2e@test.local",
-  password: "password123",
-  name: "Usuario E2E",
-} as const;
+export { E2E_USER } from "../src/lib/dev-seed.constants";

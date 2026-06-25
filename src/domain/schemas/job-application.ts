@@ -52,4 +52,13 @@ export const deleteJobApplicationSchema = z.object({
   applicationId: z.string().cuid(),
 });
 
+export const updateJobApplicationSchema = z.object({
+  applicationId: z.string().cuid(),
+  status: statusSchema.optional(),
+  nextStep: optionalText,
+  notes: optionalText,
+});
+
+export type UpdateJobApplicationForm = z.infer<typeof updateJobApplicationSchema>;
+
 export type CreateJobApplicationForm = z.infer<typeof createJobApplicationSchema>;

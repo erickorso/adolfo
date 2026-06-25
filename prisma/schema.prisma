@@ -307,11 +307,24 @@ model JobApplication {
   appliedAt    DateTime?
   nextStep     String?
   notes        String?
+  statusLogs   JobApplicationStatusLog[]
   createdAt    DateTime             @default(now())
   updatedAt    DateTime             @updatedAt
 
   @@index([userId])
   @@index([userId, status])
+}
+
+/// Historial de cambios de estado (progreso en el pipeline).
+model JobApplicationStatusLog {
+  id            String               @id @default(cuid())
+  application   JobApplication       @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  applicationId String
+  status        JobApplicationStatus
+  note          String?
+  createdAt     DateTime             @default(now())
+
+  @@index([applicationId, createdAt])
 }
 
 /// CV subido por un usuario (máx. 3, validado en la capa de servicio).

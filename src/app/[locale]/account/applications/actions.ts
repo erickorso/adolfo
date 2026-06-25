@@ -1,22 +1,32 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/services/users/user.service";
 import {
   createJobApplication,
   createJobApplicationFromPosting,
   deleteJobApplication,
+  updateJobApplication,
   updateJobApplicationStatus,
 } from "@/services/job-applications/job-application.service";
 import {
   createJobApplicationSchema,
   deleteJobApplicationSchema,
+  updateJobApplicationSchema,
   updateJobApplicationStatusSchema,
 } from "@/domain/schemas/job-application";
 
 export type ActionResult = { ok: boolean; error?: string };
 
 const APPLICATIONS_PATH = "/account/applications";
+
+function revalidateApplications(applicationId?: string): void {
+  revalidatePath(APPLICATIONS_PATH);
+  if (applicationId) {
+    revalidatePath(`${APPLICATIONS_PATH}/${applicationId}`);
+  }
+}
 
 export async function createJobApplicationAction(
   _prev: ActionResult,
@@ -45,7 +55,7 @@ export async function createJobApplicationAction(
 
   try {
     await createJobApplication(user.id, parsed.data);
-    revalidatePath(APPLICATIONS_PATH);
+    revalidateApplications();
     return { ok: true };
   } catch (error) {
     console.error("Error creando postulación:", error);
@@ -66,7 +76,7 @@ export async function trackJobPostingAction(formData: FormData): Promise<void> {
       status: status as "SAVED" | "APPLIED",
       source: String(formData.get("source") ?? "") || undefined,
     });
-    revalidatePath(APPLICATIONS_PATH);
+    revalidateApplications();
     revalidatePath(`/jobs/${jobPostingId}`);
   } catch (error) {
     console.error("Error vinculando vacante:", error);
@@ -91,9 +101,43 @@ export async function updateJobApplicationStatusAction(
       parsed.data.applicationId,
       parsed.data.status,
     );
-    revalidatePath(APPLICATIONS_PATH);
+    revalidateApplications(parsed.data.applicationId);
   } catch (error) {
     console.error("Error actualizando estado:", error);
+  }
+}
+
+export async function updateJobApplicationAction(
+  _prev: ActionResult,
+  formData: FormData,
+): Promise<ActionResult> {
+  const user = await getCurrentUser();
+  if (!user) {
+    return { ok: false, error: "Tenés que iniciar sesión." };
+  }
+
+  const parsed = updateJobApplicationSchema.safeParse({
+    applicationId: formData.get("applicationId"),
+    status: formData.get("status") || undefined,
+    nextStep: formData.get("nextStep"),
+    notes: formData.get("notes"),
+  });
+
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Datos inválidos." };
+  }
+
+  try {
+    await updateJobApplication(user.id, parsed.data.applicationId, {
+      status: parsed.data.status,
+      nextStep: parsed.data.nextStep,
+      notes: parsed.data.notes,
+    });
+    revalidateApplications(parsed.data.applicationId);
+    return { ok: true };
+  } catch (error) {
+    console.error("Error actualizando postulación:", error);
+    return { ok: false, error: "No se pudo actualizar." };
   }
 }
 
@@ -108,7 +152,8 @@ export async function deleteJobApplicationAction(formData: FormData): Promise<vo
 
   try {
     await deleteJobApplication(user.id, parsed.data.applicationId);
-    revalidatePath(APPLICATIONS_PATH);
+    revalidateApplications();
+    redirect(APPLICATIONS_PATH);
   } catch (error) {
     console.error("Error eliminando postulación:", error);
   }

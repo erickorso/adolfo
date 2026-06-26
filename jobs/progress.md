@@ -14,6 +14,8 @@
 | `progress.md` | Tracker manual (backup del pipeline) |
 | `form-answers.md` | Respuestas de formularios por empresa |
 | `verve-it-mastery-plan.md` | Plan MSP SaaS + IA (Python/Java) · portfolio Verve IT |
+| `amazon-fba-spain.md` | Números FBA/OA España + plan inversión €2.000 |
+| `cursos-formacion-sanse.md` | Cursos gratis +100h SSR / Madrid / Formate.es |
 | App `/account/applications` | **Pipeline en la app** (login requerido) |
 
 ## Pipeline

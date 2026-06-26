@@ -2,6 +2,7 @@
   "nav": {
     "catalog": "Catálogo",
     "jobs": "Empleos",
+    "courses": "Cursos",
     "account": "Mi cuenta",
     "cart": "Carrito",
     "admin": "Admin",
@@ -106,6 +107,36 @@
     "suggestions": "Sugerencias",
     "rewrite": "CV reescrito"
   },
+  "courses": {
+    "title": "Cursos",
+    "subtitle": "Formación gratuita y subvencionada — buscá y registrá tu interés.",
+    "empty": "No hay cursos que coincidan. Probá otros filtros.",
+    "search": "Buscar",
+    "searchLabel": "Buscar cursos",
+    "searchPlaceholder": "Título, sector, proveedor…",
+    "searchCta": "Buscar",
+    "minHours": "Horas mínimas",
+    "location": "Ubicación",
+    "locationPlaceholder": "Madrid, San Sebastián…",
+    "hours": "Duración",
+    "hoursUnit": "horas",
+    "modality": "Modalidad",
+    "sector": "Sector",
+    "audience": "Dirigido a",
+    "free": "Gratuito",
+    "paid": "De pago",
+    "viewDetail": "Ver curso",
+    "backToList": "← Volver a cursos",
+    "description": "Descripción",
+    "register": "Registrar interés",
+    "unregister": "Quitar registro",
+    "saving": "Guardando…",
+    "openProvider": "Ir al proveedor →",
+    "myCourses": "Mis cursos",
+    "myEmpty": "Todavía no te registraste en ningún curso.",
+    "browse": "Explorar cursos",
+    "registeredAt": "Registrado el {date}"
+  },
   "cvs": {
     "title": "Mis CVs",
     "subtitle": "Subí hasta 3 CVs. Después podés mejorarlos con IA según cada oferta.",
@@ -133,7 +164,8 @@
     "internalId": "ID interno",
     "manageCvs": "Gestionar mis CVs",
     "manageOrders": "Ver mis pedidos",
-    "manageApplications": "Mis postulaciones"
+    "manageApplications": "Mis postulaciones",
+    "manageCourses": "Mis cursos"
   },
   "applications": {
     "title": "Mis postulaciones",

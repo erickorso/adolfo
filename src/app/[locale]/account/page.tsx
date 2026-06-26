@@ -42,6 +42,9 @@ export default async function AccountPage() {
         <Link href="/account/applications" className="text-sm font-medium underline">
           {t("manageApplications")}
         </Link>
+        <Link href="/account/courses" className="text-sm font-medium underline">
+          {t("manageCourses")}
+        </Link>
       </div>
     </main>
   );

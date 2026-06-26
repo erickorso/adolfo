@@ -4,6 +4,7 @@ import {
   seedAllJobApplications,
   seedDevUsers,
 } from "./dev-data";
+import { seedCourses } from "./courses-data";
 
 const products = [
   {
@@ -77,9 +78,11 @@ export async function runDevSeed(prisma: PrismaClient): Promise<string> {
 
   const superadminEmails = process.env.SUPERADMIN_EMAILS ?? "";
   const apps = await seedAllJobApplications(prisma, superadminEmails);
+  const courseCount = await seedCourses(prisma);
 
   return [
     `Seed OK: ${products.length} productos, ${services.length} servicios.`,
+    `Cursos: ${courseCount} en catálogo.`,
     `Usuarios dev: E2E (${E2E_USER.email} / ${E2E_USER.password}).`,
     `Postulaciones nuevas: E2E=${apps.e2e}, superadmin=${apps.superadmin}.`,
     `Dev login: GET /api/dev/login?secret=<DEV_LOGIN_SECRET>&email=e2e@test.local`,

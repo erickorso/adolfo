@@ -32,6 +32,12 @@ export async function SiteHeader() {
             {t("jobs")}
           </Link>
           <Link
+            href="/courses"
+            className="text-sm text-muted-foreground hover:text-foreground"
+          >
+            {t("courses")}
+          </Link>
+          <Link
             href="/account"
             className="text-sm text-muted-foreground hover:text-foreground"
           >

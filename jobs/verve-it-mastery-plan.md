@@ -7,15 +7,29 @@
 
 ---
 
+## Decisión de stack (dos demos)
+
+| Demo | ORM + Auth | Para qué |
+|---|---|---|
+| **MSP Time Review** (`projects/msp-time-review/`) | **Drizzle + NextAuth** | SaaS multi-tenant · Stripe · IA · stack cercano a Verve IT |
+| **Adolfo** (repo raíz) | **Prisma + NextAuth** | E-commerce, jobs kanban, Ualá — otro demo, no mezclar |
+
+**Prisma** y **Better Auth** se dejan para otros demos / si la oferta lo exige en entrevista.  
+NextAuth + `tenantId` en sesión alcanza para multi-tenant en el MSP demo.
+
+**¿Cuándo sí migrar a Better Auth?** Solo si necesitás org/memberships/SSO Entra out-of-the-box como Verve IT — no es bloqueante para el portfolio.
+
+---
+
 ## Qué pide Verve IT vs qué vas a construir
 
 | Requisito Verve IT | En tu cover letter | Entregable en el proyecto |
 |---|---|---|
 | Next.js en Vercel | ✅ | App `apps/web` — App Router, Server Components, API routes |
 | TypeScript end-to-end | ✅ | TS strict en web + contratos OpenAPI compartidos |
-| Postgres + ORM | Prisma hoy → **Drizzle** aquí | Schema multi-tenant, migraciones, queries optimizadas |
-| Multi-tenant + auth | NextAuth en Adolfo → **Better Auth** | SSO Google + org/tenant isolation |
-| Stripe | Ualá en Adolfo → **Stripe** | Suscripción por tenant, webhooks |
+| Postgres + ORM | Adolfo usa Prisma → **Drizzle solo en MSP demo** | Schema multi-tenant, migraciones, queries optimizadas |
+| Multi-tenant + auth | **NextAuth** (mismo que Adolfo) | Google OAuth + `organizationId` en sesión + aislamiento por tenant |
+| Stripe | Ualá en Adolfo → **Stripe en MSP demo** | Suscripción por tenant, webhooks |
 | Integraciones API externas | ✅ | Mock **ConnectWise** + webhooks entrantes |
 | Servicios IA internos | Parcial (UI asistente Krunchbox) | **2 microservicios IA** (Python + Java) |
 | CI/CD + prod | GitHub Actions en Adolfo | Deploy Vercel + pipelines + smoke tests |
@@ -45,7 +59,7 @@ projects/msp-time-review/
 │   └── web/                 # Next.js 16 · Vercel
 ├── packages/
 │   ├── db/                  # Drizzle schema + migrations
-│   ├── auth/                # Better Auth config
+│   ├── auth/                # NextAuth config (copiar/adaptar de Adolfo)
 │   └── contracts/           # OpenAPI / Zod schemas compartidos
 ├── services/
 │   ├── ai-python/           # FastAPI · OpenAI/Gemini · LangGraph opcional
@@ -92,16 +106,17 @@ projects/msp-time-review/
 - [ ] Crear monorepo `projects/msp-time-review/` (Turborepo opcional).
 - [ ] Postgres local + Drizzle + primera migración (`tenants`, `users`, `memberships`).
 - [ ] README con `docker compose up` y `.env.example`.
-- [ ] Copiar patterns de Adolfo: ESLint, Vitest, Playwright base.
+- [ ] Copiar patterns de Adolfo: ESLint, Vitest, Playwright, **NextAuth** (adaptar a Drizzle).
 
 **Criterio de done:** `npm run dev` levanta web + DB; health check OK.
 
 ---
 
-### Fase 1 — Multi-tenant + Better Auth (Semanas 2–3)
+### Fase 1 — Multi-tenant + NextAuth (Semanas 2–3)
 
-- [ ] Better Auth: login Google + sesión.
-- [ ] Modelo `organization` / `tenantId` en todas las tablas.
+- [ ] NextAuth: login Google + sesión (reutilizar setup de Adolfo).
+- [ ] Modelo `organization` / `tenantId` en Drizzle + tabla `memberships`.
+- [ ] Extender sesión JWT con `activeOrganizationId`.
 - [ ] Middleware: aislar datos por tenant (row-level en queries).
 - [ ] UI: switch de org + settings básicos.
 
@@ -254,7 +269,7 @@ Actualizar también [`progress.md`](./progress.md) cuando cierres cada fase.
 |---|---|
 | [`form-answers.md`](./form-answers.md) | Cover letter Verve IT |
 | [`../projects/msp-time-review/`](../projects/msp-time-review/) | Código del demo (crear en Fase 0) |
-| Adolfo (`/`) | Reutilizar: CI, Playwright, patterns Prisma→adaptar a Drizzle |
+| Adolfo (`/`) | Demo **Prisma + NextAuth** — copiar auth y CI; ORM distinto (Drizzle) |
 
 ---
 

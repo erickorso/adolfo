@@ -3,6 +3,7 @@
     "catalog": "Catálogo",
     "jobs": "Empleos",
     "courses": "Cursos",
+    "sandbox3d": "3D Sandbox",
     "account": "Mi cuenta",
     "cart": "Carrito",
     "admin": "Admin",
@@ -136,6 +137,37 @@
     "myEmpty": "Todavía no te registraste en ningún curso.",
     "browse": "Explorar cursos",
     "registeredAt": "Registrado el {date}"
+  },
+  "sandbox3d": {
+    "title": "Sandbox 3D",
+    "subtitle": "Práctica con Three.js y React Three Fiber: materiales PBR, luces, sombras y controles orbitales — stack típico en landings y product configurators.",
+    "controlsTitle": "Controles",
+    "controlsHint": "Arrastrá para orbitar · scroll para zoom · probá formas y materiales.",
+    "shape": "Forma",
+    "shapes": {
+      "box": "Caja",
+      "sphere": "Esfera",
+      "torus": "Torus knot",
+      "icosahedron": "Icosaedro"
+    },
+    "color": "Color",
+    "metalness": "Metalness",
+    "roughness": "Roughness",
+    "wireframe": "Wireframe",
+    "autoRotate": "Auto-rotación",
+    "canvasLabel": "Escena 3D interactiva de práctica",
+    "loading": "Cargando escena 3D…",
+    "conceptsTitle": "Repaso rápido",
+    "conceptsSubtitle": "Para formularios y entrevistas técnicas.",
+    "concepts": {
+      "webgl": "WebGL: API del navegador que dibuja en GPU (buffers, shaders, pipeline).",
+      "three": "Three.js: scene graph (Scene, Camera, Mesh, Material, Light).",
+      "r3f": "React Three Fiber: componentes React declarativos sobre Three.js + useFrame para animación.",
+      "materials": "PBR: meshStandardMaterial con metalness/roughness; sombras con directionalLight + castShadow.",
+      "performance": "Rendimiento: limitar polígonos, dpr adaptativo, Suspense y code-split (ssr: false)."
+    },
+    "interviewTitle": "Cómo responder años de 3D",
+    "interviewHint": "Sé honesto con años recientes; mencioná WebGL vía Three.js/R3F, integración en React/Next, optimización móvil y proyectos tipo product viewer o data viz 3D."
   },
   "cvs": {
     "title": "Mis CVs",

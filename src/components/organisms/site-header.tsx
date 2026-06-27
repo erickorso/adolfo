@@ -38,6 +38,12 @@ export async function SiteHeader() {
             {t("courses")}
           </Link>
           <Link
+            href="/sandbox/3d"
+            className="text-sm text-muted-foreground hover:text-foreground"
+          >
+            {t("sandbox3d")}
+          </Link>
+          <Link
             href="/account"
             className="text-sm text-muted-foreground hover:text-foreground"
           >

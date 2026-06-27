@@ -7,6 +7,8 @@
 | Archivo | Uso |
 |---|---|
 | `cv.html` | CV principal (exportar a PDF desde el browser) |
+| `cv-3d.html` | CV orientado 3D / Three.js / WebGL (EN — Bizkaia JD) |
+| `cv-3d-es.html` | CV 3D en español |
 | `linkedin-apply.md` | Headline, Summary, Cover letter (Easy Apply) |
 | `job-boards.md` | Sitios remote (fuera LinkedIn/Indeed) |
 | `strategy.md` | Estrategia y plantillas |

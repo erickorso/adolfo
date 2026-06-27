@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erick Vargas Ramos — Front-End Developer · React · Three.js</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.4; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
+        header { border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 20px; }
+        h1 { margin: 0; font-size: 28px; color: #111; }
+        h2 { font-size: 18px; text-transform: uppercase; color: #222; margin-top: 20px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        h3 { margin: 10px 0 2px 0; font-size: 16px; color: #111; }
+        .tagline { font-size: 15px; color: #444; margin-top: 6px; }
+        .contact-info { font-size: 14px; margin-top: 8px; line-height: 1.6; }
+        .contact-info a { color: #0a66c2; }
+        .job-meta { font-style: italic; color: #555; font-size: 14px; margin-bottom: 5px; }
+        ul { margin: 5px 0 15px 0; padding-left: 20px; }
+        li { margin-bottom: 4px; font-size: 14px; }
+        .skills-group { margin-bottom: 10px; font-size: 14px; }
+        .skills-group strong { color: #111; }
+        .highlight { background: #f4f6f8; border-left: 3px solid #6366f1; padding: 10px 12px; margin: 12px 0; font-size: 14px; }
+        .pill-row { margin-top: 8px; }
+        .pill { display: inline-block; background: #eef2ff; color: #3730a3; font-size: 12px; padding: 2px 8px; border-radius: 999px; margin: 2px 4px 2px 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Erick Vargas Ramos</h1>
+    <p class="tagline"><strong>Front-End Developer · React / TypeScript · Three.js y WebGL</strong></p>
+    <div class="pill-row">
+        <span class="pill">Three.js</span>
+        <span class="pill">React Three Fiber</span>
+        <span class="pill">WebGL</span>
+        <span class="pill">Next.js</span>
+        <span class="pill">Figma</span>
+        <span class="pill">PHP</span>
+    </div>
+    <div class="contact-info">
+        Email: <a href="mailto:erickorso@gmail.com">erickorso@gmail.com</a><br>
+        Tel: +34 614 769 119<br>
+        Ubicación: San Sebastián de los Reyes (Madrid) · Dispuesto a relocalización (Bizkaia) · Remoto/híbrido<br>
+        LinkedIn: <a href="https://linkedin.com/in/erick-vargas-ramos-1ab86b102/">linkedin.com/in/erick-vargas-ramos-1ab86b102</a><br>
+        Portfolio: <a href="https://github.com/erickorso/adolfo">github.com/erickorso/adolfo</a> · Demo 3D: <code>/sandbox/3d</code>
+    </div>
+</header>
+
+<main>
+
+    <section id="summary">
+        <h2>Resumen</h2>
+        <p>Ingeniero front-end con <strong>14+ años</strong> en React y Next.js, enfocado en <strong>experiencias 3D web</strong> con Three.js, React Three Fiber y WebGL. Combino TypeScript, UI responsive y rendimiento (SSR, code-split, <code>dpr</code> adaptativo) con escenas 3D: scene graph, materiales PBR, iluminación, sombras, controles orbitales y animación con <code>useFrame</code>. Experiencia en visualización de datos enterprise, fintech y trabajo con product owners. Inglés fluido y español nativo.</p>
+    </section>
+
+    <section id="3d-skills">
+        <h2>3D e interactividad</h2>
+        <div class="skills-group"><strong>Núcleo:</strong> Three.js, React Three Fiber, WebGL, scene graph, OrbitControls, <code>useFrame</code>, raycasting básico.</div>
+        <div class="skills-group"><strong>Materiales:</strong> meshStandardMaterial (PBR), metalness/roughness, wireframe, luces, sombras, ContactShadows.</div>
+        <div class="skills-group"><strong>Next.js:</strong> Canvas client-only (<code>ssr: false</code>), dynamic import, Suspense, ARIA, <code>prefers-reduced-motion</code>.</div>
+        <div class="skills-group"><strong>Rendimiento:</strong> dpr adaptativo, bundles 3D lazy-loaded, controles táctiles, layout mobile-first.</div>
+        <div class="skills-group"><strong>Pipeline:</strong> patrones GLTF/GLB, export Blender → web; conceptos shader; stack web (no Unity/Vulkan en producción).</div>
+    </section>
+
+    <section id="ui-skills">
+        <h2>UI / UX y front-end</h2>
+        <div class="skills-group"><strong>Stack:</strong> React, Next.js, TypeScript, JavaScript, HTML5, CSS3/SASS, Tailwind, diseño responsive, accesibilidad WCAG.</div>
+        <div class="skills-group"><strong>Diseño:</strong> Figma (handoff, specs, tokens), Storybook, Material UI, design systems.</div>
+        <div class="skills-group"><strong>Calidad:</strong> Jest, Playwright, MSW, GitHub Actions.</div>
+        <div class="skills-group"><strong>Backend:</strong> Node.js, NestJS, REST/GraphQL, PHP (CodeIgniter, CakePHP).</div>
+    </section>
+
+    <section id="3d-projects">
+        <h2>Proyectos 3D destacados</h2>
+
+        <h3>Adolfo — Sandbox 3D (React Three Fiber)</h3>
+        <div class="job-meta"><a href="https://github.com/erickorso/adolfo">github.com/erickorso/adolfo</a> · Ruta: <code>/sandbox/3d</code> · 2026</div>
+        <ul>
+            <li>Módulo 3D interactivo en Next.js 16: Canvas con R3F, composición declarativa y controles de materiales en tiempo real.</li>
+            <li>Geometrías múltiples, sliders PBR, wireframe, auto-rotación con <code>useFrame</code>.</li>
+            <li>OrbitControls, luces, sombras de contacto; integración App Router sin SSR en WebGL.</li>
+        </ul>
+
+        <div class="highlight">
+            <strong>Formulario (honesto):</strong> React/TS — 10+ años · 3D web — 1+ año hands-on (2025–presente) · Figma — 3+ años en handoff con diseño.
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2>Experiencia profesional</h2>
+
+        <h3>Frontend Lead · Krunchbox</h3>
+        <div class="job-meta">09/2025 – Presente · Remoto</div>
+        <ul>
+            <li>Lead de 3 devs; arquitectura Krunchbox 2.0 y Pluvia (analytics retail, ag-Grid 100k+ filas).</li>
+            <li>Colaboración con producto en UX de datos complejos.</li>
+        </ul>
+
+        <h3>Senior Frontend · J.P. Morgan</h3>
+        <div class="job-meta">08/2023 – 05/2025 · Remoto</div>
+        <ul>
+            <li>Dashboards financieros enterprise; SSR Next.js (+30% rendimiento carga).</li>
+        </ul>
+
+        <h3>Senior · Spark Digital, Globant, Santander, Oracle…</h3>
+        <div class="job-meta">2018 – 2023</div>
+        <ul>
+            <li>Dow Jones, AMC+, JPMorgan, Ubisoft; React/Next/Vue, Storybook, entornos regulados.</li>
+            <li>PDVSA (2009–2013): intranet industrial — sector oil &amp; gas.</li>
+        </ul>
+    </section>
+
+    <section id="languages">
+        <h2>Idiomas</h2>
+        <ul>
+            <li><strong>Inglés</strong> — Fluido (B2+)</li>
+            <li><strong>Español</strong> — Nativo</li>
+        </ul>
+    </section>
+
+    <section id="education">
+        <h2>Formación</h2>
+        <h3>Ingeniería en Informática</h3>
+        <div class="job-meta">UNEFA · Venezuela (2006 – 2012)</div>
+    </section>
+
+</main>
+
+</body>
+</html>

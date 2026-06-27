@@ -11,6 +11,6 @@ export async function loginAsE2eUser(page: Page): Promise<void> {
   const email = encodeURIComponent(E2E_USER.email);
   const loginUrl = `/api/dev/login?secret=${encodeURIComponent(secret)}&email=${email}&redirect=${redirect}`;
 
-  await page.goto(loginUrl);
-  await expect(page).not.toHaveURL(/\/login/);
+  await page.goto(loginUrl, { waitUntil: "networkidle" });
+  await expect(page).toHaveURL(/\/es(?:\/|$)/, { timeout: 15_000 });
 }

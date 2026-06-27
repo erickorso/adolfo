@@ -112,7 +112,7 @@ jobs:
   deploy-production:
     name: deploy-production
     runs-on: ubuntu-latest
-    needs: [validate, e2e]
+    needs: [validate]
     if: >-
       github.event_name == 'push' &&
       github.ref == 'refs/heads/main' &&

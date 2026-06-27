@@ -11,7 +11,8 @@ import {
  * Solo fuera de producción.
  */
 export async function GET(request: Request): Promise<NextResponse> {
-  if (process.env.NODE_ENV === "production") {
+  const allowInCi = process.env.CI === "true";
+  if (process.env.NODE_ENV === "production" && !allowInCi) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 

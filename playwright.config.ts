@@ -10,8 +10,10 @@ const e2eEnv = {
   UALA_CLIENT_ID: "e2e-client",
   UALA_CLIENT_SECRET_ID: "e2e-secret",
   AUTH_URL: "http://localhost:3000",
+  AUTH_SECRET: "ci-test-secret-minimum-length-32-chars",
   EMAIL_PROVIDER: "console",
   STORAGE_DRIVER: "local",
+  DEV_LOGIN_SECRET: "dev-local-secret",
 };
 
 /**

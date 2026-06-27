@@ -1,25 +1,17 @@
 import { expect, type Page } from "@playwright/test";
 import { E2E_USER } from "./constants";
 
-/** Login vía API de Auth.js (evita problemas de CSRF en el formulario cliente). */
+/** Login vía formulario (Server Action de Auth.js). */
 export async function loginAsE2eUser(page: Page): Promise<void> {
-  const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
-  const csrf = (await (
-    await page.request.get(`${baseURL}/api/auth/csrf`)
-  ).json()) as { csrfToken: string };
+  await page.goto("/es/login");
+  await page.locator("#email").fill(E2E_USER.email);
+  await page.locator("#password").fill(E2E_USER.password);
+  await page.getByRole("button", { name: "Ingresar" }).click();
 
-  const response = await page.request.post(
-    `${baseURL}/api/auth/callback/credentials`,
-    {
-      form: {
-        csrfToken: csrf.csrfToken,
-        email: E2E_USER.email,
-        password: E2E_USER.password,
-        redirect: "false",
-        json: "true",
-      },
-    },
+  await page.waitForURL(
+    (url) => !url.pathname.includes("/login"),
+    { timeout: 15_000 },
   );
 
-  expect(response.ok(), `Login falló (${response.status()})`).toBeTruthy();
+  await expect(page.getByText("Email o contraseña incorrectos.")).not.toBeVisible();
 }

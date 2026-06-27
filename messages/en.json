@@ -186,18 +186,130 @@
     "wireframe": "Wireframe",
     "autoRotate": "Auto-rotate",
     "canvasLabel": "Interactive 3D practice scene",
+    "canvasLabelRoom": "Furnished bedroom 3D walkthrough",
+    "canvasLabelTour": "Virtual tour with video and guided stops",
     "loading": "Loading 3D scene…",
-    "conceptsTitle": "Quick recap",
-    "conceptsSubtitle": "For application forms and technical interviews.",
-    "concepts": {
-      "webgl": "WebGL: browser API that draws on the GPU (buffers, shaders, pipeline).",
-      "three": "Three.js: scene graph (Scene, Camera, Mesh, Material, Light).",
-      "r3f": "React Three Fiber: declarative React components on Three.js + useFrame for animation.",
-      "materials": "PBR: meshStandardMaterial with metalness/roughness; shadows via directionalLight + castShadow.",
-      "performance": "Performance: limit polygons, adaptive dpr, Suspense and code-split (ssr: false)."
+    "demo": "Demo",
+    "tourStops": "Tour stops",
+    "tour": {
+      "living": "Living room",
+      "bedroom": "Bedroom",
+      "kitchen": "Kitchen"
     },
-    "interviewTitle": "How to answer years of 3D",
-    "interviewHint": "Be honest about recent years; mention WebGL via Three.js/R3F, React/Next integration, mobile optimization, and product viewer or 3D data viz projects."
+    "descriptionTitle": "Description",
+    "capabilitiesTitle": "What you can do",
+    "sidebarTitle": "Info",
+    "sidebarTabsLabel": "3D sandbox side panel",
+    "tabs": {
+      "description": "Description",
+      "stack": "Tech stack"
+    },
+    "stack": {
+      "title": "Quick reference",
+      "subtitle": "Core concepts of the 3D web stack and how they fit together.",
+      "conceptsTitle": "Concepts",
+      "integrationTitle": "Library integration",
+      "integrationIntro": "Each layer delegates to the one below: React declares the scene, Three.js represents it, WebGL runs it on the GPU.",
+      "demoMapTitle": "In this demo",
+      "concepts": [
+        {
+          "id": "webgl",
+          "title": "WebGL",
+          "body": "Browser API that draws on the GPU: buffers, shaders, and the render pipeline."
+        },
+        {
+          "id": "three",
+          "title": "Three.js",
+          "body": "Scene graph on WebGL: Scene, Camera, Mesh, Material, and Light."
+        },
+        {
+          "id": "r3f",
+          "title": "React Three Fiber (R3F)",
+          "body": "Declarative React components over Three.js; useFrame for per-frame animation."
+        },
+        {
+          "id": "pbr",
+          "title": "PBR",
+          "body": "meshStandardMaterial with metalness/roughness; shadows via directionalLight + castShadow."
+        },
+        {
+          "id": "perf",
+          "title": "Performance",
+          "body": "Reduce polygons, adaptive dpr, React Suspense, and code-split with ssr: false."
+        }
+      ],
+      "layers": [
+        {
+          "id": "next",
+          "title": "Next.js (App Router)",
+          "summary": "Mounts Canvas client-only; avoids hydrating WebGL on the server.",
+          "packages": ["dynamic(..., { ssr: false })"]
+        },
+        {
+          "id": "r3f",
+          "title": "React Three Fiber",
+          "summary": "Canvas, hooks (useFrame, useThree), and React → Three.js reconciliation.",
+          "packages": ["@react-three/fiber"]
+        },
+        {
+          "id": "drei",
+          "title": "@react-three/drei",
+          "summary": "Ready-made helpers: OrbitControls, CameraControls, PerspectiveCamera, lights, textures.",
+          "packages": ["@react-three/drei"]
+        },
+        {
+          "id": "three",
+          "title": "Three.js",
+          "summary": "Geometries, PBR materials, lights, shadows, and VideoTexture.",
+          "packages": ["three"]
+        },
+        {
+          "id": "webgl",
+          "title": "WebGL / GPU",
+          "summary": "Low-level pipeline that runs shaders and draws pixels to the screen."
+        }
+      ],
+      "demoMap": {
+        "playground": "PBR materials + useFrame (auto-rotate) + OrbitControls via drei; Canvas loaded with dynamic in Next.js.",
+        "room": "Full scene graph (walls, furniture, lights) with meshStandardMaterial, shadows, and OrbitControls.",
+        "tour": "CameraControls for stop transitions + manual VideoTexture on meshBasicMaterial."
+      }
+    },
+    "demos": {
+      "playground": {
+        "label": "Materials",
+        "intro": "Interactive lab to explore materials and shapes in WebGL.",
+        "capabilities": [
+          "Adjust color, metalness, and roughness in real time on any geometry.",
+          "Toggle wireframe and auto-rotate to review meshes and motion.",
+          "Orbit and zoom freely around the 3D object.",
+          "Embed React Three Fiber scenes in Next.js without server-side hydration.",
+          "Optimize performance with client-only Canvas, Suspense, and code-splitting."
+        ]
+      },
+      "room": {
+        "label": "Room",
+        "intro": "Navigable 3D preview of a furnished bedroom in the browser.",
+        "capabilities": [
+          "Walk through a full interior with orbit controls.",
+          "Show furnished spaces without static renders or on-site visits.",
+          "Simulate warm lighting, shadows, and depth in real time.",
+          "Present rooms for real estate, hospitality, or retail.",
+          "Scale to GLTF/Blender models when the client provides assets."
+        ]
+      },
+      "tour": {
+        "label": "Video tour",
+        "intro": "Virtual tour with room-to-room jumps and in-scene video.",
+        "capabilities": [
+          "Guide visitors through stops (living, bedroom, kitchen) with camera transitions.",
+          "Play video on a 3D screen inside the environment.",
+          "Combine free exploration with selectable points of interest.",
+          "Replicate 360° walkthroughs and web showrooms for property marketing.",
+          "Ship embeddable tours in production-ready Next.js landings."
+        ]
+      }
+    }
   },
   "applications": {
     "title": "My applications",

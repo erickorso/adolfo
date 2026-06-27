@@ -1,7 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { Sandbox3dSidebar } from "@/components/molecules/sandbox-3d-sidebar";
+import type { SandboxDemoId } from "@/domain/sandbox3d/sandbox3d.types";
 
 function Sandbox3dLoading() {
   const t = useTranslations("sandbox3d");
@@ -27,40 +30,13 @@ const Sandbox3dControls = dynamic(
 );
 
 export function Sandbox3dPageClient() {
-  const t = useTranslations("sandbox3d");
-
-  const concepts = [
-    t("concepts.webgl"),
-    t("concepts.three"),
-    t("concepts.r3f"),
-    t("concepts.materials"),
-    t("concepts.performance"),
-  ];
+  const [demo, setDemo] = useState<SandboxDemoId>("playground");
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
-      <Sandbox3dControls />
+    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,340px)]">
+      <Sandbox3dControls demo={demo} onDemoChange={setDemo} />
 
-      <aside
-        aria-labelledby="sandbox3d-concepts-title"
-        className="flex flex-col gap-4 rounded-xl border border-border bg-card p-5"
-      >
-        <div>
-          <h2 className="text-lg font-semibold" id="sandbox3d-concepts-title">
-            {t("conceptsTitle")}
-          </h2>
-          <p className="text-sm text-muted-foreground">{t("conceptsSubtitle")}</p>
-        </div>
-        <ul className="flex list-disc flex-col gap-2 pl-5 text-sm text-muted-foreground">
-          {concepts.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        <div className="rounded-lg border border-dashed border-border bg-muted/40 p-4 text-sm">
-          <p className="font-medium">{t("interviewTitle")}</p>
-          <p className="mt-2 text-muted-foreground">{t("interviewHint")}</p>
-        </div>
-      </aside>
+      <Sandbox3dSidebar demo={demo} />
     </div>
   );
 }

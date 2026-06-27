@@ -156,18 +156,130 @@
     "wireframe": "Wireframe",
     "autoRotate": "Auto-rotación",
     "canvasLabel": "Escena 3D interactiva de práctica",
+    "canvasLabelRoom": "Recorrido 3D de un dormitorio amueblado",
+    "canvasLabelTour": "Tour virtual con video y paradas guiadas",
     "loading": "Cargando escena 3D…",
-    "conceptsTitle": "Repaso rápido",
-    "conceptsSubtitle": "Para formularios y entrevistas técnicas.",
-    "concepts": {
-      "webgl": "WebGL: API del navegador que dibuja en GPU (buffers, shaders, pipeline).",
-      "three": "Three.js: scene graph (Scene, Camera, Mesh, Material, Light).",
-      "r3f": "React Three Fiber: componentes React declarativos sobre Three.js + useFrame para animación.",
-      "materials": "PBR: meshStandardMaterial con metalness/roughness; sombras con directionalLight + castShadow.",
-      "performance": "Rendimiento: limitar polígonos, dpr adaptativo, Suspense y code-split (ssr: false)."
+    "demo": "Demo",
+    "tourStops": "Paradas del tour",
+    "tour": {
+      "living": "Salón",
+      "bedroom": "Dormitorio",
+      "kitchen": "Cocina"
     },
-    "interviewTitle": "Cómo responder años de 3D",
-    "interviewHint": "Sé honesto con años recientes; mencioná WebGL vía Three.js/R3F, integración en React/Next, optimización móvil y proyectos tipo product viewer o data viz 3D."
+    "descriptionTitle": "Descripción",
+    "capabilitiesTitle": "Qué se puede hacer",
+    "sidebarTitle": "Info",
+    "sidebarTabsLabel": "Panel lateral del sandbox 3D",
+    "tabs": {
+      "description": "Descripción",
+      "stack": "Repaso técnico"
+    },
+    "stack": {
+      "title": "Repaso rápido",
+      "subtitle": "Conceptos clave del stack 3D web y cómo encajan entre sí.",
+      "conceptsTitle": "Conceptos",
+      "integrationTitle": "Integración de librerías",
+      "integrationIntro": "Cada capa delega en la inferior: React declara la escena, Three.js la representa y WebGL la ejecuta en GPU.",
+      "demoMapTitle": "En esta demo",
+      "concepts": [
+        {
+          "id": "webgl",
+          "title": "WebGL",
+          "body": "API del browser que dibuja en la GPU: buffers, shaders y pipeline de render."
+        },
+        {
+          "id": "three",
+          "title": "Three.js",
+          "body": "Scene graph sobre WebGL: Scene, Camera, Mesh, Material y Light."
+        },
+        {
+          "id": "r3f",
+          "title": "React Three Fiber (R3F)",
+          "body": "Componentes React declarativos sobre Three.js; useFrame para animación por frame."
+        },
+        {
+          "id": "pbr",
+          "title": "PBR",
+          "body": "meshStandardMaterial con metalness/roughness; sombras con directionalLight + castShadow."
+        },
+        {
+          "id": "perf",
+          "title": "Rendimiento",
+          "body": "Reducir polígonos, dpr adaptativo, Suspense en React y code-split con ssr: false."
+        }
+      ],
+      "layers": [
+        {
+          "id": "next",
+          "title": "Next.js (App Router)",
+          "summary": "Monta el Canvas solo en cliente; evita hidratar WebGL en el servidor.",
+          "packages": ["dynamic(..., { ssr: false })"]
+        },
+        {
+          "id": "r3f",
+          "title": "React Three Fiber",
+          "summary": "Canvas, hooks (useFrame, useThree) y reconciliación React → Three.js.",
+          "packages": ["@react-three/fiber"]
+        },
+        {
+          "id": "drei",
+          "title": "@react-three/drei",
+          "summary": "Helpers listos: OrbitControls, CameraControls, PerspectiveCamera, luces y texturas.",
+          "packages": ["@react-three/drei"]
+        },
+        {
+          "id": "three",
+          "title": "Three.js",
+          "summary": "Geometrías, materiales PBR, luces, sombras y VideoTexture.",
+          "packages": ["three"]
+        },
+        {
+          "id": "webgl",
+          "title": "WebGL / GPU",
+          "summary": "Pipeline de bajo nivel que ejecuta shaders y dibuja píxeles en pantalla."
+        }
+      ],
+      "demoMap": {
+        "playground": "Materiales PBR + useFrame (auto-rotate) + OrbitControls vía drei; Canvas cargado con dynamic en Next.js.",
+        "room": "Scene graph completo (muros, muebles, luces) con meshStandardMaterial, sombras y OrbitControls.",
+        "tour": "CameraControls para transiciones entre paradas + VideoTexture manual sobre meshBasicMaterial."
+      }
+    },
+    "demos": {
+      "playground": {
+        "label": "Materiales",
+        "intro": "Laboratorio interactivo para explorar materiales y formas en WebGL.",
+        "capabilities": [
+          "Ajustar color, metalness y roughness en tiempo real sobre cualquier geometría.",
+          "Alternar wireframe y auto-rotación para revisar mallas y movimiento.",
+          "Orbitar y hacer zoom libremente sobre el objeto 3D.",
+          "Integrar escenas React Three Fiber en Next.js sin hidratación en servidor.",
+          "Optimizar rendimiento con Canvas client-only, Suspense y code-split."
+        ]
+      },
+      "room": {
+        "label": "Habitación",
+        "intro": "Preview 3D de un dormitorio amueblado, navegable desde el browser.",
+        "capabilities": [
+          "Recorrer un interior completo con controles orbitales.",
+          "Mostrar espacios amueblados sin renders estáticos ni visitas presenciales.",
+          "Simular iluminación cálida, sombras y profundidad en tiempo real.",
+          "Presentar habitaciones para inmobiliaria, hospitality o retail.",
+          "Escalar a modelos GLTF/Blender cuando el cliente aporte assets."
+        ]
+      },
+      "tour": {
+        "label": "Video tour",
+        "intro": "Tour virtual con salto entre estancias y video integrado en la escena.",
+        "capabilities": [
+          "Guiar al visitante por paradas (salón, dormitorio, cocina) con transiciones de cámara.",
+          "Reproducir video sobre una pantalla 3D dentro del entorno.",
+          "Combinar recorrido libre con puntos de interés seleccionables.",
+          "Replicar visitas 360° y showrooms web para marketing inmobiliario.",
+          "Publicar tours embebidos en landings Next.js listos para producción."
+        ]
+      }
+    }
   },
   "cvs": {
     "title": "Mis CVs",

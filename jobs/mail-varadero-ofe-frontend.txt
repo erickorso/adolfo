@@ -1,0 +1,25 @@
+ASUNTO: Candidatura OFE-FRONTEND — Desarrollador Front-end — Erick Vargas Ramos
+
+PARA: rrhh@vsf.es
+
+---
+
+Hola, equipo de Varadero:
+
+Os escribo por la oferta OFE-FRONTEND (desarrollador front-end). Me encaja el enfoque: proyecto estable, equipo en oficina, filosofía startup y ambiente cercano — justo el tipo de entorno donde disfruto compartiendo código y aprendiendo del resto.
+
+Soy desarrollador front-end con más de 14 años en HTML, CSS y JavaScript. En el día a día trabajo con React y TypeScript, pero mis bases siguen siendo las que pedís: maquetación responsive, Bootstrap, SASS, validación cross-browser, Git, builds con Webpack y buenas prácticas de SEO y accesibilidad (orientado a nivel AA). He trabajado en equipos Scrum, con revisión de código, testing y entrega continua.
+
+En Krunchbox lidero el front de productos de analítica; antes estuve en J.P. Morgan, Spark Digital, Santander y Globant. Busco ahora un proyecto con contrato estable y presencial en Madrid — vivo en San Sebastián de los Reyes, así que la oficina de Alfonso Gómez me viene bien.
+
+Me motiva aportar criterio en UI, rendimiento y accesibilidad, y a la vez seguir aprendiendo con el equipo. Adjunto mi CV.
+
+Quedo a vuestra disposición para hablar cuando queráis.
+
+Un saludo,
+
+Erick Vargas Ramos
+erickorso@gmail.com
++34 614 769 119
+LinkedIn: https://linkedin.com/in/erick-vargas-ramos-1ab86b102
+GitHub: https://github.com/erickorso/adolfo

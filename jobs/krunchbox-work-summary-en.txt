@@ -1,0 +1,27 @@
+KRUNCHBOX — Work Summary (English)
+Frontend Lead & Software Architect | 09/2025 – Present | Remote
+
+---
+
+SHORT (LinkedIn / forms)
+
+Frontend Lead at Krunchbox, leading 3 engineers on Krunchbox 2.0 and Pluvia—enterprise retail BI with ag-Grid over 100k+ row datasets. Next.js App Router, strict TypeScript, Jest/Playwright, remote async delivery.
+
+---
+
+PARAGRAPH (cover letter)
+
+As Frontend Lead at Krunchbox, I lead three engineers and own frontend architecture for Krunchbox 2.0 and Pluvia, a B2B retail analytics platform handling 100k+ rows per view. I built a centralized Next.js application shell—navigation, AI assistant, and notifications mounted once at the root—to keep streaming chat and panel state stable across routes. On Pluvia, I introduced ag-Grid Server-Side Row Model for sub-300ms filtering at scale, plus PR standards, Jest/Playwright coverage, and API contract tests to catch regressions before release.
+
+---
+
+BULLETS (CV)
+
+- Lead a frontend team of 3 engineers; own sprint delivery, code reviews, and alignment with product and architecture goals.
+- Spearhead technical frontend architecture for Krunchbox 2.0: modular patterns, TypeScript strictness, scalable state management.
+- Architected a centralized application shell (Next.js App Router) mounting navigation, header, and AI-assistant & notification panels once at the root—eliminating per-route remounts that destroyed in-flight UI state.
+- Designed a lightweight pub/sub mutex to coordinate mutually exclusive side panels, removing ~700 lines of duplicated layout across 34 files.
+- Direct engineering for Pluvia, a retail analytics hub processing large-scale B2B datasets (100k+ rows per grid view) with low-latency ag-Grid configurations.
+- Reduced UI regression risk with standardized PR reviews and Jest/Playwright coverage on critical user flows and REST API endpoints.
+- Build and maintain automated API test suites (integration/contract tests) to validate backend contracts before release.
+- Partner with stakeholders across time zones in an async remote setup; document decisions and onboarding for faster team ramp-up.

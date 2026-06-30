@@ -1,0 +1,17 @@
+FORM — Two links to UI you designed and built
+
+---
+
+ANSWER (paste into form)
+
+Most of my recent production UI work (J.P. Morgan, and now Krunchbox/Pluvia) sits in private repos or UAT under NDA, so I can't link to it directly. What I can share below is Adolfo—my personal demo/sandbox where I experiment with what's current in web engineering (Next.js App Router, server actions, Prisma, R3F/WebGL, CI/CD) and ship full flows myself, not just UI mocks.
+
+If it's useful for validation, I'm happy to walk through anonymized Krunchbox UAT screens on a call, and Ashley Sohier (CEO, Krunchbox) can provide a professional reference on request.
+
+1) https://adolfo-nine.vercel.app/es/jobs
+A job-search console: ingested remote listings, filters, and detail views backed by server-side data (not live client fetches).
+Hardest design decision: whether to hit external job APIs from the browser or ingest on the server and render from our DB—I chose server ingestion so the UI stays fast and reliable when third-party APIs are slow or rate-limited.
+
+2) https://adolfo-nine.vercel.app/es/sandbox/3d
+An interactive 3D sandbox (materials, furnished room, video tour) with a sidebar that switches between product description and technical recap.
+Hardest design decision: how to play video inside a WebGL scene without tearing down the canvas—I used a manual VideoTexture pipeline instead of Suspense-based hooks that remounted the scene and broke playback.

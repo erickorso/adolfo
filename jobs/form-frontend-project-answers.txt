@@ -1,0 +1,34 @@
+FORM ANSWERS — Frontend application (copy each block into the field)
+
+---
+
+Q1: Proudest frontend project
+
+My proudest project recently is Pluvia at Krunchbox—a B2B retail analytics product where buyers explore sales and inventory across stores, categories, and time periods. The challenge wasn't styling screens; it was making a dataset with 100k+ rows per view feel interactive. Early versions froze the browser on filter changes, and users started exporting to Excel instead of exploring in the app.
+
+I owned the frontend architecture end to end. We moved to ag-Grid with server-side row model so the grid only requests filtered/sorted pages from the API instead of loading everything into memory. I defined a stable query contract with the backend team (filters, sort, pagination), added short-lived cache keys for common filter combinations, and tightened UX details like debounced text filters and fixed KPI columns.
+
+The outcome was meaningful in product terms: typical filter operations dropped to under ~300ms, retailers could scale without rewriting the UI, and the team regained trust in the tool. That felt like real frontend engineering—not just components, but performance, API design, and user behavior together.
+
+---
+
+Q2: Hardest technical problem
+
+Related but different: preserving UI state across navigation in Krunchbox 2.0. We added an AI assistant with streaming responses and side panels for notifications. Because each route remounted the layout, users lost in-flight chats, scroll position, and panel state whenever they navigated—subtle but very frustrating.
+
+The hard part was fixing it without a risky rewrite of 30+ routes. I designed a centralized Next.js application shell that mounts navigation, the assistant, and notifications once at the root. Then I built a small pub/sub mutex so mutually exclusive panels can't fight each other. That removed hundreds of lines of duplicated layout code and let us ship incrementally with almost no route migrations.
+
+What made it difficult was balancing architecture cleanliness with delivery pressure—we needed a pattern the whole team could follow, not a one-off hack. Documenting the approach and pairing with other devs on reviews was as important as the code itself.
+
+---
+
+Q3: GitHub/Portfolio
+
+https://github.com/erickorso/adolfo
+https://adolfo-nine.vercel.app/es/sandbox/3d
+
+---
+
+Q4: Anything else you'd like to add?
+
+I'm based in Madrid, Spain, fully remote, fluent in English and native in Spanish. I enjoy teams where seniors still write code, raise standards through review, and own outcomes—not just tickets. Happy to walk through any of the above in more detail on a call.

@@ -1,0 +1,29 @@
+TO: hr@keyformance.com
+SUBJECT: Senior React Native Developer — Erick Vargas Ramos
+
+---
+
+Hello Keyformance team,
+
+I am writing to apply for the Senior React Native Developer role. I am a Senior Frontend Engineer / Lead with 14+ years building production applications in React and TypeScript, and I am interested in taking full technical ownership of mobile architecture in a product-focused team.
+
+My day-to-day work is React and Next.js on the web (currently Frontend Lead at Krunchbox, leading a team of three on enterprise analytics products). That background maps closely to what you need: component architecture, state management, REST API integration, performance tuning, code review, mentoring juniors, strict TypeScript, Git/PR workflows, and CI/CD (GitHub Actions, Jest, Playwright). I also have hands-on Next.js experience, which you list as a nice-to-have.
+
+What I would bring to this role:
+- Scalable frontend architecture and coding standards across a team
+- Performance-first mindset (large datasets, responsive UX, cross-device behavior)
+- Leadership: mentoring, technical decisions, refactoring legacy code
+- Close collaboration with backend, product, and design stakeholders
+
+I am based in Madrid, Spain (fluent English, native Spanish). Before proceeding, I would like to confirm whether the Cairo full-time requirement allows hybrid/remote for international candidates or relocation support — I am genuinely interested in the role and happy to discuss what works for both sides.
+
+I have attached my CV. I am also available on WhatsApp if you prefer a quick intro call.
+
+Best regards,
+
+Erick Vargas Ramos
+erickorso@gmail.com
++34 614 769 119
+WhatsApp: https://wa.me/34614769119
+LinkedIn: https://linkedin.com/in/erick-vargas-ramos-1ab86b102
+GitHub: https://github.com/erickorso/adolfo

@@ -1,0 +1,33 @@
+CARTA DE PRESENTACION — Espanol
+Reemplaza [EMPRESA] y [ROL] donde haga falta.
+
+---
+
+VERSION — Completa
+
+Estimado equipo de [EMPRESA]:
+
+Me dirijo a ustedes para expresar mi interes en la posicion de [ROL]. Actualmente busco nuevas oportunidades en modalidad freelance o remoto, y mi perfil combina mas de 14 anos de experiencia en desarrollo frontend, liderazgo tecnico y arquitectura de productos web en React, Next.js y TypeScript, con foco en aplicaciones de datos a escala.
+
+Actualmente soy Frontend Lead en Krunchbox, donde lidero un equipo de tres ingenieros y la arquitectura de Krunchbox 2.0 y Pluvia (plataforma de analitica retail con ag-Grid y datasets de alto volumen). Anteriormente trabaje dos anos en J.P. Morgan construyendo dashboards financieros en produccion, y antes en Spark Digital (Dow Jones, AMC+), Santander, Globant y Oracle.
+
+Aporto experiencia en TypeScript estricto, Next.js (App Router y SSR), testing automatizado (Jest, Playwright), integracion de APIs REST/GraphQL, code review, accesibilidad y CI/CD. Resido en San Sebastian de los Reyes (Madrid, Espana) y trabajo en remoto con equipos en Europa y America; tengo ingles fluido y espanol nativo, y estoy abierto a contratos freelance o incorporacion remota a tiempo completo.
+
+Me entusiasma la oportunidad de contribuir en [EMPRESA] con criterio tecnico, ownership de punta a punta y foco en calidad de producto. Quedo a disposicion para una conversacion.
+
+Atentamente,
+
+Erick Vargas Ramos
+erickorso@gmail.com
++34 614 769 119
+LinkedIn: https://linkedin.com/in/erick-vargas-ramos-1ab86b102
+GitHub: https://github.com/erickorso/adolfo
+
+---
+
+VERSION — Corta (formularios con limite)
+
+Soy Senior Frontend Engineer / Lead con 14+ anos en React, Next.js y TypeScript. Busco trabajo freelance o remoto desde San Sebastian de los Reyes (Madrid). Lidero frontend en Krunchbox (analitica enterprise, ag-Grid); antes J.P. Morgan y Spark Digital. Ingles fluido. Me interesa [ROL] en [EMPRESA] por [motivo en 1 linea].
+
+LinkedIn: https://linkedin.com/in/erick-vargas-ramos-1ab86b102
+Erick Vargas Ramos · erickorso@gmail.com · +34 614 769 119

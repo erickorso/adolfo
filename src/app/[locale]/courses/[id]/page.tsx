@@ -7,6 +7,7 @@ import {
   getCourseDetail,
   isUserEnrolled,
 } from "@/services/courses/course.service";
+import { getCourseInternalModulePath } from "@/services/courses/course-internal-modules";
 
 type CourseDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -22,6 +23,10 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
   const t = await getTranslations("courses");
   const user = await getCurrentUser();
   const enrolled = user ? await isUserEnrolled(user.id, course.id) : false;
+  const internalModulePath = getCourseInternalModulePath(
+    course.source,
+    course.externalId ?? "",
+  );
 
   return (
     <main className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-10">
@@ -71,6 +76,14 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
         enrolled={enrolled}
         externalUrl={course.url}
       />
+      {internalModulePath ? (
+        <Link
+          href={internalModulePath}
+          className="inline-flex w-fit rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-muted"
+        >
+          {t("openModule")}
+        </Link>
+      ) : null}
     </main>
   );
 }

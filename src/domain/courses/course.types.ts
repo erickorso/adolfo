@@ -16,6 +16,7 @@ export type CourseVM = {
 export type CourseDetailVM = CourseVM & {
   description: string | null;
   source: string;
+  externalId: string | null;
 };
 
 export type CourseEnrollmentVM = {

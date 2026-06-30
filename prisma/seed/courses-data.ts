@@ -110,6 +110,20 @@ export const SEED_COURSES: SeedCourseSpec[] = [
     targetAudience: "Trabajadores y desempleados CAM",
   },
   {
+    source: "microsoft",
+    externalId: "ai-agents-for-beginners",
+    title: "AI Agents for Beginners",
+    description:
+      "Curso oficial de Microsoft (17 lecciones): agentes de IA, MAF, Azure AI Foundry, RAG, multi-agente, MCP y producción.\n\nMódulo integrado en Adolfo: /learn/ai-agents\nRepo: github.com/microsoft/ai-agents-for-beginners",
+    provider: "Microsoft",
+    url: "https://github.com/microsoft/ai-agents-for-beginners",
+    hours: 24,
+    modality: "online",
+    sector: "IA · Agentes · Python",
+    location: "Global · online",
+    targetAudience: "Developers building AI agents",
+  },
+  {
     source: "local",
     externalId: "sanse-ayuntamiento-info",
     title: "Formación municipal San Sebastián de los Reyes",

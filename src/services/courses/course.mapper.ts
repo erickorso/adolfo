@@ -21,5 +21,6 @@ export function courseToDetailVM(row: Course): CourseDetailVM {
     ...courseToVM(row),
     description: row.description,
     source: row.source,
+    externalId: row.externalId,
   };
 }

@@ -44,6 +44,12 @@ export async function SiteHeader() {
             {t("sandbox3d")}
           </Link>
           <Link
+            href="/learn/ai-agents"
+            className="text-sm text-muted-foreground hover:text-foreground"
+          >
+            {t("aiAgents")}
+          </Link>
+          <Link
             href="/account"
             className="text-sm text-muted-foreground hover:text-foreground"
           >

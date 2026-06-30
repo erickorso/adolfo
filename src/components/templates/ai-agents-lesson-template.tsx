@@ -1,16 +1,22 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
+import { LessonCompleteButton } from "@/components/molecules/lesson-complete-button";
+import { LessonQuiz } from "@/components/organisms/lesson-quiz";
 import {
   getAdjacentLessons,
   getLessonBySlug,
 } from "@/domain/learning/ai-agents/lessons";
+import { AI_AGENTS_MODULE_ID } from "@/domain/learning/ai-agents/module.constants";
+import { getPublicQuiz } from "@/domain/learning/ai-agents/quizzes/score-quiz";
 import {
   lessonCodeSamplesUrl,
   lessonLocalizedText,
   lessonReadmeUrl,
   lessonVideoUrl,
 } from "@/domain/learning/ai-agents/lesson.types";
+import { getLessonProgressState } from "@/services/learning/lesson-progress.service";
+import { getCurrentUser } from "@/services/users/user.service";
 
 type AiAgentsLessonPageProps = {
   params: Promise<{ slug: string }>;
@@ -25,6 +31,13 @@ export async function AiAgentsLessonTemplate({ params }: AiAgentsLessonPageProps
 
   const t = await getTranslations("aiAgents");
   const locale = await getLocale();
+  const user = await getCurrentUser();
+  const progressState = await getLessonProgressState(
+    user?.id ?? null,
+    AI_AGENTS_MODULE_ID,
+    slug,
+  );
+  const quiz = getPublicQuiz(slug);
   const { prev, next } = getAdjacentLessons(slug);
   const title = lessonLocalizedText(locale, lesson.title);
   const summary = lessonLocalizedText(locale, lesson.summary);
@@ -85,6 +98,25 @@ export async function AiAgentsLessonTemplate({ params }: AiAgentsLessonPageProps
           ) : null}
         </ul>
       </section>
+
+      {quiz ? (
+        <LessonQuiz
+          quiz={quiz}
+          locale={locale}
+          moduleId={AI_AGENTS_MODULE_ID}
+          lessonSlug={slug}
+          isLoggedIn={Boolean(user)}
+          initialScore={progressState.quizScore}
+          initialPassed={progressState.quizPassed}
+        />
+      ) : null}
+
+      <LessonCompleteButton
+        moduleId={AI_AGENTS_MODULE_ID}
+        lessonSlug={slug}
+        completed={progressState.completed}
+        isLoggedIn={Boolean(user)}
+      />
 
       <nav
         className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-6"

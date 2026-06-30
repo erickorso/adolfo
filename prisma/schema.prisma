@@ -89,6 +89,8 @@ model User {
   resumes       Resume[]
   jobApplications JobApplication[]
   courseEnrollments CourseEnrollment[]
+  lessonProgress    LessonProgress[]
+  learningProfile   LearningProfile?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
@@ -409,6 +411,40 @@ model CourseEnrollment {
 
   @@unique([userId, courseId])
   @@index([userId])
+}
+
+// ──────────────────────────────────────────────────────────────
+// Aprendizaje interactivo (progreso por lección + gamificación).
+// ──────────────────────────────────────────────────────────────
+
+/// Progreso de una lección dentro de un módulo (ej. "ai-agents").
+model LessonProgress {
+  id          String   @id @default(cuid())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  /// Identificador del módulo, ej. "ai-agents".
+  moduleId    String
+  /// Slug de la lección dentro del módulo.
+  lessonSlug  String
+  completedAt DateTime?
+  xpEarned    Int       @default(0)
+  quizScore   Int?
+  quizPassedAt DateTime?
+  quizXpEarned Int       @default(0)
+
+  @@unique([userId, moduleId, lessonSlug])
+  @@index([userId, moduleId])
+}
+
+/// XP acumulado y racha de estudio del usuario.
+model LearningProfile {
+  id               String    @id @default(cuid())
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String    @unique
+  totalXp          Int       @default(0)
+  streakDays       Int       @default(0)
+  lastActivityDate DateTime?
+  updatedAt        DateTime  @updatedAt
 }
 
 // ──────────────────────────────────────────────────────────────

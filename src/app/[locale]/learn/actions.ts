@@ -6,6 +6,7 @@ import type { QuizSubmitResult } from "@/domain/learning/ai-agents/quizzes/quiz.
 import type { LessonToggleResult } from "@/domain/learning/learning.types";
 import {
   claimCertificate,
+  completeLessonMission,
   submitLessonQuiz,
   toggleLessonComplete,
   toggleLessonMission,
@@ -29,6 +30,14 @@ export type QuizActionResult =
 
 export type MissionActionResult =
   | { ok: true; missions: { readme: boolean; video: boolean; code: boolean } }
+  | { ok: false; error: "loginRequired" | "notFound" };
+
+export type CompleteMissionActionResult =
+  | {
+      ok: true;
+      missions: { readme: boolean; video: boolean; code: boolean };
+      xpAwarded: number;
+    }
   | { ok: false; error: "loginRequired" | "notFound" };
 
 function revalidateAiAgents(lessonSlug: string, moduleId: string) {
@@ -111,6 +120,30 @@ export async function toggleLessonMissionAction(
     );
     revalidateAiAgents(lessonSlug, moduleId);
     return { ok: true, missions };
+  } catch {
+    return { ok: false, error: "notFound" };
+  }
+}
+
+export async function completeLessonMissionAction(
+  moduleId: string,
+  lessonSlug: string,
+  kind: LessonMissionKind,
+): Promise<CompleteMissionActionResult> {
+  const user = await getCurrentUser();
+  if (!user) {
+    return { ok: false, error: "loginRequired" };
+  }
+
+  try {
+    const result = await completeLessonMission(
+      user.id,
+      moduleId,
+      lessonSlug,
+      kind,
+    );
+    revalidateAiAgents(lessonSlug, moduleId);
+    return { ok: true, missions: result.missions, xpAwarded: result.xpAwarded };
   } catch {
     return { ok: false, error: "notFound" };
   }

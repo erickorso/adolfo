@@ -9,6 +9,10 @@ import {
 import { buildCertificateStatus } from "@/domain/learning/ai-agents/certificate";
 import type { CertificateStatusVM } from "@/domain/learning/ai-agents/certificate";
 import { getLessonBySlug, AI_AGENTS_LESSONS } from "@/domain/learning/ai-agents/lessons";
+import {
+  resolveNextStep,
+  type NextStepVM,
+} from "@/domain/learning/ai-agents/next-step";
 import type {
   LessonToggleResult,
   ModuleProgressVM,
@@ -332,6 +336,124 @@ function missionField(kind: LessonMissionKind): "missionReadme" | "missionVideo"
   if (kind === "readme") return "missionReadme";
   if (kind === "video") return "missionVideo";
   return "missionCode";
+}
+
+export async function completeLessonMission(
+  userId: string,
+  moduleId: string,
+  lessonSlug: string,
+  kind: LessonMissionKind,
+): Promise<{ missions: LessonMissionState; xpAwarded: number }> {
+  assertLessonExists(moduleId, lessonSlug);
+
+  const lesson = getLessonBySlug(lessonSlug);
+  if (kind === "video" && !lesson?.videoId) {
+    throw new Error("Misión no disponible");
+  }
+
+  const field = missionField(kind);
+  const existing = await prisma.lessonProgress.findUnique({
+    where: {
+      userId_moduleId_lessonSlug: { userId, moduleId, lessonSlug },
+    },
+  });
+
+  if (existing?.[field]) {
+    const state = await getLessonProgressState(userId, moduleId, lessonSlug);
+    return { missions: state.missions, xpAwarded: 0 };
+  }
+
+  await prisma.$transaction(async (tx) => {
+    const missionData =
+      field === "missionReadme"
+        ? { missionReadme: true }
+        : field === "missionVideo"
+          ? { missionVideo: true }
+          : { missionCode: true };
+
+    await tx.lessonProgress.upsert({
+      where: {
+        userId_moduleId_lessonSlug: { userId, moduleId, lessonSlug },
+      },
+      create: {
+        userId,
+        moduleId,
+        lessonSlug,
+        ...missionData,
+        missionXpEarned: XP_PER_MISSION,
+      },
+      update: {
+        ...missionData,
+        missionXpEarned: { increment: XP_PER_MISSION },
+      },
+    });
+
+    await applyStreakAndXp(tx, userId, XP_PER_MISSION);
+  });
+
+  const state = await getLessonProgressState(userId, moduleId, lessonSlug);
+  return { missions: state.missions, xpAwarded: XP_PER_MISSION };
+}
+
+export async function getNextLearningStep(
+  userId: string | null,
+  moduleId: string,
+): Promise<NextStepVM> {
+  const progress = await getModuleProgress(userId, moduleId);
+
+  if (!userId) {
+    return {
+      type: "lesson",
+      slug: AI_AGENTS_LESSONS[0]?.slug ?? "course-setup",
+      focus: "missions",
+    };
+  }
+
+  const rows = await prisma.lessonProgress.findMany({
+    where: { userId, moduleId },
+    select: {
+      lessonSlug: true,
+      completedAt: true,
+      quizPassedAt: true,
+      missionReadme: true,
+      missionVideo: true,
+      missionCode: true,
+    },
+  });
+
+  const rowBySlug = new Map(rows.map((row) => [row.lessonSlug, row]));
+
+  const lessons = AI_AGENTS_LESSONS.map((lesson) => {
+    const row = rowBySlug.get(lesson.slug);
+    return {
+      slug: lesson.slug,
+      hasVideo: Boolean(lesson.videoId),
+      missions: {
+        readme: row?.missionReadme ?? false,
+        video: row?.missionVideo ?? false,
+        code: row?.missionCode ?? false,
+      },
+      completed: Boolean(row?.completedAt),
+      quizPassed: Boolean(row?.quizPassedAt),
+    };
+  });
+
+  const profile = await prisma.learningProfile.findUnique({ where: { userId } });
+  const certificate = buildCertificateStatus(
+    progress.completedSlugs,
+    progress.quizPassedSlugs,
+    profile?.certificateEarnedAt ?? null,
+  );
+
+  return resolveNextStep(
+    {
+      isLoggedIn: true,
+      completedSlugs: progress.completedSlugs,
+      quizPassedSlugs: progress.quizPassedSlugs,
+    },
+    lessons,
+    certificate,
+  );
 }
 
 export async function toggleLessonMission(

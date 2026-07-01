@@ -2,13 +2,16 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { AiAgentsLessonList } from "@/components/molecules/ai-agents-lesson-list";
 import { AiAgentsCertificateBanner } from "@/components/organisms/ai-agents-certificate-banner";
+import { AiAgentsContinueLearning } from "@/components/organisms/ai-agents-continue-learning";
+import { AiAgentsLeaderboard } from "@/components/organisms/ai-agents-leaderboard";
 import { AiAgentsModuleProgress } from "@/components/organisms/ai-agents-module-progress";
 import { AI_AGENTS_MODULE_ID } from "@/domain/learning/ai-agents/module.constants";
 import {
   MICROSOFT_AI_AGENTS_REPO,
   MICROSOFT_AI_AGENTS_SHORT_URL,
 } from "@/domain/learning/ai-agents/lesson.types";
-import { getModuleProgress, getCertificateStatus } from "@/services/learning/lesson-progress.service";
+import { getModuleProgress, getCertificateStatus, getNextLearningStep } from "@/services/learning/lesson-progress.service";
+import { getLearningLeaderboard } from "@/services/learning/leaderboard.service";
 import { getCurrentUser } from "@/services/users/user.service";
 
 export async function AiAgentsCourseTemplate() {
@@ -19,10 +22,13 @@ export async function AiAgentsCourseTemplate() {
     user?.id ?? null,
     AI_AGENTS_MODULE_ID,
   );
+  const nextStep = await getNextLearningStep(user?.id ?? null, AI_AGENTS_MODULE_ID);
+  const leaderboard = await getLearningLeaderboard(user?.id ?? null);
 
   return (
     <div className="flex flex-col gap-8">
       <AiAgentsModuleProgress progress={progress} />
+      <AiAgentsContinueLearning step={nextStep} />
       <AiAgentsCertificateBanner status={certificateStatus} />
 
       <section className="rounded-lg border border-border bg-card p-6">
@@ -61,6 +67,8 @@ export async function AiAgentsCourseTemplate() {
           isLoggedIn={progress.isLoggedIn}
         />
       </section>
+
+      <AiAgentsLeaderboard entries={leaderboard} />
 
       <p className="text-xs text-muted-foreground">
         {t("attribution")}{" "}

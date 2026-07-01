@@ -4,6 +4,8 @@ import { Link } from "@/i18n/navigation";
 import { LessonCompleteButton } from "@/components/molecules/lesson-complete-button";
 import { LessonLockedNotice } from "@/components/molecules/lesson-locked-notice";
 import { LessonMissions } from "@/components/molecules/lesson-missions";
+import { LessonResourceLinks } from "@/components/molecules/lesson-resource-links";
+import { LessonVideoEmbed } from "@/components/molecules/lesson-video-embed";
 import { LessonQuiz } from "@/components/organisms/lesson-quiz";
 import {
   getAdjacentLessons,
@@ -84,41 +86,24 @@ export async function AiAgentsLessonTemplate({ params }: AiAgentsLessonPageProps
         <h2 id="lesson-resources-heading" className="mb-3 text-lg font-semibold">
           {t("resourcesTitle")}
         </h2>
-        <ul className="flex flex-col gap-2 text-sm">
-          <li>
-            <a
-              href={lessonReadmeUrl(lesson.folder)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium underline"
-            >
-              {t("readmeLink")}
-            </a>
-          </li>
-          <li>
-            <a
-              href={lessonCodeSamplesUrl(lesson.folder)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium underline"
-            >
-              {t("codeLink")}
-            </a>
-          </li>
-          {lesson.videoId ? (
-            <li>
-              <a
-                href={lessonVideoUrl(lesson.videoId)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium underline"
-              >
-                {t("videoLink")}
-              </a>
-            </li>
-          ) : null}
-        </ul>
+        <LessonResourceLinks
+          moduleId={AI_AGENTS_MODULE_ID}
+          lessonSlug={slug}
+          isLoggedIn={Boolean(user)}
+          readmeHref={lessonReadmeUrl(lesson.folder)}
+          codeHref={lessonCodeSamplesUrl(lesson.folder)}
+          videoHref={lesson.videoId ? lessonVideoUrl(lesson.videoId) : undefined}
+        />
       </section>
+
+      {lesson.videoId ? (
+        <LessonVideoEmbed
+          moduleId={AI_AGENTS_MODULE_ID}
+          lessonSlug={slug}
+          videoId={lesson.videoId}
+          isLoggedIn={Boolean(user)}
+        />
+      ) : null}
 
       <LessonMissions
         moduleId={AI_AGENTS_MODULE_ID}

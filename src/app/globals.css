@@ -129,3 +129,10 @@
     @apply font-sans;
   }
 }
+
+@media print {
+  .certificate-page__card {
+    border-width: 1px;
+    box-shadow: none;
+  }
+}

@@ -6,13 +6,15 @@ import {
   XP_PER_MISSION,
   XP_PER_QUIZ_PASS,
 } from "@/domain/learning/ai-agents/module.constants";
-import { scoreQuizAnswers } from "@/domain/learning/ai-agents/quizzes/score-quiz";
+import { buildCertificateStatus } from "@/domain/learning/ai-agents/certificate";
+import type { CertificateStatusVM } from "@/domain/learning/ai-agents/certificate";
 import { getLessonBySlug, AI_AGENTS_LESSONS } from "@/domain/learning/ai-agents/lessons";
 import type {
   LessonToggleResult,
   ModuleProgressVM,
 } from "@/domain/learning/learning.types";
 import type { QuizSubmitResult } from "@/domain/learning/ai-agents/quizzes/quiz.types";
+import { scoreQuizAnswers } from "@/domain/learning/ai-agents/quizzes/score-quiz";
 import { computeStreakUpdate } from "@/domain/learning/streak";
 
 export type LessonMissionState = {
@@ -391,4 +393,68 @@ export async function toggleLessonMission(
 
   const state = await getLessonProgressState(userId, moduleId, lessonSlug);
   return state.missions;
+}
+
+export type CertificateStatusWithAuth = CertificateStatusVM & {
+  isLoggedIn: boolean;
+  userName: string | null;
+};
+
+export async function getCertificateStatus(
+  userId: string | null,
+  moduleId: string,
+): Promise<CertificateStatusWithAuth> {
+  if (!userId) {
+    return {
+      ...buildCertificateStatus([], [], null),
+      isLoggedIn: false,
+      userName: null,
+    };
+  }
+
+  const [progress, profile, user] = await Promise.all([
+    getModuleProgress(userId, moduleId),
+    prisma.learningProfile.findUnique({ where: { userId } }),
+    prisma.user.findUnique({
+      where: { id: userId },
+      select: { name: true },
+    }),
+  ]);
+
+  return {
+    ...buildCertificateStatus(
+      progress.completedSlugs,
+      progress.quizPassedSlugs,
+      profile?.certificateEarnedAt ?? null,
+    ),
+    isLoggedIn: true,
+    userName: user?.name ?? null,
+  };
+}
+
+export async function claimCertificate(
+  userId: string,
+  moduleId: string,
+): Promise<Date> {
+  const status = await getCertificateStatus(userId, moduleId);
+  if (!status.eligible) {
+    throw new Error("Certificado no disponible");
+  }
+
+  if (status.earnedAt) {
+    return status.earnedAt;
+  }
+
+  const profile = await prisma.learningProfile.upsert({
+    where: { userId },
+    create: {
+      userId,
+      certificateEarnedAt: new Date(),
+    },
+    update: {
+      certificateEarnedAt: new Date(),
+    },
+  });
+
+  return profile.certificateEarnedAt!;
 }

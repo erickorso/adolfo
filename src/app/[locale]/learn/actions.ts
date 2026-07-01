@@ -5,6 +5,7 @@ import { AI_AGENTS_MODULE_ID } from "@/domain/learning/ai-agents/module.constant
 import type { QuizSubmitResult } from "@/domain/learning/ai-agents/quizzes/quiz.types";
 import type { LessonToggleResult } from "@/domain/learning/learning.types";
 import {
+  claimCertificate,
   submitLessonQuiz,
   toggleLessonComplete,
   toggleLessonMission,
@@ -112,5 +113,23 @@ export async function toggleLessonMissionAction(
     return { ok: true, missions };
   } catch {
     return { ok: false, error: "notFound" };
+  }
+}
+
+export async function claimCertificateAction(): Promise<
+  { ok: true; earnedAt: string } | { ok: false; error: "loginRequired" | "notEligible" }
+> {
+  const user = await getCurrentUser();
+  if (!user) {
+    return { ok: false, error: "loginRequired" };
+  }
+
+  try {
+    const earnedAt = await claimCertificate(user.id, AI_AGENTS_MODULE_ID);
+    revalidatePath("/learn/ai-agents");
+    revalidatePath("/learn/ai-agents/certificate");
+    return { ok: true, earnedAt: earnedAt.toISOString() };
+  } catch {
+    return { ok: false, error: "notEligible" };
   }
 }

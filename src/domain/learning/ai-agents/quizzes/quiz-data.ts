@@ -1,6 +1,6 @@
 import type { LessonQuizDefinition } from "./quiz.types";
 
-/** Quizzes alineados al repo microsoft/ai-agents-for-beginners (lecciones 0–8). */
+/** Quizzes alineados al repo microsoft/ai-agents-for-beginners (lecciones 0–16). */
 export const AI_AGENTS_QUIZZES: LessonQuizDefinition[] = [
   {
     lessonSlug: "course-setup",
@@ -835,6 +835,595 @@ export const AI_AGENTS_QUIZZES: LessonQuizDefinition[] = [
         explanation: {
           es: "Los handoffs permiten pipelines colaborativos entre agentes.",
           en: "Handoffs enable collaborative pipelines between agents.",
+        },
+      },
+    ],
+  },
+  {
+    lessonSlug: "metacognition",
+    questions: [
+      {
+        id: "meta-1",
+        prompt: {
+          es: "¿Qué es metacognición en un agente?",
+          en: "What is metacognition in an agent?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Auto-evaluar su output y decidir corregir, pedir ayuda o detenerse",
+              en: "Self-evaluate output and decide to fix, ask for help, or stop",
+            },
+          },
+          { id: "b", label: { es: "Cambiar de idioma", en: "Switch language" } },
+          { id: "c", label: { es: "Compilar TypeScript", en: "Compile TypeScript" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Lección 09 — reflexión sobre la propia respuesta antes de entregarla.",
+          en: "Lesson 09 — reflecting on the answer before delivering it.",
+        },
+      },
+      {
+        id: "meta-2",
+        prompt: {
+          es: "¿Qué aporta un paso de self-check al demo course helper?",
+          en: "What does a self-check step add to the course helper demo?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Validar que la respuesta cubre el objetivo antes de mostrarla",
+              en: "Validate the answer meets the goal before showing it",
+            },
+          },
+          { id: "b", label: { es: "Ocultar el prompt", en: "Hide the prompt" } },
+          { id: "c", label: { es: "Duplicar tokens sin motivo", en: "Duplicate tokens for no reason" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "El STUDY_GUIDE sugiere un self-check en la versión stretch del demo.",
+          en: "The STUDY_GUIDE suggests self-check in the stretch version of the demo.",
+        },
+      },
+      {
+        id: "meta-3",
+        prompt: {
+          es: "¿Cuándo debería un agente pedir ayuda humana?",
+          en: "When should an agent ask for human help?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Cuando la confianza es baja o la tarea excede sus límites",
+              en: "When confidence is low or the task exceeds its limits",
+            },
+          },
+          { id: "b", label: { es: "Nunca", en: "Never" } },
+          { id: "c", label: { es: "Siempre al inicio", en: "Always at the start" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Metacognición incluye reconocer incertidumbre.",
+          en: "Metacognition includes recognizing uncertainty.",
+        },
+      },
+    ],
+  },
+  {
+    lessonSlug: "production",
+    questions: [
+      {
+        id: "prod-1",
+        prompt: {
+          es: "¿Qué cambia al llevar un agente a producción?",
+          en: "What changes when moving an agent to production?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Observabilidad, costes, latencia, fallos y operación continua",
+              en: "Observability, cost, latency, failures, and continuous operation",
+            },
+          },
+          { id: "b", label: { es: "Solo el color del UI", en: "Only UI color" } },
+          { id: "c", label: { es: "Nada respecto al demo", en: "Nothing vs the demo" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Lección 10 — producción exige métricas y resiliencia.",
+          en: "Lesson 10 — production requires metrics and resilience.",
+        },
+      },
+      {
+        id: "prod-2",
+        prompt: {
+          es: "¿Qué conviene monitorear en prod?",
+          en: "What should you monitor in prod?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Calidad, coste, latencia, errores y feedback de usuario",
+              en: "Quality, cost, latency, errors, and user feedback",
+            },
+          },
+          { id: "b", label: { es: "Solo el favicon", en: "Only the favicon" } },
+          { id: "c", label: { es: "Nada", en: "Nothing" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Evaluation + observability son pilares operativos.",
+          en: "Evaluation + observability are operational pillars.",
+        },
+      },
+      {
+        id: "prod-3",
+        prompt: {
+          es: "¿Por qué importa el coste en agentes?",
+          en: "Why does cost matter in agents?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Cada llamada al modelo y tool puede escalar con el tráfico",
+              en: "Each model and tool call can scale with traffic",
+            },
+          },
+          { id: "b", label: { es: "No importa en la nube", en: "It does not matter in the cloud" } },
+          { id: "c", label: { es: "Solo en local", en: "Only locally" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Agentes multi-paso multiplican tokens y llamadas.",
+          en: "Multi-step agents multiply tokens and calls.",
+        },
+      },
+    ],
+  },
+  {
+    lessonSlug: "agentic-protocols",
+    questions: [
+      {
+        id: "proto-1",
+        prompt: {
+          es: "¿Para qué sirven protocolos como MCP?",
+          en: "What are protocols like MCP for?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Conectar agentes con tools y servicios de forma estándar",
+              en: "Connect agents to tools and services in a standard way",
+            },
+          },
+          { id: "b", label: { es: "Reemplazar HTTP", en: "Replace HTTP" } },
+          { id: "c", label: { es: "Solo CSS", en: "CSS only" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Lección 11 — MCP, A2A, NLWeb para interoperabilidad.",
+          en: "Lesson 11 — MCP, A2A, NLWeb for interoperability.",
+        },
+      },
+      {
+        id: "proto-2",
+        prompt: {
+          es: "¿Qué simplifica un protocolo agéntico?",
+          en: "What does an agentic protocol simplify?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Integración entre agentes, herramientas y otros sistemas",
+              en: "Integration between agents, tools, and other systems",
+            },
+          },
+          { id: "b", label: { es: "Eliminar tests", en: "Remove tests" } },
+          { id: "c", label: { es: "Deshabilitar logs", en: "Disable logs" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Protocolos reducen integraciones ad-hoc.",
+          en: "Protocols reduce ad-hoc integrations.",
+        },
+      },
+      {
+        id: "proto-3",
+        prompt: {
+          es: "MCP en este ecosistema se relaciona con…",
+          en: "MCP in this ecosystem relates to…",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Exponer capabilities a LLMs/agentes (tools, resources)",
+              en: "Exposing capabilities to LLMs/agents (tools, resources)",
+            },
+          },
+          { id: "b", label: { es: "Solo email SMTP", en: "SMTP email only" } },
+          { id: "c", label: { es: "Compresión de imágenes", en: "Image compression" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Model Context Protocol conecta contexto y herramientas.",
+          en: "Model Context Protocol connects context and tools.",
+        },
+      },
+    ],
+  },
+  {
+    lessonSlug: "context-engineering",
+    questions: [
+      {
+        id: "ctx-1",
+        prompt: {
+          es: "¿Qué es context engineering?",
+          en: "What is context engineering?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Elegir, recortar y priorizar qué entra en el prompt del modelo",
+              en: "Choose, trim, and prioritize what goes into the model prompt",
+            },
+          },
+          { id: "b", label: { es: "Diseñar logos", en: "Design logos" } },
+          { id: "c", label: { es: "Ignorar el historial", en: "Ignore history" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Lección 12 — demasiado o poco contexto perjudica al agente.",
+          en: "Lesson 12 — too much or too little context hurts the agent.",
+        },
+      },
+      {
+        id: "ctx-2",
+        prompt: {
+          es: "¿Riesgo de exceso de contexto?",
+          en: "Risk of too much context?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Más coste, latencia y confusión del modelo",
+              en: "Higher cost, latency, and model confusion",
+            },
+          },
+          { id: "b", label: { es: "Mejor siempre", en: "Always better" } },
+          { id: "c", label: { es: "Gratis e instantáneo", en: "Free and instant" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Contexto debe ser relevante y acotado.",
+          en: "Context should be relevant and bounded.",
+        },
+      },
+      {
+        id: "ctx-3",
+        prompt: {
+          es: "¿Qué NO debería guardarse en el prompt?",
+          en: "What should NOT go in the prompt?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Datos sensibles innecesarios o ruido irrelevante",
+              en: "Unneeded sensitive data or irrelevant noise",
+            },
+          },
+          { id: "b", label: { es: "El objetivo del usuario", en: "The user's goal" } },
+          { id: "c", label: { es: "Resultados de tools recientes", en: "Recent tool results" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Buena ingeniería de contexto filtra señal y protege datos.",
+          en: "Good context engineering filters signal and protects data.",
+        },
+      },
+    ],
+  },
+  {
+    lessonSlug: "agent-memory",
+    questions: [
+      {
+        id: "mem-1",
+        prompt: {
+          es: "¿Qué distingue memoria corta vs larga en agentes?",
+          en: "What distinguishes short vs long-term agent memory?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Corta: turno/sesión; larga: preferencias persistidas entre sesiones",
+              en: "Short: turn/session; long: preferences persisted across sessions",
+            },
+          },
+          { id: "b", label: { es: "No hay diferencia", en: "No difference" } },
+          { id: "c", label: { es: "Solo RAM del servidor", en: "Server RAM only" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Lección 13 — elegir qué recordar y cuándo olvidar.",
+          en: "Lesson 13 — choose what to remember and when to forget.",
+        },
+      },
+      {
+        id: "mem-2",
+        prompt: {
+          es: "¿Qué preferencia es segura de recordar en el demo?",
+          en: "What preference is safe to remember in the demo?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "“El learner prefiere ejemplos en Python”",
+              en: "“The learner prefers Python examples”",
+            },
+          },
+          { id: "b", label: { es: "Contraseñas del usuario", en: "User passwords" } },
+          { id: "c", label: { es: "Todo sin límite", en: "Everything without limit" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Memoria útil y mínima; evitar datos sensibles.",
+          en: "Useful, minimal memory; avoid sensitive data.",
+        },
+      },
+      {
+        id: "mem-3",
+        prompt: {
+          es: "¿Cuándo olvidar información?",
+          en: "When should information be forgotten?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Cuando ya no aporta, es incorrecta o el usuario la revoca",
+              en: "When it no longer helps, is wrong, or the user revokes it",
+            },
+          },
+          { id: "b", label: { es: "Nunca", en: "Never" } },
+          { id: "c", label: { es: "Cada segundo", en: "Every second" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Memoria agéntica requiere políticas de retención.",
+          en: "Agent memory needs retention policies.",
+        },
+      },
+    ],
+  },
+  {
+    lessonSlug: "microsoft-agent-framework",
+    questions: [
+      {
+        id: "maf-1",
+        prompt: {
+          es: "¿Qué es Microsoft Agent Framework (MAF)?",
+          en: "What is Microsoft Agent Framework (MAF)?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Framework de Microsoft para orquestar agentes, tools y workflows",
+              en: "Microsoft framework to orchestrate agents, tools, and workflows",
+            },
+          },
+          { id: "b", label: { es: "Un CMS de WordPress", en: "A WordPress CMS" } },
+          { id: "c", label: { es: "Un antivirus", en: "Antivirus software" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Lección 14 — profundización en MAF y Foundry.",
+          en: "Lesson 14 — deep dive into MAF and Foundry.",
+        },
+      },
+      {
+        id: "maf-2",
+        prompt: {
+          es: "MAF encaja con despliegue en…",
+          en: "MAF fits deployment on…",
+        },
+        options: [
+          {
+            id: "a",
+            label: { es: "Azure AI Foundry", en: "Azure AI Foundry" },
+          },
+          { id: "b", label: { es: "Solo Excel local", en: "Local Excel only" } },
+          { id: "c", label: { es: "FTP legacy", en: "Legacy FTP" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "El curso integra MAF con Azure AI Foundry Agent Service.",
+          en: "The course integrates MAF with Azure AI Foundry Agent Service.",
+        },
+      },
+      {
+        id: "maf-3",
+        prompt: {
+          es: "Al mapear tu demo a MAF, primero identificás…",
+          en: "When mapping your demo to MAF, you first identify…",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Pasos del workflow y piezas del framework (agentes, tools)",
+              en: "Workflow steps and framework pieces (agents, tools)",
+            },
+          },
+          { id: "b", label: { es: "El favicon", en: "The favicon" } },
+          { id: "c", label: { es: "La fuente del footer", en: "Footer font" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "STUDY_GUIDE pide mapear pasos del demo a conceptos MAF.",
+          en: "STUDY_GUIDE asks to map demo steps to MAF concepts.",
+        },
+      },
+    ],
+  },
+  {
+    lessonSlug: "browser-use",
+    questions: [
+      {
+        id: "cua-1",
+        prompt: {
+          es: "¿Qué son Computer Use Agents (CUA)?",
+          en: "What are Computer Use Agents (CUA)?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Agentes que interactúan con navegador/UI como un usuario",
+              en: "Agents that interact with browser/UI like a user",
+            },
+          },
+          { id: "b", label: { es: "Solo cron jobs", en: "Cron jobs only" } },
+          { id: "c", label: { es: "Compiladores", en: "Compilers" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Lección 15 — browser-use y automatización de UI.",
+          en: "Lesson 15 — browser-use and UI automation.",
+        },
+      },
+      {
+        id: "cua-2",
+        prompt: {
+          es: "¿Qué acción de browser-use debería requerir confirmación?",
+          en: "Which browser-use action should require confirmation?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Acciones sensibles (pagos, borrados, envío de formularios críticos)",
+              en: "Sensitive actions (payments, deletes, critical form submits)",
+            },
+          },
+          { id: "b", label: { es: "Ninguna", en: "None" } },
+          { id: "c", label: { es: "Scroll", en: "Scrolling" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "STUDY_GUIDE: confirmación antes de tareas de browser de impacto.",
+          en: "STUDY_GUIDE: confirmation before high-impact browser tasks.",
+        },
+      },
+      {
+        id: "cua-3",
+        prompt: {
+          es: "Riesgo principal de agentes con UI…",
+          en: "Main risk of UI agents…",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Acciones no autorizadas en sistemas reales del usuario",
+              en: "Unauthorized actions on the user's real systems",
+            },
+          },
+          { id: "b", label: { es: "Mejor SEO", en: "Better SEO" } },
+          { id: "c", label: { es: "Menos latencia siempre", en: "Always less latency" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Human-in-the-loop y permisos mínimos son críticos.",
+          en: "Human-in-the-loop and least privilege are critical.",
+        },
+      },
+    ],
+  },
+  {
+    lessonSlug: "securing-ai-agents",
+    questions: [
+      {
+        id: "sec-1",
+        prompt: {
+          es: "¿Pilar clave de seguridad en agentes?",
+          en: "Key security pillar for agents?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Least privilege, validación de tool calls y auditoría",
+              en: "Least privilege, tool-call validation, and auditing",
+            },
+          },
+          { id: "b", label: { es: "Root en producción", en: "Root in production" } },
+          { id: "c", label: { es: "Secrets en el prompt", en: "Secrets in the prompt" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Lección 18 — securing AI agents en el repo Microsoft.",
+          en: "Lesson 18 — securing AI agents in the Microsoft repo.",
+        },
+      },
+      {
+        id: "sec-2",
+        prompt: {
+          es: "¿Qué son receipts/logs tamper-evident?",
+          en: "What are tamper-evident receipts/logs?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Registros que prueban qué acción hizo el agente y cuándo",
+              en: "Records proving what action the agent took and when",
+            },
+          },
+          { id: "b", label: { es: "Emojis en chat", en: "Chat emojis" } },
+          { id: "c", label: { es: "Cache del CDN", en: "CDN cache" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Auditoría de acciones de alto impacto.",
+          en: "Audit trail for high-impact actions.",
+        },
+      },
+      {
+        id: "sec-3",
+        prompt: {
+          es: "Antes de ejecutar un tool call riesgoso…",
+          en: "Before executing a risky tool call…",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Validar permisos, scope y pedir aprobación si aplica",
+              en: "Validate permissions, scope, and ask approval if needed",
+            },
+          },
+          { id: "b", label: { es: "Ejecutar siempre", en: "Always execute" } },
+          { id: "c", label: { es: "Desactivar logs", en: "Disable logs" } },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Trustworthy agents validan antes de actuar.",
+          en: "Trustworthy agents validate before acting.",
         },
       },
     ],

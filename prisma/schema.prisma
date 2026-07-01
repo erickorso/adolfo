@@ -448,6 +448,7 @@ model LearningProfile {
   totalXp          Int       @default(0)
   streakDays       Int       @default(0)
   lastActivityDate DateTime?
+  certificateEarnedAt DateTime?
   updatedAt        DateTime  @updatedAt
 }
 

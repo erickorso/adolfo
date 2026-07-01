@@ -1,6 +1,10 @@
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { usePathname as useNextPathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { isNavActive } from "@/lib/nav-active";
+import { routing } from "@/i18n/routing";
+import { isNavActive, stripLocaleFromPathname } from "@/lib/nav-active";
 import { cn } from "@/lib/utils";
 
 type NavItem = {
@@ -18,12 +22,10 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/account", labelKey: "account" },
 ];
 
-type SiteNavLinksProps = {
-  pathname: string;
-};
-
-export async function SiteNavLinks({ pathname }: SiteNavLinksProps) {
-  const t = await getTranslations("nav");
+export function SiteNavLinks() {
+  const t = useTranslations("nav");
+  const fullPathname = useNextPathname() ?? "/";
+  const pathname = stripLocaleFromPathname(fullPathname, routing.locales);
 
   return (
     <>

@@ -22,7 +22,9 @@ describe("isNavActive", () => {
     expect(isNavActive("/courses", "/learn/ai-agents")).toBe(false);
   });
 
-  it("activa jobs en listado", () => {
-    expect(isNavActive("/jobs", "/jobs")).toBe(true);
+  it("activa sandbox en ruta 3d", () => {
+    const pathname = stripLocaleFromPathname("/en/sandbox/3d", ["es", "en"]);
+    expect(isNavActive(pathname, "/sandbox/3d")).toBe(true);
+    expect(isNavActive(pathname, "/jobs")).toBe(false);
   });
 });

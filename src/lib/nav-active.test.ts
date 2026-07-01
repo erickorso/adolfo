@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { isNavActive } from "./site-nav-links";
+import { isNavActive, stripLocaleFromPathname } from "./nav-active";
+
+describe("stripLocaleFromPathname", () => {
+  it("quita prefijo de locale", () => {
+    expect(stripLocaleFromPathname("/en/jobs", ["es", "en"])).toBe("/jobs");
+    expect(stripLocaleFromPathname("/es", ["es", "en"])).toBe("/");
+  });
+});
 
 describe("isNavActive", () => {
   it("activa catalog solo en home", () => {
@@ -15,7 +22,7 @@ describe("isNavActive", () => {
     expect(isNavActive("/courses", "/learn/ai-agents")).toBe(false);
   });
 
-  it("activa courses en detalle", () => {
-    expect(isNavActive("/courses/abc", "/courses")).toBe(true);
+  it("activa jobs en listado", () => {
+    expect(isNavActive("/jobs", "/jobs")).toBe(true);
   });
 });

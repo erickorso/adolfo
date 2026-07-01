@@ -1,7 +1,6 @@
-"use client";
-
-import { useTranslations } from "next-intl";
-import { Link, usePathname } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { isNavActive } from "@/lib/nav-active";
 import { cn } from "@/lib/utils";
 
 type NavItem = {
@@ -19,23 +18,12 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/account", labelKey: "account" },
 ];
 
-export function isNavActive(
-  pathname: string,
-  href: string,
-  match: NavItem["match"] = "prefix",
-): boolean {
-  const normalized = pathname || "/";
+type SiteNavLinksProps = {
+  pathname: string;
+};
 
-  if (match === "exact") {
-    return normalized === href;
-  }
-
-  return normalized === href || normalized.startsWith(`${href}/`);
-}
-
-export function SiteNavLinks() {
-  const t = useTranslations("nav");
-  const pathname = usePathname();
+export async function SiteNavLinks({ pathname }: SiteNavLinksProps) {
+  const t = await getTranslations("nav");
 
   return (
     <>
@@ -48,9 +36,9 @@ export function SiteNavLinks() {
             href={item.href}
             aria-current={active ? "page" : undefined}
             className={cn(
-              item.href === "/" ? "text-lg" : "text-sm",
+              "text-sm transition-colors",
               active
-                ? "font-bold text-foreground"
+                ? "font-semibold text-foreground underline decoration-2 underline-offset-4"
                 : "font-normal text-muted-foreground hover:text-foreground",
             )}
           >

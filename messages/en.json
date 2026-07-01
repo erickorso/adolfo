@@ -213,7 +213,16 @@
     "quizPassed": "Passed with {score}% — +{xp} bonus XP!",
     "quizFailed": "Score {score}%. You need {percent}% — try again.",
     "quizPassedBadge": "Quiz passed",
-    "quizPassedShort": "Quiz ✓"
+    "quizPassedShort": "Quiz ✓",
+    "lessonLocked": "Lesson locked",
+    "lessonLockedShort": "Pass the previous lesson quiz to unlock",
+    "lessonLockedQuizHint": "Approve the quiz of the previous lesson to continue the path.",
+    "lessonLockedCompleteHint": "Mark the previous lesson complete to continue.",
+    "missionsTitle": "Side quests",
+    "missionsHint": "Check each task when done (+2 XP each).",
+    "missionReadme": "Read the official README on GitHub",
+    "missionVideo": "Watch the lesson video",
+    "missionCode": "Run or review the Python code_samples"
   },
   "sandbox3d": {
     "title": "3D Sandbox",

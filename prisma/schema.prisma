@@ -431,6 +431,10 @@ model LessonProgress {
   quizScore   Int?
   quizPassedAt DateTime?
   quizXpEarned Int       @default(0)
+  missionReadme  Boolean @default(false)
+  missionVideo   Boolean @default(false)
+  missionCode    Boolean @default(false)
+  missionXpEarned Int    @default(0)
 
   @@unique([userId, moduleId, lessonSlug])
   @@index([userId, moduleId])

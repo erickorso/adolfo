@@ -52,6 +52,7 @@ export async function AiAgentsCourseTemplate() {
         <AiAgentsLessonList
           completedSlugs={progress.completedSlugs}
           quizPassedSlugs={progress.quizPassedSlugs}
+          isLoggedIn={progress.isLoggedIn}
         />
       </section>
 

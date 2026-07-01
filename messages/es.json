@@ -183,7 +183,16 @@
     "quizPassed": "¡Aprobado con {score}% — +{xp} XP extra!",
     "quizFailed": "Puntaje {score}%. Necesitás {percent}% — intentá de nuevo.",
     "quizPassedBadge": "Quiz aprobado",
-    "quizPassedShort": "Quiz ✓"
+    "quizPassedShort": "Quiz ✓",
+    "lessonLocked": "Lección bloqueada",
+    "lessonLockedShort": "Aprobá el quiz de la lección anterior para desbloquear",
+    "lessonLockedQuizHint": "Aprobá el quiz de la lección anterior para seguir el camino.",
+    "lessonLockedCompleteHint": "Marcá la lección anterior como completada para continuar.",
+    "missionsTitle": "Misiones secundarias",
+    "missionsHint": "Marcá cada tarea al terminarla (+2 XP c/u).",
+    "missionReadme": "Leer el README oficial en GitHub",
+    "missionVideo": "Ver el video de la lección",
+    "missionCode": "Ejecutar o revisar los code_samples en Python"
   },
   "sandbox3d": {
     "title": "Sandbox 3D",

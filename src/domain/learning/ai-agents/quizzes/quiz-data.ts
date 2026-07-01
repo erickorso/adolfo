@@ -1,6 +1,6 @@
 import type { LessonQuizDefinition } from "./quiz.types";
 
-/** Quizzes alineados al repo microsoft/ai-agents-for-beginners (lecciones 0–4). */
+/** Quizzes alineados al repo microsoft/ai-agents-for-beginners (lecciones 0–8). */
 export const AI_AGENTS_QUIZZES: LessonQuizDefinition[] = [
   {
     lessonSlug: "course-setup",
@@ -467,6 +467,374 @@ export const AI_AGENTS_QUIZZES: LessonQuizDefinition[] = [
         explanation: {
           es: "Lección 04 — el agente elige cuándo y qué tool llamar.",
           en: "Lesson 04 — the agent chooses when and which tool to call.",
+        },
+      },
+    ],
+  },
+  {
+    lessonSlug: "agentic-rag",
+    questions: [
+      {
+        id: "rag-1",
+        prompt: {
+          es: "¿Qué aporta el RAG agéntico frente a un RAG estático?",
+          en: "What does agentic RAG add over static RAG?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "El agente decide cuándo y qué recuperar, no solo embedding + prompt fijo",
+              en: "The agent decides when and what to retrieve—not just embeddings plus a fixed prompt",
+            },
+          },
+          {
+            id: "b",
+            label: { es: "Elimina la necesidad de documentos", en: "Eliminates the need for documents" },
+          },
+          {
+            id: "c",
+            label: { es: "Solo traduce PDFs", en: "Only translates PDFs" },
+          },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Lección 05 — la recuperación la orquesta el agente según el objetivo.",
+          en: "Lesson 05 — retrieval is orchestrated by the agent based on the goal.",
+        },
+      },
+      {
+        id: "rag-2",
+        prompt: {
+          es: "¿Cuándo conviene usar RAG en un agente?",
+          en: "When should an agent use RAG?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Cuando la respuesta debe basarse en documentos o datos del proyecto",
+              en: "When the answer should be grounded in documents or project data",
+            },
+          },
+          {
+            id: "b",
+            label: { es: "Nunca en producción", en: "Never in production" },
+          },
+          {
+            id: "c",
+            label: { es: "Solo para generar imágenes", en: "Only to generate images" },
+          },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "RAG reduce alucinaciones anclando respuestas a fuentes.",
+          en: "RAG reduces hallucinations by anchoring answers to sources.",
+        },
+      },
+      {
+        id: "rag-3",
+        prompt: {
+          es: "En el demo course helper, ¿qué rol tiene el conocimiento?",
+          en: "In the course helper demo, what role does knowledge play?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "READMEs y material del repo como fuente para buscar lecciones",
+              en: "READMEs and repo material as sources to find lessons",
+            },
+          },
+          {
+            id: "b",
+            label: { es: "Solo decoración UI", en: "UI decoration only" },
+          },
+          {
+            id: "c",
+            label: { es: "Reemplaza al modelo LLM", en: "Replaces the LLM" },
+          },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "El STUDY_GUIDE usa el repo como knowledge source del agente.",
+          en: "The STUDY_GUIDE uses the repo as the agent's knowledge source.",
+        },
+      },
+    ],
+  },
+  {
+    lessonSlug: "trustworthy-agents",
+    questions: [
+      {
+        id: "trust-1",
+        prompt: {
+          es: "¿Qué incluye construir agentes confiables?",
+          en: "What does building trustworthy agents include?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Guardrails, evaluación, trazabilidad y permisos mínimos",
+              en: "Guardrails, evaluation, traceability, and least privilege",
+            },
+          },
+          {
+            id: "b",
+            label: { es: "Ocultar todos los logs", en: "Hide all logs" },
+          },
+          {
+            id: "c",
+            label: { es: "Dar acceso root al agente", en: "Give the agent root access" },
+          },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Lección 06 — confianza = diseño + observabilidad + límites.",
+          en: "Lesson 06 — trust = design + observability + boundaries.",
+        },
+      },
+      {
+        id: "trust-2",
+        prompt: {
+          es: "¿Cuándo debería pedir aprobación humana el agente?",
+          en: "When should the agent ask for human approval?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Antes de acciones de alto impacto o riesgo",
+              en: "Before high-impact or risky actions",
+            },
+          },
+          {
+            id: "b",
+            label: { es: "Nunca", en: "Never" },
+          },
+          {
+            id: "c",
+            label: { es: "Solo al iniciar sesión", en: "Only at login" },
+          },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Human-in-the-loop es clave para acciones sensibles.",
+          en: "Human-in-the-loop is key for sensitive actions.",
+        },
+      },
+      {
+        id: "trust-3",
+        prompt: {
+          es: "¿Qué es observabilidad en agentes?",
+          en: "What is observability in agents?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Ver llamadas al modelo, tools, contexto, latencia y errores",
+              en: "See model calls, tools, context, latency, and errors",
+            },
+          },
+          {
+            id: "b",
+            label: { es: "Cambiar el logo", en: "Change the logo" },
+          },
+          {
+            id: "c",
+            label: { es: "Desactivar métricas", en: "Disable metrics" },
+          },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Sin trazas es difícil depurar o auditar un agente.",
+          en: "Without traces it's hard to debug or audit an agent.",
+        },
+      },
+    ],
+  },
+  {
+    lessonSlug: "planning-design",
+    questions: [
+      {
+        id: "plan-1",
+        prompt: {
+          es: "¿Qué hace el patrón Planning?",
+          en: "What does the Planning pattern do?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Descompone objetivos en pasos y puede replanificar",
+              en: "Breaks goals into steps and can replan",
+            },
+          },
+          {
+            id: "b",
+            label: { es: "Solo genera CSS", en: "Only generates CSS" },
+          },
+          {
+            id: "c",
+            label: { es: "Elimina el uso de tools", en: "Eliminates tool use" },
+          },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Lección 07 — planning para tareas multi-paso.",
+          en: "Lesson 07 — planning for multi-step tasks.",
+        },
+      },
+      {
+        id: "plan-2",
+        prompt: {
+          es: "Plan de ejemplo para el course helper:",
+          en: "Example plan for the course helper:",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "1) Buscar lecciones 2) Resumir 3) Sugerir práctica",
+              en: "1) Find lessons 2) Summarize 3) Suggest practice",
+            },
+          },
+          {
+            id: "b",
+            label: { es: "Un solo prompt sin pasos", en: "One prompt with no steps" },
+          },
+          {
+            id: "c",
+            label: { es: "Borrar el repositorio", en: "Delete the repository" },
+          },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Planes cortos e inspeccionables son más mantenibles.",
+          en: "Short, inspectable plans are more maintainable.",
+        },
+      },
+      {
+        id: "plan-3",
+        prompt: {
+          es: "¿Cuándo es útil planning?",
+          en: "When is planning useful?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Cuando la solicitud tiene más de un paso lógico",
+              en: "When the request has more than one logical step",
+            },
+          },
+          {
+            id: "b",
+            label: { es: "Para saludar al usuario", en: "To greet the user" },
+          },
+          {
+            id: "c",
+            label: { es: "Nunca", en: "Never" },
+          },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Planning evita respuestas monolíticas en tareas complejas.",
+          en: "Planning avoids monolithic answers on complex tasks.",
+        },
+      },
+    ],
+  },
+  {
+    lessonSlug: "multi-agent",
+    questions: [
+      {
+        id: "multi-1",
+        prompt: {
+          es: "¿Qué es un sistema multi-agente?",
+          en: "What is a multi-agent system?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Varios agentes especializados coordinados (handoffs, roles)",
+              en: "Several specialized agents coordinated via handoffs and roles",
+            },
+          },
+          {
+            id: "b",
+            label: { es: "Un chat con emojis", en: "A chat with emojis" },
+          },
+          {
+            id: "c",
+            label: { es: "Varios usuarios en Slack", en: "Multiple users on Slack" },
+          },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Lección 08 — divide responsabilidades entre agentes.",
+          en: "Lesson 08 — splits responsibilities across agents.",
+        },
+      },
+      {
+        id: "multi-2",
+        prompt: {
+          es: "¿Cuándo considerar varios agentes?",
+          en: "When should you consider multiple agents?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Cuando hay roles distintos o flujos que se benefician de especialización",
+              en: "When distinct roles or flows benefit from specialization",
+            },
+          },
+          {
+            id: "b",
+            label: { es: "Siempre, aunque sea tarea trivial", en: "Always, even for trivial tasks" },
+          },
+          {
+            id: "c",
+            label: { es: "Nunca en Azure", en: "Never on Azure" },
+          },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Multi-agente añade complejidad; úsalo cuando aporte valor.",
+          en: "Multi-agent adds complexity; use it when it adds value.",
+        },
+      },
+      {
+        id: "multi-3",
+        prompt: {
+          es: "¿Qué es un handoff entre agentes?",
+          en: "What is a handoff between agents?",
+        },
+        options: [
+          {
+            id: "a",
+            label: {
+              es: "Transferir control o contexto a otro agente especializado",
+              en: "Transfer control or context to another specialized agent",
+            },
+          },
+          {
+            id: "b",
+            label: { es: "Apagar el servidor", en: "Shut down the server" },
+          },
+          {
+            id: "c",
+            label: { es: "Un error de red", en: "A network error" },
+          },
+        ],
+        correctOptionId: "a",
+        explanation: {
+          es: "Los handoffs permiten pipelines colaborativos entre agentes.",
+          en: "Handoffs enable collaborative pipelines between agents.",
         },
       },
     ],

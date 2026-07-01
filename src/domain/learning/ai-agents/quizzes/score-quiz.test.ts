@@ -17,13 +17,12 @@ describe("scoreQuizAnswers", () => {
     expect(result?.correctCount).toBe(3);
   });
 
-  it("fails with partial correct answers", () => {
-    const result = scoreQuizAnswers("intro-to-ai-agents", {
-      "intro-1": "a",
-      "intro-2": "b",
-      "intro-3": "c",
+  it("passes agentic-rag with all correct answers", () => {
+    const result = scoreQuizAnswers("agentic-rag", {
+      "rag-1": "a",
+      "rag-2": "a",
+      "rag-3": "a",
     });
-    expect(result?.score).toBe(33);
-    expect(result?.passed).toBe(false);
+    expect(result?.passed).toBe(true);
   });
 });

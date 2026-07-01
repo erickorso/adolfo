@@ -2,11 +2,14 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { LessonCompleteButton } from "@/components/molecules/lesson-complete-button";
+import { LessonLockedNotice } from "@/components/molecules/lesson-locked-notice";
+import { LessonMissions } from "@/components/molecules/lesson-missions";
 import { LessonQuiz } from "@/components/organisms/lesson-quiz";
 import {
   getAdjacentLessons,
   getLessonBySlug,
 } from "@/domain/learning/ai-agents/lessons";
+import { isLessonUnlocked } from "@/domain/learning/ai-agents/lesson-unlock";
 import { AI_AGENTS_MODULE_ID } from "@/domain/learning/ai-agents/module.constants";
 import { getPublicQuiz } from "@/domain/learning/ai-agents/quizzes/score-quiz";
 import {
@@ -15,7 +18,10 @@ import {
   lessonReadmeUrl,
   lessonVideoUrl,
 } from "@/domain/learning/ai-agents/lesson.types";
-import { getLessonProgressState } from "@/services/learning/lesson-progress.service";
+import {
+  getLessonProgressState,
+  getModuleProgress,
+} from "@/services/learning/lesson-progress.service";
 import { getCurrentUser } from "@/services/users/user.service";
 
 type AiAgentsLessonPageProps = {
@@ -32,6 +38,21 @@ export async function AiAgentsLessonTemplate({ params }: AiAgentsLessonPageProps
   const t = await getTranslations("aiAgents");
   const locale = await getLocale();
   const user = await getCurrentUser();
+  const moduleProgress = await getModuleProgress(user?.id ?? null, AI_AGENTS_MODULE_ID);
+  const unlocked = isLessonUnlocked(slug, {
+    isLoggedIn: moduleProgress.isLoggedIn,
+    completedSlugs: moduleProgress.completedSlugs,
+    quizPassedSlugs: moduleProgress.quizPassedSlugs,
+  });
+
+  if (!unlocked) {
+    return (
+      <article className="flex flex-col gap-6">
+        <LessonLockedNotice lessonSlug={slug} />
+      </article>
+    );
+  }
+
   const progressState = await getLessonProgressState(
     user?.id ?? null,
     AI_AGENTS_MODULE_ID,
@@ -98,6 +119,14 @@ export async function AiAgentsLessonTemplate({ params }: AiAgentsLessonPageProps
           ) : null}
         </ul>
       </section>
+
+      <LessonMissions
+        moduleId={AI_AGENTS_MODULE_ID}
+        lessonSlug={slug}
+        hasVideo={Boolean(lesson.videoId)}
+        isLoggedIn={Boolean(user)}
+        missions={progressState.missions}
+      />
 
       {quiz ? (
         <LessonQuiz

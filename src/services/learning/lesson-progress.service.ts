@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import {
   AI_AGENTS_MODULE_ID,
   XP_PER_LESSON,
+  XP_PER_MISSION,
   XP_PER_QUIZ_PASS,
 } from "@/domain/learning/ai-agents/module.constants";
 import { scoreQuizAnswers } from "@/domain/learning/ai-agents/quizzes/score-quiz";
@@ -14,11 +15,42 @@ import type {
 import type { QuizSubmitResult } from "@/domain/learning/ai-agents/quizzes/quiz.types";
 import { computeStreakUpdate } from "@/domain/learning/streak";
 
+export type LessonMissionState = {
+  readme: boolean;
+  video: boolean;
+  code: boolean;
+};
+
 export type LessonProgressState = {
   completed: boolean;
   quizScore: number | null;
   quizPassed: boolean;
+  missions: LessonMissionState;
 };
+
+export type LessonMissionKind = "readme" | "video" | "code";
+
+function emptyMissions(): LessonMissionState {
+  return { readme: false, video: false, code: false };
+}
+
+function hasPersistedProgress(row: {
+  quizPassedAt: Date | null;
+  quizScore: number | null;
+  missionReadme: boolean;
+  missionVideo: boolean;
+  missionCode: boolean;
+  missionXpEarned: number;
+}): boolean {
+  return (
+    Boolean(row.quizPassedAt) ||
+    row.quizScore != null ||
+    row.missionReadme ||
+    row.missionVideo ||
+    row.missionCode ||
+    row.missionXpEarned > 0
+  );
+}
 
 function resolveTotalLessons(moduleId: string): number {
   if (moduleId === AI_AGENTS_MODULE_ID) {
@@ -95,7 +127,12 @@ export async function getLessonProgressState(
   lessonSlug: string,
 ): Promise<LessonProgressState> {
   if (!userId) {
-    return { completed: false, quizScore: null, quizPassed: false };
+    return {
+      completed: false,
+      quizScore: null,
+      quizPassed: false,
+      missions: emptyMissions(),
+    };
   }
 
   const row = await prisma.lessonProgress.findUnique({
@@ -105,13 +142,23 @@ export async function getLessonProgressState(
   });
 
   if (!row) {
-    return { completed: false, quizScore: null, quizPassed: false };
+    return {
+      completed: false,
+      quizScore: null,
+      quizPassed: false,
+      missions: emptyMissions(),
+    };
   }
 
   return {
     completed: Boolean(row.completedAt),
     quizScore: row.quizScore,
     quizPassed: Boolean(row.quizPassedAt),
+    missions: {
+      readme: row.missionReadme,
+      video: row.missionVideo,
+      code: row.missionCode,
+    },
   };
 }
 
@@ -170,7 +217,7 @@ export async function toggleLessonComplete(
     await prisma.$transaction(async (tx) => {
       const lessonXp = existing.xpEarned;
 
-      if (existing.quizPassedAt || existing.quizScore != null) {
+      if (hasPersistedProgress(existing)) {
         await tx.lessonProgress.update({
           where: { id: existing.id },
           data: { completedAt: null, xpEarned: 0 },
@@ -277,4 +324,71 @@ export async function submitLessonQuiz(
   });
 
   return { ...scored, xpAwarded };
+}
+
+function missionField(kind: LessonMissionKind): "missionReadme" | "missionVideo" | "missionCode" {
+  if (kind === "readme") return "missionReadme";
+  if (kind === "video") return "missionVideo";
+  return "missionCode";
+}
+
+export async function toggleLessonMission(
+  userId: string,
+  moduleId: string,
+  lessonSlug: string,
+  kind: LessonMissionKind,
+): Promise<LessonMissionState> {
+  assertLessonExists(moduleId, lessonSlug);
+
+  const lesson = getLessonBySlug(lessonSlug);
+  if (kind === "video" && !lesson?.videoId) {
+    throw new Error("Misión no disponible");
+  }
+
+  const field = missionField(kind);
+  const existing = await prisma.lessonProgress.findUnique({
+    where: {
+      userId_moduleId_lessonSlug: { userId, moduleId, lessonSlug },
+    },
+  });
+
+  const currentlyDone = existing?.[field] ?? false;
+  const xpDelta = currentlyDone ? -XP_PER_MISSION : XP_PER_MISSION;
+
+  await prisma.$transaction(async (tx) => {
+    const nextValue = !currentlyDone;
+    const nextMissionXp = Math.max(
+      0,
+      (existing?.missionXpEarned ?? 0) + xpDelta,
+    );
+
+    const missionData =
+      field === "missionReadme"
+        ? { missionReadme: nextValue }
+        : field === "missionVideo"
+          ? { missionVideo: nextValue }
+          : { missionCode: nextValue };
+
+    await tx.lessonProgress.upsert({
+      where: {
+        userId_moduleId_lessonSlug: { userId, moduleId, lessonSlug },
+      },
+      create: {
+        userId,
+        moduleId,
+        lessonSlug,
+        ...missionData,
+        missionXpEarned: nextValue ? XP_PER_MISSION : 0,
+      },
+      update: {
+        ...missionData,
+        missionXpEarned: nextMissionXp,
+      },
+    });
+
+    await applyStreakAndXp(tx, userId, xpDelta);
+  });
+
+  const state = await getLessonProgressState(userId, moduleId, lessonSlug);
+  return state.missions;
 }

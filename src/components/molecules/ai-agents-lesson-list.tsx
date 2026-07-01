@@ -56,8 +56,8 @@ async function LessonRow({
   return (
     <li
       className={cn(
-        "rounded-lg border bg-card p-4",
-        completed ? "border-primary/40" : "border-border",
+        "learn-path__card p-4",
+        completed && "ring-1 ring-[var(--learn-accent-muted)]",
         !unlocked && "opacity-70",
       )}
     >

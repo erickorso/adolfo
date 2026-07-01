@@ -190,6 +190,42 @@ export const AI_AGENTS_QUIZZES: LessonQuizDefinition[] = [
           en: "Agents add value when the goal needs tools or orchestration.",
         },
       },
+      {
+        id: "intro-4",
+        type: "order",
+        prompt: {
+          es: "Arrastrá los bloques: ordená el ciclo ReAct de un agente",
+          en: "Drag the blocks: order the ReAct cycle of an agent",
+        },
+        items: [
+          {
+            id: "reason",
+            label: {
+              es: "Reason — el modelo piensa el siguiente paso",
+              en: "Reason — the model thinks the next step",
+            },
+          },
+          {
+            id: "act",
+            label: {
+              es: "Act — invoca una tool o acción externa",
+              en: "Act — invokes a tool or external action",
+            },
+          },
+          {
+            id: "observe",
+            label: {
+              es: "Observe — incorpora el resultado al contexto",
+              en: "Observe — incorporates the result into context",
+            },
+          },
+        ],
+        correctOrder: ["reason", "act", "observe"],
+        explanation: {
+          es: "ReAct alterna razonamiento, acción y observación hasta resolver la tarea.",
+          en: "ReAct alternates reasoning, action, and observation until the task is done.",
+        },
+      },
     ],
   },
   {
@@ -374,6 +410,49 @@ export const AI_AGENTS_QUIZZES: LessonQuizDefinition[] = [
           en: "Each pattern solves a different agent capability.",
         },
       },
+      {
+        id: "pat-4",
+        type: "order",
+        prompt: {
+          es: "Ordená el flujo de diseño de un agente (de arriba a abajo)",
+          en: "Order the agent design flow (top to bottom)",
+        },
+        items: [
+          {
+            id: "goal",
+            label: {
+              es: "Definir objetivo y límites del agente",
+              en: "Define the agent goal and boundaries",
+            },
+          },
+          {
+            id: "tools",
+            label: {
+              es: "Elegir tools y fuentes de contexto",
+              en: "Choose tools and context sources",
+            },
+          },
+          {
+            id: "loop",
+            label: {
+              es: "Diseñar el loop (ReAct / planning / multi-agent)",
+              en: "Design the loop (ReAct / planning / multi-agent)",
+            },
+          },
+          {
+            id: "test",
+            label: {
+              es: "Probar, evaluar y refinar",
+              en: "Test, evaluate, and refine",
+            },
+          },
+        ],
+        correctOrder: ["goal", "tools", "loop", "test"],
+        explanation: {
+          es: "Diseñar antes de codificar evita agentes frágiles o sin límites claros.",
+          en: "Design before coding avoids fragile agents without clear boundaries.",
+        },
+      },
     ],
   },
   {
@@ -467,6 +546,49 @@ export const AI_AGENTS_QUIZZES: LessonQuizDefinition[] = [
         explanation: {
           es: "Lección 04 — el agente elige cuándo y qué tool llamar.",
           en: "Lesson 04 — the agent chooses when and which tool to call.",
+        },
+      },
+      {
+        id: "tool-4",
+        type: "order",
+        prompt: {
+          es: "Ordená los pasos cuando un agente usa una tool",
+          en: "Order the steps when an agent uses a tool",
+        },
+        items: [
+          {
+            id: "intent",
+            label: {
+              es: "Interpretar la intención del usuario",
+              en: "Interpret the user intent",
+            },
+          },
+          {
+            id: "select",
+            label: {
+              es: "Seleccionar la tool adecuada",
+              en: "Select the right tool",
+            },
+          },
+          {
+            id: "execute",
+            label: {
+              es: "Ejecutar la tool con parámetros",
+              en: "Execute the tool with parameters",
+            },
+          },
+          {
+            id: "return",
+            label: {
+              es: "Devolver el resultado al modelo",
+              en: "Return the result to the model",
+            },
+          },
+        ],
+        correctOrder: ["intent", "select", "execute", "return"],
+        explanation: {
+          es: "Tool Use conecta razonamiento del LLM con APIs y datos reales.",
+          en: "Tool Use connects LLM reasoning with real APIs and data.",
         },
       },
     ],

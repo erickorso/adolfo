@@ -1,5 +1,8 @@
+import { getLocale, getTranslations } from "next-intl/server";
 import { AiAgentsLessonTemplate } from "@/components/templates/ai-agents-lesson-template";
-import { AI_AGENTS_LESSONS } from "@/domain/learning/ai-agents/lessons";
+import { LearnModuleShell } from "@/components/templates/learn-module-shell";
+import { AI_AGENTS_LESSONS, getLessonBySlug } from "@/domain/learning/ai-agents/lessons";
+import { lessonLocalizedText } from "@/domain/learning/ai-agents/lesson.types";
 
 type AiAgentsLessonPageProps = {
   params: Promise<{ slug: string }>;
@@ -10,9 +13,20 @@ export function generateStaticParams() {
 }
 
 export default async function AiAgentsLessonPage({ params }: AiAgentsLessonPageProps) {
+  const { slug } = await params;
+  const lesson = getLessonBySlug(slug);
+  const t = await getTranslations("aiAgents");
+  const locale = await getLocale();
+  const title = lesson
+    ? lessonLocalizedText(locale, lesson.title)
+    : t("title");
+
   return (
-    <main className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-10">
+    <LearnModuleShell
+      title={title}
+      subtitle={lesson ? lessonLocalizedText(locale, lesson.summary) : undefined}
+    >
       <AiAgentsLessonTemplate params={params} />
-    </main>
+    </LearnModuleShell>
   );
 }

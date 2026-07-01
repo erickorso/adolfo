@@ -25,4 +25,26 @@ describe("scoreQuizAnswers", () => {
     });
     expect(result?.passed).toBe(true);
   });
+
+  it("passes intro-to-ai-agents with order question", () => {
+    const result = scoreQuizAnswers("intro-to-ai-agents", {
+      "intro-1": "a",
+      "intro-2": "a",
+      "intro-3": "a",
+      "intro-4": "reason|act|observe",
+    });
+    expect(result?.passed).toBe(true);
+    expect(result?.score).toBe(100);
+  });
+
+  it("fails when order and choices are wrong", () => {
+    const result = scoreQuizAnswers("design-patterns", {
+      "pat-1": "b",
+      "pat-2": "b",
+      "pat-3": "b",
+      "pat-4": "test|goal|tools|loop",
+    });
+    expect(result?.passed).toBe(false);
+    expect(result?.correctCount).toBe(0);
+  });
 });

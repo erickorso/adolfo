@@ -257,7 +257,12 @@
     "certificateView": "View certificate",
     "certificateClaim": "Claim certificate",
     "certificateClaiming": "Claiming…",
-    "certificatePrint": "Print / Save PDF"
+    "certificatePrint": "Print / Save PDF",
+    "practiceBadge": "Interactive practice",
+    "reactLoopTitle": "ReAct cycle — drag the blocks",
+    "reactLoopHint": "Memorize this loop: Reason → Act → Observe. It is the heartbeat of most agents.",
+    "reactLoopSuccess": "Perfect order! ReAct locked in: think, act, observe.",
+    "dragOrderHint": "Drag blocks or use ↑ ↓ to order them top to bottom."
   },
   "sandbox3d": {
     "title": "3D Sandbox",

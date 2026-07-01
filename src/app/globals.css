@@ -136,3 +136,260 @@
     box-shadow: none;
   }
 }
+
+/* ── Learn path: sistema monocromático violeta (Agent Violet) ── */
+.learn-path {
+  --learn-h: 285;
+  --learn-accent: oklch(0.52 0.24 var(--learn-h));
+  --learn-accent-strong: oklch(0.42 0.26 var(--learn-h));
+  --learn-accent-soft: oklch(0.94 0.05 var(--learn-h));
+  --learn-accent-muted: oklch(0.88 0.08 var(--learn-h));
+  --learn-surface: oklch(0.99 0.012 var(--learn-h));
+  --learn-glow: oklch(0.72 0.18 var(--learn-h) / 0.35);
+  --learn-text: oklch(0.28 0.06 var(--learn-h));
+  --learn-text-muted: oklch(0.48 0.05 var(--learn-h));
+}
+
+.dark .learn-path {
+  --learn-accent: oklch(0.72 0.2 var(--learn-h));
+  --learn-accent-strong: oklch(0.78 0.18 var(--learn-h));
+  --learn-accent-soft: oklch(0.28 0.06 var(--learn-h));
+  --learn-accent-muted: oklch(0.34 0.08 var(--learn-h));
+  --learn-surface: oklch(0.22 0.04 var(--learn-h));
+  --learn-glow: oklch(0.55 0.22 var(--learn-h) / 0.25);
+  --learn-text: oklch(0.94 0.03 var(--learn-h));
+  --learn-text-muted: oklch(0.72 0.04 var(--learn-h));
+}
+
+.learn-path__hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: calc(var(--radius) * 1.4);
+  border: 1px solid var(--learn-accent-muted);
+  background:
+    radial-gradient(ellipse 120% 80% at 0% 0%, var(--learn-glow), transparent 55%),
+    linear-gradient(135deg, var(--learn-accent-soft), var(--learn-surface));
+  padding: 1.5rem;
+}
+
+.learn-path__hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 9999px;
+  background: var(--learn-accent);
+  color: oklch(0.99 0.01 var(--learn-h));
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.learn-path__card {
+  border-radius: calc(var(--radius) * 1.2);
+  border: 1px solid var(--learn-accent-muted);
+  background: var(--learn-surface);
+  box-shadow: 0 1px 0 oklch(0.52 0.24 var(--learn-h) / 0.06);
+}
+
+.learn-path__card-title {
+  color: var(--learn-text);
+}
+
+.learn-path__card-muted {
+  color: var(--learn-text-muted);
+}
+
+.learn-path__btn {
+  border-radius: calc(var(--radius) * 0.9);
+  background: var(--learn-accent);
+  color: oklch(0.99 0.01 var(--learn-h));
+  font-weight: 600;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.learn-path__btn:hover {
+  background: var(--learn-accent-strong);
+}
+
+.learn-path__btn:disabled {
+  opacity: 0.6;
+}
+
+.learn-path__meter {
+  accent-color: var(--learn-accent);
+}
+
+.learn-drag__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.learn-drag__item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: calc(var(--radius) * 0.9);
+  border: 1px solid var(--learn-accent-muted);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--learn-text);
+  cursor: grab;
+  touch-action: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.learn-drag__item:active {
+  cursor: grabbing;
+}
+
+.learn-drag__item--dragging {
+  opacity: 0.55;
+  transform: scale(0.98);
+}
+
+.learn-drag__item--over {
+  border-color: var(--learn-accent);
+  box-shadow: 0 0 0 2px var(--learn-glow);
+}
+
+.learn-drag__item--correct {
+  border-color: oklch(0.55 0.16 155);
+  background: oklch(0.94 0.04 155);
+}
+
+.learn-drag__item--wrong {
+  border-color: oklch(0.55 0.18 27);
+  background: oklch(0.95 0.04 27);
+}
+
+.learn-drag__item--step-1 {
+  background: oklch(0.96 0.04 var(--learn-h));
+}
+
+.learn-drag__item--step-2 {
+  background: oklch(0.92 0.07 var(--learn-h));
+}
+
+.learn-drag__item--step-3 {
+  background: oklch(0.88 0.11 var(--learn-h));
+}
+
+.learn-drag__item--step-4 {
+  background: oklch(0.84 0.14 var(--learn-h));
+}
+
+.dark .learn-drag__item--step-1 {
+  background: oklch(0.26 0.05 var(--learn-h));
+}
+
+.dark .learn-drag__item--step-2 {
+  background: oklch(0.3 0.07 var(--learn-h));
+}
+
+.dark .learn-drag__item--step-3 {
+  background: oklch(0.34 0.09 var(--learn-h));
+}
+
+.dark .learn-drag__item--step-4 {
+  background: oklch(0.38 0.11 var(--learn-h));
+}
+
+.learn-drag__index {
+  display: flex;
+  size: 1.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--learn-accent);
+  color: oklch(0.99 0.01 var(--learn-h));
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.learn-drag__grip {
+  flex-shrink: 0;
+  color: var(--learn-accent);
+  opacity: 0.7;
+}
+
+.learn-drag__label {
+  flex: 1;
+  min-width: 0;
+}
+
+.learn-drag__actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.25rem;
+}
+
+.learn-drag__move-btn {
+  display: flex;
+  size: 1.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(var(--radius) * 0.6);
+  border: 1px solid var(--learn-accent-muted);
+  background: var(--learn-surface);
+  color: var(--learn-text);
+}
+
+.learn-drag__move-btn:hover {
+  border-color: var(--learn-accent);
+  background: var(--learn-accent-soft);
+}
+
+.learn-drag__move-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.learn-drag__hint {
+  font-size: 0.75rem;
+  color: var(--learn-text-muted);
+}
+
+.learn-drag__success {
+  border-radius: calc(var(--radius) * 0.8);
+  background: oklch(0.94 0.06 155);
+  color: oklch(0.38 0.1 155);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.dark .learn-drag__success {
+  background: oklch(0.32 0.06 155);
+  color: oklch(0.88 0.08 155);
+}
+
+.learn-quiz__choice {
+  border-radius: calc(var(--radius) * 0.8);
+  border: 1px solid var(--learn-accent-muted);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.learn-quiz__choice--selected {
+  border-color: var(--learn-accent);
+  background: var(--learn-accent-soft);
+}
+
+.learn-quiz__choice--correct {
+  border-color: oklch(0.55 0.16 155);
+}
+
+.learn-quiz__choice--wrong {
+  border-color: oklch(0.55 0.18 27);
+}

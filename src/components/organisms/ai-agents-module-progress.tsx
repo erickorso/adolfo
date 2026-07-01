@@ -14,11 +14,11 @@ export async function AiAgentsModuleProgress({
 
   return (
     <section
-      className="rounded-lg border border-border bg-card p-6"
+      className="learn-path__card p-6"
       aria-labelledby="module-progress-heading"
     >
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h2 id="module-progress-heading" className="text-lg font-semibold">
+        <h2 id="module-progress-heading" className="learn-path__card-title text-lg font-semibold">
           {t("progressTitle")}
         </h2>
         {progress.isLoggedIn ? (
@@ -64,7 +64,7 @@ export async function AiAgentsModuleProgress({
           value={progress.completedCount}
           max={progress.totalLessons || 1}
           min={0}
-          className="h-3 w-full accent-primary"
+          className="learn-path__meter h-3 w-full"
           aria-label={t("progressAria", { percent: progress.percent })}
         />
       </div>

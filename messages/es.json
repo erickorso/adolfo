@@ -227,7 +227,12 @@
     "certificateView": "Ver certificado",
     "certificateClaim": "Obtener certificado",
     "certificateClaiming": "Generando…",
-    "certificatePrint": "Imprimir / Guardar PDF"
+    "certificatePrint": "Imprimir / Guardar PDF",
+    "practiceBadge": "Práctica interactiva",
+    "reactLoopTitle": "Ciclo ReAct — arrastrá los bloques",
+    "reactLoopHint": "Memorizá este loop: Reason → Act → Observe. Es el latido de casi todo agente.",
+    "reactLoopSuccess": "¡Orden perfecto! ReAct queda grabado: pensar, actuar, observar.",
+    "dragOrderHint": "Arrastrá los bloques o usá ↑ ↓ para ordenarlos de arriba a abajo."
   },
   "sandbox3d": {
     "title": "Sandbox 3D",

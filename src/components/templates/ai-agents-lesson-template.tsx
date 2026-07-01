@@ -6,6 +6,7 @@ import { LessonLockedNotice } from "@/components/molecules/lesson-locked-notice"
 import { LessonMissions } from "@/components/molecules/lesson-missions";
 import { LessonResourceLinks } from "@/components/molecules/lesson-resource-links";
 import { LessonVideoEmbed } from "@/components/molecules/lesson-video-embed";
+import { LearnReactLoopPractice } from "@/components/organisms/learn-react-loop-practice";
 import { LessonQuiz } from "@/components/organisms/lesson-quiz";
 import {
   getAdjacentLessons,
@@ -62,28 +63,28 @@ export async function AiAgentsLessonTemplate({ params }: AiAgentsLessonPageProps
   );
   const quiz = getPublicQuiz(slug);
   const { prev, next } = getAdjacentLessons(slug);
-  const title = lessonLocalizedText(locale, lesson.title);
-  const summary = lessonLocalizedText(locale, lesson.summary);
 
   return (
     <article className="flex flex-col gap-6">
       <Link
         href="/learn/ai-agents"
-        className="text-sm text-muted-foreground underline"
+        className="learn-path__card-muted text-sm underline"
       >
         {t("backToModule")}
       </Link>
 
-      <header className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted-foreground">
-          {t("lessonNumber", { n: lesson.order })}
-        </p>
-        <h1 className="text-2xl font-bold">{title}</h1>
-        <p className="text-muted-foreground">{summary}</p>
-      </header>
+      <p className="learn-path__hero-badge w-fit">
+        {t("lessonNumber", { n: lesson.order })}
+      </p>
 
-      <section aria-labelledby="lesson-resources-heading">
-        <h2 id="lesson-resources-heading" className="mb-3 text-lg font-semibold">
+      <section
+        className="learn-path__card p-4"
+        aria-labelledby="lesson-resources-heading"
+      >
+        <h2
+          id="lesson-resources-heading"
+          className="learn-path__card-title mb-3 text-lg font-semibold"
+        >
           {t("resourcesTitle")}
         </h2>
         <LessonResourceLinks
@@ -103,6 +104,10 @@ export async function AiAgentsLessonTemplate({ params }: AiAgentsLessonPageProps
           videoId={lesson.videoId}
           isLoggedIn={Boolean(user)}
         />
+      ) : null}
+
+      {slug === "intro-to-ai-agents" ? (
+        <LearnReactLoopPractice locale={locale} />
       ) : null}
 
       <LessonMissions
@@ -133,7 +138,7 @@ export async function AiAgentsLessonTemplate({ params }: AiAgentsLessonPageProps
       />
 
       <nav
-        className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-6"
+        className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--learn-accent-muted)] pt-6"
         aria-label={t("lessonNavLabel")}
       >
         {prev ? (

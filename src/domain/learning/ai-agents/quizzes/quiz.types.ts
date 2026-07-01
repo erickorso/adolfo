@@ -5,7 +5,8 @@ export type QuizOption = {
   label: LocalizedText;
 };
 
-export type QuizQuestion = {
+export type QuizQuestionChoice = {
+  type?: "choice";
   id: string;
   prompt: LocalizedText;
   options: QuizOption[];
@@ -13,15 +14,38 @@ export type QuizQuestion = {
   explanation: LocalizedText;
 };
 
-export type LessonQuizDefinition = {
-  lessonSlug: string;
-  questions: QuizQuestion[];
+export type QuizQuestionOrder = {
+  type: "order";
+  id: string;
+  prompt: LocalizedText;
+  items: QuizOption[];
+  correctOrder: string[];
+  explanation: LocalizedText;
 };
 
-export type QuizQuestionPublic = {
+export type QuizQuestion = QuizQuestionChoice | QuizQuestionOrder;
+
+export type QuizQuestionPublicChoice = {
+  type: "choice";
   id: string;
   prompt: LocalizedText;
   options: QuizOption[];
+};
+
+export type QuizQuestionPublicOrder = {
+  type: "order";
+  id: string;
+  prompt: LocalizedText;
+  items: QuizOption[];
+};
+
+export type QuizQuestionPublic =
+  | QuizQuestionPublicChoice
+  | QuizQuestionPublicOrder;
+
+export type LessonQuizDefinition = {
+  lessonSlug: string;
+  questions: QuizQuestion[];
 };
 
 export type LessonQuizPublic = {
@@ -42,3 +66,15 @@ export type QuizSubmitResult = {
     explanation: LocalizedText;
   }>;
 };
+
+export function isOrderQuestion(
+  question: QuizQuestion | QuizQuestionPublic,
+): question is QuizQuestionOrder | QuizQuestionPublicOrder {
+  return question.type === "order";
+}
+
+export function isChoiceQuestion(
+  question: QuizQuestion | QuizQuestionPublic,
+): question is QuizQuestionChoice | QuizQuestionPublicChoice {
+  return question.type !== "order";
+}

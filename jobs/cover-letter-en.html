@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cover Letter — Erick Vargas Ramos</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 20mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Calibri, Arial, sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.55;
+      color: #1a1a2e;
+      background: #fff;
+    }
+
+    .letter {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .letter__header {
+      border-bottom: 3px solid #2563eb;
+      padding-bottom: 14px;
+      margin-bottom: 22px;
+    }
+
+    .letter__name {
+      margin: 0;
+      font-size: 22pt;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+
+    .letter__title {
+      margin: 4px 0 0;
+      font-size: 11pt;
+      font-weight: 600;
+      color: #2563eb;
+    }
+
+    .letter__contact {
+      margin-top: 10px;
+      font-size: 9pt;
+      line-height: 1.65;
+      color: #475569;
+    }
+
+    .letter__contact a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .letter__meta {
+      margin-bottom: 20px;
+      font-size: 9pt;
+      color: #64748b;
+    }
+
+    .letter__body p {
+      margin: 0 0 12px;
+      text-align: justify;
+    }
+
+    .letter__highlights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0 18px;
+    }
+
+    .letter__highlight {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: #f8fafc;
+    }
+
+    .letter__highlight--ai {
+      border-left: 4px solid #8b5cf6;
+    }
+
+    .letter__highlight--3d {
+      border-left: 4px solid #0ea5e9;
+    }
+
+    .letter__highlight-title {
+      margin: 0 0 6px;
+      font-size: 9pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .letter__highlight--ai .letter__highlight-title {
+      color: #7c3aed;
+    }
+
+    .letter__highlight--3d .letter__highlight-title {
+      color: #0284c7;
+    }
+
+    .letter__highlight-text {
+      margin: 0;
+      font-size: 9pt;
+      line-height: 1.5;
+      color: #334155;
+    }
+
+    .letter__closing {
+      margin-top: 18px;
+    }
+
+    .letter__signature {
+      margin-top: 28px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .letter__links {
+      margin-top: 8px;
+      font-size: 9pt;
+      color: #475569;
+    }
+
+    .letter__links a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    @media print {
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="letter">
+    <header class="letter__header">
+      <h1 class="letter__name">Erick Vargas Ramos</h1>
+      <p class="letter__title">Senior Frontend Engineer / Lead · React · Next.js · TypeScript</p>
+      <div class="letter__contact">
+        erickorso@gmail.com · +34 614 769 119<br />
+        San Sebastián de los Reyes, Madrid, Spain · Remote EU / Global<br />
+        <a href="https://linkedin.com/in/erick-vargas-ramos-1ab86b102">linkedin.com/in/erick-vargas-ramos-1ab86b102</a>
+        ·
+        <a href="https://github.com/erickorso/adolfo">github.com/erickorso/adolfo</a>
+      </div>
+    </header>
+
+    <p class="letter__meta">June 2026</p>
+
+    <div class="letter__body">
+      <p>Dear Hiring Team,</p>
+
+      <p>
+        I am applying for this role because it aligns with my focus on React, TypeScript, and
+        scalable frontend architecture in remote, product-driven teams. I bring 14+ years of
+        software development experience, combining hands-on delivery with technical leadership
+        in enterprise and regulated environments.
+      </p>
+
+      <p>
+        Most recently, as Frontend Lead at Krunchbox, I architect Krunchbox 2.0 and Pluvia—an
+        enterprise retail analytics platform handling 100k+ rows per view with ag-Grid and
+        strict TypeScript. I designed a centralized Next.js application shell that preserves
+        AI-assistant streaming state across routes, standardized Jest/Playwright coverage, and
+        lead a team of three engineers in an async remote setup. Previously, I spent two years
+        at J.P. Morgan building production financial dashboards with React, Next.js, and
+        TypeScript, and before that delivered products for Dow Jones and AMC+ at Spark Digital.
+      </p>
+
+      <div class="letter__highlights">
+        <section class="letter__highlight letter__highlight--ai">
+          <h2 class="letter__highlight-title">AI &amp; agents</h2>
+          <p class="letter__highlight-text">
+            Strong interest in AI-assisted UX and agentic workflows: streaming assistant UI,
+            tool integration, and practical prompt design. I am actively studying Microsoft's
+            AI Agents for Beginners course and experiment in my portfolio with Gemini-powered
+            features and modern LLM patterns.
+          </p>
+        </section>
+        <section class="letter__highlight letter__highlight--3d">
+          <h2 class="letter__highlight-title">3D web</h2>
+          <p class="letter__highlight-text">
+            Hands-on with Three.js and React Three Fiber—PBR materials, interactive scenes,
+            and virtual tours. Public demo:
+            <a href="https://adolfo-nine.vercel.app/es/sandbox/3d">adolfo-nine.vercel.app/sandbox/3d</a>
+          </p>
+        </section>
+      </div>
+
+      <p>
+        I am comfortable owning features end-to-end, reviewing code, mentoring developers, and
+        collaborating asynchronously across time zones. I am based in Spain, fully remote, fluent
+        in English and native in Spanish, and motivated by teams that care about craft, performance,
+        and accessible UI.
+      </p>
+
+      <p class="letter__closing">
+        I would welcome the opportunity to discuss how I can contribute to your team.
+      </p>
+
+      <p class="letter__signature">Best regards,</p>
+      <p class="letter__signature">Erick Vargas Ramos</p>
+
+      <p class="letter__links">
+        Portfolio demo:
+        <a href="https://adolfo-nine.vercel.app/es/sandbox/3d">3D Sandbox</a>
+        ·
+        <a href="https://github.com/erickorso/adolfo">GitHub</a>
+      </p>
+    </div>
+  </article>
+</body>
+</html>

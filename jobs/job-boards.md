@@ -34,7 +34,8 @@
 | **We Work Remotely** | https://weworkremotely.com | Clásico remote-first; filtrar Programming / Front-End |
 | **Built In** | https://builtin.com | Tech hubs (US + algunas ciudades EU); muchas empresas medianas/grandes |
 | **Remote 100k** | https://remote100k.com | Roles remotos **$100k+ USD** — senior/lead; revisar si aceptan España/LATAM |
-| **Hacker News Jobs** | https://news.ycombinator.com/jobs | Startups **YC** — calidad alta, eng/SF/remote mix · **ingesta en Adolfo** (`hackernews`) vía [hnrss.org/jobs](https://hnrss.org/jobs) |
+| **Hacker News Jobs** | https://news.ycombinator.com/jobs | Startups **YC** — calidad alta · ingesta `hackernews` |
+| **Build Your Own X** | https://github.com/codecrafters-io/build-your-own-x | Tutoriales “desde cero” — ver [`build-your-own-x-resources.md`](./build-your-own-x-resources.md) |
 
 **Estado:** `todo` — no aplicado aún en esta tanda.
 

@@ -256,6 +256,7 @@ GET /data?filters[]=...&sort=field:asc&page=1&pageSize=50
 - [Get on Board JD](https://www.getonbrd.com/jobs/programming/desarrollador-full-stack-senior-mediastream-remote)
 - MongoDB aggregation: [docs.mongodb.com/manual/aggregation](https://www.mongodb.com/docs/manual/aggregation/)
 - ag-Grid SSRM: ya lo viviste en Pluvia — repasar docs 15 min
+- **Build Your Own X** (tutoriales hands-on): [`build-your-own-x-resources.md`](./build-your-own-x-resources.md) — DB, Redis, Kafka-like, HTTP/Node
 
 ---
 

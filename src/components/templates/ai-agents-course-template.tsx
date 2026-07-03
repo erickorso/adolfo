@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { AiAgentsLessonList } from "@/components/molecules/ai-agents-lesson-list";
 import { AiAgentsCertificateBanner } from "@/components/organisms/ai-agents-certificate-banner";
@@ -7,15 +7,27 @@ import { AiAgentsLeaderboard } from "@/components/organisms/ai-agents-leaderboar
 import { AiAgentsModuleProgress } from "@/components/organisms/ai-agents-module-progress";
 import { AI_AGENTS_MODULE_ID } from "@/domain/learning/ai-agents/module.constants";
 import {
+  BUILD_YOUR_OWN_X_REPO,
+  BUILD_YOUR_OWN_X_WEB,
+  BYOX_AI_PICKS,
+  BYOX_FULLSTACK_PICKS,
+  byoxLocalizedText,
+} from "@/domain/learning/byox-resources";
+import {
   MICROSOFT_AI_AGENTS_REPO,
   MICROSOFT_AI_AGENTS_SHORT_URL,
 } from "@/domain/learning/ai-agents/lesson.types";
-import { getModuleProgress, getCertificateStatus, getNextLearningStep } from "@/services/learning/lesson-progress.service";
+import {
+  getCertificateStatus,
+  getModuleProgress,
+  getNextLearningStep,
+} from "@/services/learning/lesson-progress.service";
 import { getLearningLeaderboard } from "@/services/learning/leaderboard.service";
 import { getCurrentUser } from "@/services/users/user.service";
 
 export async function AiAgentsCourseTemplate() {
   const t = await getTranslations("aiAgents");
+  const locale = await getLocale();
   const user = await getCurrentUser();
   const progress = await getModuleProgress(user?.id ?? null, AI_AGENTS_MODULE_ID);
   const certificateStatus = await getCertificateStatus(
@@ -55,6 +67,69 @@ export async function AiAgentsCourseTemplate() {
               {t("shortUrlLink")}
             </a>
           </li>
+        </ul>
+      </section>
+
+      <section className="rounded-lg border border-border bg-card p-6">
+        <h2 className="mb-2 text-lg font-semibold">{t("byoxTitle")}</h2>
+        <p className="text-sm text-muted-foreground">{t("byoxBody")}</p>
+        <ul className="mt-3 flex flex-col gap-2 text-sm">
+          <li>
+            <a
+              href={BUILD_YOUR_OWN_X_REPO}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium underline"
+            >
+              {t("byoxIndexLink")}
+            </a>
+          </li>
+          <li>
+            <a
+              href={BUILD_YOUR_OWN_X_WEB}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium underline"
+            >
+              {t("byoxWebLink")}
+            </a>
+          </li>
+        </ul>
+        <h3 className="mb-2 mt-5 text-sm font-semibold">{t("byoxFullstackTitle")}</h3>
+        <ul className="flex flex-col gap-3 text-sm">
+          {BYOX_FULLSTACK_PICKS.map((item) => (
+            <li key={item.id}>
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline"
+              >
+                {byoxLocalizedText(locale, item.title)}
+              </a>
+              <p className="text-muted-foreground">
+                {byoxLocalizedText(locale, item.blurb)}
+              </p>
+            </li>
+          ))}
+        </ul>
+        <h3 className="mb-2 mt-5 text-sm font-semibold">{t("byoxAiTitle")}</h3>
+        <ul className="flex flex-col gap-3 text-sm">
+          {BYOX_AI_PICKS.map((item) => (
+            <li key={item.id}>
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline"
+              >
+                {byoxLocalizedText(locale, item.title)}
+              </a>
+              <p className="text-muted-foreground">
+                {byoxLocalizedText(locale, item.blurb)}
+              </p>
+            </li>
+          ))}
         </ul>
       </section>
 

@@ -19,7 +19,7 @@ export const DEFAULT_JOB_INGEST_QUERY: JobQuery = {
     "staff",
     "architect",
   ],
-  remoteOnly: false,
+  remoteOnly: true,
 };
 
 /** Títulos/roles a excluir en Remotive (ruido fuera de perfil). */

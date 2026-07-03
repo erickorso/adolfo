@@ -93,10 +93,24 @@ async function smokeImageUploadAndServe(): Promise<void> {
   );
 }
 
+async function smokeSecurityHeaders(): Promise<void> {
+  const res = await fetch(`${BASE}/es`, { redirect: "manual" });
+  const frame = res.headers.get("x-frame-options");
+  const nosniff = res.headers.get("x-content-type-options");
+  const referrer = res.headers.get("referrer-policy");
+
+  record(
+    "security headers",
+    frame === "DENY" && nosniff === "nosniff" && referrer === "strict-origin-when-cross-origin",
+    `X-Frame-Options=${frame ?? "missing"}, X-Content-Type-Options=${nosniff ?? "missing"}, Referrer-Policy=${referrer ?? "missing"}`,
+  );
+}
+
 async function main(): Promise<void> {
   console.log(`Smoke pre-deploy → ${BASE}\n`);
 
   await smokeHttp("/es", 200);
+  await smokeSecurityHeaders();
   await smokeHttp("/api/cart", 200);
   await smokeHttp("/es/account/applications", 200);
 

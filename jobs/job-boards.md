@@ -23,6 +23,23 @@
 |---|---|---|
 | RezPass | https://rezpass.com | Herramienta / apply helper (revisar antes de pagar) |
 
+## Pendiente — explorar juntos (2026-07-03)
+
+> Sitios anotados desde video/lista para **sesión de búsqueda posterior**. Prioridad: Senior React/Next, remoto, EU/Global.
+
+| Sitio | URL | Fit / notas |
+|---|---|---|
+| **Wellfound** | https://wellfound.com | Startups + tech remoto; antes AngelList Talent. Buen para roles US/LATAM startup |
+| **Career Hound** | https://careerhound.io | Agregador remoto — ya en lista principal (#2) |
+| **We Work Remotely** | https://weworkremotely.com | Clásico remote-first; filtrar Programming / Front-End |
+| **Built In** | https://builtin.com | Tech hubs (US + algunas ciudades EU); muchas empresas medianas/grandes |
+| **Remote 100k** | https://remote100k.com | Roles remotos **$100k+ USD** — senior/lead; revisar si aceptan España/LATAM |
+| **Hacker News Jobs** | https://news.ycombinator.com/jobs | Startups **YC** — calidad alta, eng/SF/remote mix · **ingesta en Adolfo** (`hackernews`) vía [hnrss.org/jobs](https://hnrss.org/jobs) |
+
+**Estado:** `todo` — no aplicado aún en esta tanda.
+
+---
+
 ## Otros que ya tenés en la estrategia
 
 | Sitio | URL |
@@ -51,4 +68,4 @@ Frontend Lead
 
 ---
 
-*Fuente: lista compartida jun 2026 · actualizado 2026-06-22*
+*Fuente: lista compartida jun 2026 · actualizado 2026-07-03 (Wellfound, Career Hound, WWR, Built In, Remote 100k)*

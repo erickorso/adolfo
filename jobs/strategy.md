@@ -24,7 +24,7 @@
 |---|---|---|
 | 1 | **Inbound / warm** (recruiters que ya escribieron) | Responder en <48h, reactivar leads viejos |
 | 2 | **LinkedIn** | 5–10 mensajes a recruiters + “Open to work” visible |
-| 3 | **Job boards remote** | We Work Remotely, RemoteOK, Otta, Wellfound, **Remotive, EuropeRemotely, Dynamite Jobs** → ver [`job-boards.md`](./job-boards.md) |
+| 3 | **Job boards remote** | We Work Remotely, RemoteOK, Otta, Wellfound, **Built In**, **Remote 100k**, Remotive, EuropeRemotely, Career Hound, Dynamite Jobs → ver [`job-boards.md`](./job-boards.md) |
 | 4 | **Staffing LATAM → US** | Thaloz, BairesDev, Globant, Toptal (según fit) |
 | 5 | **Direct apply** | Empresa target → careers page |
 | 6 | **Red** | Ex-colegas JPMorgan/Globant/Spark — 2 mensajes/semana |

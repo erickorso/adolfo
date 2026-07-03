@@ -1,4 +1,5 @@
 import type { PrismaClient } from "../../src/generated/prisma/client";
+import { catalogPlaceholderImage } from "../../src/lib/catalog-placeholders";
 import { E2E_USER } from "../../src/lib/dev-seed.constants";
 import {
   seedAllJobApplications,
@@ -13,6 +14,7 @@ const products = [
     description: "Solo para checkout STAGE. Precio $50 ARS (límite Ualá: $25–$100).",
     priceCents: 5000,
     stock: 999,
+    imageUrl: catalogPlaceholderImage("producto-prueba-uala"),
   },
   {
     slug: "remera-basica",
@@ -20,6 +22,7 @@ const products = [
     description: "Algodón 100%, varios talles.",
     priceCents: 1500000,
     stock: 50,
+    imageUrl: catalogPlaceholderImage("remera-basica"),
   },
   {
     slug: "buzo-canguro",
@@ -27,6 +30,7 @@ const products = [
     description: "Frisa de algodón, unisex.",
     priceCents: 3500000,
     stock: 20,
+    imageUrl: catalogPlaceholderImage("buzo-canguro"),
   },
   {
     slug: "gorra-trucker",
@@ -34,6 +38,7 @@ const products = [
     description: "Ajuste regulable.",
     priceCents: 900000,
     stock: 0,
+    imageUrl: catalogPlaceholderImage("gorra-trucker"),
   },
 ];
 
@@ -44,6 +49,7 @@ const services = [
     description: "Sesión 1:1 por videollamada.",
     priceCents: 5000000,
     durationMin: 60,
+    imageUrl: catalogPlaceholderImage("consultoria-1h"),
   },
   {
     slug: "setup-tienda",
@@ -51,6 +57,7 @@ const services = [
     description: "Configuración inicial llave en mano.",
     priceCents: 12000000,
     durationMin: 240,
+    imageUrl: catalogPlaceholderImage("setup-tienda"),
   },
 ];
 

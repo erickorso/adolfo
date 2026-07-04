@@ -9,6 +9,10 @@ export const CATALOG_PLACEHOLDER_IMAGES: Record<string, string> = {
   "setup-tienda": "/catalog/setup-tienda.jpg",
 };
 
+export const CATALOG_PLACEHOLDER_IMAGE_LIST = Object.values(
+  CATALOG_PLACEHOLDER_IMAGES,
+);
+
 export function catalogPlaceholderImage(slug: string): string | undefined {
   return CATALOG_PLACEHOLDER_IMAGES[slug];
 }

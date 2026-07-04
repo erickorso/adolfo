@@ -1,5 +1,97 @@
 /* Motion Lab — scroll-driven UI animation showcase (BEM) */
 
+.motion-lab-page {
+  position: relative;
+  isolation: isolate;
+}
+
+.motion-lab-main {
+  position: relative;
+  z-index: 1;
+}
+
+.motion-lab__catalog-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100vw;
+  max-width: none;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.motion-lab__catalog-bg-item {
+  position: absolute;
+  top: var(--motion-bg-top);
+  left: var(--motion-bg-left);
+  width: var(--motion-bg-width);
+  max-width: min(var(--motion-bg-width), 48vw);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-2xl);
+  opacity: var(--motion-bg-opacity);
+  transform: translate3d(var(--motion-bg-x, 0px), var(--motion-bg-y, 0px), 0)
+    rotate(var(--motion-bg-rot, 0deg))
+    scale(1.04);
+  box-shadow: 0 28px 56px oklch(0.22 0.02 60 / 0.14);
+  will-change: transform;
+}
+
+.motion-lab__catalog-bg-item--edge-left {
+  transform-origin: 92% 48%;
+}
+
+.motion-lab__catalog-bg-item--edge-right {
+  transform-origin: 8% 52%;
+}
+
+.motion-lab__catalog-bg-item--edge-left::after {
+  background: linear-gradient(
+    90deg,
+    oklch(0.97 0.012 90 / 0.08),
+    oklch(0.97 0.012 90 / 0.55) 45%,
+    oklch(0.97 0.012 90 / 0.82)
+  );
+}
+
+.motion-lab__catalog-bg-item--edge-right::after {
+  background: linear-gradient(
+    270deg,
+    oklch(0.97 0.012 90 / 0.08),
+    oklch(0.97 0.012 90 / 0.55) 45%,
+    oklch(0.97 0.012 90 / 0.82)
+  );
+}
+
+.dark .motion-lab__catalog-bg-item--edge-left::after {
+  background: linear-gradient(
+    90deg,
+    oklch(0.18 0.02 60 / 0.05),
+    oklch(0.18 0.02 60 / 0.45) 45%,
+    oklch(0.18 0.02 60 / 0.82)
+  );
+}
+
+.dark .motion-lab__catalog-bg-item--edge-right::after {
+  background: linear-gradient(
+    270deg,
+    oklch(0.18 0.02 60 / 0.05),
+    oklch(0.18 0.02 60 / 0.45) 45%,
+    oklch(0.18 0.02 60 / 0.82)
+  );
+}
+
+.motion-lab__catalog-bg-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.motion-lab__catalog-bg-image {
+  object-fit: cover;
+}
+
 .motion-lab {
   --motion-lab-accent: oklch(0.52 0.14 250);
   --motion-lab-accent-soft: oklch(0.94 0.04 250);
@@ -671,5 +763,9 @@
     flex: 1 1 100%;
     opacity: 1;
     scale: 1;
+  }
+
+  .motion-lab__catalog-bg-item {
+    transform: none !important;
   }
 }

@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import type { MotionPrincipleId } from "@/domain/learning/motion/motion-principles";
 import { MotionLabEasingDemo } from "@/components/molecules/motion-lab-easing-demo";
+import { MotionLabHorizontalSlideDemo } from "@/components/molecules/motion-lab-horizontal-slide-demo";
 import { useParallaxOffset } from "@/hooks/use-parallax-offset";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
@@ -190,6 +191,8 @@ function PrincipleDemo({ id }: { id: MotionPrincipleId }) {
       return <ParallaxDemo />;
     case "zoom":
       return <ZoomDemo />;
+    case "slideX":
+      return <MotionLabHorizontalSlideDemo />;
     default:
       return null;
   }
@@ -206,7 +209,10 @@ export function MotionLabPrincipleSection({
     <section
       ref={ref}
       id={`motion-${id}`}
-      className="motion-lab__section"
+      className={cn(
+        "motion-lab__section",
+        id === "slideX" && "motion-lab__section--slide-x",
+      )}
       aria-labelledby={`motion-${id}-title`}
     >
       <header

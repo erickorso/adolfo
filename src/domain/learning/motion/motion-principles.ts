@@ -7,6 +7,7 @@ export const MOTION_PRINCIPLE_IDS = [
   "dimension",
   "parallax",
   "zoom",
+  "slideX",
 ] as const;
 
 export type MotionPrincipleId = (typeof MOTION_PRINCIPLE_IDS)[number];

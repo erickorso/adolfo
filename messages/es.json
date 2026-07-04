@@ -388,7 +388,7 @@
     "badge": "UI Motion Lab",
     "title": "Principios de motion al scroll",
     "subtitle": "Demos interactivas con scroll inspiradas en técnicas clásicas de animación UI.",
-    "intro": "Cada sección explica una técnica usada en productos reales — easing, stagger, fade, morph, masking, profundidad, parallax y zoom — con una demo en vivo mientras scrolleás.",
+    "intro": "Cada sección explica una técnica usada en productos reales — easing, stagger, fade, morph, masking, profundidad, parallax, zoom y slide horizontal — con una demo en vivo mientras scrolleás.",
     "scrollHint": "Scroll para explorar",
     "chapterNav": "Capítulos",
     "creditPrefix": "Inspirado en",
@@ -434,6 +434,29 @@
     "zoom": {
       "demoText": "Zoom al foco"
     },
+    "slideX": {
+      "demoLabel": "Slide horizontal con scroll vertical",
+      "scrollHint": "Seguí scrolleando — los paneles se mueven en el eje X",
+      "progressLabel": "Progreso del scroll horizontal",
+      "panels": [
+        {
+          "title": "Descubrir",
+          "body": "El scroll mueve translateX: el viewport queda fijo mientras el track se desplaza lateralmente."
+        },
+        {
+          "title": "Comparar",
+          "body": "Cada panel entra desde la derecha — ideal para tours de features y historias paso a paso."
+        },
+        {
+          "title": "Decidir",
+          "body": "Combiná con easing y stagger para que el movimiento horizontal se sienta intencional."
+        },
+        {
+          "title": "Publicar",
+          "body": "El mismo patrón impulsa landings estilo Apple y páginas editoriales con scroll puro."
+        }
+      ]
+    },
     "principles": {
       "easing": {
         "shortTitle": "Easing",
@@ -474,6 +497,11 @@
         "shortTitle": "Zoom",
         "title": "Zoom",
         "body": "Las transiciones de escala conectan pantallas narrativamente y señalan que hay más detalle debajo."
+      },
+      "slideX": {
+        "shortTitle": "Slide X",
+        "title": "Slide horizontal",
+        "body": "El scroll vertical puede impulsar translateX — viewport sticky, track en movimiento. Clásico en layouts narrativos y walkthroughs de producto."
       }
     }
   },

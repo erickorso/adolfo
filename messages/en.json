@@ -418,7 +418,7 @@
     "badge": "UI Motion Lab",
     "title": "Motion principles on scroll",
     "subtitle": "Interactive scroll-driven demos inspired by classic UI animation techniques.",
-    "intro": "Each section explains one technique used in product UIs — easing, stagger, fade, morph, masking, depth, parallax, and zoom — with a live demo you can replay as you scroll.",
+    "intro": "Each section explains one technique used in product UIs — easing, stagger, fade, morph, masking, depth, parallax, zoom, and horizontal slide — with a live demo you can replay as you scroll.",
     "scrollHint": "Scroll to explore",
     "chapterNav": "Chapters",
     "creditPrefix": "Inspired by",
@@ -464,6 +464,29 @@
     "zoom": {
       "demoText": "Zoom into focus"
     },
+    "slideX": {
+      "demoLabel": "Horizontal slide on vertical scroll",
+      "scrollHint": "Keep scrolling — panels move on the X axis",
+      "progressLabel": "Horizontal scroll progress",
+      "panels": [
+        {
+          "title": "Discover",
+          "body": "Scroll drives translateX: the viewport stays fixed while the track pans sideways."
+        },
+        {
+          "title": "Compare",
+          "body": "Each panel enters from the right — ideal for feature tours and step-by-step stories."
+        },
+        {
+          "title": "Decide",
+          "body": "Pair with easing and stagger so horizontal motion feels intentional, not accidental."
+        },
+        {
+          "title": "Ship",
+          "body": "Same pattern powers Apple-style landings and editorial product pages in pure CSS + scroll."
+        }
+      ]
+    },
     "principles": {
       "easing": {
         "shortTitle": "Easing",
@@ -504,6 +527,11 @@
         "shortTitle": "Zoom",
         "title": "Zoom",
         "body": "Scale transitions connect screens narratively and signal that more detail lives beneath the surface."
+      },
+      "slideX": {
+        "shortTitle": "Slide X",
+        "title": "Horizontal slide",
+        "body": "Vertical scroll can drive horizontal translation — sticky viewport, moving track. A staple for storytelling layouts and product walkthroughs."
       }
     }
   },

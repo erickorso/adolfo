@@ -70,7 +70,7 @@ Implementar:
 
 ## Auth de prueba (Bearer)
 
-Solo en **dev** (o prod con `METRICS_SANDBOX_ENABLED=true`).
+Activo en **dev** y en **Vercel** (adolfo-nine). Desactivar con `METRICS_SANDBOX_ENABLED=false`.
 
 ### 1. Obtener token
 

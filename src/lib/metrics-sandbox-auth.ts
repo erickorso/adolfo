@@ -24,10 +24,15 @@ function signingSecret(): string {
   return process.env.METRICS_SANDBOX_SECRET ?? env.AUTH_SECRET;
 }
 
+/** Activo en dev y en Vercel (demo portfolio). Desactivar con METRICS_SANDBOX_ENABLED=false. */
 export function isMetricsSandboxEnabled(): boolean {
+  if (process.env.METRICS_SANDBOX_ENABLED === "false") {
+    return false;
+  }
   return (
     process.env.NODE_ENV !== "production" ||
-    process.env.METRICS_SANDBOX_ENABLED === "true"
+    process.env.METRICS_SANDBOX_ENABLED === "true" ||
+    process.env.VERCEL === "1"
   );
 }
 

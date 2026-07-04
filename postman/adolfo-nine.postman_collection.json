@@ -8,7 +8,7 @@
   "item": [
     {
       "name": "Metrics (Sandbox)",
-      "description": "Simulacro Mediastream. En prod requiere `METRICS_SANDBOX_ENABLED=true`. Ejecutar **Get Token** primero.",
+      "description": "Simulacro Mediastream. Activo en localhost y adolfo-nine.vercel.app. Ejecutar **Get Token** primero.",
       "item": [
         {
           "name": "Get Token (POST)",

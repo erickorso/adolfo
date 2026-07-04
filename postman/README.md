@@ -11,6 +11,8 @@ Colección de todas las rutas `src/app/api/**`.
 2. Activar el environment en el selector superior derecho.
 3. Metrics: ejecutar **Get Token (POST)** → `metricsToken` se guarda solo → **Top Content**.
 
+En **adolfo-nine.vercel.app** el sandbox está activo (Bearer + clientId/secret). Desactivar: `METRICS_SANDBOX_ENABLED=false` en Vercel.
+
 Formato: **Postman Collection v2.1.0** (`schema.getpostman.com/json/collection/v2.1.0/collection.json`).
 
 ## Variables

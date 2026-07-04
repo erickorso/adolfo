@@ -120,18 +120,20 @@ export function StreamingMetricsSandboxClient() {
           1. Get token (prueba)
         </h2>
         <div className="grid gap-3 sm:grid-cols-2">
-          <label className="flex flex-col gap-1 text-sm">
+          <label htmlFor="metrics-client-id" className="flex flex-col gap-1 text-sm">
             <span className="font-medium">clientId</span>
             <input
+              id="metrics-client-id"
               className="rounded-md border border-input bg-background px-3 py-2"
               value={clientId}
               onChange={(e) => setClientId(e.target.value)}
               autoComplete="off"
             />
           </label>
-          <label className="flex flex-col gap-1 text-sm">
+          <label htmlFor="metrics-client-secret" className="flex flex-col gap-1 text-sm">
             <span className="font-medium">clientSecret</span>
             <input
+              id="metrics-client-secret"
               className="rounded-md border border-input bg-background px-3 py-2"
               type="password"
               value={clientSecret}

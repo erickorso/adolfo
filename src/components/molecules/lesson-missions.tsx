@@ -63,37 +63,39 @@ export function LessonMissions({
       </h2>
       <p className="mb-4 text-sm text-muted-foreground">{t("missionsHint")}</p>
       <ul className="flex flex-col gap-2">
-        {items
-          .filter((item) => item.visible)
-          .map((item) => (
-            <li key={item.kind}>
-              <button
-                type="button"
-                disabled={pending}
-                onClick={() => toggle(item.kind)}
-                className={cn(
-                  "flex w-full items-center gap-3 rounded-md border px-3 py-2 text-left text-sm transition-colors disabled:opacity-60",
-                  item.done
-                    ? "border-primary bg-primary/5 text-primary"
-                    : "border-border hover:bg-muted/50",
-                )}
-                aria-pressed={item.done}
-              >
-                <span
-                  className={cn(
-                    "flex size-5 shrink-0 items-center justify-center rounded-full border text-xs font-bold",
-                    item.done
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-muted-foreground text-muted-foreground",
-                  )}
-                  aria-hidden
-                >
-                  {item.done ? "✓" : ""}
-                </span>
-                {item.label}
-              </button>
-            </li>
-          ))}
+        {items.flatMap((item) =>
+          item.visible
+            ? [
+                <li key={item.kind}>
+                  <button
+                    type="button"
+                    disabled={pending}
+                    onClick={() => toggle(item.kind)}
+                    className={cn(
+                      "flex w-full items-center gap-3 rounded-md border px-3 py-2 text-left text-sm transition-colors disabled:opacity-60",
+                      item.done
+                        ? "border-primary bg-primary/5 text-primary"
+                        : "border-border hover:bg-muted/50",
+                    )}
+                    aria-pressed={item.done}
+                  >
+                    <span
+                      className={cn(
+                        "flex size-5 shrink-0 items-center justify-center rounded-full border text-xs font-bold",
+                        item.done
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-muted-foreground text-muted-foreground",
+                      )}
+                      aria-hidden
+                    >
+                      {item.done ? "✓" : ""}
+                    </span>
+                    {item.label}
+                  </button>
+                </li>,
+              ]
+            : [],
+        )}
       </ul>
     </section>
   );

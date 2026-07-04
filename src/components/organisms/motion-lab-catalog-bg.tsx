@@ -55,6 +55,9 @@ export function MotionLabCatalogBg() {
       }
 
       const activeSectionId = pickActiveMotionCatalogSection(sectionStates);
+      const stateBySectionId = new Map(
+        sectionStates.map((entry) => [entry.sectionId, entry]),
+      );
 
       for (const node of nodes) {
         const sectionId = node.dataset.sectionId;
@@ -65,7 +68,7 @@ export function MotionLabCatalogBg() {
         const section = document.getElementById(`motion-${sectionId}`);
         const baseOpacity = Number(node.dataset.baseOpacity ?? 0.24);
         const direction = node.dataset.direction === "rtl" ? "rtl" : "ltr";
-        const state = sectionStates.find((entry) => entry.sectionId === sectionId);
+        const state = stateBySectionId.get(sectionId);
 
         if (!section || !state) {
           node.style.setProperty("--motion-bg-opacity-active", "0");

@@ -19,6 +19,7 @@ type ApplicationAddFormProps = {
   defaultTitle?: string;
   defaultUrl?: string;
   defaultSource?: string;
+  defaultAppliedAt: string;
 };
 
 /**
@@ -30,6 +31,7 @@ export function ApplicationAddForm({
   defaultTitle = "",
   defaultUrl = "",
   defaultSource = "",
+  defaultAppliedAt,
 }: ApplicationAddFormProps) {
   const t = useTranslations("applications");
   const [state, formAction, pending] = useActionState(
@@ -108,7 +110,8 @@ export function ApplicationAddForm({
             id="application-applied-at"
             name="appliedAt"
             type="date"
-            defaultValue={new Date().toISOString().slice(0, 10)}
+            defaultValue={defaultAppliedAt}
+            required
           />
         </div>
       </div>
@@ -124,6 +127,7 @@ export function ApplicationAddForm({
           id="application-notes"
           name="notes"
           rows={3}
+          aria-label={t("notes")}
           className="w-full rounded-lg border border-input bg-transparent px-2.5 py-2 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
         />
       </div>

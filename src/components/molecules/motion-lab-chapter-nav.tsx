@@ -13,9 +13,10 @@ export function MotionLabChapterNav({ activeId }: MotionLabChapterNavProps) {
   const t = useTranslations("motionLab");
 
   useEffect(() => {
-    const sections = MOTION_PRINCIPLES.map(({ id }) =>
-      document.getElementById(`motion-${id}`),
-    ).filter(Boolean) as HTMLElement[];
+    const sections = MOTION_PRINCIPLES.flatMap(({ id }) => {
+      const section = document.getElementById(`motion-${id}`);
+      return section ? [section] : [];
+    });
 
     if (sections.length === 0) {
       return;

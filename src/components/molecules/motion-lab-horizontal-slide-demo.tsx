@@ -20,15 +20,11 @@ export function MotionLabHorizontalSlideDemo() {
   useEffect(() => {
     const scrollNode = scrollRef.current;
     const trackNode = trackRef.current;
-    const progressNode = scrollNode?.querySelector<HTMLElement>(
-      ".motion-lab__horizontal-progress",
-    );
     if (!scrollNode || !trackNode) {
       return;
     }
     const distance = Math.max(0, trackNode.scrollWidth - scrollNode.clientWidth);
     trackNode.style.setProperty("--motion-slide-x", `${-progress * distance}px`);
-    progressNode?.style.setProperty("--motion-progress-pct", String(progress * 100));
   }, [progress]);
 
   return (
@@ -40,16 +36,12 @@ export function MotionLabHorizontalSlideDemo() {
       <div className="motion-lab__horizontal-sticky">
         <div className="motion-lab__horizontal-meta">
           <span className="motion-lab__horizontal-hint">{t("slideX.scrollHint")}</span>
-          <div
+          <progress
             className="motion-lab__horizontal-progress"
-            role="progressbar"
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={Math.round(progress * 100)}
+            value={Math.round(progress * 100)}
+            max={100}
             aria-label={t("slideX.progressLabel")}
-          >
-            <div className="motion-lab__horizontal-progress-fill" />
-          </div>
+          />
         </div>
 
         <div className="motion-lab__horizontal-viewport">

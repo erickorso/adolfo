@@ -7,8 +7,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * Webhook Ualá Bis v2 (notification_url).
- * POST JSON plano; responder 200 para ack.
- * Docs: https://developers.ualabis.com.ar/v2/orders/create/webhook
+ * Ualá no documenta firma HMAC en v2 — validación por schema + idempotencia en servicio.
  */
 export async function POST(request: Request) {
   let json: unknown;

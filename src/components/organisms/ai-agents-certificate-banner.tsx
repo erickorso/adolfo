@@ -10,11 +10,11 @@ type AiAgentsCertificateBannerProps = {
 export async function AiAgentsCertificateBanner({
   status,
 }: AiAgentsCertificateBannerProps) {
-  const t = await getTranslations("aiAgents");
-
   if (!status.isLoggedIn) {
     return null;
   }
+
+  const t = await getTranslations("aiAgents");
 
   if (status.earnedAt) {
     return (

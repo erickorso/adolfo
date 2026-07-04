@@ -2,7 +2,7 @@ import { Link } from "@/i18n/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Price } from "@/components/atoms/price";
 import { CartLineItemRow } from "@/components/molecules/cart-line-item-row";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import type { CartItem } from "@/domain/schemas/cart";
 import { getAppBaseUrl } from "@/lib/app-url";
 import { sumLineItemsCents } from "@/lib/money";

@@ -14,6 +14,7 @@ export async function ApplicationsManager({
   stats,
 }: ApplicationsManagerProps) {
   const t = await getTranslations("applications");
+  const defaultAppliedAt = new Date().toISOString().slice(0, 10);
 
   return (
     <div className="flex flex-col gap-8">
@@ -38,7 +39,7 @@ export async function ApplicationsManager({
         <ApplicationsKanban applications={applications} />
       )}
 
-      <ApplicationAddForm />
+      <ApplicationAddForm defaultAppliedAt={defaultAppliedAt} />
     </div>
   );
 }

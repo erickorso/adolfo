@@ -1,0 +1,54 @@
+{
+  "$schema": "https://react.doctor/schema/config.json",
+  "ignore": {
+    "files": [
+      "src/generated/**",
+      "jobs/**",
+      "**/*.test.ts",
+      "**/*.test.tsx",
+      "e2e/**",
+      "playwright/**"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "src/components/**/sandbox-3d*.tsx",
+          "src/components/organisms/sandbox-3d-*.tsx"
+        ],
+        "rules": ["react-doctor/no-unknown-property"]
+      },
+      {
+        "files": [
+          "src/app/**/catalog/actions.ts",
+          "src/app/**/cart/actions.ts",
+          "src/app/**/forgot-password/actions.ts",
+          "src/app/**/reset-password/actions.ts",
+          "src/app/**/login/actions.ts",
+          "src/app/**/signup/actions.ts"
+        ],
+        "rules": ["react-doctor/server-auth-actions"]
+      },
+      {
+        "files": ["src/app/api/webhooks/uala/route.ts"],
+        "rules": ["react-doctor/webhook-signature-risk"]
+      },
+      {
+        "files": ["src/components/ui/label.tsx"],
+        "rules": ["react-doctor/label-has-associated-control"]
+      },
+      {
+        "files": ["src/components/molecules/lesson-video-embed.tsx"],
+        "rules": ["react-doctor/iframe-missing-sandbox"]
+      },
+      {
+        "files": [".github/workflows/ci.yml"],
+        "rules": ["react-doctor/build-pipeline-secret-boundary"]
+      }
+    ]
+  },
+  "supplyChain": {
+    "minScore": 30,
+    "severity": "warning"
+  },
+  "deadCode": false
+}

@@ -10,6 +10,7 @@ export type AddToCartActionResult = {
   item?: AddToCartInput;
 };
 
+/** Carrito anónimo — acción pública; el checkout exige sesión. */
 export async function addToCartAction(
   _prev: AddToCartActionResult,
   formData: FormData,

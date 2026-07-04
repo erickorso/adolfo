@@ -14,9 +14,11 @@ type LoginPageProps = {
 
 /** Página de login. */
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const t = await getTranslations("auth");
-  const locale = await getLocale();
-  const params = await searchParams;
+  const [t, locale, params] = await Promise.all([
+    getTranslations("auth"),
+    getLocale(),
+    searchParams,
+  ]);
 
   if (params.password) {
     const qs = new URLSearchParams();

@@ -15,9 +15,13 @@ export async function AiAgentsCertificateTemplate() {
     redirect("/login?callbackUrl=/learn/ai-agents/certificate");
   }
 
-  const t = await getTranslations("aiAgents");
-  const locale = await getLocale();
-  let status = await getCertificateStatus(user.id, AI_AGENTS_MODULE_ID);
+  const [t, locale, initialStatus] = await Promise.all([
+    getTranslations("aiAgents"),
+    getLocale(),
+    getCertificateStatus(user.id, AI_AGENTS_MODULE_ID),
+  ]);
+
+  let status = initialStatus;
 
   if (status.eligible && !status.earnedAt) {
     const earnedAt = await claimCertificate(user.id, AI_AGENTS_MODULE_ID);

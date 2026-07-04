@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 import type { RateVM } from "@/domain/money/rate.types";
 
 /**
@@ -21,5 +21,5 @@ export function RateProvider({
 
 /** Cotización actual (o null si no se pudo obtener). */
 export function useRate(): RateVM | null {
-  return useContext(RateContext);
+  return use(RateContext);
 }

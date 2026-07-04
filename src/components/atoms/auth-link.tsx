@@ -1,5 +1,5 @@
 import type { AnchorHTMLAttributes } from "react";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 import type { VariantProps } from "class-variance-authority";
 

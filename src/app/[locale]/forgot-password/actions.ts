@@ -10,6 +10,7 @@ const forgotSchema = z.object({
   email: z.email("Email inválido"),
 });
 
+/** Flujo público — reset por email sin sesión previa. */
 export async function forgotPasswordAction(
   _prev: ForgotPasswordResult,
   formData: FormData,

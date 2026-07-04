@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Price } from "@/components/atoms/price";
@@ -111,6 +112,7 @@ async function ModerationTable({
                         name="file"
                         required
                         accept="image/jpeg,image/png,image/webp"
+                        aria-label={t("uploadPhoto")}
                         className="max-w-40 text-xs"
                       />
                       <Button type="submit" size="sm" variant="outline">

@@ -97,6 +97,7 @@ export function CatalogInfiniteGrid({
         value={q}
         onChange={(e) => setQ(e.target.value)}
         placeholder={t("search")}
+        aria-label={t("search")}
         className="w-full max-w-sm rounded-md border border-input bg-background px-3 py-2 text-sm"
       />
 

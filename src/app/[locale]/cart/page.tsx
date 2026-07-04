@@ -7,9 +7,11 @@ type CartPageProps = {
 };
 
 export default async function CartPage({ searchParams }: CartPageProps) {
-  const t = await getTranslations("cart");
-  const initialItems = await getCartFromCookie();
-  const { checkoutError, cartError } = await searchParams;
+  const [t, initialItems, { checkoutError, cartError }] = await Promise.all([
+    getTranslations("cart"),
+    getCartFromCookie(),
+    searchParams,
+  ]);
 
   return (
     <main className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-10">

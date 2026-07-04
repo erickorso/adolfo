@@ -10,8 +10,8 @@ type CatalogPageProps = {
  * servicios en paralelo; el scroll infinito carga el resto vía /api/catalog.
  */
 export default async function CatalogPage({ searchParams }: CatalogPageProps) {
-  const { added, cartError } = await searchParams;
-  const [products, services] = await Promise.all([
+  const [{ added, cartError }, products, services] = await Promise.all([
+    searchParams,
     listCatalogPage("product"),
     listCatalogPage("service"),
   ]);

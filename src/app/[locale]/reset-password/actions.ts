@@ -12,6 +12,7 @@ const resetSchema = z.object({
   password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
 });
 
+/** Flujo público — token de un solo uso en lugar de sesión. */
 export async function resetPasswordAction(
   _prev: ResetPasswordResult,
   formData: FormData,

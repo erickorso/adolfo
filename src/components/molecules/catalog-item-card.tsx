@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Price } from "@/components/atoms/price";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 import { ITEM_KIND } from "@/domain/catalog/item-kind";
 import type { CatalogItemVM } from "@/domain/view/catalog-item";

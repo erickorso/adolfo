@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { CatalogInfiniteGrid } from "@/components/organisms/catalog-infinite-grid";
-import { CartQueryToast } from "@/components/molecules/cart-query-toast";
+import { CartFlashBanner } from "@/components/molecules/cart-flash-banner";
 import type { CatalogPage } from "@/services/catalog/catalog.service";
 
 type CatalogTemplateProps = {
@@ -24,7 +24,7 @@ export async function CatalogTemplate({
 
   return (
     <main className="mx-auto flex max-w-5xl flex-col gap-10 px-4 py-10">
-      <CartQueryToast added={added} cartError={cartError} />
+      <CartFlashBanner added={added} cartError={cartError} />
       <header className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold">{t("title")}</h1>
         <p className="text-muted-foreground">{t("subtitle")}</p>

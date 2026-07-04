@@ -26,16 +26,17 @@ import { getLearningLeaderboard } from "@/services/learning/leaderboard.service"
 import { getCurrentUser } from "@/services/users/user.service";
 
 export async function AiAgentsCourseTemplate() {
-  const t = await getTranslations("aiAgents");
-  const locale = await getLocale();
-  const user = await getCurrentUser();
-  const progress = await getModuleProgress(user?.id ?? null, AI_AGENTS_MODULE_ID);
-  const certificateStatus = await getCertificateStatus(
-    user?.id ?? null,
-    AI_AGENTS_MODULE_ID,
-  );
-  const nextStep = await getNextLearningStep(user?.id ?? null, AI_AGENTS_MODULE_ID);
-  const leaderboard = await getLearningLeaderboard(user?.id ?? null);
+  const [t, locale, user] = await Promise.all([
+    getTranslations("aiAgents"),
+    getLocale(),
+    getCurrentUser(),
+  ]);
+  const [progress, certificateStatus, nextStep, leaderboard] = await Promise.all([
+    getModuleProgress(user?.id ?? null, AI_AGENTS_MODULE_ID),
+    getCertificateStatus(user?.id ?? null, AI_AGENTS_MODULE_ID),
+    getNextLearningStep(user?.id ?? null, AI_AGENTS_MODULE_ID),
+    getLearningLeaderboard(user?.id ?? null),
+  ]);
 
   return (
     <div className="flex flex-col gap-8">

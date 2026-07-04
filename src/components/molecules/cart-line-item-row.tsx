@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Price } from "@/components/atoms/price";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import type { CartItem } from "@/domain/schemas/cart";
 import { cn } from "@/lib/utils";
 

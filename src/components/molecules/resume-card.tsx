@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 import { formatBytes } from "@/lib/bytes";
 import {

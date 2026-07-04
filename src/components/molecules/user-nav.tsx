@@ -4,7 +4,8 @@ import { useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { signOut, useSession } from "next-auth/react";
 import { Link } from "@/i18n/navigation";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 
 /**

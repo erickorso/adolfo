@@ -10,11 +10,11 @@ type AiAgentsLeaderboardProps = {
 export async function AiAgentsLeaderboard({
   entries,
 }: AiAgentsLeaderboardProps) {
-  const t = await getTranslations("aiAgents");
-
   if (entries.length === 0) {
     return null;
   }
+
+  const t = await getTranslations("aiAgents");
 
   return (
     <section

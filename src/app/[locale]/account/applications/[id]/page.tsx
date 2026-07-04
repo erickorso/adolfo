@@ -1,7 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { redirect, notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { ApplicationDetailForm } from "@/components/organisms/application-detail-form";
 import { ApplicationProgress } from "@/components/organisms/application-progress";
 import { formatDate } from "@/lib/date";

@@ -23,7 +23,15 @@ type Sandbox3dControlsProps = {
 export function Sandbox3dControls({ demo, onDemoChange }: Sandbox3dControlsProps) {
   const t = useTranslations("sandbox3d");
   const formId = useId();
-  const [state, setState] = useState(DEFAULT_SANDBOX_3D_STATE);
+  const [state, setState] = useState(() => {
+    if (typeof window === "undefined") {
+      return DEFAULT_SANDBOX_3D_STATE;
+    }
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    return reducedMotion
+      ? { ...DEFAULT_SANDBOX_3D_STATE, autoRotate: false }
+      : DEFAULT_SANDBOX_3D_STATE;
+  });
   const [tourView, setTourView] = useState<TourViewpointId>("living");
 
   useEffect(() => {
@@ -33,7 +41,6 @@ export function Sandbox3dControls({ demo, onDemoChange }: Sandbox3dControlsProps
         setState((current) => ({ ...current, autoRotate: false }));
       }
     };
-    syncMotion();
     media.addEventListener("change", syncMotion);
     return () => media.removeEventListener("change", syncMotion);
   }, []);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useCallback, useState } from "react";
+import { cloneElement, useActionState, useCallback, useId, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
   updateProductAction,
@@ -8,7 +8,7 @@ import {
 } from "@/app/[locale]/admin/actions";
 import { Button } from "@/components/ui/button";
 
-type Attr = { name: string; value: string };
+type AttrRow = { rowKey: string; name: string; value: string };
 
 type ProductEditFormProps = {
   product: {
@@ -17,7 +17,7 @@ type ProductEditFormProps = {
     description: string | null;
     priceCents: number;
     stock: number;
-    attributes: Attr[];
+    attributes: { name: string; value: string }[];
   };
 };
 
@@ -30,10 +30,18 @@ const INITIAL: UpdateProductResult = {};
 export function ProductEditForm({ product }: ProductEditFormProps) {
   const t = useTranslations("admin");
   const [state, action, pending] = useActionState(updateProductAction, INITIAL);
-  const [attrs, setAttrs] = useState<Attr[]>(product.attributes);
+  const [attrs, setAttrs] = useState<AttrRow[]>(() =>
+    product.attributes.map((attr) => ({
+      ...attr,
+      rowKey: crypto.randomUUID(),
+    })),
+  );
 
   const addRow = useCallback(() => {
-    setAttrs((prev) => [...prev, { name: "", value: "" }]);
+    setAttrs((prev) => [
+      ...prev,
+      { rowKey: crypto.randomUUID(), name: "", value: "" },
+    ]);
   }, []);
 
   const removeRow = useCallback((index: number) => {
@@ -41,7 +49,7 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
   }, []);
 
   const updateRow = useCallback(
-    (index: number, key: keyof Attr, val: string) => {
+    (index: number, key: keyof Pick<AttrRow, "name" | "value">, val: string) => {
       setAttrs((prev) =>
         prev.map((a, i) => (i === index ? { ...a, [key]: val } : a)),
       );
@@ -52,11 +60,16 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
   return (
     <form action={action} className="flex max-w-2xl flex-col gap-4">
       <input type="hidden" name="id" value={product.id} />
-      <input type="hidden" name="attributes" value={JSON.stringify(attrs)} />
+      <input
+        type="hidden"
+        name="attributes"
+        value={JSON.stringify(attrs.map(({ name, value }) => ({ name, value })))}
+      />
 
       <Field label={t("name")}>
         <input
           name="name"
+          aria-label={t("name")}
           defaultValue={product.name}
           required
           className="rounded-md border border-input bg-background px-3 py-2 text-sm"
@@ -66,6 +79,7 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
       <Field label={t("descriptionLabel")}>
         <textarea
           name="description"
+          aria-label={t("descriptionLabel")}
           defaultValue={product.description ?? ""}
           rows={4}
           className="rounded-md border border-input bg-background px-3 py-2 text-sm"
@@ -77,6 +91,7 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
           <input
             name="priceCents"
             type="number"
+            aria-label={t("priceCentsLabel")}
             min={0}
             defaultValue={product.priceCents}
             required
@@ -87,6 +102,7 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
           <input
             name="stock"
             type="number"
+            aria-label={t("stockLabel")}
             min={0}
             defaultValue={product.stock}
             required
@@ -106,7 +122,7 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
           <p className="text-xs text-muted-foreground">{t("noProps")}</p>
         ) : (
           attrs.map((attr, i) => (
-            <div key={i} className="flex items-center gap-2">
+            <div key={attr.rowKey} className="flex items-center gap-2">
               <input
                 aria-label="Nombre de propiedad"
                 placeholder="Color"
@@ -155,12 +171,20 @@ function Field({
   children,
 }: {
   label: string;
-  children: React.ReactNode;
+  children: React.ReactElement<{ id?: string; "aria-label"?: string }>;
 }) {
+  const generatedId = useId();
+  const controlId = children.props.id ?? generatedId;
+
   return (
-    <label className="flex flex-col gap-1">
-      <span className="text-sm font-medium">{label}</span>
-      {children}
-    </label>
+    <div className="flex flex-col gap-1">
+      <label htmlFor={controlId} className="text-sm font-medium">
+        {label}
+      </label>
+      {cloneElement(children, {
+        id: controlId,
+        "aria-label": children.props["aria-label"] ?? label,
+      })}
+    </div>
   );
 }

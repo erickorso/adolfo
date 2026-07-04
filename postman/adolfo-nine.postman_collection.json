@@ -1,0 +1,469 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "Adolfo Nine API",
+    "description": "Todas las rutas `/api/*` de https://adolfo-nine.vercel.app\n\n**Importar:** Collection + Environment (`adolfo-nine.postman_environment.json` o `.local`).\n\n**Mantener:** al agregar o modificar `src/app/api/**/route.ts`, actualizar este archivo.\n\nGenerado: 2026-07-05",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Metrics (Sandbox)",
+      "description": "Simulacro Mediastream. En prod requiere `METRICS_SANDBOX_ENABLED=true`. Ejecutar **Get Token** primero.",
+      "item": [
+        {
+          "name": "Get Token (POST)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) {",
+                  "  pm.environment.set('metricsToken', json.token);",
+                  "  pm.collectionVariables.set('metricsToken', json.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"{{metricsClientId}}\",\n  \"clientSecret\": \"{{metricsClientSecret}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "{{baseUrl}}/api/metrics/get-token",
+            "description": "Emite Bearer token (1h). Guarda automáticamente en `metricsToken`."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Token (GET)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) {",
+                  "  pm.environment.set('metricsToken', json.token);",
+                  "  pm.collectionVariables.set('metricsToken', json.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/metrics/get-token?clientId={{metricsClientId}}&clientSecret={{metricsClientSecret}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "metrics", "get-token"],
+              "query": [
+                { "key": "clientId", "value": "{{metricsClientId}}" },
+                { "key": "clientSecret", "value": "{{metricsClientSecret}}" }
+              ]
+            },
+            "description": "Atajo browser/curl para obtener token."
+          },
+          "response": []
+        },
+        {
+          "name": "Top Content",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{metricsToken}}", "type": "string" }]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/metrics/top-content?from=2026-06-01&to=2026-06-30&limit=5&country=ES&page=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "metrics", "top-content"],
+              "query": [
+                { "key": "from", "value": "2026-06-01", "description": "ISO date" },
+                { "key": "to", "value": "2026-06-30", "description": "ISO date" },
+                { "key": "country", "value": "ES", "description": "Opcional, 2 chars" },
+                { "key": "limit", "value": "5", "description": "1-100, default 10" },
+                { "key": "page", "value": "1", "description": "1-based" }
+              ]
+            },
+            "description": "Ranking de contenidos por plays. Requiere `Authorization: Bearer`."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "description": "Auth.js v5 — `/api/auth/*`",
+      "item": [
+        {
+          "name": "Session",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/session",
+            "description": "Sesión actual (cookie de sesión requerida)."
+          },
+          "response": []
+        },
+        {
+          "name": "CSRF Token",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/csrf",
+            "description": "Token CSRF para sign-in programático."
+          },
+          "response": []
+        },
+        {
+          "name": "Providers",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/providers",
+            "description": "Proveedores OAuth/credentials disponibles."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Catalog",
+      "item": [
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/catalog?kind=product&cursor=&q=",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "catalog"],
+              "query": [
+                { "key": "kind", "value": "product", "description": "product | service" },
+                { "key": "cursor", "value": "{{catalogCursor}}", "description": "Paginación cursor" },
+                { "key": "q", "value": "", "description": "Búsqueda opcional" }
+              ]
+            },
+            "description": "Scroll infinito catálogo — productos."
+          },
+          "response": []
+        },
+        {
+          "name": "List Services",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/catalog?kind=service",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "catalog"],
+              "query": [{ "key": "kind", "value": "service" }]
+            },
+            "description": "Scroll infinito catálogo — servicios."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "item": [
+        {
+          "name": "Catalog Image",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/images/catalog/buzo-canguro.jpg",
+            "description": "Imagen pública bajo prefijo `catalog/` (sin auth)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cart (JSON)",
+      "description": "API JSON para sync cliente ↔ cookie.",
+      "item": [
+        {
+          "name": "Get Cart",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/cart",
+            "description": "Lee carrito desde cookie."
+          },
+          "response": []
+        },
+        {
+          "name": "Sync Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"refId\": \"PRODUCT_ID\",\n      \"kind\": \"product\",\n      \"slug\": \"example-slug\",\n      \"name\": \"Example Product\",\n      \"unitPriceCents\": 150000,\n      \"currency\": \"ARS\",\n      \"quantity\": 1\n    }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "{{baseUrl}}/api/cart",
+            "description": "Reemplaza carrito en cookie."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cart (HTML forms)",
+      "description": "Form actions nativos — responden **303 redirect**, no JSON.",
+      "item": [
+        {
+          "name": "Add Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "refId", "value": "PRODUCT_ID", "description": "ID producto/servicio" },
+                { "key": "kind", "value": "product", "description": "product | service" },
+                { "key": "returnTo", "value": "/es/catalog", "description": "Redirect tras acción" }
+              ]
+            },
+            "url": "{{baseUrl}}/api/cart/add",
+            "description": "Agrega ítem al carrito (form HTML)."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Quantity",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "refId", "value": "PRODUCT_ID" },
+                { "key": "kind", "value": "product" },
+                { "key": "quantity", "value": "2" },
+                { "key": "returnTo", "value": "/es/cart" }
+              ]
+            },
+            "url": "{{baseUrl}}/api/cart/update"
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "refId", "value": "PRODUCT_ID" },
+                { "key": "kind", "value": "product" },
+                { "key": "returnTo", "value": "/es/cart" }
+              ]
+            },
+            "url": "{{baseUrl}}/api/cart/remove"
+          },
+          "response": []
+        },
+        {
+          "name": "Clear Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "returnTo", "value": "/es/cart" }
+              ]
+            },
+            "url": "{{baseUrl}}/api/cart/clear"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Checkout",
+      "item": [
+        {
+          "name": "Start Checkout",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/x-www-form-urlencoded" },
+              { "key": "Referer", "value": "{{baseUrl}}/es/cart" }
+            ],
+            "url": "{{baseUrl}}/api/checkout",
+            "description": "Inicia checkout Ualá. Requiere sesión + carrito en cookie. Responde 303 redirect."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "Ualá Payment Webhook",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uuid\": \"00000000-0000-0000-0000-000000000001\",\n  \"external_reference\": \"ORDER_ID\",\n  \"status\": \"APPROVED\",\n  \"created_date\": \"2026-07-05T12:00:00.000Z\",\n  \"api_version\": \"2.0\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "{{baseUrl}}/api/webhooks/uala",
+            "description": "Webhook Ualá Bis v2 (notification_url)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Jobs",
+      "item": [
+        {
+          "name": "Ingest Jobs (GET)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{jobsIngestSecret}}", "type": "string" }]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/jobs/ingest",
+            "description": "Cron Vercel o manual. Bearer = `JOBS_INGEST_SECRET` o `CRON_SECRET`."
+          },
+          "response": []
+        },
+        {
+          "name": "Ingest Jobs (POST)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{jobsIngestSecret}}", "type": "string" }]
+            },
+            "method": "POST",
+            "url": "{{baseUrl}}/api/jobs/ingest"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Rates",
+      "item": [
+        {
+          "name": "Ingest Rates (GET)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{jobsIngestSecret}}", "type": "string" }]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/rates/ingest",
+            "description": "Refresca cotización. Mismo Bearer que jobs ingest."
+          },
+          "response": []
+        },
+        {
+          "name": "Ingest Rates (POST)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{jobsIngestSecret}}", "type": "string" }]
+            },
+            "method": "POST",
+            "url": "{{baseUrl}}/api/rates/ingest"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Resumes",
+      "item": [
+        {
+          "name": "Download Resume File",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/resumes/{{resumeId}}/file",
+            "description": "CV del usuario autenticado (cookie sesión). 401 sin login."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dev (local only)",
+      "description": "404 en producción salvo CI.",
+      "item": [
+        {
+          "name": "Dev Login",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/dev/login?secret={{devLoginSecret}}&email={{devLoginEmail}}&redirect=/es/account/applications",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dev", "login"],
+              "query": [
+                { "key": "secret", "value": "{{devLoginSecret}}" },
+                { "key": "email", "value": "{{devLoginEmail}}" },
+                { "key": "redirect", "value": "/es/account/applications" }
+              ]
+            },
+            "description": "Login programático sin formulario. Setea cookie de sesión (303 redirect)."
+          },
+          "response": []
+        },
+        {
+          "name": "Mock Ualá Pay Success",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/dev/mock-uala-pay?orderId={{mockOrderId}}&locale=es",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dev", "mock-uala-pay"],
+              "query": [
+                { "key": "orderId", "value": "{{mockOrderId}}" },
+                { "key": "locale", "value": "es" }
+              ]
+            },
+            "description": "Simula webhook APPROVED y vacía carrito."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "https://adolfo-nine.vercel.app" },
+    { "key": "metricsClientId", "value": "metrics-demo" },
+    { "key": "metricsClientSecret", "value": "metrics-demo-dev" },
+    { "key": "metricsToken", "value": "" },
+    { "key": "jobsIngestSecret", "value": "" },
+    { "key": "devLoginSecret", "value": "dev-local-secret" },
+    { "key": "devLoginEmail", "value": "e2e@test.local" },
+    { "key": "resumeId", "value": "" },
+    { "key": "catalogCursor", "value": "" },
+    { "key": "mockOrderId", "value": "" }
+  ]
+}

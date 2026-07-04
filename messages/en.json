@@ -4,6 +4,7 @@
     "jobs": "Jobs",
     "courses": "Courses",
     "sandbox3d": "3D Sandbox",
+    "motionLab": "Motion UI",
     "aiAgents": "AI Agents",
     "account": "My account",
     "cart": "Cart",
@@ -410,6 +411,99 @@
           "Replicate 360° walkthroughs and web showrooms for property marketing.",
           "Ship embeddable tours in production-ready Next.js landings."
         ]
+      }
+    }
+  },
+  "motionLab": {
+    "badge": "UI Motion Lab",
+    "title": "Motion principles on scroll",
+    "subtitle": "Interactive scroll-driven demos inspired by classic UI animation techniques.",
+    "intro": "Each section explains one technique used in product UIs — easing, stagger, fade, morph, masking, depth, parallax, and zoom — with a live demo you can replay as you scroll.",
+    "scrollHint": "Scroll to explore",
+    "chapterNav": "Chapters",
+    "creditPrefix": "Inspired by",
+    "creditSuffix": " — adapted for this Next.js demo.",
+    "easing": {
+      "demoLabel": "Easing comparison demo",
+      "tabsLabel": "Easing presets",
+      "replay": "Replay",
+      "presets": {
+        "linear": "Linear",
+        "ease": "Ease",
+        "ease-in": "Ease-in",
+        "ease-out": "Ease-out",
+        "cubic": "Cubic"
+      }
+    },
+    "offset": {
+      "items": ["Navigation item", "Hero headline", "Primary CTA", "Supporting copy"]
+    },
+    "fade": {
+      "demoText": "Content fades in as it enters the viewport — best paired with position or scale."
+    },
+    "transform": {
+      "demoLabel": "Shape morph demo",
+      "demoCompact": "Icon",
+      "demoExpanded": "Expanded panel"
+    },
+    "masking": {
+      "demoText": "Reveal with mask"
+    },
+    "dimension": {
+      "demoLabel": "Floating card stack",
+      "cards": ["Background layer", "Mid layer", "Foreground layer"]
+    },
+    "parallax": {
+      "demoLabel": "Parallax layers",
+      "layers": {
+        "far": "Far layer",
+        "mid": "Mid layer",
+        "near": "Near layer"
+      }
+    },
+    "zoom": {
+      "demoText": "Zoom into focus"
+    },
+    "principles": {
+      "easing": {
+        "shortTitle": "Easing",
+        "title": "The basics of easing",
+        "body": "Objects in nature accelerate and decelerate. Easing mimics that on screen so motion feels organic instead of robotic."
+      },
+      "offset": {
+        "shortTitle": "Offset & delay",
+        "title": "Offset and delay",
+        "body": "Staggering elements by a few milliseconds creates hierarchy, softness, and guides attention through the layout."
+      },
+      "fade": {
+        "shortTitle": "Fade",
+        "title": "Fade in / fade out",
+        "body": "Opacity transitions are the most versatile entrance technique — especially when combined with position or scale."
+      },
+      "transform": {
+        "shortTitle": "Transform",
+        "title": "Transform & morph",
+        "body": "Morphing one shape into another maintains continuity and keeps the eye anchored during navigation."
+      },
+      "masking": {
+        "shortTitle": "Masking",
+        "title": "Masking",
+        "body": "Mask reveals add softness and depth — the content feels like it unfolds inside its container."
+      },
+      "dimension": {
+        "shortTitle": "Dimension",
+        "title": "Dimension",
+        "body": "Layered cards at different depths make flat interfaces feel spatial and tactile."
+      },
+      "parallax": {
+        "shortTitle": "Parallax",
+        "title": "Parallax",
+        "body": "Layers moving at different speeds on scroll create depth and a cinematic sense of space."
+      },
+      "zoom": {
+        "shortTitle": "Zoom",
+        "title": "Zoom",
+        "body": "Scale transitions connect screens narratively and signal that more detail lives beneath the surface."
       }
     }
   },

@@ -4,6 +4,7 @@
     "jobs": "Empleos",
     "courses": "Cursos",
     "sandbox3d": "3D Sandbox",
+    "motionLab": "Motion UI",
     "aiAgents": "AI Agents",
     "account": "Mi cuenta",
     "cart": "Carrito",
@@ -380,6 +381,99 @@
           "Replicar visitas 360° y showrooms web para marketing inmobiliario.",
           "Publicar tours embebidos en landings Next.js listos para producción."
         ]
+      }
+    }
+  },
+  "motionLab": {
+    "badge": "UI Motion Lab",
+    "title": "Principios de motion al scroll",
+    "subtitle": "Demos interactivas con scroll inspiradas en técnicas clásicas de animación UI.",
+    "intro": "Cada sección explica una técnica usada en productos reales — easing, stagger, fade, morph, masking, profundidad, parallax y zoom — con una demo en vivo mientras scrolleás.",
+    "scrollHint": "Scroll para explorar",
+    "chapterNav": "Capítulos",
+    "creditPrefix": "Inspirado en",
+    "creditSuffix": " — adaptado para esta demo en Next.js.",
+    "easing": {
+      "demoLabel": "Demo comparativa de easing",
+      "tabsLabel": "Presets de easing",
+      "replay": "Repetir",
+      "presets": {
+        "linear": "Linear",
+        "ease": "Ease",
+        "ease-in": "Ease-in",
+        "ease-out": "Ease-out",
+        "cubic": "Cubic"
+      }
+    },
+    "offset": {
+      "items": ["Ítem de navegación", "Titular hero", "CTA principal", "Texto de apoyo"]
+    },
+    "fade": {
+      "demoText": "El contenido aparece al entrar en viewport — mejor combinado con posición o escala."
+    },
+    "transform": {
+      "demoLabel": "Demo de morph de forma",
+      "demoCompact": "Ícono",
+      "demoExpanded": "Panel expandido"
+    },
+    "masking": {
+      "demoText": "Reveal con máscara"
+    },
+    "dimension": {
+      "demoLabel": "Stack de tarjetas flotantes",
+      "cards": ["Capa fondo", "Capa media", "Capa frente"]
+    },
+    "parallax": {
+      "demoLabel": "Capas parallax",
+      "layers": {
+        "far": "Capa lejana",
+        "mid": "Capa media",
+        "near": "Capa cercana"
+      }
+    },
+    "zoom": {
+      "demoText": "Zoom al foco"
+    },
+    "principles": {
+      "easing": {
+        "shortTitle": "Easing",
+        "title": "Fundamentos del easing",
+        "body": "Los objetos aceleran y frenan en la naturaleza. El easing replica eso en pantalla para que el movimiento se sienta orgánico."
+      },
+      "offset": {
+        "shortTitle": "Offset & delay",
+        "title": "Offset y delay",
+        "body": "Escalonar elementos unos milisegundos crea jerarquía, suavidad y guía la atención por el layout."
+      },
+      "fade": {
+        "shortTitle": "Fade",
+        "title": "Fade in / fade out",
+        "body": "Las transiciones de opacidad son la técnica de entrada más versátil — sobre todo combinadas con posición o escala."
+      },
+      "transform": {
+        "shortTitle": "Transform",
+        "title": "Transform & morph",
+        "body": "Morphing de una forma a otra mantiene continuidad y ancla la mirada durante la navegación."
+      },
+      "masking": {
+        "shortTitle": "Masking",
+        "title": "Masking",
+        "body": "Los reveals con máscara aportan suavidad y profundidad — el contenido se despliega dentro de su contenedor."
+      },
+      "dimension": {
+        "shortTitle": "Dimensión",
+        "title": "Dimensión",
+        "body": "Tarjetas en capas a distintas profundidades hacen que interfaces planas se sientan espaciales."
+      },
+      "parallax": {
+        "shortTitle": "Parallax",
+        "title": "Parallax",
+        "body": "Capas que se mueven a distinta velocidad al scroll crean profundidad y sensación cinematográfica."
+      },
+      "zoom": {
+        "shortTitle": "Zoom",
+        "title": "Zoom",
+        "body": "Las transiciones de escala conectan pantallas narrativamente y señalan que hay más detalle debajo."
       }
     }
   },

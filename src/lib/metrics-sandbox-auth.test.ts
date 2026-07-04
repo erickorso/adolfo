@@ -19,6 +19,22 @@ import {
 describe("metrics-sandbox-auth", () => {
   beforeEach(() => {
     vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("METRICS_SANDBOX_ENABLED", undefined);
+  });
+
+  it("sandbox activo por defecto en production local (next start)", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.unstubAllEnvs();
+    vi.stubEnv("NODE_ENV", "production");
+    const { isMetricsSandboxEnabled } = await import("./metrics-sandbox-auth");
+    expect(isMetricsSandboxEnabled()).toBe(true);
+  });
+
+  it("sandbox desactivado solo con METRICS_SANDBOX_ENABLED=false", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("METRICS_SANDBOX_ENABLED", "false");
+    const { isMetricsSandboxEnabled } = await import("./metrics-sandbox-auth");
+    expect(isMetricsSandboxEnabled()).toBe(false);
   });
 
   it("emite y valida token Bearer", () => {

@@ -61,15 +61,7 @@
           ],
           "request": {
             "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/api/metrics/get-token?clientId={{metricsClientId}}&clientSecret={{metricsClientSecret}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "metrics", "get-token"],
-              "query": [
-                { "key": "clientId", "value": "{{metricsClientId}}" },
-                { "key": "clientSecret", "value": "{{metricsClientSecret}}" }
-              ]
-            },
+            "url": "{{baseUrl}}/api/metrics/get-token?clientId={{metricsClientId}}&clientSecret={{metricsClientSecret}}",
             "description": "Atajo browser/curl para obtener token."
           },
           "response": []

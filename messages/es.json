@@ -414,10 +414,14 @@
     "transform": {
       "demoLabel": "Demo de morph de forma",
       "demoCompact": "Ícono",
-      "demoExpanded": "Panel expandido"
+      "demoExpanded": "Panel expandido",
+      "demoToggleLabel": "Alternar morph entre ícono y panel expandido",
+      "demoHint": "Click o scroll para morph"
     },
     "masking": {
-      "demoText": "Reveal con máscara"
+      "demoText": "Reveal con máscara",
+      "demoLabel": "Demo de máscara ligada al scroll",
+      "demoHint": "Scrolleá para revelar"
     },
     "dimension": {
       "demoLabel": "Stack de tarjetas flotantes",

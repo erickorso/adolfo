@@ -360,61 +360,134 @@
   opacity: 1;
 }
 
-.motion-lab__morph-box {
+.motion-lab__morph-stage {
+  position: relative;
   display: grid;
   place-items: center;
-  width: 5rem;
-  height: 5rem;
-  border-radius: 9999px;
-  background: var(--motion-lab-accent);
-  color: var(--primary-foreground);
-  font-weight: 700;
-  transition:
-    border-radius 0.7s cubic-bezier(0.65, 0, 0.35, 1),
-    transform 0.7s cubic-bezier(0.65, 0, 0.35, 1),
-    width 0.7s cubic-bezier(0.65, 0, 0.35, 1),
-    height 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+  min-height: 14rem;
+  --motion-morph-progress: 0;
+  --motion-morph-width: 5rem;
+  --motion-morph-height: 5rem;
+  --motion-morph-radius: 9999px;
 }
 
-.motion-lab__morph-box--expanded {
-  width: 100%;
-  max-width: 20rem;
-  height: 8rem;
-  border-radius: var(--radius-xl);
+.motion-lab__morph-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 5rem;
+  min-height: 5rem;
+  border: none;
+  background-color: var(--motion-lab-accent);
+  color: var(--primary-foreground);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  will-change: width, height, border-radius;
+  transition: none;
+}
+
+.motion-lab__morph-stage--smooth .motion-lab__morph-box {
+  transition:
+    width 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+    height 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+    border-radius 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.motion-lab__morph-stage--smooth .motion-lab__morph-label {
+  transition: opacity 0.35s ease;
+}
+
+.motion-lab__morph-box:focus-visible {
+  outline: 2px solid var(--motion-lab-accent);
+  outline-offset: 3px;
+}
+
+.motion-lab__morph-label {
+  position: absolute;
+  padding: 0 1rem;
+  text-align: center;
+  transition: none;
+}
+
+.motion-lab__morph-label--compact {
+  opacity: calc(1 - var(--motion-morph-progress, 0));
+  pointer-events: none;
+}
+
+.motion-lab__morph-label--expanded {
+  opacity: var(--motion-morph-progress, 0);
+  pointer-events: none;
+}
+
+.motion-lab__morph-hint {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.75rem;
+  margin: 0;
+  border-radius: var(--radius-md);
+  background: oklch(0.12 0.02 60 / 0.55);
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+  opacity: calc(1 - var(--motion-morph-progress, 0));
 }
 
 .motion-lab__mask-frame {
   position: relative;
   overflow: hidden;
-  height: 10rem;
+  min-height: 14rem;
   border-radius: var(--radius-xl);
   border: 1px solid var(--border);
+  --motion-mask-reveal: 0;
+}
+
+.motion-lab__mask-photo {
+  object-fit: cover;
 }
 
 .motion-lab__mask-fill {
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: linear-gradient(
     120deg,
     var(--motion-lab-accent),
     oklch(0.62 0.12 190)
   );
-  clip-path: inset(0 100% 0 0);
-  transition: clip-path 1s cubic-bezier(0.65, 0, 0.35, 1);
-}
-
-.motion-lab__mask-fill--visible {
-  clip-path: inset(0 0 0 0);
+  clip-path: inset(0 calc((1 - var(--motion-mask-reveal, 0)) * 100%) 0 0);
+  will-change: clip-path;
 }
 
 .motion-lab__mask-label {
   position: absolute;
   inset: 0;
+  z-index: 2;
   display: grid;
   place-items: center;
+  padding: 1rem;
   font-size: 1.25rem;
   font-weight: 700;
   color: white;
+  text-shadow: 0 2px 12px oklch(0.15 0.02 60 / 0.45);
+  opacity: calc(0.35 + var(--motion-mask-reveal, 0) * 0.65);
+}
+
+.motion-lab__mask-hint {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.75rem;
+  z-index: 2;
+  margin: 0;
+  border-radius: var(--radius-md);
+  background: oklch(0.12 0.02 60 / 0.55);
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+  opacity: calc(1 - var(--motion-mask-reveal, 0));
 }
 
 .motion-lab__dimension-stack {
@@ -733,7 +806,6 @@
   .motion-lab__stagger-item,
   .motion-lab__fade-panel,
   .motion-lab__morph-box,
-  .motion-lab__mask-fill,
   .motion-lab__zoom-card,
   .motion-lab__scroll-reveal,
   .motion-lab__scroll-reveal-native {
@@ -742,6 +814,25 @@
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
+  }
+
+  .motion-lab__mask-fill {
+    opacity: 0;
+  }
+
+  .motion-lab__mask-hint {
+    opacity: 0;
+  }
+
+  .motion-lab__morph-hint {
+    opacity: 0;
+  }
+
+  .motion-lab__morph-stage {
+    --motion-morph-progress: 1;
+    --motion-morph-width: 20rem;
+    --motion-morph-height: 8rem;
+    --motion-morph-radius: 16px;
   }
 
   .motion-lab__horizontal-scroll-zone {

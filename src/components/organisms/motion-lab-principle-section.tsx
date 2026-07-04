@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import type { MotionPrincipleId } from "@/domain/learning/motion/motion-principles";
 import { MotionLabEasingDemo } from "@/components/molecules/motion-lab-easing-demo";
 import { MotionLabHorizontalSlideDemo } from "@/components/molecules/motion-lab-horizontal-slide-demo";
+import { MotionLabMaskDemo } from "@/components/molecules/motion-lab-mask-demo";
+import { MotionLabTransformDemo } from "@/components/molecules/motion-lab-transform-demo";
 import { useParallaxOffset } from "@/hooks/use-parallax-offset";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
@@ -57,40 +59,11 @@ function FadeDemo() {
 }
 
 function TransformDemo() {
-  const t = useTranslations("motionLab");
-  const { ref, visible } = useScrollReveal<HTMLDivElement>();
-
-  return (
-    <div ref={ref} className="motion-lab__demo">
-      <div
-        className={cn(
-          "motion-lab__morph-box",
-          visible && "motion-lab__morph-box--expanded",
-        )}
-        aria-label={t("transform.demoLabel")}
-      >
-        {visible ? t("transform.demoExpanded") : t("transform.demoCompact")}
-      </div>
-    </div>
-  );
+  return <MotionLabTransformDemo />;
 }
 
 function MaskDemo() {
-  const t = useTranslations("motionLab");
-  const { ref, visible } = useScrollReveal<HTMLDivElement>();
-
-  return (
-    <div ref={ref} className="motion-lab__demo motion-lab__mask-frame">
-      <div
-        className={cn(
-          "motion-lab__mask-fill",
-          visible && "motion-lab__mask-fill--visible",
-        )}
-        aria-hidden="true"
-      />
-      <div className="motion-lab__mask-label">{t("masking.demoText")}</div>
-    </div>
-  );
+  return <MotionLabMaskDemo />;
 }
 
 function DimensionDemo() {

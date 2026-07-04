@@ -444,10 +444,14 @@
     "transform": {
       "demoLabel": "Shape morph demo",
       "demoCompact": "Icon",
-      "demoExpanded": "Expanded panel"
+      "demoExpanded": "Expanded panel",
+      "demoToggleLabel": "Toggle shape morph between icon and expanded panel",
+      "demoHint": "Click or scroll to morph"
     },
     "masking": {
-      "demoText": "Reveal with mask"
+      "demoText": "Reveal with mask",
+      "demoLabel": "Scroll-driven mask reveal demo",
+      "demoHint": "Scroll to reveal"
     },
     "dimension": {
       "demoLabel": "Floating card stack",

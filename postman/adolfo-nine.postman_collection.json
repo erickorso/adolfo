@@ -93,6 +93,69 @@
       ]
     },
     {
+      "name": "Demo (Public APIs)",
+      "description": "Proxies a APIs públicas sin API key (open.er-api.com, countriesnow.space). Desactivar: DEMO_PUBLIC_APIS_ENABLED=false.",
+      "item": [
+        {
+          "name": "Exchange Rates",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/demo/exchange-rates?base=USD",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "demo", "exchange-rates"],
+              "query": [{ "key": "base", "value": "USD", "description": "ISO 4217 (USD, EUR, GBP…)" }]
+            },
+            "description": "Tipos de cambio vs USD. Fuente: open.er-api.com"
+          },
+          "response": []
+        },
+        {
+          "name": "Countries (search)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/demo/countries?q=spain&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "demo", "countries"],
+              "query": [
+                { "key": "q", "value": "spain" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "description": "Buscar país por nombre. Fuente: countriesnow.space"
+          },
+          "response": []
+        },
+        {
+          "name": "Countries (by code)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/demo/countries?code=ES",
+            "description": "País por ISO2/ISO3"
+          },
+          "response": []
+        },
+        {
+          "name": "Cities by country",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/demo/cities?country=Spain&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "demo", "cities"],
+              "query": [
+                { "key": "country", "value": "Spain", "description": "Nombre en inglés" },
+                { "key": "limit", "value": "20", "description": "max 500" }
+              ]
+            },
+            "description": "Ciudades de un país. Fuente: countriesnow.space"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Auth",
       "description": "Auth.js v5 — `/api/auth/*`",
       "item": [

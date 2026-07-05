@@ -24,7 +24,8 @@
     "db:seed": "tsx prisma/seed.ts",
     "jobs:ingest": "tsx scripts/jobs-ingest-local.ts",
     "db:studio": "prisma studio",
-    "smoke:pre-deploy": "tsx scripts/smoke-pre-deploy.ts"
+    "smoke:pre-deploy": "tsx scripts/smoke-pre-deploy.ts",
+    "dev:metrics-api": "npm run dev --prefix backend"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",

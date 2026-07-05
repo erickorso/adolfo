@@ -94,9 +94,10 @@ Ver detalle en [`progress.md`](./progress.md).
 
 | # | Empresa | Fuente | Estado | Notas |
 |---|---|---|---|---|
-| 1 | **Thaloz** → cliente US | Inbound LinkedIn (Nayla, abr 2026) | `saved` | Senior React, 2–3 meses, USD remoto — **reactivar** |
+| 1 | **Thaloz** → cliente US | LinkedIn inbound | `saved` | Senior React, 2–3 meses, USD remoto — **reactivar** |
+| 2 | **Mediastream** | Get on Board | `tech` | Entrevista **6 jul 17:00 ES** · ver `mediastream-prep-plan.md` |
 
-*(Agregar filas cuando pases nuevos trabajos)*
+*(Detalle completo en [`progress.md`](./progress.md) · portales en [`job-boards.md`](./job-boards.md))*
 
 ---
 
@@ -125,4 +126,4 @@ Ver detalle en [`progress.md`](./progress.md).
 
 ---
 
-*Última actualización: 2026-06-22*
+*Última actualización: 2026-07-05*

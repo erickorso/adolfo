@@ -39,6 +39,9 @@ Formato: **Postman Collection v2.1.0** (`schema.getpostman.com/json/collection/v
 |--------|------|------|
 | POST, GET | `/api/metrics/get-token` | clientId + clientSecret |
 | GET | `/api/metrics/top-content` | Bearer metricsToken |
+| GET | `/api/demo/exchange-rates` | — |
+| GET | `/api/demo/countries` | — |
+| GET | `/api/demo/cities` | — |
 | GET | `/api/auth/session` | cookie |
 | GET | `/api/auth/csrf` | — |
 | GET | `/api/auth/providers` | — |

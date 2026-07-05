@@ -4,6 +4,7 @@
     "files": [
       "src/generated/**",
       "jobs/**",
+      "backend/**",
       "**/*.test.ts",
       "**/*.test.tsx",
       "e2e/**",

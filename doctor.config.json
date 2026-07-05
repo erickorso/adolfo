@@ -50,5 +50,6 @@
     "minScore": 30,
     "severity": "warning"
   },
-  "deadCode": false
+  "deadCode": false,
+  "blocking": "error"
 }

@@ -15,3 +15,15 @@ Al crear o modificar rutas en `src/app/api/**/route.ts`, actualizar:
 
 Ver `postman/README.md` para importar en Postman (Collection v2.1.0).
 <!-- END:postman-sync -->
+
+<!-- BEGIN:react-doctor-pre-commit -->
+## React Doctor (pre-commit)
+
+El hook `.husky/pre-commit` ejecuta `npm run doctor:staged` solo sobre **archivos staged**:
+
+- `--blocking error` → falla el commit solo con errores (warnings no bloquean)
+- `--no-dead-code` → más rápido en cada commit
+- Config: `doctor.config.json` (overrides documentados)
+
+Manual: `npm run doctor:commit` (verbose). Full scan: `npm run doctor`.
+<!-- END:react-doctor-pre-commit -->

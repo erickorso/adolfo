@@ -20,6 +20,7 @@ import { getDemoCountries } from "@/services/demo/countries.provider";
 import { getDemoExchangeRates } from "@/services/demo/exchange-rates.provider";
 import { fetchPublicJson } from "@/services/demo/public-api-fetch";
 import { listCatalogPage } from "@/services/catalog/catalog.service";
+import { probeHackerNewsJobsAvailability } from "@/services/jobs/hn-jobs-health";
 
 async function timedProbe(
   id: string,
@@ -43,26 +44,6 @@ async function timedProbe(
       message: error instanceof Error ? error.message : "Probe failed",
     };
   }
-}
-
-async function probeHackerNewsJobsFeed(): Promise<{ items: unknown[] }> {
-  const url = "https://hnrss.org/jobs.jsonfeed";
-  const attempts = [15_000, 20_000];
-
-  let lastError: Error | undefined;
-  for (const timeoutMs of attempts) {
-    try {
-      const data = await fetchPublicJson<{ items?: unknown[] }>(url, { timeoutMs });
-      if (Array.isArray(data.items) && data.items.length > 0) {
-        return { items: data.items };
-      }
-      lastError = new Error("Empty HN jobs feed");
-    } catch (error) {
-      lastError = error instanceof Error ? error : new Error("HN feed failed");
-    }
-  }
-
-  throw lastError ?? new Error("HN feed failed");
 }
 
 /** Probes de upstream y rutas internas (sin HTTP loopback — fiable en Vercel SSR). */
@@ -125,8 +106,8 @@ export async function runPublicApiProbes(): Promise<ApiProbeReport> {
       return { message: `${data.jobs.length} jobs` };
     }),
     await timedProbe("hackernews-jobs", async () => {
-      const data = await probeHackerNewsJobsFeed();
-      return { message: `${data.items.length} items` };
+      const data = await probeHackerNewsJobsAvailability();
+      return { message: `${data.count} items (${data.source})` };
     }),
   );
 

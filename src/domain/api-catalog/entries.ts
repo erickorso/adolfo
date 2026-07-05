@@ -66,8 +66,8 @@ export const API_CATALOG_ENTRIES: ApiCatalogEntry[] = [
     kind: "external",
     name: "Hacker News Jobs",
     description: {
-      es: "Feed JSON de vacantes YC (hnrss.org).",
-      en: "YC jobs JSON feed (hnrss.org).",
+      es: "Vacantes YC: hnrss.org (ingesta) o API Firebase si el feed es lento.",
+      en: "YC jobs: hnrss.org (ingest) or Firebase API when the feed is slow.",
     },
     upstreamUrl: "https://hnrss.org/jobs.jsonfeed",
   },

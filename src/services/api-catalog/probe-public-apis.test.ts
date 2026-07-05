@@ -29,6 +29,10 @@ vi.mock("@/services/demo/public-api-fetch", () => ({
   fetchPublicJson: vi.fn(),
 }));
 
+vi.mock("@/services/jobs/hn-jobs-health", () => ({
+  probeHackerNewsJobsAvailability: vi.fn(),
+}));
+
 vi.mock("@/services/catalog/catalog.service", () => ({
   listCatalogPage: vi.fn(),
 }));
@@ -53,6 +57,7 @@ import { getDemoCountries } from "@/services/demo/countries.provider";
 import { getDemoExchangeRates } from "@/services/demo/exchange-rates.provider";
 import { fetchPublicJson } from "@/services/demo/public-api-fetch";
 import { listCatalogPage } from "@/services/catalog/catalog.service";
+import { probeHackerNewsJobsAvailability } from "@/services/jobs/hn-jobs-health";
 import { runPublicApiProbes } from "@/services/api-catalog/probe-public-apis";
 import { API_CATALOG_ENTRIES } from "@/domain/api-catalog/entries";
 
@@ -101,15 +106,17 @@ describe("runPublicApiProbes", () => {
 
     vi.mocked(getCartFromCookie).mockResolvedValue([]);
 
+    vi.mocked(probeHackerNewsJobsAvailability).mockResolvedValue({
+      count: 20,
+      source: "hnrss.org",
+    });
+
     vi.mocked(fetchPublicJson).mockImplementation(async (url: string) => {
       if (url.includes("dolarapi")) {
         return [{ casa: "tarjeta", venta: 1200 }];
       }
       if (url.includes("remotive")) {
         return { jobs: [{ id: 1 }] };
-      }
-      if (url.includes("hnrss")) {
-        return { items: [{ title: "job" }] };
       }
       throw new Error(`Unexpected URL: ${url}`);
     });
@@ -151,32 +158,6 @@ describe("runPublicApiProbes", () => {
 
     expect(exchange?.ok).toBe(false);
     expect(exchange?.message).toContain("upstream down");
-  });
-
-  it("reintenta HN jobs si el primer intento aborta", async () => {
-    vi.mocked(fetchPublicJson).mockImplementation(async (url: string, init?: { timeoutMs?: number }) => {
-      if (url.includes("hnrss")) {
-        if (init?.timeoutMs === 15_000) {
-          throw new Error("This operation was aborted");
-        }
-        return { items: [{ title: "job" }] };
-      }
-      if (url.includes("dolarapi")) {
-        return [{ casa: "tarjeta", venta: 1200 }];
-      }
-      if (url.includes("remotive")) {
-        return { jobs: [{ id: 1 }] };
-      }
-      throw new Error(`Unexpected URL: ${url}`);
-    });
-
-    const report = await runPublicApiProbes();
-    const hn = report.probes.find((probe) => probe.id === "hackernews-jobs");
-
-    expect(hn?.ok).toBe(true);
-    expect(vi.mocked(fetchPublicJson).mock.calls.filter(([url]) =>
-      String(url).includes("hnrss"),
-    ).length).toBeGreaterThanOrEqual(2);
   });
 });
 

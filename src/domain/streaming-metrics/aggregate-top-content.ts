@@ -1,4 +1,4 @@
-import type { PlaybackEvent, TopContentQuery, TopContentRow } from "./types";
+import type { PlaybackEvent, TopContentQuery, TopContentRow, TopContentResponse } from "./types";
 
 function utcDateKey(value: Date | string): string {
   if (typeof value === "string") {
@@ -70,4 +70,22 @@ export function countTotalPlays(
   query: TopContentQuery,
 ): number {
   return filterPlaybackEvents(events, query).length;
+}
+
+export function composeTopContentResponse(
+  events: PlaybackEvent[],
+  query: TopContentQuery,
+  queryMs: number,
+): TopContentResponse {
+  const { rows, total } = aggregateTopContent(events, query);
+  return {
+    rows,
+    total,
+    meta: {
+      queryMs,
+      page: query.page,
+      pageSize: query.limit,
+      totalPlays: countTotalPlays(events, query),
+    },
+  };
 }

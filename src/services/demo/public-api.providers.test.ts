@@ -33,13 +33,13 @@ describe("demo public API providers", () => {
     expect(result.meta.source).toBe("open.er-api.com");
   });
 
-  it("filtra países por código ISO2", async () => {
+    it("filtra países por código ISO2", async () => {
     vi.mocked(fetchPublicJson).mockResolvedValue({
       error: false,
       msg: "ok",
       data: [
-        { Iso2: "ES", Iso3: "ESP", country: "Spain" },
-        { Iso2: "AR", Iso3: "ARG", country: "Argentina" },
+        { iso2: "ES", iso3: "ESP", country: "Spain" },
+        { iso2: "AR", iso3: "ARG", country: "Argentina" },
       ],
     });
 

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
+import { parseGetTokenBody } from "@/domain/streaming-metrics/schemas";
 import {
   isMetricsSandboxEnabled,
   issueMetricsSandboxToken,
@@ -8,11 +8,6 @@ import {
 } from "@/lib/metrics-sandbox-auth";
 
 export const runtime = "nodejs";
-
-const bodySchema = z.object({
-  clientId: z.string().min(1),
-  clientSecret: z.string().min(1),
-});
 
 /**
  * Emite Bearer token para el simulacro de métricas.
@@ -45,12 +40,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "JSON inválido" }, { status: 400 });
   }
 
-  const parsed = bodySchema.safeParse(json);
+  const parsed = parseGetTokenBody(json);
   if (!parsed.success) {
-    return NextResponse.json(
-      { error: parsed.error.flatten().fieldErrors },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: parsed.error }, { status: 400 });
   }
 
   return issueToken(parsed.data.clientId, parsed.data.clientSecret);
@@ -62,18 +54,20 @@ export async function GET(request: Request) {
   }
 
   const url = new URL(request.url);
-  const clientId = url.searchParams.get("clientId");
-  const clientSecret = url.searchParams.get("clientSecret");
+  const parsed = parseGetTokenBody({
+    clientId: url.searchParams.get("clientId") ?? "",
+    clientSecret: url.searchParams.get("clientSecret") ?? "",
+  });
 
-  if (!clientId || !clientSecret) {
+  if (!parsed.success) {
     return NextResponse.json(
       {
-        error: "Usá clientId y clientSecret",
-        hint: `GET ?clientId=metrics-demo&clientSecret=metrics-demo-dev`,
+        error: parsed.error,
+        hint: "GET ?clientId=metrics-demo&clientSecret=metrics-demo-dev",
       },
       { status: 400 },
     );
   }
 
-  return issueToken(clientId, clientSecret);
+  return issueToken(parsed.data.clientId, parsed.data.clientSecret);
 }

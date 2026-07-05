@@ -6,6 +6,7 @@
     "sandbox3d": "3D Sandbox",
     "motionLab": "Motion UI",
     "aiAgents": "AI Agents",
+    "apis": "APIs",
     "account": "Mi cuenta",
     "cart": "Carrito",
     "admin": "Admin",
@@ -109,6 +110,23 @@
     "generating": "Generando…",
     "suggestions": "Sugerencias",
     "rewrite": "CV reescrito"
+  },
+  "apis": {
+    "title": "APIs públicas",
+    "subtitle": "Integraciones externas y endpoints internos expuestos. Estado verificado al cargar.",
+    "sections": {
+      "internal": "Nuestras APIs",
+      "external": "Integraciones upstream"
+    },
+    "status": {
+      "ok": "OK",
+      "error": "fallos"
+    },
+    "latency": "Latencia",
+    "upstream": "Fuente externa",
+    "try": "Probar",
+    "sandbox": "Sandbox UI",
+    "postman": "Colección Postman"
   },
   "courses": {
     "title": "Cursos",

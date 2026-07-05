@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 type NavItem = {
   href: string;
-  labelKey: "catalog" | "jobs" | "courses" | "sandbox3d" | "motionLab" | "aiAgents" | "account";
+  labelKey: "catalog" | "jobs" | "courses" | "apis" | "sandbox3d" | "motionLab" | "aiAgents" | "account";
   match?: "exact" | "prefix";
 };
 
@@ -17,6 +17,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/", labelKey: "catalog", match: "exact" },
   { href: "/jobs", labelKey: "jobs" },
   { href: "/courses", labelKey: "courses" },
+  { href: "/apis", labelKey: "apis" },
   { href: "/sandbox/3d", labelKey: "sandbox3d" },
   { href: "/learn/motion", labelKey: "motionLab" },
   { href: "/learn/ai-agents", labelKey: "aiAgents" },

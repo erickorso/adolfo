@@ -2,27 +2,43 @@ import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
 
+const sharedResolve = {
+  alias: {
+    "@/i18n/navigation": fileURLToPath(
+      new URL("./src/test/i18n-navigation.stub.tsx", import.meta.url),
+    ),
+    "@": fileURLToPath(new URL("./src", import.meta.url)),
+    "server-only": fileURLToPath(
+      new URL("./src/test/server-only.stub.ts", import.meta.url),
+    ),
+  },
+};
+
 export default defineConfig({
   plugins: [react()],
-  resolve: {
-    alias: {
-      // Específico antes que "@": navegación i18n -> stub (evita next-intl/next/navigation).
-      "@/i18n/navigation": fileURLToPath(
-        new URL("./src/test/i18n-navigation.stub.tsx", import.meta.url),
-      ),
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
-      // `server-only` lanza fuera de RSC; en tests lo neutralizamos.
-      "server-only": fileURLToPath(
-        new URL("./src/test/server-only.stub.ts", import.meta.url),
-      ),
-    },
-  },
+  resolve: sharedResolve,
   test: {
     globals: true,
-    environment: "jsdom",
-    setupFiles: ["./src/test/setup.ts"],
-    // Los tests E2E de Playwright viven en /e2e y se corren por separado.
-    include: ["src/**/*.{test,spec}.{ts,tsx}"],
-    css: false,
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: "app",
+          include: ["src/**/*.{test,spec}.{ts,tsx}"],
+          environment: "jsdom",
+          setupFiles: ["./src/test/setup.ts"],
+          css: false,
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: "backend",
+          include: ["backend/src/**/*.test.ts"],
+          environment: "node",
+          css: false,
+        },
+      },
+    ],
   },
 });

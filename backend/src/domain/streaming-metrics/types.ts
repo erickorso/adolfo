@@ -20,3 +20,14 @@ export type TopContentQuery = {
   limit: number;
   page: number;
 };
+
+export type TopContentResponse = {
+  rows: TopContentRow[];
+  total: number;
+  meta: {
+    queryMs: number;
+    page: number;
+    pageSize: number;
+    totalPlays: number;
+  };
+};

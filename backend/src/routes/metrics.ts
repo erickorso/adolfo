@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { performance } from "node:perf_hooks";
-import { z } from "zod";
+import { composeTopContentResponse } from "../domain/streaming-metrics/aggregate-top-content.js";
 import {
-  aggregateTopContent,
-  countTotalPlays,
-} from "../domain/streaming-metrics/aggregate-top-content.js";
+  parseGetTokenBody,
+  parseTopContentQuery,
+} from "../domain/streaming-metrics/schemas.js";
 import {
   issueMetricsToken,
   METRICS_DEMO_CLIENT_ID,
@@ -12,19 +12,6 @@ import {
 import { loadPlaybackEvents } from "../lib/playback-events.js";
 import { requireBearerAuth } from "../middleware/require-bearer-auth.js";
 import { requireSandboxEnabled } from "../middleware/require-sandbox-enabled.js";
-
-const tokenBodySchema = z.object({
-  clientId: z.string().min(1),
-  clientSecret: z.string().min(1),
-});
-
-const topContentQuerySchema = z.object({
-  from: z.coerce.date({ error: "from must be a valid ISO date" }),
-  to: z.coerce.date({ error: "to must be a valid ISO date" }),
-  country: z.string().min(2).max(2).optional(),
-  limit: z.coerce.number().int().min(1).max(100).default(10),
-  page: z.coerce.number().int().min(1).default(1),
-});
 
 function issueTokenResponse(clientId: string, clientSecret: string) {
   const issued = issueMetricsToken(clientId, clientSecret);
@@ -48,9 +35,9 @@ export const metricsRouter = Router();
 metricsRouter.use(requireSandboxEnabled);
 
 metricsRouter.post("/get-token", (req, res) => {
-  const parsed = tokenBodySchema.safeParse(req.body);
+  const parsed = parseGetTokenBody(req.body);
   if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.flatten().fieldErrors });
+    res.status(400).json({ error: parsed.error });
     return;
   }
 
@@ -59,49 +46,46 @@ metricsRouter.post("/get-token", (req, res) => {
 });
 
 metricsRouter.get("/get-token", (req, res) => {
-  const clientId = req.query.clientId;
-  const clientSecret = req.query.clientSecret;
+  const parsed = parseGetTokenBody({
+    clientId: typeof req.query.clientId === "string" ? req.query.clientId : "",
+    clientSecret:
+      typeof req.query.clientSecret === "string" ? req.query.clientSecret : "",
+  });
 
-  if (typeof clientId !== "string" || typeof clientSecret !== "string") {
+  if (!parsed.success) {
     res.status(400).json({
-      error: "Usá clientId y clientSecret",
+      error: parsed.error,
       hint: "GET ?clientId=metrics-demo&clientSecret=metrics-demo-dev",
     });
     return;
   }
 
-  const result = issueTokenResponse(clientId, clientSecret);
+  const result = issueTokenResponse(parsed.data.clientId, parsed.data.clientSecret);
   res.status(result.status).json(result.body);
 });
 
 metricsRouter.get("/top-content", requireBearerAuth, (req, res) => {
   const started = performance.now();
-  const parsed = topContentQuerySchema.safeParse(req.query);
+  const parsed = parseTopContentQuery(
+    Object.fromEntries(
+      Object.entries(req.query).map(([key, value]) => [
+        key,
+        typeof value === "string" ? value : undefined,
+      ]),
+    ),
+  );
 
   if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.flatten().fieldErrors });
-    return;
-  }
-
-  const query = parsed.data;
-
-  if (query.from > query.to) {
-    res.status(400).json({ error: { to: ["must be after from"] } });
+    res.status(400).json({ error: parsed.error });
     return;
   }
 
   const events = loadPlaybackEvents();
-  const { rows, total } = aggregateTopContent(events, query);
-  const totalPlays = countTotalPlays(events, query);
+  const body = composeTopContentResponse(
+    events,
+    parsed.data,
+    Math.round(performance.now() - started),
+  );
 
-  res.json({
-    rows,
-    total,
-    meta: {
-      queryMs: Math.round(performance.now() - started),
-      page: query.page,
-      pageSize: query.limit,
-      totalPlays,
-    },
-  });
+  res.json(body);
 });

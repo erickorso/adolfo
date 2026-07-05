@@ -15,6 +15,7 @@
     "doctor:commit": "react-doctor --staged --no-dead-code --blocking error --verbose",
     "prepare": "husky",
     "typecheck": "tsc --noEmit",
+    "typecheck:backend": "npm run typecheck --prefix backend",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
@@ -25,6 +26,7 @@
     "jobs:ingest": "tsx scripts/jobs-ingest-local.ts",
     "db:studio": "prisma studio",
     "smoke:pre-deploy": "tsx scripts/smoke-pre-deploy.ts",
+    "probe:apis": "tsx scripts/probe-public-apis-live.ts",
     "dev:metrics-api": "npm run dev --prefix backend"
   },
   "dependencies": {

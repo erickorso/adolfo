@@ -6,6 +6,7 @@
     "sandbox3d": "3D Sandbox",
     "motionLab": "Motion UI",
     "aiAgents": "AI Agents",
+    "apis": "APIs",
     "account": "My account",
     "cart": "Cart",
     "admin": "Admin",
@@ -109,6 +110,23 @@
     "generating": "Generating…",
     "suggestions": "Suggestions",
     "rewrite": "Rewritten CV"
+  },
+  "apis": {
+    "title": "Public APIs",
+    "subtitle": "External integrations and our exposed endpoints. Status checked on load.",
+    "sections": {
+      "internal": "Our APIs",
+      "external": "Upstream integrations"
+    },
+    "status": {
+      "ok": "OK",
+      "error": "failed"
+    },
+    "latency": "Latency",
+    "upstream": "External source",
+    "try": "Try",
+    "sandbox": "Sandbox UI",
+    "postman": "Postman collection"
   },
   "cvs": {
     "title": "My CVs",

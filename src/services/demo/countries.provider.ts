@@ -6,8 +6,10 @@ const SOURCE = "countriesnow.space";
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
 type CountriesNowCountry = {
-  Iso2: string;
-  Iso3: string;
+  Iso2?: string;
+  Iso3?: string;
+  iso2?: string;
+  iso3?: string;
   country: string;
 };
 
@@ -19,14 +21,14 @@ type CountriesNowListResponse = {
 
 function normalizeCountry(row: CountriesNowCountry): DemoCountry {
   return {
-    iso2: row.Iso2,
-    iso3: row.Iso3,
+    iso2: (row.Iso2 ?? row.iso2 ?? "").toUpperCase(),
+    iso3: (row.Iso3 ?? row.iso3 ?? "").toUpperCase(),
     name: row.country,
   };
 }
 
 async function loadAllCountries(): Promise<DemoCountry[]> {
-  const cacheKey = "countries:all";
+  const cacheKey = "countries:all:v2";
   const cached = getCached<DemoCountry[]>(cacheKey);
   if (cached) {
     return cached;
@@ -54,7 +56,7 @@ export async function getDemoCountries(options: {
   limit: number;
 }): Promise<DemoCountriesResponse> {
   const all = await loadAllCountries();
-  const cached = getCached<DemoCountry[]>("countries:all") !== null;
+  const cached = getCached<DemoCountry[]>("countries:all:v2") !== null;
 
   let filtered = all;
 

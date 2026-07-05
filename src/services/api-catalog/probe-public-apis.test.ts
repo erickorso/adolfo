@@ -29,12 +29,30 @@ vi.mock("@/services/demo/public-api-fetch", () => ({
   fetchPublicJson: vi.fn(),
 }));
 
+vi.mock("@/services/catalog/catalog.service", () => ({
+  listCatalogPage: vi.fn(),
+}));
+
+vi.mock("@/lib/cart-cookie", () => ({
+  getCartFromCookie: vi.fn(),
+}));
+
+vi.mock("@/lib/auth", () => ({
+  auth: vi.fn(async () => null),
+}));
+
+vi.mock("@/data/streaming/playback-events.json", () => ({
+  default: [{ contentId: "a", userId: "u", timestamp: "2026-06-10T00:00:00Z", durationSec: 1, country: "ES" }],
+}));
+
 import { isDemoPublicApiEnabled } from "@/lib/demo/is-demo-api-enabled";
 import { isMetricsSandboxEnabled } from "@/lib/metrics-sandbox-auth";
+import { getCartFromCookie } from "@/lib/cart-cookie";
 import { getDemoCities } from "@/services/demo/cities.provider";
 import { getDemoCountries } from "@/services/demo/countries.provider";
 import { getDemoExchangeRates } from "@/services/demo/exchange-rates.provider";
 import { fetchPublicJson } from "@/services/demo/public-api-fetch";
+import { listCatalogPage } from "@/services/catalog/catalog.service";
 import { runPublicApiProbes } from "@/services/api-catalog/probe-public-apis";
 import { API_CATALOG_ENTRIES } from "@/domain/api-catalog/entries";
 
@@ -63,6 +81,26 @@ describe("runPublicApiProbes", () => {
       meta: { source: "countriesnow.space", cached: false, limit: 5 },
     });
 
+    vi.mocked(listCatalogPage).mockResolvedValue({
+      items: [
+        {
+          id: "p1",
+          kind: "PRODUCT",
+          name: "Test",
+          slug: "test",
+          description: null,
+          priceCents: 100,
+          currency: "USD",
+          imageUrl: null,
+          available: true,
+          meta: null,
+        },
+      ],
+      nextCursor: null,
+    });
+
+    vi.mocked(getCartFromCookie).mockResolvedValue([]);
+
     vi.mocked(fetchPublicJson).mockImplementation(async (url: string) => {
       if (url.includes("dolarapi")) {
         return [{ casa: "tarjeta", venta: 1200 }];
@@ -75,30 +113,6 @@ describe("runPublicApiProbes", () => {
       }
       throw new Error(`Unexpected URL: ${url}`);
     });
-
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(async (input: RequestInfo | URL) => {
-        const url = String(input);
-        if (url.includes("/api/catalog")) {
-          return new Response(JSON.stringify({ items: [{ id: "p1" }], nextCursor: null }), {
-            status: 200,
-          });
-        }
-        if (url.includes("/api/auth/session")) {
-          return new Response(JSON.stringify(null), { status: 200 });
-        }
-        if (url.includes("/api/cart")) {
-          return new Response(JSON.stringify({ items: [] }), { status: 200 });
-        }
-        if (url.includes("/api/metrics/top-content")) {
-          return new Response(JSON.stringify({ rows: [{ id: "a", plays: 1 }] }), {
-            status: 200,
-          });
-        }
-        return new Response("not found", { status: 404 });
-      }),
-    );
   });
 
   it("marca allOk cuando todas las probes pasan", async () => {
@@ -137,6 +151,32 @@ describe("runPublicApiProbes", () => {
 
     expect(exchange?.ok).toBe(false);
     expect(exchange?.message).toContain("upstream down");
+  });
+
+  it("reintenta HN jobs si el primer intento aborta", async () => {
+    vi.mocked(fetchPublicJson).mockImplementation(async (url: string, init?: { timeoutMs?: number }) => {
+      if (url.includes("hnrss")) {
+        if (init?.timeoutMs === 15_000) {
+          throw new Error("This operation was aborted");
+        }
+        return { items: [{ title: "job" }] };
+      }
+      if (url.includes("dolarapi")) {
+        return [{ casa: "tarjeta", venta: 1200 }];
+      }
+      if (url.includes("remotive")) {
+        return { jobs: [{ id: 1 }] };
+      }
+      throw new Error(`Unexpected URL: ${url}`);
+    });
+
+    const report = await runPublicApiProbes();
+    const hn = report.probes.find((probe) => probe.id === "hackernews-jobs");
+
+    expect(hn?.ok).toBe(true);
+    expect(vi.mocked(fetchPublicJson).mock.calls.filter(([url]) =>
+      String(url).includes("hnrss"),
+    ).length).toBeGreaterThanOrEqual(2);
   });
 });
 

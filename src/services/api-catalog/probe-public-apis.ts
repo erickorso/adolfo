@@ -1,18 +1,25 @@
+import playbackEvents from "@/data/streaming/playback-events.json";
 import type { ApiProbeReport, ApiProbeResult } from "@/domain/api-catalog/types";
+import { composeTopContentResponse } from "@/domain/streaming-metrics/aggregate-top-content";
+import { parseTopContentQuery } from "@/domain/streaming-metrics/schemas";
+import type { PlaybackEvent } from "@/domain/streaming-metrics/types";
 import {
   METRICS_SANDBOX_DEMO_CLIENT_ID,
   METRICS_SANDBOX_DEMO_CLIENT_SECRET,
 } from "@/lib/metrics-sandbox-auth.constants";
-import { isMetricsSandboxEnabled } from "@/lib/metrics-sandbox-auth";
+import {
+  isMetricsSandboxEnabled,
+  issueMetricsSandboxToken,
+  verifyMetricsSandboxToken,
+} from "@/lib/metrics-sandbox-auth";
 import { isDemoPublicApiEnabled } from "@/lib/demo/is-demo-api-enabled";
+import { auth } from "@/lib/auth";
+import { getCartFromCookie } from "@/lib/cart-cookie";
 import { getDemoCities } from "@/services/demo/cities.provider";
 import { getDemoCountries } from "@/services/demo/countries.provider";
 import { getDemoExchangeRates } from "@/services/demo/exchange-rates.provider";
 import { fetchPublicJson } from "@/services/demo/public-api-fetch";
-import {
-  issueMetricsSandboxToken,
-  verifyMetricsSandboxToken,
-} from "@/lib/metrics-sandbox-auth";
+import { listCatalogPage } from "@/services/catalog/catalog.service";
 
 async function timedProbe(
   id: string,
@@ -38,33 +45,27 @@ async function timedProbe(
   }
 }
 
-function resolveAppOrigin(): string {
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-  return process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-}
+async function probeHackerNewsJobsFeed(): Promise<{ items: unknown[] }> {
+  const url = "https://hnrss.org/jobs.jsonfeed";
+  const attempts = [15_000, 20_000];
 
-async function probeInternalRoute(
-  id: string,
-  path: string,
-  validate: (payload: unknown, status: number) => void,
-): Promise<ApiProbeResult> {
-  return timedProbe(id, async () => {
-    const response = await fetch(`${resolveAppOrigin()}${path}`, {
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    });
-    const payload: unknown = await response.json().catch(() => null);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${JSON.stringify(payload)}`);
+  let lastError: Error | undefined;
+  for (const timeoutMs of attempts) {
+    try {
+      const data = await fetchPublicJson<{ items?: unknown[] }>(url, { timeoutMs });
+      if (Array.isArray(data.items) && data.items.length > 0) {
+        return { items: data.items };
+      }
+      lastError = new Error("Empty HN jobs feed");
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error("HN feed failed");
     }
-    validate(payload, response.status);
-    return { message: `HTTP ${response.status}`, statusCode: response.status };
-  });
+  }
+
+  throw lastError ?? new Error("HN feed failed");
 }
 
-/** Probes de upstream y rutas internas públicas. */
+/** Probes de upstream y rutas internas (sin HTTP loopback — fiable en Vercel SSR). */
 export async function runPublicApiProbes(): Promise<ApiProbeReport> {
   const probes: ApiProbeResult[] = [];
 
@@ -124,12 +125,7 @@ export async function runPublicApiProbes(): Promise<ApiProbeReport> {
       return { message: `${data.jobs.length} jobs` };
     }),
     await timedProbe("hackernews-jobs", async () => {
-      const data = await fetchPublicJson<{ items?: unknown[] }>(
-        "https://hnrss.org/jobs.jsonfeed",
-      );
-      if (!Array.isArray(data.items) || data.items.length === 0) {
-        throw new Error("Empty HN jobs feed");
-      }
+      const data = await probeHackerNewsJobsFeed();
       return { message: `${data.items.length} items` };
     }),
   );
@@ -154,21 +150,29 @@ export async function runPublicApiProbes(): Promise<ApiProbeReport> {
           METRICS_SANDBOX_DEMO_CLIENT_ID,
           METRICS_SANDBOX_DEMO_CLIENT_SECRET,
         );
-        if (!issued) {
-          throw new Error("Cannot issue token for probe");
+        if (!issued || !verifyMetricsSandboxToken(issued.token)) {
+          throw new Error("Cannot issue valid token for probe");
         }
-        const response = await fetch(
-          `${resolveAppOrigin()}/api/metrics/top-content?from=2026-06-01&to=2026-06-30&limit=3`,
-          {
-            headers: { Authorization: `Bearer ${issued.token}` },
-            cache: "no-store",
-          },
+
+        const parsed = parseTopContentQuery({
+          from: "2026-06-01",
+          to: "2026-06-30",
+          limit: "3",
+        });
+        if (!parsed.success) {
+          throw new Error("Invalid probe query");
+        }
+
+        const body = composeTopContentResponse(
+          playbackEvents as PlaybackEvent[],
+          parsed.data,
+          0,
         );
-        const payload = (await response.json()) as { rows?: unknown[] };
-        if (!response.ok || !Array.isArray(payload.rows)) {
-          throw new Error(`HTTP ${response.status}`);
+        if (!Array.isArray(body.rows)) {
+          throw new Error("Invalid top-content response");
         }
-        return { message: `${payload.rows.length} rows`, statusCode: response.status };
+
+        return { message: `${body.rows.length} rows, ${body.meta.totalPlays} plays` };
       }),
     );
   } else {
@@ -183,18 +187,28 @@ export async function runPublicApiProbes(): Promise<ApiProbeReport> {
   }
 
   probes.push(
-    await probeInternalRoute("catalog", "/api/catalog?kind=product", (payload) => {
-      const page = payload as { items?: unknown[] };
+    await timedProbe("catalog", async () => {
+      const page = await listCatalogPage("product", {});
       if (!Array.isArray(page.items)) {
         throw new Error("Invalid catalog page");
       }
+      return { message: `${page.items.length} items` };
     }),
-    await probeInternalRoute("auth-session", "/api/auth/session", () => undefined),
-    await probeInternalRoute("cart", "/api/cart", (payload) => {
-      const cart = payload as { items?: unknown[] };
-      if (!Array.isArray(cart.items)) {
+    await timedProbe("auth-session", async () => {
+      const session = await auth();
+      return {
+        message: session?.user?.email
+          ? `session: ${session.user.email}`
+          : "guest (no session)",
+        statusCode: 200,
+      };
+    }),
+    await timedProbe("cart", async () => {
+      const items = await getCartFromCookie();
+      if (!Array.isArray(items)) {
         throw new Error("Invalid cart payload");
       }
+      return { message: `${items.length} items in cookie` };
     }),
   );
 

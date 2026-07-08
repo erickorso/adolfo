@@ -125,6 +125,20 @@ export const SEED_COURSES: SeedCourseSpec[] = [
   },
   {
     source: "local",
+    externalId: "english-songs",
+    title: "Aprender inglés con canciones",
+    description:
+      "Letras en inglés con traducción al español, PDF descargable y notas de idioms y referencias culturales.\n\nMódulo integrado en Adolfo: /learn/songs-english",
+    provider: "Adolfo",
+    url: "/learn/songs-english",
+    hours: 20,
+    modality: "online",
+    sector: "Idiomas · Inglés · Música",
+    location: "Global · online",
+    targetAudience: "Aprendices de inglés (A2–B2)",
+  },
+  {
+    source: "local",
     externalId: "sanse-ayuntamiento-info",
     title: "Formación municipal San Sebastián de los Reyes",
     description:

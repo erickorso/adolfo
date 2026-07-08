@@ -25,6 +25,7 @@ export default async function AiAgentsLessonPage({ params }: AiAgentsLessonPageP
     <LearnModuleShell
       title={title}
       subtitle={lesson ? lessonLocalizedText(locale, lesson.summary) : undefined}
+      badge={t("badge")}
     >
       <AiAgentsLessonTemplate params={params} />
     </LearnModuleShell>

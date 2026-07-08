@@ -6,7 +6,7 @@ export default async function AiAgentsCoursePage() {
   const t = await getTranslations("aiAgents");
 
   return (
-    <LearnModuleShell title={t("title")} subtitle={t("subtitle")}>
+    <LearnModuleShell title={t("title")} subtitle={t("subtitle")} badge={t("badge")}>
       <AiAgentsCourseTemplate />
     </LearnModuleShell>
   );

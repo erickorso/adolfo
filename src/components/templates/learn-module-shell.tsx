@@ -4,12 +4,14 @@ import { Sparkles } from "lucide-react";
 type LearnModuleShellProps = {
   title: string;
   subtitle?: string;
+  badge?: string;
   children: ReactNode;
 };
 
 export function LearnModuleShell({
   title,
   subtitle,
+  badge = "AI Agents Path",
   children,
 }: LearnModuleShellProps) {
   return (
@@ -17,7 +19,7 @@ export function LearnModuleShell({
       <header className="learn-path__hero flex flex-col gap-3">
         <span className="learn-path__hero-badge">
           <Sparkles className="size-3.5" aria-hidden />
-          AI Agents Path
+          {badge}
         </span>
         <h1 className="learn-path__card-title text-3xl font-bold tracking-tight">
           {title}

@@ -1,6 +1,7 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ExternalLink, FileText } from "lucide-react";
+import { YoutubeEmbed } from "@/components/molecules/youtube-embed";
 import { getSongBySlug } from "@/domain/learning/songs-english/songs";
 import { songLocalizedText } from "@/domain/learning/songs-english/song.types";
 import { notFound } from "next/navigation";
@@ -73,8 +74,32 @@ export async function SongsEnglishSongTemplate({
               {t("listenYoutube")}
             </a>
           ) : null}
+          {song.links?.map((link) => (
+            <a
+              key={link.id}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-muted"
+            >
+              <ExternalLink className="size-4" aria-hidden />
+              {songLocalizedText(locale, link.label)}
+            </a>
+          ))}
         </div>
       </section>
+
+      {song.youtubeId ? (
+        <section aria-labelledby="video-heading">
+          <h2 id="video-heading" className="mb-4 text-lg font-semibold">
+            {t("videoEmbedTitle")}
+          </h2>
+          <YoutubeEmbed
+            videoId={song.youtubeId}
+            title={`${song.title} — ${song.artist}`}
+          />
+        </section>
+      ) : null}
 
       <section aria-labelledby="lyrics-heading">
         <h2 id="lyrics-heading" className="mb-4 text-lg font-semibold">

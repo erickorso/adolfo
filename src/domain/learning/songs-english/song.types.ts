@@ -13,6 +13,12 @@ export type SongNote = {
   lineEn?: string;
 };
 
+export type SongExternalLink = {
+  id: string;
+  label: LocalizedText;
+  url: string;
+};
+
 export type EnglishSong = {
   slug: string;
   order: number;
@@ -22,6 +28,7 @@ export type EnglishSong = {
   year: number;
   pdfPath: string;
   youtubeId?: string;
+  links?: SongExternalLink[];
   summary: LocalizedText;
   lyrics: SongLyricLine[];
   notes: SongNote[];

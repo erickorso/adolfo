@@ -3289,7 +3289,33 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 1998,
     pdfPath: "/courses/songs-english/i-want-you-back.pdf",
-    youtubeId: "TR_sBon44qU",
+    youtubeId: "is6gtilerPk",
+    links: [
+      {
+        id: "letras-jackson5-original",
+        label: {
+          es: "Letras.com — The Jackson 5 (original, 1969)",
+          en: "Letras.com — The Jackson 5 (original, 1969)",
+        },
+        url: "https://www.letras.com/jackson-five/241652/",
+      },
+      {
+        id: "letras-nsync-cover",
+        label: {
+          es: "Letras.com — *NSYNC (cover, 1998)",
+          en: "Letras.com — *NSYNC (cover, 1998)",
+        },
+        url: "https://www.letras.com/nsync/27788/",
+      },
+      {
+        id: "letras-jackson5-artist",
+        label: {
+          es: "Letras.com — The Jackson 5 (más canciones)",
+          en: "Letras.com — The Jackson 5 (more songs)",
+        },
+        url: "https://www.letras.com/jackson-five/",
+      },
+    ],
     summary: {
       es: "Pop/R&B de los 90: quiere que vuelva. Ideal para want you back, open up, come runnin' y contracciones orales (thinkin', 'bout).",
       en: "90s pop/R&B: wanting an ex back. Great for want you back, open up, come runnin', and spoken contractions (thinkin', 'bout).",
@@ -3490,8 +3516,245 @@ export const ENGLISH_SONGS: EnglishSong[] = [
         id: "nsync",
         term: "*NSYNC (1998)",
         explanation: {
-          es: "Boy band US · debut con Justin Timberlake, JC Chasez, etc. #1 en Billboard Hot 100. Género: teen pop / R&B. Primer gran hit del grupo.",
-          en: "US boy band · debut with Justin Timberlake, JC Chasez, etc. #1 on Billboard Hot 100. Teen pop / R&B. Group's first major hit.",
+          es: "Cover del hit de The Jackson 5 (1969). Boy band US · Justin Timberlake, JC Chasez · #13 Hot 100. Letra distinta al original Motown.",
+          en: "Cover of The Jackson 5's 1969 hit. US boy band · Justin Timberlake, JC Chasez · #13 Hot 100. Different lyrics from the Motown original.",
+        },
+      },
+    ],
+  },
+  {
+    slug: "i-still-havent-found-what-im-looking-for",
+    order: 16,
+    title: "I Still Haven't Found What I'm Looking For",
+    artist: "U2",
+    source: {
+      es: "The Joshua Tree (1987) — Island Records · prod. Brian Eno & Daniel Lanois",
+      en: "The Joshua Tree (1987) — Island Records · prod. Brian Eno & Daniel Lanois",
+    },
+    year: 1987,
+    pdfPath:
+      "/courses/songs-english/i-still-havent-found-what-im-looking-for.pdf",
+    youtubeId: "e3-5YC_oHjE",
+    links: [
+      {
+        id: "letras-u2",
+        label: {
+          es: "Letras.com — U2 (letra + traducción)",
+          en: "Letras.com — U2 (lyrics + translation)",
+        },
+        url: "https://www.letras.com/u2/i-still-havent-found-what-im-looking-for/",
+      },
+    ],
+    summary: {
+      es: "Rock/gospel irlandés: búsqueda espiritual sin respuesta. Ideal para present perfect (haven't found), only to + infinitivo y referencias bíblicas (kingdom come, loose the chains).",
+      en: "Irish rock/gospel: spiritual search without resolution. Great for present perfect (haven't found), only to + infinitive, and biblical refs (kingdom come, loose the chains).",
+    },
+    lyrics: [
+      {
+        en: "I have climbed the highest mountains",
+        es: "He escalado las montañas más altas",
+      },
+      {
+        en: "I have run through the fields",
+        es: "He corrido por los campos",
+      },
+      {
+        en: "Only to be with you",
+        es: "Solo para estar contigo",
+      },
+      {
+        en: "Only to be with you",
+        es: "Solo para estar contigo",
+      },
+      {
+        en: "I have run, I have crawled",
+        es: "He corrido, he gateado",
+      },
+      {
+        en: "I have scaled these city walls",
+        es: "He escalado estos muros de la ciudad",
+      },
+      {
+        en: "These city walls",
+        es: "Estos muros de la ciudad",
+      },
+      {
+        en: "Only to be with you",
+        es: "Solo para estar contigo",
+      },
+      {
+        en: "But I still haven't found what I'm looking for",
+        es: "Pero aún no he encontrado lo que busco",
+      },
+      {
+        en: "But I still haven't found what I'm looking for",
+        es: "Pero aún no he encontrado lo que busco",
+      },
+      {
+        en: "I have kissed honey lips",
+        es: "He besado labios de miel",
+      },
+      {
+        en: "Felt the healing in her fingertips",
+        es: "Sentí la curación en las puntas de sus dedos",
+      },
+      {
+        en: "It burned like fire",
+        es: "Ardió como fuego",
+      },
+      {
+        en: "This burning desire",
+        es: "Este deseo ardiente",
+      },
+      {
+        en: "I have spoken with the tongue of angels",
+        es: "He hablado con la lengua de los ángeles",
+      },
+      {
+        en: "I have held the hand of the devil",
+        es: "He tomado la mano del diablo",
+      },
+      {
+        en: "It was warm in the night",
+        es: "Era cálido en la noche",
+      },
+      {
+        en: "I was cold as a stone",
+        es: "Yo estaba frío como una piedra",
+      },
+      {
+        en: "But I still haven't found what I'm looking for",
+        es: "Pero aún no he encontrado lo que busco",
+      },
+      {
+        en: "But I still haven't found what I'm looking for",
+        es: "Pero aún no he encontrado lo que busco",
+      },
+      {
+        en: "I believe in the kingdom come",
+        es: "Creo en la venida del reino",
+      },
+      {
+        en: "Then all the colours will bleed into one",
+        es: "Entonces todos los colores se fundirán en uno",
+      },
+      {
+        en: "Bleed into one",
+        es: "Fundirse en uno",
+      },
+      {
+        en: "But yes, I'm still running",
+        es: "Pero sí, sigo corriendo",
+      },
+      {
+        en: "You broke the bonds and you loosed the chains",
+        es: "Rompiste las ataduras y soltaste las cadenas",
+      },
+      {
+        en: "Carried the cross of my shame",
+        es: "Llevaste la cruz de mi vergüenza",
+      },
+      {
+        en: "Of my shame",
+        es: "De mi vergüenza",
+      },
+      {
+        en: "You know I believe it",
+        es: "Sabes que lo creo",
+      },
+      {
+        en: "But I still haven't found what I'm looking for",
+        es: "Pero aún no he encontrado lo que busco",
+      },
+    ],
+    notes: [
+      {
+        id: "havent-found",
+        term: "I still haven't found what I'm looking for",
+        lineEn: "But I still haven't found what I'm looking for",
+        explanation: {
+          es: "Present perfect (haven't found) + what I'm looking for (relativa). Still = aún/todavía. Hook central: búsqueda sin final feliz.",
+          en: "Present perfect (haven't found) + what I'm looking for (relative clause). Still = yet. Central hook: endless search.",
+        },
+      },
+      {
+        id: "only-to",
+        term: "only to be with you",
+        lineEn: "Only to be with you",
+        explanation: {
+          es: "Only to + infinitivo = solo para / con el único fin de. Expresa propósito tras esfuerzo extremo (trepar, correr, escalar).",
+          en: "Only to + infinitive = with the sole purpose of. Purpose after extreme effort (climb, run, scale).",
+        },
+      },
+      {
+        id: "scaled-walls",
+        term: "scaled these city walls",
+        lineEn: "I have scaled these city walls",
+        explanation: {
+          es: "Scale = escalar (muros, montañas). Metáfora de obstáculos urbanos o límites que el narrador supera por amor/fe.",
+          en: "Scale = climb (walls, mountains). Metaphor for urban obstacles or limits overcome for love/faith.",
+        },
+      },
+      {
+        id: "honey-lips",
+        term: "honey lips · burning desire",
+        lineEn: "I have kissed honey lips",
+        explanation: {
+          es: "Honey lips = labios dulces (metáfora poética). Burning desire = deseo ardiente / pasión intensa.",
+          en: "Honey lips = sweet lips (poetic metaphor). Burning desire = intense passion.",
+        },
+      },
+      {
+        id: "tongue-angels",
+        term: "tongue of angels · hand of the devil",
+        lineEn: "I have spoken with the tongue of angels",
+        explanation: {
+          es: "Contraste espiritual: hablar como un ángel vs. tomar la mano del diablo. Imágenes bíblicas/poéticas de lo sublime y lo oscuro.",
+          en: "Spiritual contrast: speak like an angel vs. hold the devil's hand. Biblical/poetic imagery of sublime and dark.",
+        },
+      },
+      {
+        id: "cold-stone",
+        term: "cold as a stone",
+        lineEn: "I was cold as a stone",
+        explanation: {
+          es: "Simil: frío como una piedra = emocionalmente insensible o vacío, pese al calor de la noche.",
+          en: "Simile: cold as a stone = emotionally numb or empty, despite the warm night.",
+        },
+      },
+      {
+        id: "kingdom-come",
+        term: "kingdom come · bleed into one",
+        lineEn: "I believe in the kingdom come",
+        explanation: {
+          es: "Kingdom come = venida del Reino (Padrenuestro: thy kingdom come). Bleed into one = fundirse/difuminarse en uno solo (unidad final).",
+          en: "Kingdom come = God's kingdom (Lord's Prayer). Bleed into one = merge/blur into a single whole.",
+        },
+      },
+      {
+        id: "loosed-chains",
+        term: "broke the bonds · loosed the chains",
+        lineEn: "You broke the bonds and you loosed the chains",
+        explanation: {
+          es: "Referencia cristiana a la redención (Cristo rompe ataduras). Loose = antiguo/poético por release/untie; hoy más común loose vs. lose.",
+          en: "Christian redemption reference (Christ breaking bonds). Loose = archaic/poetic for release/untie.",
+        },
+      },
+      {
+        id: "cross-shame",
+        term: "carried the cross of my shame",
+        lineEn: "Carried the cross of my shame",
+        explanation: {
+          es: "Llevar la cruz = sufrir por los propios pecados/vergüenza; eco directo de la Pasión cristiana.",
+          en: "Carried the cross = bear one's guilt/shame; direct echo of the Christian Passion.",
+        },
+      },
+      {
+        id: "u2-joshua",
+        term: "U2 · The Joshua Tree (1987)",
+        explanation: {
+          es: "Rock irlandés con influencia gospel · #1 Hot 100 · video en Las Vegas · Bono la llamó “himno de la duda”. Rolling Stone top 500.",
+          en: "Irish rock with gospel influence · #1 Hot 100 · Las Vegas video · Bono called it “an anthem of doubt”. Rolling Stone top 500.",
         },
       },
     ],

@@ -1,0 +1,134 @@
+.mfe-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  color: #0f172a;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+.mfe-shell__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.mfe-shell__fieldset {
+  margin: 0;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mfe-shell__legend {
+  padding: 0 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mfe-shell__radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.mfe-shell__session {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #475569;
+}
+
+.mfe-shell__layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.mfe-shell__main {
+  flex: 1;
+  padding: 1rem;
+  overflow: auto;
+}
+
+.mfe-shell__grid {
+  display: grid;
+  grid-template-columns: minmax(16rem, 22rem) 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.mfe-shell__content {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  background: #fff;
+}
+
+.mfe-shell__page-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.mfe-shell__page-body {
+  margin: 0 0 1rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: #475569;
+}
+
+.mfe-shell__meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: #f1f5f9;
+}
+
+.mfe-shell__meta dt {
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+}
+
+.mfe-shell__meta dd {
+  margin: 0.25rem 0 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.mfe-shell__fallback {
+  padding: 1rem;
+  font-size: 0.875rem;
+  color: #64748b;
+  text-align: center;
+  background: #f1f5f9;
+}
+
+@media (max-width: 768px) {
+  .mfe-shell__layout {
+    flex-direction: column;
+  }
+
+  .mfe-shell__grid {
+    grid-template-columns: 1fr;
+  }
+}

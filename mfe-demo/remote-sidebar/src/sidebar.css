@@ -1,0 +1,137 @@
+.mfe-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 16rem;
+  min-height: 100%;
+  border-right: 1px solid #e5e7eb;
+  background: #fafafa;
+}
+
+.mfe-sidebar--collapsed {
+  width: 3rem;
+  min-height: auto;
+  border-right: 1px solid #e5e7eb;
+  background: #f3f4f6;
+}
+
+.mfe-sidebar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+.mfe-sidebar__title {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.mfe-sidebar__collapse,
+.mfe-sidebar__toggle {
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  background: #fff;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.mfe-sidebar__toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+  min-height: 4rem;
+  padding: 0.5rem 0.25rem;
+  border: none;
+  background: transparent;
+}
+
+.mfe-sidebar__toggle-text {
+  font-size: 0.5625rem;
+  text-align: center;
+  line-height: 1.2;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.mfe-sidebar__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  flex: 1;
+}
+
+.mfe-sidebar__placeholder {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.mfe-sidebar__suggestions {
+  margin: 0;
+  padding-left: 1rem;
+  font-size: 0.6875rem;
+  color: #9ca3af;
+}
+
+.mfe-sidebar__label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.mfe-sidebar__input {
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  font-size: 0.8125rem;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.mfe-sidebar__hint {
+  margin: 0;
+  font-size: 0.625rem;
+  color: #9ca3af;
+}
+
+.mfe-sidebar__send {
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  background: #d1d5db;
+  color: #6b7280;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: not-allowed;
+}
+
+.mfe-remote-preview--sidebar {
+  max-width: 18rem;
+  margin: 2rem auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.mfe-remote-preview__label {
+  margin: 0;
+  padding: 0.5rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b7280;
+  background: #f3f4f6;
+  text-align: center;
+}

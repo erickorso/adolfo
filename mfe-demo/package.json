@@ -1,0 +1,36 @@
+{
+  "name": "adolfo-mfe-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Module Federation demo — host shell + auth, navbar, sidebar remotes",
+  "scripts": {
+    "dev": "concurrently -n auth,navbar,sidebar,host -c blue,magenta,cyan,green \"npm run dev:auth\" \"npm run dev:navbar\" \"npm run dev:sidebar\" \"npm run dev:host\"",
+    "dev:host": "webpack serve --config host/webpack.config.mjs",
+    "dev:auth": "webpack serve --config remote-auth/webpack.config.mjs",
+    "dev:navbar": "webpack serve --config remote-navbar/webpack.config.mjs",
+    "dev:sidebar": "webpack serve --config remote-sidebar/webpack.config.mjs",
+    "build": "npm run build:auth && npm run build:navbar && npm run build:sidebar && npm run build:host",
+    "build:host": "webpack --config host/webpack.config.mjs --mode production",
+    "build:auth": "webpack --config remote-auth/webpack.config.mjs --mode production",
+    "build:navbar": "webpack --config remote-navbar/webpack.config.mjs --mode production",
+    "build:sidebar": "webpack --config remote-sidebar/webpack.config.mjs --mode production",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "concurrently": "^9.2.1",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.6",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5",
+    "webpack": "^5.105.2",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.3"
+  }
+}

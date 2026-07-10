@@ -27,7 +27,9 @@
     "db:studio": "prisma studio",
     "smoke:pre-deploy": "tsx scripts/smoke-pre-deploy.ts",
     "probe:apis": "tsx scripts/probe-public-apis-live.ts",
-    "dev:metrics-api": "npm run dev --prefix backend"
+    "dev:metrics-api": "npm run dev --prefix backend",
+    "mfe:dev": "npm run dev --prefix mfe-demo",
+    "mfe:build": "npm run build --prefix mfe-demo"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",

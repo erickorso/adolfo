@@ -139,6 +139,20 @@ export const SEED_COURSES: SeedCourseSpec[] = [
   },
   {
     source: "local",
+    externalId: "ai-practitioner-path",
+    title: "Roadmap practicante IA",
+    description:
+      "Path en 4 fases: fundamentos, dev agentic, automatización (n8n/Docker/Ollama) y producto/portfolio. Entregables verificables en Adolfo.\n\nMódulo integrado: /learn/ai-practitioner-path",
+    provider: "Adolfo",
+    url: "/learn/ai-practitioner-path",
+    hours: 80,
+    modality: "online",
+    sector: "IA · Agentes · Automatización",
+    location: "Global · online",
+    targetAudience: "Developers aprendiendo IA aplicada",
+  },
+  {
+    source: "local",
     externalId: "sanse-ayuntamiento-info",
     title: "Formación municipal San Sebastián de los Reyes",
     description:

@@ -1,4 +1,5 @@
 import type { JobQuery, JobSource, NormalizedJob } from "@/domain/jobs/job.types";
+import { matchesJobIngestQuery } from "@/domain/jobs/job-filters";
 import { REMOTIVE_TITLE_EXCLUDE } from "../job-ingest.config";
 
 const API_URL = "https://remotive.com/api/remote-jobs";
@@ -40,7 +41,7 @@ export class RemotiveSource implements JobSource {
       return (data.jobs ?? [])
         .map((job) => this.normalize(job))
         .filter((job) => this.matchesProfile(job))
-        .filter((job) => this.matchesQuery(job, query));
+        .filter((job) => matchesJobIngestQuery(job, query));
     } catch (error) {
       console.error("Error consultando Remotive:", error);
       return [];
@@ -65,16 +66,5 @@ export class RemotiveSource implements JobSource {
   private matchesProfile(job: NormalizedJob): boolean {
     const text = job.title;
     return !REMOTIVE_TITLE_EXCLUDE.test(text);
-  }
-
-  private matchesQuery(job: NormalizedJob, query: JobQuery): boolean {
-    if (query.remoteOnly && !job.remote) {
-      return false;
-    }
-    if (query.keywords && query.keywords.length > 0) {
-      const haystack = job.title.toLowerCase();
-      return query.keywords.some((kw) => haystack.includes(kw.toLowerCase()));
-    }
-    return true;
   }
 }

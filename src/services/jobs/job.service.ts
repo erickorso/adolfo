@@ -1,32 +1,33 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import {
-  ACTIVE_JOB_MAX_AGE_MS,
   isPublicJobListing,
+  jsNodeTitleWhereClause,
+  recentJobWhereClause,
 } from "@/domain/jobs/job-filters";
 import type { JobDetailVM, JobQuery, JobVM } from "@/domain/jobs/job.types";
 import { jobToDetailVM, jobToVM } from "./job.mapper";
 
 function publicListingWhere(query: JobQuery = {}) {
-  const minFetchedAt = new Date(Date.now() - ACTIVE_JOB_MAX_AGE_MS);
+  const keywordFilter =
+    query.keywords && query.keywords.length > 0
+      ? {
+          OR: query.keywords.map((kw) => ({
+            title: { contains: kw, mode: "insensitive" as const },
+          })),
+        }
+      : jsNodeTitleWhereClause();
 
   return {
     hidden: false,
     remote: true,
-    fetchedAt: { gte: minFetchedAt },
+    AND: [keywordFilter, recentJobWhereClause()],
     NOT: {
       OR: [
         { location: { contains: "madrid", mode: "insensitive" as const } },
         { title: { contains: "madrid", mode: "insensitive" as const } },
       ],
     },
-    ...(query.keywords && query.keywords.length > 0
-      ? {
-          OR: query.keywords.map((kw) => ({
-            title: { contains: kw, mode: "insensitive" as const },
-          })),
-        }
-      : {}),
   };
 }
 

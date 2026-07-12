@@ -72,22 +72,37 @@ describe("HackerNewsJobsSource", () => {
     mockHnFeed([
       {
         id: "https://news.ycombinator.com/item?id=1",
-        title: "Foo (YC S25) Is Hiring Sales",
+        title: "Office Assistant (YC S25) Is Hiring",
         url: "https://example.com/job",
       },
     ]);
 
     const jobs = await new HackerNewsJobsSource().fetchJobs({
-      keywords: ["react"],
+      keywords: ["react", "typescript", "node"],
     });
     expect(jobs).toHaveLength(0);
   });
 
-  it("devuelve vacío si el feed falla", async () => {
+  it("usa fallback Firebase si el feed falla", async () => {
     server.use(
       http.get(FEED_URL, () => new HttpResponse(null, { status: 503 })),
+      http.get("https://hacker-news.firebaseio.com/v0/jobstories.json", () =>
+        HttpResponse.json([99]),
+      ),
+      http.get("https://hacker-news.firebaseio.com/v0/item/99.json", () =>
+        HttpResponse.json({
+          id: 99,
+          type: "job",
+          title: "Hazel (YC W24) Is Hiring Full Stack Engineer Remote",
+          url: "https://www.ycombinator.com/companies/hazel-2/jobs/abc",
+          time: 1783848626,
+        }),
+      ),
     );
-    const jobs = await new HackerNewsJobsSource().fetchJobs({});
-    expect(jobs).toEqual([]);
+    const jobs = await new HackerNewsJobsSource().fetchJobs({
+      keywords: ["stack"],
+    });
+    expect(jobs).toHaveLength(1);
+    expect(jobs[0].externalId).toBe("99");
   });
 });

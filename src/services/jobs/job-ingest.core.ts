@@ -1,5 +1,9 @@
 import type { PrismaClient } from "@/generated/prisma/client";
-import { isEligibleNormalizedJob } from "@/domain/jobs/job-filters";
+import {
+  isEligibleNormalizedJob,
+  jsNodeTitleWhereClause,
+  recentJobWhereClause,
+} from "@/domain/jobs/job-filters";
 import type { JobQuery, JobSource } from "@/domain/jobs/job.types";
 import { dedupeJobs, normalizedToData } from "./job.mapper";
 
@@ -41,6 +45,8 @@ export async function runJobIngest(
         { remote: false },
         { location: { contains: "madrid", mode: "insensitive" } },
         { title: { contains: "madrid", mode: "insensitive" } },
+        { NOT: jsNodeTitleWhereClause() },
+        { NOT: recentJobWhereClause() },
       ],
     },
     data: { hidden: true },

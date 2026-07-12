@@ -92,7 +92,7 @@
   },
   "jobs": {
     "title": "Empleos",
-    "subtitle": "Vacantes agregadas desde fuentes oficiales (Greenhouse y más).",
+    "subtitle": "Vacantes remotas JS/Node (React, TypeScript, Next.js) publicadas en los últimos 10 días.",
     "empty": "No hay vacantes todavía. Corré la ingesta para traer ofertas.",
     "remote": "Remoto",
     "viewOffer": "Ver oferta",

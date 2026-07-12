@@ -62,6 +62,26 @@ export const API_CATALOG_ENTRIES: ApiCatalogEntry[] = [
     upstreamUrl: "https://remotive.com/api/remote-jobs",
   },
   {
+    id: "remoteok-jobs",
+    kind: "external",
+    name: "RemoteOK jobs",
+    description: {
+      es: "Agregador global de empleos remotos (ingesta /es/jobs).",
+      en: "Global remote jobs aggregator (/es/jobs ingest).",
+    },
+    upstreamUrl: "https://remoteok.com/api",
+  },
+  {
+    id: "arbeitnow-jobs",
+    kind: "external",
+    name: "Arbeitnow jobs",
+    description: {
+      es: "Empleos EU/remoto vía Arbeitnow (ingesta /es/jobs).",
+      en: "EU/remote jobs via Arbeitnow (/es/jobs ingest).",
+    },
+    upstreamUrl: "https://arbeitnow.com/api/job-board-api",
+  },
+  {
     id: "hackernews-jobs",
     kind: "external",
     name: "Hacker News Jobs",

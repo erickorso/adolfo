@@ -10,7 +10,7 @@
 | Acción | Portales |
 |--------|----------|
 | **Ya usados (applies)** | Get on Board, Remotive, Workable, empleo.qindel.com, LinkedIn inbound |
-| **Ingesta automática en Adolfo** (`/es/jobs`) | Remotive, Hacker News Jobs, Greenhouse (opcional) |
+| **Ingesta automática en Adolfo** (`/es/jobs`) | Remotive, RemoteOK, Arbeitnow, Hacker News, Greenhouse |
 | **Explorar próxima tanda** | EuropeRemotely, Dynamite Jobs, Wellfound, WWR, Built In, Remote 100k |
 | **Evitar / baja prioridad** | GitHub Jobs (cerrado 2017), RezPass (pago — revisar antes) |
 
@@ -48,8 +48,10 @@ Respuestas formulario: [`form-answers.md`](./form-answers.md)
 | Fuente | URL feed / API | En `/es/jobs` | Comando |
 |--------|----------------|---------------|---------|
 | **Remotive** | https://remotive.com/api/remote-jobs | Sí | `npm run jobs:ingest` |
-| **Hacker News Jobs** | https://hnrss.org/jobs.jsonfeed | Sí | idem (cron semanal Vercel) |
-| **Greenhouse** | boards por empresa (`JOBS_GREENHOUSE_BOARDS`) | Si configurado | env en Vercel |
+| **RemoteOK** | https://remoteok.com/api | Sí | idem |
+| **Arbeitnow** | https://arbeitnow.com/api/job-board-api | Sí | idem (EU remoto) |
+| **Hacker News Jobs** | https://hnrss.org/jobs.jsonfeed (+ Firebase fallback) | Sí | idem (cron semanal Vercel) |
+| **Greenhouse** | boards por empresa (`JOBS_GREENHOUSE_BOARDS` o defaults) | Sí | gitlab, figma, vercel, discord, stripe |
 
 Keywords ingest: React, Next.js, TypeScript, frontend, full stack, tech lead — ver `src/services/jobs/job-ingest.config.ts`.
 

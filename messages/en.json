@@ -92,7 +92,7 @@
   },
   "jobs": {
     "title": "Jobs",
-    "subtitle": "Listings aggregated from official sources (Greenhouse and more).",
+    "subtitle": "Remote JS/Node roles (React, TypeScript, Next.js) posted in the last 10 days.",
     "empty": "No listings yet. Run the ingestion to fetch offers.",
     "remote": "Remote",
     "viewOffer": "View offer",

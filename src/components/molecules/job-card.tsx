@@ -33,6 +33,8 @@ export function JobCard({ job }: JobCardProps) {
         ) : null}
       </div>
       <p className="text-sm text-muted-foreground">
+        <span className="capitalize">{job.source}</span>
+        {" · "}
         {job.company}
         {job.location ? ` · ${job.location}` : ""}
       </p>

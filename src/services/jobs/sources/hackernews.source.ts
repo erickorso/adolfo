@@ -1,6 +1,12 @@
 import type { JobQuery, JobSource, NormalizedJob } from "@/domain/jobs/job.types";
+import { matchesJobIngestQuery } from "@/domain/jobs/job-filters";
+import { fetchPublicJson } from "@/services/demo/public-api-fetch";
 
 const JOBS_FEED_URL = "https://hnrss.org/jobs.jsonfeed";
+const FIREBASE_JOB_STORIES_URL =
+  "https://hacker-news.firebaseio.com/v0/jobstories.json";
+const FIREBASE_ITEM_URL = "https://hacker-news.firebaseio.com/v0/item";
+const FIREBASE_FALLBACK_LIMIT = 40;
 
 type JsonFeedItem = {
   id?: string;
@@ -13,6 +19,15 @@ type JsonFeedItem = {
 
 type JsonFeedResponse = {
   items?: JsonFeedItem[];
+};
+
+type FirebaseItem = {
+  id?: number;
+  type?: string;
+  title?: string;
+  url?: string;
+  text?: string;
+  time?: number;
 };
 
 /** Extrae company desde títulos tipo "Acme (YC W24) Is Hiring …". */
@@ -62,6 +77,16 @@ export class HackerNewsJobsSource implements JobSource {
   readonly name = "hackernews";
 
   async fetchJobs(query: JobQuery): Promise<NormalizedJob[]> {
+    const feedResult = await this.fetchFromJsonFeed(query);
+    if (feedResult.ok) {
+      return feedResult.jobs;
+    }
+    return this.fetchFromFirebase(query);
+  }
+
+  private async fetchFromJsonFeed(
+    query: JobQuery,
+  ): Promise<{ ok: true; jobs: NormalizedJob[] } | { ok: false }> {
     try {
       const res = await fetch(JOBS_FEED_URL, {
         headers: { Accept: "application/feed+json" },
@@ -69,20 +94,46 @@ export class HackerNewsJobsSource implements JobSource {
       });
       if (!res.ok) {
         console.error(`HN jobs feed respondió ${res.status}`);
-        return [];
+        return { ok: false };
       }
       const data = (await res.json()) as JsonFeedResponse;
-      return (data.items ?? [])
-        .map((item) => this.normalize(item))
+      const jobs = (data.items ?? [])
+        .map((item) => this.normalizeFeedItem(item))
         .filter((job): job is NormalizedJob => job !== null)
-        .filter((job) => this.matchesQuery(job, query));
+        .filter((job) => matchesJobIngestQuery(job, query));
+      return { ok: true, jobs };
     } catch (error) {
       console.error("Error consultando HN jobs feed:", error);
+      return { ok: false };
+    }
+  }
+
+  /** Fallback: API oficial Firebase cuando hnrss falla o está caído. */
+  private async fetchFromFirebase(query: JobQuery): Promise<NormalizedJob[]> {
+    try {
+      const ids = await fetchPublicJson<number[]>(FIREBASE_JOB_STORIES_URL, {
+        timeoutMs: 8_000,
+      });
+      const slice = ids.slice(0, FIREBASE_FALLBACK_LIMIT);
+      const items = await Promise.all(
+        slice.map((id) =>
+          fetchPublicJson<FirebaseItem>(`${FIREBASE_ITEM_URL}/${id}.json`, {
+            timeoutMs: 8_000,
+          }).catch(() => null),
+        ),
+      );
+      return items
+        .filter((item): item is FirebaseItem => item?.type === "job" && Boolean(item.title))
+        .map((item) => this.normalizeFirebaseItem(item))
+        .filter((job): job is NormalizedJob => job !== null)
+        .filter((job) => matchesJobIngestQuery(job, query));
+    } catch (error) {
+      console.error("Error consultando HN Firebase jobs:", error);
       return [];
     }
   }
 
-  private normalize(item: JsonFeedItem): NormalizedJob | null {
+  private normalizeFeedItem(item: JsonFeedItem): NormalizedJob | null {
     const title = item.title?.trim();
     const url = item.url?.trim();
     const externalId = parseHnExternalId(item);
@@ -111,14 +162,27 @@ export class HackerNewsJobsSource implements JobSource {
     };
   }
 
-  private matchesQuery(job: NormalizedJob, query: JobQuery): boolean {
-    if (query.remoteOnly && !job.remote) {
-      return false;
+  private normalizeFirebaseItem(item: FirebaseItem): NormalizedJob | null {
+    const title = item.title?.trim();
+    const url = item.url?.trim() ?? `https://news.ycombinator.com/item?id=${item.id}`;
+    if (!title || item.id == null) {
+      return null;
     }
-    if (query.keywords && query.keywords.length > 0) {
-      const haystack = `${job.title} ${job.company}`.toLowerCase();
-      return query.keywords.some((kw) => haystack.includes(kw.toLowerCase()));
-    }
-    return true;
+
+    const company = parseHnJobCompany(title);
+    const description = item.text?.trim() || null;
+    const remote = inferRemote(title, description);
+
+    return {
+      source: this.name,
+      externalId: String(item.id),
+      company,
+      title,
+      location: inferLocation(title),
+      remote,
+      url,
+      description,
+      postedAt: item.time ? new Date(item.time * 1000) : null,
+    };
   }
 }

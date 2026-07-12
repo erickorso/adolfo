@@ -1,4 +1,5 @@
 import type { JobQuery, JobSource, NormalizedJob } from "@/domain/jobs/job.types";
+import { matchesJobIngestQuery } from "@/domain/jobs/job-filters";
 
 /**
  * Forma (parcial) de la respuesta del Job Board API de Greenhouse.
@@ -34,7 +35,7 @@ export class GreenhouseSource implements JobSource {
       this.boardTokens.map((board) => this.fetchBoard(board)),
     );
     const all = perBoard.flat();
-    return all.filter((job) => this.matchesQuery(job, query));
+    return all.filter((job) => matchesJobIngestQuery(job, query));
   }
 
   /** Trae y normaliza un board; si falla, no tumba al resto. */
@@ -68,16 +69,5 @@ export class GreenhouseSource implements JobSource {
       description: job.content ?? null,
       postedAt: job.updated_at ? new Date(job.updated_at) : null,
     };
-  }
-
-  private matchesQuery(job: NormalizedJob, query: JobQuery): boolean {
-    if (query.remoteOnly && !job.remote) {
-      return false;
-    }
-    if (query.keywords && query.keywords.length > 0) {
-      const title = job.title.toLowerCase();
-      return query.keywords.some((kw) => title.includes(kw.toLowerCase()));
-    }
-    return true;
   }
 }

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CSS Battle — arch bridge (legible)</title>
+  <style>
+    body {
+      background: #9076D8;
+      margin: 0;
+      width: 400px;
+      height: 300px;
+      overflow: hidden;
+    }
+
+    div {
+      position: absolute;
+    }
+
+    .top {
+      background: #2A272F;
+      left: 75px;
+      top: 75px;
+      width: 250px;
+      height: 50px;
+      border-radius: 50px 50px 0 0;
+    }
+
+    .joint-left {
+      background: #2A272F;
+      left: 75px;
+      top: 125px;
+      width: 50px;
+      height: 50px;
+    }
+
+    .joint-right {
+      background: #2A272F;
+      left: 275px;
+      top: 125px;
+      width: 50px;
+      height: 50px;
+    }
+
+    .wing-left {
+      background: #2A272F;
+      left: 0;
+      top: 175px;
+      width: 125px;
+      height: 50px;
+      border-radius: 0 0 50px 0;
+    }
+
+    .wing-right {
+      background: #2A272F;
+      left: 275px;
+      top: 175px;
+      width: 125px;
+      height: 50px;
+      border-radius: 0 0 0 50px;
+    }
+
+    .square {
+      background: #2A272F;
+      left: 175px;
+      top: 175px;
+      width: 50px;
+      height: 50px;
+    }
+
+    /* Codito = padre gris + hijo lila con border-radius */
+    .cut {
+      width: 15px;
+      height: 15px;
+      z-index: 10;
+      background: #2A272F;
+    }
+
+    .cut .mask {
+      left: 0;
+      top: 0;
+      width: 15px;
+      height: 15px;
+      background: #9076D8;
+    }
+
+    .cut-tl {
+      left: 125px;
+      top: 125px;
+    }
+
+    .cut-tl .mask {
+      border-radius: 50px 0 0 0;
+    }
+
+    .cut-tr {
+      left: 260px;
+      top: 125px;
+    }
+
+    .cut-tr .mask {
+      border-radius: 0 50px 0 0;
+    }
+
+    .cut-bl {
+      left: 325px;
+      top: 160px;
+    }
+
+    .cut-bl .mask {
+      border-radius: 0 0 0 50px;
+    }
+
+    .cut-br {
+      left: 60px;
+      top: 160px;
+    }
+
+    .cut-br .mask {
+      border-radius: 0 0 50px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="top"></div>
+  <div class="joint-left"></div>
+  <div class="joint-right"></div>
+  <div class="wing-left"></div>
+  <div class="wing-right"></div>
+  <div class="square"></div>
+
+  <div class="cut cut-tl"><div class="mask"></div></div>
+  <div class="cut cut-tr"><div class="mask"></div></div>
+  <div class="cut cut-bl"><div class="mask"></div></div>
+  <div class="cut cut-br"><div class="mask"></div></div>
+</body>
+</html>

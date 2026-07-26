@@ -1,6 +1,9 @@
-# Postgres local para desarrollo. No requiere DockerHub login (imagen pública).
-# Levantar:  docker compose up -d
-# Apagar:    docker compose down   (agregar -v para borrar también los datos)
+# Postgres + n8n (+ opcional ai-python) para desarrollo.
+# Levantar todo:     docker compose up -d
+# Solo DB:           docker compose up -d db
+# DB + n8n:          docker compose --profile ops up -d
+# + Python LLM:      docker compose --profile ops --profile ai-python up -d
+# Apagar:            docker compose down   (-v borra datos)
 
 services:
   db:
@@ -21,5 +24,42 @@ services:
       timeout: 5s
       retries: 10
 
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: adolfo-n8n
+    profiles: ["ops"]
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      N8N_HOST: localhost
+      N8N_PORT: 5678
+      N8N_PROTOCOL: http
+      WEBHOOK_URL: http://localhost:5678/
+      GENERIC_TIMEZONE: Europe/Madrid
+      TZ: Europe/Madrid
+      # host.docker.internal → Next.js en el host (Windows/Mac)
+      ADOLFO_BASE_URL: http://host.docker.internal:3000
+    volumes:
+      - n8n_data:/home/node/.n8n
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  ai-python:
+    build:
+      context: ./ai-python
+    container_name: adolfo-ai-python
+    profiles: ["ai-python"]
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      AI_PYTHON_DEFAULT_PROVIDER: ${AI_PYTHON_DEFAULT_PROVIDER:-openai}
+    volumes:
+      - ./ai-python:/app
+
 volumes:
   pgdata:
+  n8n_data:

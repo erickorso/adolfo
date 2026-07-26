@@ -46,11 +46,24 @@ export const env = createEnv({
     /** Vercel Cron envía Authorization: Bearer <CRON_SECRET>. Puede ser igual a JOBS_INGEST_SECRET. */
     CRON_SECRET: z.string().optional(),
 
-    // IA (asistente de CV) — proveedor swappable
-    AI_PROVIDER: z.enum(["gemini"]).default("gemini"),
+    // IA (asistente de CV / ops) — proveedor swappable
+    AI_PROVIDER: z
+      .enum(["gemini", "openai", "claude", "python"])
+      .default("gemini"),
     /** API key de Google AI Studio (Gemini). Opcional hasta usar el feature. */
     GEMINI_API_KEY: z.string().optional(),
     GEMINI_MODEL: z.string().default("gemini-2.5-flash"),
+    OPENAI_API_KEY: z.string().optional(),
+    OPENAI_MODEL: z.string().default("gpt-4o-mini"),
+    ANTHROPIC_API_KEY: z.string().optional(),
+    ANTHROPIC_MODEL: z.string().default("claude-sonnet-4-20250514"),
+    /** Base URL del servicio FastAPI (`ai-python`), ej. http://localhost:8000 */
+    AI_PYTHON_URL: z.url().optional(),
+    /**
+     * Bearer para POST /api/ai/generate (n8n u otros).
+     * Si vacío, se reutiliza JOBS_INGEST_SECRET.
+     */
+    AI_GENERATE_SECRET: z.string().optional(),
 
     // Conversión de moneda (display). "tarjeta" = lo más fiel a lo que descuentan.
     EXCHANGE_RATE_TYPE: z
@@ -107,6 +120,12 @@ export const env = createEnv({
     AI_PROVIDER: process.env.AI_PROVIDER,
     GEMINI_API_KEY: process.env.GEMINI_API_KEY,
     GEMINI_MODEL: process.env.GEMINI_MODEL,
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    OPENAI_MODEL: process.env.OPENAI_MODEL,
+    ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY,
+    ANTHROPIC_MODEL: process.env.ANTHROPIC_MODEL,
+    AI_PYTHON_URL: process.env.AI_PYTHON_URL,
+    AI_GENERATE_SECRET: process.env.AI_GENERATE_SECRET,
     EXCHANGE_RATE_TYPE: process.env.EXCHANGE_RATE_TYPE,
     SUPERADMIN_EMAILS: process.env.SUPERADMIN_EMAILS,
     EMAIL_PROVIDER: process.env.EMAIL_PROVIDER,

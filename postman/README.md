@@ -56,6 +56,7 @@ Formato: **Postman Collection v2.1.0** (`schema.getpostman.com/json/collection/v
 | POST | `/api/webhooks/uala` | — |
 | GET, POST | `/api/jobs/ingest` | Bearer |
 | GET, POST | `/api/rates/ingest` | Bearer |
+| POST | `/api/ai/generate` | Bearer (`AI_GENERATE_SECRET` o `JOBS_INGEST_SECRET`) |
 | GET | `/api/resumes/:id/file` | sesión |
 | GET | `/api/dev/login` | secret (dev) |
 | GET | `/api/dev/mock-uala-pay` | dev |

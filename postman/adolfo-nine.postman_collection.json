@@ -424,6 +424,29 @@
       ]
     },
     {
+      "name": "AI",
+      "item": [
+        {
+          "name": "Generate (POST)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{jobsIngestSecret}}", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"system\": \"Be concise.\",\n  \"prompt\": \"Summarize Senior Frontend React remote in 3 bullets\"\n}"
+            },
+            "url": "{{baseUrl}}/api/ai/generate",
+            "description": "LLM via AI_PROVIDER. Bearer = AI_GENERATE_SECRET o JOBS_INGEST_SECRET."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Rates",
       "item": [
         {

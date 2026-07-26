@@ -60,3 +60,9 @@ next-env.d.ts
 /mfe-demo/**/dist
 
 /src/generated/prisma
+
+# Python (ai-python)
+ai-python/.venv/
+ai-python/**/__pycache__/
+*.pyc
+.venv/

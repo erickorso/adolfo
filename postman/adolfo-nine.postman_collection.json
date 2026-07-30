@@ -477,6 +477,36 @@
       ]
     },
     {
+      "name": "Catalog",
+      "item": [
+        {
+          "name": "Rotate Imagen Semana (GET)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{jobsIngestSecret}}", "type": "string" }]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/catalog/imagen-semana/rotate",
+            "description": "Cron semanal Vercel. Rota imagen/nombre del producto slug imagen-semana. Bearer = JOBS_INGEST_SECRET o CRON_SECRET."
+          },
+          "response": []
+        },
+        {
+          "name": "Rotate Imagen Semana (POST)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{jobsIngestSecret}}", "type": "string" }]
+            },
+            "method": "POST",
+            "url": "{{baseUrl}}/api/catalog/imagen-semana/rotate"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Resumes",
       "item": [
         {

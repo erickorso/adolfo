@@ -41,39 +41,43 @@ const products = [
     imageUrl: catalogPlaceholderImage("gorra-trucker"),
   },
   {
+    // Placeholder ARS hasta precio de lista real ($18.000 ARS).
     slug: "conjunto-deportivo-short",
     name: "Conjunto deportivo — Short",
     description: "Top deportivo + short ajustado. Calce alto rendimiento.",
     priceCents: 1800000,
     stock: 20,
-    imageUrl: "/catalog/conjunto-deportivo-short.png",
+    imageUrl: "/catalog/conjunto-deportivo-short.webp",
   },
   {
+    // Placeholder ARS hasta precio de lista real ($18.000 ARS).
     slug: "conjunto-deportivo-culotte",
     name: "Conjunto deportivo — Culotte",
     description: "Top deportivo + culotte de tiro alto. Calce alto rendimiento.",
     priceCents: 1800000,
     stock: 20,
-    imageUrl: "/catalog/conjunto-deportivo-culotte.png",
+    imageUrl: "/catalog/conjunto-deportivo-culotte.webp",
   },
   {
+    // Placeholder ARS hasta precio de lista real ($19.000 ARS).
     slug: "conjunto-deportivo-short-alto",
     name: "Conjunto deportivo — Short tiro alto",
     description: "Top deportivo + short de tiro alto. Calce alto rendimiento.",
     priceCents: 1900000,
     stock: 20,
-    imageUrl: "/catalog/conjunto-deportivo-short-alto.png",
+    imageUrl: "/catalog/conjunto-deportivo-short-alto.webp",
   },
   {
-    // "Imagen de la semana": drop semanal a $5 ARS (priceCents 500).
-    // La rotación semanal NO es automática: reemplazar imagen/slug cada semana
-    // o automatizar con un cron. Ver follow-up.
+    // Drop simbólico: $5 ARS (priceCents 500), NO USD.
+    // Rotación semanal automática: Vercel Cron → GET /api/catalog/imagen-semana/rotate
+    // (pool en public/catalog/imagen-semana/{retrato,frente,perfil,espalda}.webp).
     slug: "imagen-semana",
-    name: "Imagen de la semana",
-    description: "Foto exclusiva de la semana. Se publica una nueva cada semana.",
+    name: "Imagen de la semana — Retrato",
+    description:
+      "Foto exclusiva de la semana (retrato). Drop simbólico a $5 ARS.",
     priceCents: 500,
     stock: 999,
-    imageUrl: "/catalog/imagen-semana.png",
+    imageUrl: "/catalog/imagen-semana/retrato.webp",
   },
 ];
 

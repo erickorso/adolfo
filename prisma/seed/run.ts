@@ -69,8 +69,9 @@ const products = [
   },
   {
     // Drop simbólico: $5 ARS (priceCents 500), NO USD.
-    // Rotación semanal automática: Vercel Cron → GET /api/catalog/imagen-semana/rotate
-    // (pool en public/catalog/imagen-semana/{retrato,frente,perfil,espalda}.webp).
+    // Rotación semanal: cron lunes /api/jobs/ingest (Hobby máx. 2 crons)
+    // o manual GET/POST /api/catalog/imagen-semana/rotate.
+    // Pool: public/catalog/imagen-semana/{retrato,frente,perfil,espalda}.webp.
     slug: "imagen-semana",
     name: "Imagen de la semana — Retrato",
     description:

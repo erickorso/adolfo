@@ -11,10 +11,6 @@
     {
       "path": "/api/jobs/ingest",
       "schedule": "0 6 * * 1"
-    },
-    {
-      "path": "/api/catalog/imagen-semana/rotate",
-      "schedule": "0 7 * * 1"
     }
   ]
 }

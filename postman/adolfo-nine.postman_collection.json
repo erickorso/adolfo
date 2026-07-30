@@ -405,7 +405,7 @@
             },
             "method": "GET",
             "url": "{{baseUrl}}/api/jobs/ingest",
-            "description": "Cron Vercel o manual. Bearer = `JOBS_INGEST_SECRET` o `CRON_SECRET`."
+            "description": "Cron Vercel o manual. Bearer = `JOBS_INGEST_SECRET` o `CRON_SECRET`. También rota el producto `imagen-semana`."
           },
           "response": []
         },

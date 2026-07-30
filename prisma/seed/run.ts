@@ -40,6 +40,41 @@ const products = [
     stock: 0,
     imageUrl: catalogPlaceholderImage("gorra-trucker"),
   },
+  {
+    slug: "conjunto-deportivo-short",
+    name: "Conjunto deportivo — Short",
+    description: "Top deportivo + short ajustado. Calce alto rendimiento.",
+    priceCents: 1800000,
+    stock: 20,
+    imageUrl: "/catalog/conjunto-deportivo-short.png",
+  },
+  {
+    slug: "conjunto-deportivo-culotte",
+    name: "Conjunto deportivo — Culotte",
+    description: "Top deportivo + culotte de tiro alto. Calce alto rendimiento.",
+    priceCents: 1800000,
+    stock: 20,
+    imageUrl: "/catalog/conjunto-deportivo-culotte.png",
+  },
+  {
+    slug: "conjunto-deportivo-short-alto",
+    name: "Conjunto deportivo — Short tiro alto",
+    description: "Top deportivo + short de tiro alto. Calce alto rendimiento.",
+    priceCents: 1900000,
+    stock: 20,
+    imageUrl: "/catalog/conjunto-deportivo-short-alto.png",
+  },
+  {
+    // "Imagen de la semana": drop semanal a $5 ARS (priceCents 500).
+    // La rotación semanal NO es automática: reemplazar imagen/slug cada semana
+    // o automatizar con un cron. Ver follow-up.
+    slug: "imagen-semana",
+    name: "Imagen de la semana",
+    description: "Foto exclusiva de la semana. Se publica una nueva cada semana.",
+    priceCents: 500,
+    stock: 999,
+    imageUrl: "/catalog/imagen-semana.png",
+  },
 ];
 
 const services = [

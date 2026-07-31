@@ -32,6 +32,22 @@
     "loadError": "Could not load the kit.",
     "saveError": "Could not save."
   },
+  "pythonDeutsch": {
+    "title": "Python + German",
+    "subtitle": "Dual track with time-blocking: 10–12 h/week, separated domains, active acquisition.",
+    "badge": "Dual Track",
+    "aboutTitle": "How it works",
+    "aboutBody": "Python and German use different cognitive networks. Alternating them is active rest — not interference — if you keep breaks between sessions.",
+    "pauseHint": "Hard rule: never both in the same session without a 30–45 minute break.",
+    "weekTitle": "Weekly architecture",
+    "weekHint": "Morning 30–45 min (high energy) · Evening 45–60 min (application).",
+    "colDay": "Day",
+    "colMorning": "Morning",
+    "colEvening": "Evening",
+    "sectionsTitle": "Path phases",
+    "sectionLabel": "Section {n}",
+    "backToModule": "← Back to dual track"
+  },
   "common": {
     "back": "← Back to catalog",
     "save": "Save",
@@ -215,6 +231,8 @@
     "featuredWebPerformanceHint": "Real Adolfo RUM, Lighthouse vs field, LCP/INP/CLS playbook.",
     "featuredFullstackKit": "Fullstack Kit — Node + React",
     "featuredFullstackKitHint": "Fastify microservice + Next/Postgres BFF · CRUD sandbox.",
+    "featuredPythonDeutsch": "Python + German — dual track",
+    "featuredPythonDeutschHint": "Time-blocking 10–12 h/week · Anki, Nicos Weg, FastAPI.",
     "featuredAiPractitionerPath": "AI practitioner roadmap",
     "featuredAiPractitionerPathHint": "4 phases with deliverables — prompts, n8n, assistant, and portfolio."
   },

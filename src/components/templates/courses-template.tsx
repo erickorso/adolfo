@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Music, Bot, Gauge, Boxes } from "lucide-react";
+import { Music, Bot, Gauge, Boxes, Languages } from "lucide-react";
 import { CourseSearchForm } from "@/components/molecules/course-search-form";
 import { CourseList } from "@/components/organisms/course-list";
 import type { CourseVM } from "@/domain/courses/course.types";
@@ -38,6 +38,23 @@ export async function CoursesTemplate({
           {t("featuredInternalBody")}
         </p>
         <div className="mt-4 flex flex-col gap-3">
+          <Link
+            href="/learn/python-deutsch"
+            className="flex items-start gap-3 rounded-md border border-border bg-card p-4 transition-colors hover:bg-muted/50"
+          >
+            <span
+              className="flex size-9 shrink-0 items-center justify-center rounded-md bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200"
+              aria-hidden
+            >
+              <Languages className="size-4" />
+            </span>
+            <span className="flex flex-col gap-0.5">
+              <span className="font-medium">{t("featuredPythonDeutsch")}</span>
+              <span className="text-sm text-muted-foreground">
+                {t("featuredPythonDeutschHint")}
+              </span>
+            </span>
+          </Link>
           <Link
             href="/sandbox/kit"
             className="flex items-start gap-3 rounded-md border border-border bg-card p-4 transition-colors hover:bg-muted/50"

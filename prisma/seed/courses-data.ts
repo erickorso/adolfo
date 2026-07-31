@@ -167,6 +167,20 @@ export const SEED_COURSES: SeedCourseSpec[] = [
   },
   {
     source: "local",
+    externalId: "python-deutsch",
+    title: "Python + Alemán — dual track",
+    description:
+      "Time-blocking 10–12 h/semana: Alemán A1→A2 (Anki, Nicos Weg, gramática) en paralelo con Python Pythonic (Exercism, FastAPI). Sinergia mes 2–3 y checkpoints cada 4 semanas.\n\nMódulo: /learn/python-deutsch",
+    provider: "Adolfo",
+    url: "/learn/python-deutsch",
+    hours: 12,
+    modality: "online",
+    sector: "Idiomas · Python · Productividad",
+    location: "Global · online",
+    targetAudience: "Devs con lógica sólida aprendiendo Python + Deutsch",
+  },
+  {
+    source: "local",
     externalId: "sanse-ayuntamiento-info",
     title: "Formación municipal San Sebastián de los Reyes",
     description:

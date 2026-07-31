@@ -5,6 +5,7 @@ const INTERNAL_MODULE_PATHS: Record<string, string> = {
   "local:ai-practitioner-path": "/learn/ai-practitioner-path",
   "local:web-performance": "/learn/web-performance",
   "local:fullstack-kit": "/sandbox/kit",
+  "local:python-deutsch": "/learn/python-deutsch",
 };
 
 export function getCourseInternalModulePath(

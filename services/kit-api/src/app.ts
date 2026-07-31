@@ -1,4 +1,5 @@
 import Fastify from "fastify";
+import cors from "@fastify/cors";
 import {
   createKitItemSchema,
   updateKitItemSchema,
@@ -6,7 +7,23 @@ import {
 import { MemoryKitStore } from "./store.js";
 
 export function buildKitApp(store = new MemoryKitStore()) {
-  const app = Fastify({ logger: false });
+  const app = Fastify({ logger: true });
+
+  // Orígenes permitidos (Adolfo local + prod). Ampliar con KIT_CORS_ORIGINS.
+  const extra = (process.env.KIT_CORS_ORIGINS ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const origins = [
+    "http://localhost:3000",
+    "https://adolfo-nine.vercel.app",
+    ...extra,
+  ];
+
+  void app.register(cors, {
+    origin: origins,
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+  });
 
   app.get("/health", async () => ({
     ok: true,

@@ -153,6 +153,20 @@ export const SEED_COURSES: SeedCourseSpec[] = [
   },
   {
     source: "local",
+    externalId: "fullstack-kit",
+    title: "Fullstack Kit — Node + React + Postgres",
+    description:
+      "Microservicio demo: BFF Next (REST + Prisma/Neon) y twin Fastify local. CRUD real, Zod, tests y sandbox UI.\n\nMódulo integrado: /sandbox/kit\nArranque local: npm run dev:kit-api",
+    provider: "Adolfo",
+    url: "/sandbox/kit",
+    hours: 16,
+    modality: "online",
+    sector: "Fullstack · Node · TypeScript",
+    location: "Global · online",
+    targetAudience: "Frontend mid/senior hacia fullstack JS",
+  },
+  {
+    source: "local",
     externalId: "sanse-ayuntamiento-info",
     title: "Formación municipal San Sebastián de los Reyes",
     description:

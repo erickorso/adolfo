@@ -10,6 +10,8 @@ export type ImagenSemanaVariant = {
   imageUrl: string;
   name: string;
   description: string;
+  nameEn: string;
+  descriptionEn: string;
 };
 
 export const IMAGEN_SEMANA_VARIANTS: readonly ImagenSemanaVariant[] = [
@@ -19,6 +21,9 @@ export const IMAGEN_SEMANA_VARIANTS: readonly ImagenSemanaVariant[] = [
     name: "Imagen de la semana — Retrato",
     description:
       "Foto exclusiva de la semana (retrato). Drop simbólico a $5 ARS.",
+    nameEn: "Image of the week — Portrait",
+    descriptionEn:
+      "Exclusive photo of the week (portrait). Symbolic drop at $5 ARS.",
   },
   {
     id: "frente",
@@ -26,6 +31,9 @@ export const IMAGEN_SEMANA_VARIANTS: readonly ImagenSemanaVariant[] = [
     name: "Imagen de la semana — Frente",
     description:
       "Foto exclusiva de la semana (frente). Drop simbólico a $5 ARS.",
+    nameEn: "Image of the week — Front",
+    descriptionEn:
+      "Exclusive photo of the week (front). Symbolic drop at $5 ARS.",
   },
   {
     id: "perfil",
@@ -33,6 +41,9 @@ export const IMAGEN_SEMANA_VARIANTS: readonly ImagenSemanaVariant[] = [
     name: "Imagen de la semana — Perfil",
     description:
       "Foto exclusiva de la semana (perfil). Drop simbólico a $5 ARS.",
+    nameEn: "Image of the week — Profile",
+    descriptionEn:
+      "Exclusive photo of the week (profile). Symbolic drop at $5 ARS.",
   },
   {
     id: "espalda",
@@ -40,6 +51,9 @@ export const IMAGEN_SEMANA_VARIANTS: readonly ImagenSemanaVariant[] = [
     name: "Imagen de la semana — Espalda",
     description:
       "Foto exclusiva de la semana (espalda). Drop simbólico a $5 ARS.",
+    nameEn: "Image of the week — Back",
+    descriptionEn:
+      "Exclusive photo of the week (back). Symbolic drop at $5 ARS.",
   },
 ] as const;
 

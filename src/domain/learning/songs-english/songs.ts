@@ -14,7 +14,7 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 1995,
     pdfPath: "/courses/songs-english/youve-got-a-friend-in-me.pdf",
-    youtubeId: "CNi02gx08kA",
+    youtubeId: "1MPZRcyTrcU",
     summary: {
       es: "Balada de amistad incondicional. Ideal para phrasal verbs, expresiones informales (pal, 'cause) y el idiom have got a friend in someone.",
       en: "A song about unconditional friendship. Great for phrasal verbs, informal words (pal, 'cause), and the idiom have got a friend in someone.",
@@ -219,7 +219,7 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 1967,
     pdfPath: "/courses/songs-english/the-bare-necessities.pdf",
-    youtubeId: "OOGneZwiP5A",
+    youtubeId: "6BH-Rxd-NBo",
     summary: {
       es: "Baloo enseña a Mowgli a vivir con lo esencial. Perfecta para bare vs. bear, contracciones orales (buzzin', they'll) y vocabulario de naturaleza.",
       en: "Baloo teaches Mowgli to live with the essentials. Great for bare vs. bear, spoken contractions (buzzin', they'll), and nature vocabulary.",
@@ -422,7 +422,7 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 1992,
     pdfPath: "/courses/songs-english/a-whole-new-world.pdf",
-    youtubeId: "_9BoGuuB0_c",
+    youtubeId: "xYjFxFFdyyk",
     summary: {
       es: "Dúo en la alfombra mágica. Ideal para adjetivos evocadores, don't you dare, red letter y expresiones de asombro y libertad.",
       en: "Magic-carpet duet. Great for vivid adjectives, don't you dare, red letter, and expressions of wonder and freedom.",
@@ -711,7 +711,7 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 1994,
     pdfPath: "/courses/songs-english/hakuna-matata.pdf",
-    youtubeId: "bCF_mrXSKU",
+    youtubeId: "MBIWFTXQbi4",
     summary: {
       es: "Filosofía sin preocupaciones en suajili + inglés. Ideal para ain't, craze, thick-skinned, downwind y la referencia a Shakespeare.",
       en: "Swahili + English worry-free philosophy. Great for ain't, craze, thick-skinned, downwind, and the Shakespeare nod.",
@@ -975,7 +975,7 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 2013,
     pdfPath: "/courses/songs-english/let-it-go.pdf",
-    youtubeId: "moSFlvxnbmk",
+    youtubeId: "L0MK7qz13bU",
     summary: {
       es: "Elsa suelta su secreto y abraza su poder. Ideal para let it go, hold back, bother me anyway y metáforas de hielo/tormenta.",
       en: "Elsa releases her secret and embraces her power. Great for let it go, hold back, bother me anyway, and ice/storm metaphors.",
@@ -1299,7 +1299,7 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 1995,
     pdfPath: "/courses/songs-english/colors-of-the-wind.pdf",
-    youtubeId: "O_-2ALLuoiQ",
+    youtubeId: "MpLnqOvGuMs",
     summary: {
       es: "Pocahontas enseña a John Smith a ver la naturaleza con otros ojos. Ideal para metáforas, personificación y vocabulario de medio ambiente.",
       en: "Pocahontas teaches John Smith to see nature differently. Great for metaphors, personification, and environmental vocabulary.",
@@ -1579,7 +1579,7 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 2017,
     pdfPath: "/courses/songs-english/remember-me.pdf",
-    youtubeId: "cPh071EKDNc",
+    youtubeId: "E7VPdpEV1m0",
     summary: {
       es: "Balada del Día de Muertos: la memoria mantiene vivos a quienes amamos. Ideal para though, even if, apart y don't let it make you cry.",
       en: "Day of the Dead ballad: memory keeps loved ones alive. Great for though, even if, apart, and don't let it make you cry.",
@@ -1753,7 +1753,7 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 1994,
     pdfPath: "/courses/songs-english/can-you-feel-the-love-tonight.pdf",
-    youtubeId: "zAY2e7D1dR8",
+    youtubeId: "25QyCxVkXwQ",
     summary: {
       es: "Balada romántica de Simba y Nala bajo las estrellas. Ideal para see through, laid to rest, rhyme and reason y star-crossed.",
       en: "Simba and Nala's romantic ballad under the stars. Great for see through, laid to rest, rhyme and reason, and star-crossed.",
@@ -1960,7 +1960,7 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 1999,
     pdfPath: "/courses/songs-english/youll-be-in-my-heart.pdf",
-    youtubeId: "VbfpW0l66yU",
+    youtubeId: "EfHLHdSxQA0",
     summary: {
       es: "Kala adopta a Tarzán: promesa de amor eterno. Ideal para no matter what, forevermore, meant to be y stop + gerundio.",
       en: "Kala adopts Tarzan: a promise of eternal love. Great for no matter what, forevermore, meant to be, and stop + gerund.",
@@ -2213,7 +2213,7 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 2001,
     pdfPath: "/courses/songs-english/im-a-believer.pdf",
-    youtubeId: "NXkCUpS_eyM",
+    youtubeId: "0mYBSayCsH0",
     summary: {
       es: "Shrek descubre el amor con Fiona — rock alegre. Ideal para out to get me, haunt, hand-me-down y turns my head around.",
       en: "Shrek discovers love with Fiona — upbeat rock. Great for out to get me, haunt, hand-me-down, and turns my head around.",
@@ -2404,7 +2404,7 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 1999,
     pdfPath: "/courses/songs-english/strangers-like-me.pdf",
-    youtubeId: "0SZNs0cH_Xs",
+    youtubeId: "zc3MnoSS5Hw",
     summary: {
       es: "Tarzán descubre el mundo humano con Jane. Ideal para nothing else will do, hungry to, stranger like me y like no one's loved you.",
       en: "Tarzan discovers the human world through Jane. Great for nothing else will do, hungry to, stranger like me, and like no one's loved you.",
@@ -2598,7 +2598,7 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 2021,
     pdfPath: "/courses/songs-english/we-dont-talk-about-bruno.pdf",
-    youtubeId: "bfmSduocqS0",
+    youtubeId: "bvWRMAU6V-c",
     summary: {
       es: "Cada familiar cuenta su versión del tabú Bruno. Ideal para floods my brain, heavy lifting, fades to black y we don't talk about…",
       en: "Each family member tells their Bruno taboo story. Great for floods my brain, heavy lifting, fades to black, and we don't talk about…",
@@ -2853,7 +2853,7 @@ export const ENGLISH_SONGS: EnglishSong[] = [
     },
     year: 2016,
     pdfPath: "/courses/songs-english/how-far-ill-go.pdf",
-    youtubeId: "cPCLF8Padoc",
+    youtubeId: "cPAbx5kgCJo",
     summary: {
       es: "Moana siente el llamado del océano. Ideal para long to be, leads back, wind in my sail, roll with mine y cross that line.",
       en: "Moana feels the ocean's call. Great for long to be, leads back, wind in my sail, roll with mine, and cross that line.",
@@ -3755,6 +3755,271 @@ export const ENGLISH_SONGS: EnglishSong[] = [
         explanation: {
           es: "Rock irlandés con influencia gospel · #1 Hot 100 · video en Las Vegas · Bono la llamó “himno de la duda”. Rolling Stone top 500.",
           en: "Irish rock with gospel influence · #1 Hot 100 · Las Vegas video · Bono called it “an anthem of doubt”. Rolling Stone top 500.",
+        },
+      },
+    ],
+  },
+  {
+    slug: "dont-stop-me-now",
+    order: 17,
+    title: "Don't Stop Me Now",
+    artist: "Queen",
+    source: {
+      es: "Jazz (1978) — EMI / Elektra · Freddie Mercury",
+      en: "Jazz (1978) — EMI / Elektra · Freddie Mercury",
+    },
+    year: 1978,
+    pdfPath: "/courses/songs-english/dont-stop-me-now.pdf",
+    youtubeId: "HgzGwKwLmgM",
+    summary: {
+      es: "Rock/pop eufórico de Queen. Ideal para imperativos negativos (don't stop), gonna/wanna/'cause, idioms (have a ball) y metáforas de velocidad.",
+      en: "Euphoric Queen rock/pop. Great for negative imperatives (don't stop), gonna/wanna/'cause, idioms (have a ball), and speed metaphors.",
+    },
+    lyrics: [
+      {
+        en: "Tonight, I'm gonna have myself a real good time",
+        es: "Esta noche voy a pasármelo realmente bien",
+      },
+      { en: "I feel alive", es: "Me siento vivo" },
+      {
+        en: "And the world, I'll turn it inside out, yeah!",
+        es: "Y el mundo, lo voy a poner del revés, ¡sí!",
+      },
+      {
+        en: "I'm floating around in ecstasy",
+        es: "Floto en éxtasis",
+      },
+      { en: "So don't stop me now", es: "Así que no me detengas ahora" },
+      { en: "Don't stop me", es: "No me detengas" },
+      {
+        en: "'Cause I'm having a good time, having a good time",
+        es: "Porque lo estoy pasando bien, lo estoy pasando bien",
+      },
+      {
+        en: "I'm a shooting star leaping through the sky",
+        es: "Soy una estrella fugaz saltando por el cielo",
+      },
+      {
+        en: "Like a tiger defying the laws of gravity",
+        es: "Como un tigre desafiando las leyes de la gravedad",
+      },
+      {
+        en: "I'm a racing car passing by, like Lady Godiva",
+        es: "Soy un coche de carreras que pasa, como Lady Godiva",
+      },
+      { en: "I'm gonna go, go, go", es: "Voy a ir, ir, ir" },
+      { en: "There's no stopping me", es: "Nadie puede detenerme" },
+      {
+        en: "I'm burning through the sky, yeah!",
+        es: "Estoy atravesando el cielo en llamas, ¡sí!",
+      },
+      { en: "Two hundred degrees", es: "Doscientos grados" },
+      {
+        en: "That's why they call me Mister Fahrenheit",
+        es: "Por eso me llaman Mister Fahrenheit",
+      },
+      {
+        en: "I'm travelling at the speed of light",
+        es: "Viajo a la velocidad de la luz",
+      },
+      {
+        en: "I wanna make a supersonic man out of you",
+        es: "Quiero hacer de ti un hombre supersónico",
+      },
+      { en: "Don't stop me now", es: "No me detengas ahora" },
+      {
+        en: "I'm having such a good time",
+        es: "Lo estoy pasando tan bien",
+      },
+      { en: "I'm having a ball", es: "Me lo estoy pasando genial" },
+      { en: "Don't stop me now", es: "No me detengas ahora" },
+      {
+        en: "If you wanna have a good time, just give me a call",
+        es: "Si quieres pasártelo bien, solo llámame",
+      },
+      {
+        en: "Don't stop me now ('cause I'm havin' a good time)",
+        es: "No me detengas ahora (porque lo estoy pasando bien)",
+      },
+      {
+        en: "Don't stop me now (yes, I'm havin' a good time)",
+        es: "No me detengas ahora (sí, lo estoy pasando bien)",
+      },
+      {
+        en: "I don't wanna stop at all",
+        es: "No quiero parar en absoluto",
+      },
+      {
+        en: "I'm a rocket ship on my way to Mars",
+        es: "Soy una nave rumbo a Marte",
+      },
+      { en: "On a collision course", es: "En curso de colisión" },
+      {
+        en: "I am a satellite, I'm out of control",
+        es: "Soy un satélite, estoy fuera de control",
+      },
+      {
+        en: "I am a sex machine ready to reload",
+        es: "Soy una máquina sexual lista para recargar",
+      },
+      {
+        en: "Like an atom bomb about to",
+        es: "Como una bomba atómica a punto de",
+      },
+      {
+        en: "Oh, oh, oh, oh, oh, explode",
+        es: "Oh, oh, oh, oh, oh, explotar",
+      },
+      {
+        en: "I'm burning through the sky, yeah!",
+        es: "Estoy atravesando el cielo en llamas, ¡sí!",
+      },
+      { en: "Two hundred degrees", es: "Doscientos grados" },
+      {
+        en: "That's why they call me Mister Fahrenheit",
+        es: "Por eso me llaman Mister Fahrenheit",
+      },
+      {
+        en: "I'm travelling at the speed of light",
+        es: "Viajo a la velocidad de la luz",
+      },
+      {
+        en: "I wanna make a supersonic woman of you",
+        es: "Quiero hacer de ti una mujer supersónica",
+      },
+      {
+        en: "Don't stop me, don't stop me, don't stop me",
+        es: "No me detengas, no me detengas, no me detengas",
+      },
+      { en: "Hey, hey, hey", es: "Hey, hey, hey" },
+      {
+        en: "Don't stop me, don't stop me, ooh, ooh, ooh",
+        es: "No me detengas, no me detengas, ooh, ooh, ooh",
+      },
+      { en: "I like it", es: "Me gusta" },
+      {
+        en: "Don't stop me, don't stop me",
+        es: "No me detengas, no me detengas",
+      },
+      {
+        en: "Have a good time, good time",
+        es: "Pásatelo bien, pásatelo bien",
+      },
+      {
+        en: "Don't stop me, don't stop me",
+        es: "No me detengas, no me detengas",
+      },
+      {
+        en: "Ooh, I'm burning through the sky, yeah!",
+        es: "Ooh, estoy atravesando el cielo en llamas, ¡sí!",
+      },
+      { en: "Two hundred degrees", es: "Doscientos grados" },
+      {
+        en: "That's why they call me Mister Fahrenheit",
+        es: "Por eso me llaman Mister Fahrenheit",
+      },
+      {
+        en: "I'm travelling at the speed of light",
+        es: "Viajo a la velocidad de la luz",
+      },
+      {
+        en: "I wanna make a supersonic man out of you",
+        es: "Quiero hacer de ti un hombre supersónico",
+      },
+      { en: "Don't stop me now", es: "No me detengas ahora" },
+      {
+        en: "I'm having such a good time",
+        es: "Lo estoy pasando tan bien",
+      },
+      { en: "I'm having a ball", es: "Me lo estoy pasando genial" },
+      { en: "Don't stop me now", es: "No me detengas ahora" },
+      {
+        en: "If you wanna have a good time, just give me a call",
+        es: "Si quieres pasártelo bien, solo llámame",
+      },
+      {
+        en: "Don't stop me now ('cause I'm havin' a good time)",
+        es: "No me detengas ahora (porque lo estoy pasando bien)",
+      },
+      {
+        en: "Don't stop me now (yes, I'm havin' a good time)",
+        es: "No me detengas ahora (sí, lo estoy pasando bien)",
+      },
+      {
+        en: "I don't wanna stop at all",
+        es: "No quiero parar en absoluto",
+      },
+    ],
+    notes: [
+      {
+        id: "dont-stop-me-now",
+        term: "don't stop me now",
+        lineEn: "So don't stop me now",
+        explanation: {
+          es: "Imperativo negativo: no me detengas / no me pares ahora. Hook central de la canción.",
+          en: "Negative imperative: don’t stop/halt me now. Central hook of the song.",
+        },
+      },
+      {
+        id: "having-a-ball",
+        term: "having a good time · having a ball",
+        lineEn: "I'm having a ball",
+        explanation: {
+          es: "Pasárselo bien. Have a ball = idiom informal: divertirse muchísimo.",
+          en: "Enjoy yourself. Have a ball = informal idiom: have a great time.",
+        },
+      },
+      {
+        id: "gonna-wanna",
+        term: "gonna · wanna · 'cause · havin'",
+        lineEn: "Tonight, I'm gonna have myself a real good time",
+        explanation: {
+          es: "Inglés hablado: going to / want to / because / having.",
+          en: "Spoken English reductions: going to / want to / because / having.",
+        },
+      },
+      {
+        id: "inside-out",
+        term: "turn it inside out",
+        lineEn: "And the world, I'll turn it inside out, yeah!",
+        explanation: {
+          es: "Poner del revés / revolucionar por completo.",
+          en: "Turn completely upside down / revolutionize.",
+        },
+      },
+      {
+        id: "fahrenheit",
+        term: "Mister Fahrenheit · speed of light · supersonic",
+        lineEn: "That's why they call me Mister Fahrenheit",
+        explanation: {
+          es: "Metáforas de calor y velocidad (200°F, luz, supersónico). Hipérbole rock.",
+          en: "Heat and speed metaphors (200°F, light speed, supersonic). Rock hyperbole.",
+        },
+      },
+      {
+        id: "lady-godiva",
+        term: "Lady Godiva",
+        lineEn: "I'm a racing car passing by, like Lady Godiva",
+        explanation: {
+          es: "Figura legendaria inglesa; aquí = espectáculo llamativo al pasar.",
+          en: "English legendary figure; here = a spectacular, attention-grabbing pass-by.",
+        },
+      },
+      {
+        id: "defying-gravity",
+        term: "defying the laws of gravity",
+        lineEn: "Like a tiger defying the laws of gravity",
+        explanation: {
+          es: "Desafiar las leyes de la gravedad = imposible / superhumano.",
+          en: "Defy gravity = impossible / superhuman.",
+        },
+      },
+      {
+        id: "queen-jazz",
+        term: "Queen · Jazz (1978)",
+        explanation: {
+          es: "Freddie Mercury. Clásico de rock/pop; uso educativo de letra.",
+          en: "Freddie Mercury. Classic rock/pop; educational lyric use.",
         },
       },
     ],

@@ -3,6 +3,8 @@ const INTERNAL_MODULE_PATHS: Record<string, string> = {
   "microsoft:ai-agents-for-beginners": "/learn/ai-agents",
   "local:english-songs": "/learn/songs-english",
   "local:ai-practitioner-path": "/learn/ai-practitioner-path",
+  "local:web-performance": "/learn/web-performance",
+  "local:fullstack-kit": "/sandbox/kit",
 };
 
 export function getCourseInternalModulePath(

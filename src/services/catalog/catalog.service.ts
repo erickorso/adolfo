@@ -2,6 +2,10 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import type { CatalogItemVM } from "@/domain/view/catalog-item";
 import type { ProductDetailVM } from "@/domain/view/product-detail";
+import {
+  catalogLocalizedName,
+  catalogLocalizedText,
+} from "@/domain/catalog/catalog-i18n";
 import { productToVM, serviceToVM } from "./catalog.mapper";
 
 /**
@@ -22,13 +26,15 @@ type ListOptions = {
   cursor?: string | null;
   q?: string | null;
   take?: number;
+  /** `es` (default) | `en` — elige nameEn/descriptionEn si existen. */
+  locale?: string | null;
 };
 
 const insensitive = (q: string) => ({ contains: q, mode: "insensitive" as const });
 
 /**
  * Lee una página del catálogo (cursor-based). `q` busca por nombre/descripción
- * y, en productos, también por nombre/valor de sus propiedades custom.
+ * (ES + EN) y, en productos, también por propiedades custom.
  */
 export async function listCatalogPage(
   kind: CatalogKind,
@@ -37,6 +43,7 @@ export async function listCatalogPage(
   const take = options.take ?? CATALOG_PAGE_SIZE;
   const cursor = options.cursor ?? null;
   const q = options.q?.trim() || null;
+  const locale = options.locale === "en" ? "en" : "es";
   const orderBy = [{ createdAt: "desc" as const }, { id: "desc" as const }];
   const pageArgs = {
     orderBy,
@@ -52,6 +59,8 @@ export async function listCatalogPage(
             OR: [
               { name: insensitive(q) },
               { description: insensitive(q) },
+              { nameEn: insensitive(q) },
+              { descriptionEn: insensitive(q) },
               {
                 attributes: {
                   some: {
@@ -67,20 +76,29 @@ export async function listCatalogPage(
     const hasMore = rows.length > take;
     const page = rows.slice(0, take);
     return {
-      items: page.map(productToVM),
+      items: page.map((p) => productToVM(p, locale)),
       nextCursor: hasMore ? page[page.length - 1].id : null,
     };
   }
 
   const where = {
     active: true,
-    ...(q ? { OR: [{ name: insensitive(q) }, { description: insensitive(q) }] } : {}),
+    ...(q
+      ? {
+          OR: [
+            { name: insensitive(q) },
+            { description: insensitive(q) },
+            { nameEn: insensitive(q) },
+            { descriptionEn: insensitive(q) },
+          ],
+        }
+      : {}),
   };
   const rows = await prisma.service.findMany({ where, ...pageArgs });
   const hasMore = rows.length > take;
   const page = rows.slice(0, take);
   return {
-    items: page.map(serviceToVM),
+    items: page.map((s) => serviceToVM(s, locale)),
     nextCursor: hasMore ? page[page.length - 1].id : null,
   };
 }
@@ -88,6 +106,7 @@ export async function listCatalogPage(
 /** Detalle de un producto activo por slug (con sus propiedades). */
 export async function getProductDetail(
   slug: string,
+  locale: string = "es",
 ): Promise<ProductDetailVM | null> {
   const p = await prisma.product.findFirst({
     where: { slug, active: true },
@@ -96,11 +115,12 @@ export async function getProductDetail(
   if (!p) {
     return null;
   }
+  const loc = locale === "en" ? "en" : "es";
   return {
     id: p.id,
     slug: p.slug,
-    name: p.name,
-    description: p.description,
+    name: catalogLocalizedName(loc, p.name, p.nameEn),
+    description: catalogLocalizedText(loc, p.description, p.descriptionEn),
     priceCents: p.priceCents,
     currency: p.currency,
     imageUrl: p.imageUrl,

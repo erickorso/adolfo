@@ -20,7 +20,7 @@ export async function rotateImagenSemana(
   const weekVariant = imagenSemanaVariantForDate(date);
   const existing = await prisma.product.findUnique({
     where: { slug: IMAGEN_SEMANA_SLUG },
-    select: { imageUrl: true },
+    select: { imageUrl: true, nameEn: true },
   });
 
   if (!existing) {
@@ -29,6 +29,8 @@ export async function rotateImagenSemana(
         slug: IMAGEN_SEMANA_SLUG,
         name: weekVariant.name,
         description: weekVariant.description,
+        nameEn: weekVariant.nameEn,
+        descriptionEn: weekVariant.descriptionEn,
         priceCents: 500,
         currency: "ARS",
         stock: 999,
@@ -51,10 +53,20 @@ export async function rotateImagenSemana(
       data: {
         name: weekVariant.name,
         description: weekVariant.description,
+        nameEn: weekVariant.nameEn,
+        descriptionEn: weekVariant.descriptionEn,
         imageUrl: weekVariant.imageUrl,
         priceCents: 500,
         stock: 999,
         active: true,
+      },
+    });
+  } else if (!existing.nameEn) {
+    await prisma.product.update({
+      where: { slug: IMAGEN_SEMANA_SLUG },
+      data: {
+        nameEn: weekVariant.nameEn,
+        descriptionEn: weekVariant.descriptionEn,
       },
     });
   }

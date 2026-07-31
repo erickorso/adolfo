@@ -196,13 +196,14 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{baseUrl}}/api/catalog?kind=product&cursor=&q=",
+              "raw": "{{baseUrl}}/api/catalog?kind=product&cursor=&q=&locale=es",
               "host": ["{{baseUrl}}"],
               "path": ["api", "catalog"],
               "query": [
                 { "key": "kind", "value": "product", "description": "product | service" },
                 { "key": "cursor", "value": "{{catalogCursor}}", "description": "Paginación cursor" },
-                { "key": "q", "value": "", "description": "Búsqueda opcional" }
+                { "key": "q", "value": "", "description": "Búsqueda opcional" },
+                { "key": "locale", "value": "es", "description": "es | en — textos EN si nameEn/descriptionEn" }
               ]
             },
             "description": "Scroll infinito catálogo — productos."
@@ -214,12 +215,105 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{baseUrl}}/api/catalog?kind=service",
+              "raw": "{{baseUrl}}/api/catalog?kind=service&locale=es",
               "host": ["{{baseUrl}}"],
               "path": ["api", "catalog"],
-              "query": [{ "key": "kind", "value": "service" }]
+              "query": [
+                { "key": "kind", "value": "service" },
+                { "key": "locale", "value": "es", "description": "es | en" }
+              ]
             },
             "description": "Scroll infinito catálogo — servicios."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Web Vitals (RUM)",
+      "item": [
+        {
+          "name": "Ingest sample",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"LCP\",\n  \"value\": 2100,\n  \"rating\": \"good\",\n  \"pathname\": \"/es\",\n  \"locale\": \"es\"\n}"
+            },
+            "url": "{{baseUrl}}/api/web-vitals",
+            "description": "Ingesta muestra anónima LCP|INP|CLS|FCP|TTFB."
+          },
+          "response": []
+        },
+        {
+          "name": "Summary P75",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/web-vitals?hours=168",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "web-vitals"],
+              "query": [
+                {
+                  "key": "hours",
+                  "value": "168",
+                  "description": "Ventana en horas (máx 720)"
+                }
+              ]
+            },
+            "description": "Agregados P75 de field data."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Kit (Fullstack)",
+      "item": [
+        {
+          "name": "List Kit Items",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/kit/items",
+            "description": "Lista ítems del kit (Postgres)."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Kit Item",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Aprender Fastify\"\n}"
+            },
+            "url": "{{baseUrl}}/api/kit/items",
+            "description": "Crea ítem."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Kit Item",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"done\": true\n}"
+            },
+            "url": "{{baseUrl}}/api/kit/items/{{kitItemId}}",
+            "description": "Actualiza title/done."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Kit Item",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/kit/items/{{kitItemId}}",
+            "description": "Borra ítem."
           },
           "response": []
         }

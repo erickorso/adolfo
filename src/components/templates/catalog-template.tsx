@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { CatalogInfiniteGrid } from "@/components/organisms/catalog-infinite-grid";
 import { CartFlashBanner } from "@/components/molecules/cart-flash-banner";
 import type { CatalogPage } from "@/services/catalog/catalog.service";
@@ -20,7 +20,10 @@ export async function CatalogTemplate({
   added,
   cartError,
 }: CatalogTemplateProps) {
-  const t = await getTranslations("catalog");
+  const [t, locale] = await Promise.all([
+    getTranslations("catalog"),
+    getLocale(),
+  ]);
 
   return (
     <main className="mx-auto flex max-w-5xl flex-col gap-10 px-4 py-10">
@@ -33,6 +36,7 @@ export async function CatalogTemplate({
       <section className="flex flex-col gap-4">
         <h2 className="text-xl font-semibold">{t("products")}</h2>
         <CatalogInfiniteGrid
+          key={`product-${locale}`}
           kind="product"
           initialItems={products.items}
           initialCursor={products.nextCursor}
@@ -42,6 +46,7 @@ export async function CatalogTemplate({
       <section className="flex flex-col gap-4">
         <h2 className="text-xl font-semibold">{t("services")}</h2>
         <CatalogInfiniteGrid
+          key={`service-${locale}`}
           kind="service"
           initialItems={services.items}
           initialCursor={services.nextCursor}

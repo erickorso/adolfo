@@ -8,6 +8,7 @@ import { routing } from "@/i18n/routing";
 import { Providers } from "./providers";
 import { SiteHeader } from "@/components/organisms/site-header";
 import { Toaster } from "@/components/ui/sonner";
+import { WebVitalsReporter } from "@/components/molecules/web-vitals-reporter";
 import { getCurrentRate } from "@/services/rates/rate.service";
 
 const geistSans = Geist({
@@ -57,6 +58,7 @@ export default async function LocaleLayout({
             <SiteHeader />
             <div className="flex flex-1 flex-col">{children}</div>
             <Toaster richColors position="top-right" />
+            <WebVitalsReporter />
           </Providers>
         </NextIntlClientProvider>
       </body>

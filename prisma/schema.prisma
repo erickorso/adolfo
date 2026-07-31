@@ -142,8 +142,12 @@ model VerificationToken {
 model Product {
   id          String      @id @default(cuid())
   slug        String      @unique
+  /// Nombre en español (canónico / fallback).
   name        String
   description String?
+  /// Traducciones EN opcionales. Si null, se usa `name` / `description`.
+  nameEn        String?
+  descriptionEn String?
   /// Precio en centavos de la moneda (`currency`).
   priceCents  Int
   currency    String      @default("ARS")
@@ -174,8 +178,11 @@ model ProductAttribute {
 model Service {
   id          String      @id @default(cuid())
   slug        String      @unique
+  /// Nombre en español (canónico / fallback).
   name        String
   description String?
+  nameEn        String?
+  descriptionEn String?
   priceCents  Int
   currency    String      @default("ARS")
   /// Duración estimada del servicio en minutos.
@@ -469,4 +476,33 @@ model ExchangeRate {
   fetchedAt DateTime @default(now())
 
   @@unique([source, type])
+}
+
+/// Muestra de campo (RUM) de Core Web Vitals — sin PII.
+model WebVitalSample {
+  id             String   @id @default(cuid())
+  /// LCP | INP | CLS | FCP | TTFB
+  name           String
+  value          Float
+  /// good | needs-improvement | poor
+  rating         String
+  delta          Float?
+  navigationType String?
+  pathname       String
+  locale         String?
+  createdAt      DateTime @default(now())
+
+  @@index([name, createdAt])
+  @@index([createdAt])
+}
+
+/// Demo fullstack kit — ítems CRUD (microservicio + UI sandbox).
+model KitItem {
+  id        String   @id @default(cuid())
+  title     String
+  done      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdAt])
 }

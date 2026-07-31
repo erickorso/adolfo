@@ -118,6 +118,19 @@ export const API_CATALOG_ENTRIES: ApiCatalogEntry[] = [
     sandboxPath: "/sandbox/streaming-metrics",
   },
   {
+    id: "kit-items",
+    kind: "internal",
+    name: "Kit — items CRUD",
+    description: {
+      es: "Microservicio fullstack demo: BFF Next (Postgres) + twin Fastify local.",
+      en: "Fullstack microservice demo: Next BFF (Postgres) + local Fastify twin.",
+    },
+    path: "/api/kit/items",
+    method: "GET",
+    postmanFolder: "Kit (Fullstack)",
+    sandboxPath: "/sandbox/kit",
+  },
+  {
     id: "catalog",
     kind: "internal",
     name: "Catalog",

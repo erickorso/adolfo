@@ -45,7 +45,10 @@ Formato: **Postman Collection v2.1.0** (`schema.getpostman.com/json/collection/v
 | GET | `/api/auth/session` | cookie |
 | GET | `/api/auth/csrf` | — |
 | GET | `/api/auth/providers` | — |
-| GET | `/api/catalog` | — |
+| GET | `/api/catalog` | `?kind=&cursor=&q=&locale=es\|en` |
+| POST, GET | `/api/web-vitals` | — (RUM CWV; GET `?hours=168`) |
+| GET, POST | `/api/kit/items` | — (Kit fullstack) |
+| PATCH, DELETE | `/api/kit/items/:id` | — |
 | GET | `/api/images/catalog/*` | — |
 | GET, POST | `/api/cart` | cookie |
 | POST | `/api/cart/add` | cookie (form) |

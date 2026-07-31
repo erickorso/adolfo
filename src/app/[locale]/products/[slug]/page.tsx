@@ -11,10 +11,10 @@ import { getProductDetail } from "@/services/catalog/catalog.service";
 export default async function ProductDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
-  const { slug } = await params;
-  const product = await getProductDetail(slug);
+  const { slug, locale } = await params;
+  const product = await getProductDetail(slug, locale);
   if (!product) {
     notFound();
   }

@@ -7,7 +7,9 @@ const baseProduct: Product = {
   id: "p1",
   slug: "remera",
   name: "Remera",
+  nameEn: "Tee",
   description: "Algodón",
+  descriptionEn: "Cotton",
   priceCents: 1500000,
   currency: "ARS",
   stock: 5,
@@ -21,7 +23,9 @@ const baseService: Service = {
   id: "s1",
   slug: "consultoria",
   name: "Consultoría",
+  nameEn: "Consulting",
   description: null,
+  descriptionEn: null,
   priceCents: 5000000,
   currency: "ARS",
   durationMin: 60,
@@ -37,6 +41,18 @@ describe("catalog.mapper", () => {
     expect(vm.kind).toBe(ItemKind.PRODUCT);
     expect(vm.available).toBe(true);
     expect(vm.meta).toBeNull();
+    expect(vm.name).toBe("Remera");
+  });
+
+  it("usa nameEn/descriptionEn cuando locale=en", () => {
+    const vm = productToVM(baseProduct, "en");
+    expect(vm.name).toBe("Tee");
+    expect(vm.description).toBe("Cotton");
+  });
+
+  it("hace fallback a ES si falta nameEn", () => {
+    const vm = productToVM({ ...baseProduct, nameEn: null }, "en");
+    expect(vm.name).toBe("Remera");
   });
 
   it("marca el producto sin stock como no disponible", () => {
@@ -49,6 +65,11 @@ describe("catalog.mapper", () => {
     expect(vm.kind).toBe(ItemKind.SERVICE);
     expect(vm.available).toBe(true);
     expect(vm.meta).toBe("60 min");
+  });
+
+  it("servicio en inglés usa nameEn", () => {
+    const vm = serviceToVM(baseService, "en");
+    expect(vm.name).toBe("Consulting");
   });
 
   it("servicio sin duración deja meta en null", () => {

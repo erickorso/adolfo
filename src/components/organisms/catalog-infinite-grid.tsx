@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { CatalogItemCard } from "@/components/molecules/catalog-item-card";
 import { Button } from "@/components/ui/button";
 import type { CatalogItemVM } from "@/domain/view/catalog-item";
@@ -17,9 +17,10 @@ type Page = { items: CatalogItemVM[]; nextCursor: string | null };
 async function fetchCatalog(
   kind: string,
   q: string,
+  locale: string,
   cursor?: string,
 ): Promise<Page> {
-  const params = new URLSearchParams({ kind });
+  const params = new URLSearchParams({ kind, locale });
   if (q) params.set("q", q);
   if (cursor) params.set("cursor", cursor);
   const res = await fetch(`/api/catalog?${params.toString()}`);
@@ -37,6 +38,7 @@ export function CatalogInfiniteGrid({
   initialCursor,
 }: CatalogInfiniteGridProps) {
   const t = useTranslations("catalog");
+  const locale = useLocale();
   const [items, setItems] = useState(initialItems);
   const [cursor, setCursor] = useState(initialCursor);
   const [q, setQ] = useState("");
@@ -52,7 +54,7 @@ export function CatalogInfiniteGrid({
     }
     const timer = setTimeout(() => {
       setLoading(true);
-      fetchCatalog(kind, q)
+      fetchCatalog(kind, q, locale)
         .then((page) => {
           setItems(page.items);
           setCursor(page.nextCursor);
@@ -60,7 +62,7 @@ export function CatalogInfiniteGrid({
         .finally(() => setLoading(false));
     }, 300);
     return () => clearTimeout(timer);
-  }, [q, kind]);
+  }, [q, kind, locale]);
 
   const loadMore = useCallback(async () => {
     if (loading || !cursor) {
@@ -68,13 +70,13 @@ export function CatalogInfiniteGrid({
     }
     setLoading(true);
     try {
-      const page = await fetchCatalog(kind, q, cursor);
+      const page = await fetchCatalog(kind, q, locale, cursor);
       setItems((prev) => [...prev, ...page.items]);
       setCursor(page.nextCursor);
     } finally {
       setLoading(false);
     }
-  }, [kind, q, cursor, loading]);
+  }, [kind, q, cursor, loading, locale]);
 
   useEffect(() => {
     const el = sentinelRef.current;

@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Music, Bot } from "lucide-react";
+import { Music, Bot, Gauge, Boxes } from "lucide-react";
 import { CourseSearchForm } from "@/components/molecules/course-search-form";
 import { CourseList } from "@/components/organisms/course-list";
 import type { CourseVM } from "@/domain/courses/course.types";
@@ -38,6 +38,40 @@ export async function CoursesTemplate({
           {t("featuredInternalBody")}
         </p>
         <div className="mt-4 flex flex-col gap-3">
+          <Link
+            href="/sandbox/kit"
+            className="flex items-start gap-3 rounded-md border border-border bg-card p-4 transition-colors hover:bg-muted/50"
+          >
+            <span
+              className="flex size-9 shrink-0 items-center justify-center rounded-md bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-200"
+              aria-hidden
+            >
+              <Boxes className="size-4" />
+            </span>
+            <span className="flex flex-col gap-0.5">
+              <span className="font-medium">{t("featuredFullstackKit")}</span>
+              <span className="text-sm text-muted-foreground">
+                {t("featuredFullstackKitHint")}
+              </span>
+            </span>
+          </Link>
+          <Link
+            href="/learn/web-performance"
+            className="flex items-start gap-3 rounded-md border border-border bg-card p-4 transition-colors hover:bg-muted/50"
+          >
+            <span
+              className="flex size-9 shrink-0 items-center justify-center rounded-md bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200"
+              aria-hidden
+            >
+              <Gauge className="size-4" />
+            </span>
+            <span className="flex flex-col gap-0.5">
+              <span className="font-medium">{t("featuredWebPerformance")}</span>
+              <span className="text-sm text-muted-foreground">
+                {t("featuredWebPerformanceHint")}
+              </span>
+            </span>
+          </Link>
           <Link
             href="/learn/ai-practitioner-path"
             className="flex items-start gap-3 rounded-md border border-border bg-card p-4 transition-colors hover:bg-muted/50"

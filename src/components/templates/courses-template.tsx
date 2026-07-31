@@ -65,10 +65,13 @@ export async function CoursesTemplate({
             >
               <Boxes className="size-4" />
             </span>
-            <span className="flex flex-col gap-0.5">
+            <span className="flex flex-col gap-1">
               <span className="font-medium">{t("featuredFullstackKit")}</span>
               <span className="text-sm text-muted-foreground">
                 {t("featuredFullstackKitHint")}
+              </span>
+              <span className="mt-1 whitespace-pre-wrap text-xs leading-relaxed text-muted-foreground">
+                {t("featuredFullstackKitBody")}
               </span>
             </span>
           </Link>

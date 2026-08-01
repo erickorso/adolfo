@@ -421,6 +421,48 @@ model CourseEnrollment {
 }
 
 // ──────────────────────────────────────────────────────────────
+// FP cortos (certificados profesionales Grado C / catálogo SEPE).
+// Tabla aparte de Course: ingest propio (`npm run fp:ingest`).
+// ──────────────────────────────────────────────────────────────
+
+/// Certificado profesional (FP corto). Nivel 1–3; bachiller típico en nivel 3.
+model FpCertificate {
+  id                  String   @id @default(cuid())
+  /// Fuente fija: "fp-certificado" (no mezclar con Course.source).
+  source              String   @default("fp-certificado")
+  /// Código SEPE, ej. ADGG0108.
+  externalId          String
+  title               String
+  description         String?
+  /// Familia profesional, ej. ADG.
+  family              String?
+  /// Nivel de cualificación 1 | 2 | 3.
+  level               Int
+  /// Derivado: true si level === 3 (acceso típico con Bachiller).
+  requiresBachiller   Boolean
+  hours               Int
+  modality            String   @default("mixta")
+  url                 String
+  /// PDF / Real Decreto del programa.
+  programUrl          String?
+  /// Completa | Parcial | null (teleformación).
+  teleformation       String?
+  provider            String   @default("SEPE · Certificado profesional")
+  location            String?  @default("España")
+  hidden              Boolean  @default(false)
+  fetchedAt           DateTime @default(now())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@unique([source, externalId])
+  @@index([level])
+  @@index([family])
+  @@index([requiresBachiller])
+  @@index([hidden])
+  @@index([fetchedAt])
+}
+
+// ──────────────────────────────────────────────────────────────
 // Aprendizaje interactivo (progreso por lección + gamificación).
 // ──────────────────────────────────────────────────────────────
 

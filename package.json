@@ -24,6 +24,7 @@
     "db:deploy": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts",
     "jobs:ingest": "tsx scripts/jobs-ingest-local.ts",
+    "fp:ingest": "tsx scripts/fp-ingest-local.ts",
     "db:studio": "prisma studio",
     "smoke:pre-deploy": "tsx scripts/smoke-pre-deploy.ts",
     "probe:apis": "tsx scripts/probe-public-apis-live.ts",

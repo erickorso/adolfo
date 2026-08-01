@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Music, Bot, Gauge, Boxes, Languages } from "lucide-react";
+import { Music, Bot, Gauge, Boxes, Languages, GraduationCap } from "lucide-react";
 import { CourseSearchForm } from "@/components/molecules/course-search-form";
 import { CourseList } from "@/components/organisms/course-list";
 import type { CourseVM } from "@/domain/courses/course.types";
@@ -106,6 +106,23 @@ export async function CoursesTemplate({
               <span className="font-medium">{t("featuredAiPractitionerPath")}</span>
               <span className="text-sm text-muted-foreground">
                 {t("featuredAiPractitionerPathHint")}
+              </span>
+            </span>
+          </Link>
+          <Link
+            href="/courses/fp"
+            className="flex items-start gap-3 rounded-md border border-border bg-card p-4 transition-colors hover:bg-muted/50"
+          >
+            <span
+              className="flex size-9 shrink-0 items-center justify-center rounded-md bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-200"
+              aria-hidden
+            >
+              <GraduationCap className="size-4" />
+            </span>
+            <span className="flex flex-col gap-0.5">
+              <span className="font-medium">{t("featuredFp")}</span>
+              <span className="text-sm text-muted-foreground">
+                {t("featuredFpHint")}
               </span>
             </span>
           </Link>

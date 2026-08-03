@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { AI_AGENTS_MODULE_ID } from "@/domain/learning/ai-agents/module.constants";
+import { PYTHON_AI_MODULE_ID } from "@/domain/learning/python-ai/module.constants";
 import type { QuizSubmitResult } from "@/domain/learning/ai-agents/quizzes/quiz.types";
 import type { LessonToggleResult } from "@/domain/learning/learning.types";
 import {
@@ -40,10 +41,14 @@ export type CompleteMissionActionResult =
     }
   | { ok: false; error: "loginRequired" | "notFound" };
 
-function revalidateAiAgents(lessonSlug: string, moduleId: string) {
+function revalidateLearnModule(lessonSlug: string, moduleId: string) {
   if (moduleId === AI_AGENTS_MODULE_ID) {
     revalidatePath("/learn/ai-agents");
     revalidatePath(`/learn/ai-agents/${lessonSlug}`);
+  }
+  if (moduleId === PYTHON_AI_MODULE_ID) {
+    revalidatePath("/learn/python-ai");
+    revalidatePath(`/learn/python-ai/${lessonSlug}`);
   }
 }
 
@@ -58,7 +63,7 @@ export async function toggleLessonCompleteAction(
 
   try {
     const result = await toggleLessonComplete(user.id, moduleId, lessonSlug);
-    revalidateAiAgents(lessonSlug, moduleId);
+    revalidateLearnModule(lessonSlug, moduleId);
 
     return {
       ok: true,
@@ -87,7 +92,7 @@ export async function submitLessonQuizAction(
       lessonSlug,
       answers,
     );
-    revalidateAiAgents(lessonSlug, moduleId);
+    revalidateLearnModule(lessonSlug, moduleId);
 
     return {
       ok: true,
@@ -118,7 +123,7 @@ export async function toggleLessonMissionAction(
       lessonSlug,
       kind,
     );
-    revalidateAiAgents(lessonSlug, moduleId);
+    revalidateLearnModule(lessonSlug, moduleId);
     return { ok: true, missions };
   } catch {
     return { ok: false, error: "notFound" };
@@ -142,7 +147,7 @@ export async function completeLessonMissionAction(
       lessonSlug,
       kind,
     );
-    revalidateAiAgents(lessonSlug, moduleId);
+    revalidateLearnModule(lessonSlug, moduleId);
     return { ok: true, missions: result.missions, xpAwarded: result.xpAwarded };
   } catch {
     return { ok: false, error: "notFound" };

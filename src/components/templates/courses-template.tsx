@@ -1,8 +1,7 @@
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
-import { Music, Bot, Gauge, Boxes, Languages, GraduationCap } from "lucide-react";
 import { CourseSearchForm } from "@/components/molecules/course-search-form";
 import { CourseList } from "@/components/organisms/course-list";
+import { CoursesFeaturedModules } from "@/components/organisms/courses-featured-modules";
 import type { CourseVM } from "@/domain/courses/course.types";
 
 type CoursesTemplateProps = {
@@ -20,131 +19,89 @@ export async function CoursesTemplate({
 }: CoursesTemplateProps) {
   const t = await getTranslations("courses");
 
+  const modules = [
+    {
+      href: "/learn/python-deutsch",
+      title: t("featuredPythonDeutsch"),
+      hint: t("featuredPythonDeutschHint"),
+      icon: "languages" as const,
+      iconClass:
+        "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200",
+    },
+    {
+      href: "/learn/python-ai",
+      title: t("featuredPythonAi"),
+      hint: t("featuredPythonAiHint"),
+      icon: "bot" as const,
+      iconClass:
+        "bg-lime-100 text-lime-900 dark:bg-lime-950 dark:text-lime-200",
+    },
+    {
+      href: "/sandbox/kit",
+      title: t("featuredFullstackKit"),
+      hint: t("featuredFullstackKitHint"),
+      body: t("featuredFullstackKitBody"),
+      icon: "boxes" as const,
+      iconClass:
+        "bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-200",
+    },
+    {
+      href: "/learn/web-performance",
+      title: t("featuredWebPerformance"),
+      hint: t("featuredWebPerformanceHint"),
+      icon: "gauge" as const,
+      iconClass: "bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200",
+    },
+    {
+      href: "/learn/ai-practitioner-path",
+      title: t("featuredAiPractitionerPath"),
+      hint: t("featuredAiPractitionerPathHint"),
+      icon: "bot" as const,
+      iconClass:
+        "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200",
+    },
+    {
+      href: "/courses/fp",
+      title: t("featuredFp"),
+      hint: t("featuredFpHint"),
+      icon: "graduation" as const,
+      iconClass: "bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-200",
+    },
+    {
+      href: "/learn/songs-english",
+      title: t("featuredSongsEnglish"),
+      hint: t("featuredSongsEnglishHint"),
+      icon: "music" as const,
+      iconClass:
+        "bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-200",
+    },
+  ];
+
+  const gravityChips = [
+    { id: "fp", label: t("gravityChipFp") },
+    { id: "jobs", label: t("gravityChipJobs") },
+    { id: "ai", label: t("gravityChipAi") },
+    { id: "kit", label: t("gravityChipKit") },
+    { id: "cwv", label: t("gravityChipCwv") },
+    { id: "songs", label: t("gravityChipSongs") },
+  ];
+
   return (
-    <main className="mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
+    <main className="mx-auto flex max-w-5xl flex-col gap-10 px-4 py-10">
       <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold">{t("title")}</h1>
-        <p className="text-muted-foreground">{t("subtitle")}</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
+        <p className="max-w-2xl text-muted-foreground">{t("subtitle")}</p>
       </header>
 
-      <section
-        aria-labelledby="featured-internal-heading"
-        className="rounded-lg border border-violet-200 bg-violet-50 p-5 dark:border-violet-900 dark:bg-violet-950/30"
-      >
-        <h2 id="featured-internal-heading" className="text-lg font-semibold">
-          {t("featuredInternalTitle")}
-        </h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {t("featuredInternalBody")}
-        </p>
-        <div className="mt-4 flex flex-col gap-3">
-          <Link
-            href="/learn/python-deutsch"
-            className="flex items-start gap-3 rounded-md border border-border bg-card p-4 transition-colors hover:bg-muted/50"
-          >
-            <span
-              className="flex size-9 shrink-0 items-center justify-center rounded-md bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200"
-              aria-hidden
-            >
-              <Languages className="size-4" />
-            </span>
-            <span className="flex flex-col gap-0.5">
-              <span className="font-medium">{t("featuredPythonDeutsch")}</span>
-              <span className="text-sm text-muted-foreground">
-                {t("featuredPythonDeutschHint")}
-              </span>
-            </span>
-          </Link>
-          <Link
-            href="/sandbox/kit"
-            className="flex items-start gap-3 rounded-md border border-border bg-card p-4 transition-colors hover:bg-muted/50"
-          >
-            <span
-              className="flex size-9 shrink-0 items-center justify-center rounded-md bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-200"
-              aria-hidden
-            >
-              <Boxes className="size-4" />
-            </span>
-            <span className="flex flex-col gap-1">
-              <span className="font-medium">{t("featuredFullstackKit")}</span>
-              <span className="text-sm text-muted-foreground">
-                {t("featuredFullstackKitHint")}
-              </span>
-              <span className="mt-1 whitespace-pre-wrap text-xs leading-relaxed text-muted-foreground">
-                {t("featuredFullstackKitBody")}
-              </span>
-            </span>
-          </Link>
-          <Link
-            href="/learn/web-performance"
-            className="flex items-start gap-3 rounded-md border border-border bg-card p-4 transition-colors hover:bg-muted/50"
-          >
-            <span
-              className="flex size-9 shrink-0 items-center justify-center rounded-md bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200"
-              aria-hidden
-            >
-              <Gauge className="size-4" />
-            </span>
-            <span className="flex flex-col gap-0.5">
-              <span className="font-medium">{t("featuredWebPerformance")}</span>
-              <span className="text-sm text-muted-foreground">
-                {t("featuredWebPerformanceHint")}
-              </span>
-            </span>
-          </Link>
-          <Link
-            href="/learn/ai-practitioner-path"
-            className="flex items-start gap-3 rounded-md border border-border bg-card p-4 transition-colors hover:bg-muted/50"
-          >
-            <span
-              className="flex size-9 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200"
-              aria-hidden
-            >
-              <Bot className="size-4" />
-            </span>
-            <span className="flex flex-col gap-0.5">
-              <span className="font-medium">{t("featuredAiPractitionerPath")}</span>
-              <span className="text-sm text-muted-foreground">
-                {t("featuredAiPractitionerPathHint")}
-              </span>
-            </span>
-          </Link>
-          <Link
-            href="/courses/fp"
-            className="flex items-start gap-3 rounded-md border border-border bg-card p-4 transition-colors hover:bg-muted/50"
-          >
-            <span
-              className="flex size-9 shrink-0 items-center justify-center rounded-md bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-200"
-              aria-hidden
-            >
-              <GraduationCap className="size-4" />
-            </span>
-            <span className="flex flex-col gap-0.5">
-              <span className="font-medium">{t("featuredFp")}</span>
-              <span className="text-sm text-muted-foreground">
-                {t("featuredFpHint")}
-              </span>
-            </span>
-          </Link>
-          <Link
-            href="/learn/songs-english"
-            className="flex items-start gap-3 rounded-md border border-border bg-card p-4 transition-colors hover:bg-muted/50"
-          >
-            <span
-              className="flex size-9 shrink-0 items-center justify-center rounded-md bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-200"
-              aria-hidden
-            >
-              <Music className="size-4" />
-            </span>
-            <span className="flex flex-col gap-0.5">
-              <span className="font-medium">{t("featuredSongsEnglish")}</span>
-              <span className="text-sm text-muted-foreground">
-                {t("featuredSongsEnglishHint")}
-              </span>
-            </span>
-          </Link>
-        </div>
-      </section>
+      <CoursesFeaturedModules
+        sectionTitle={t("featuredInternalTitle")}
+        sectionBody={t("featuredInternalBody")}
+        gravityTitle={t("gravityTitle")}
+        gravityHint={t("gravityHint")}
+        gravityAria={t("gravityAria")}
+        modules={modules}
+        gravityChips={gravityChips}
+      />
 
       <CourseSearchForm initialQuery={initialQuery} />
       <CourseList courses={courses} />

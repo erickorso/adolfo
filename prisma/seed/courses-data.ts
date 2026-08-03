@@ -125,6 +125,20 @@ export const SEED_COURSES: SeedCourseSpec[] = [
   },
   {
     source: "local",
+    externalId: "python-ai",
+    title: "Python + IA (backends y agentes)",
+    description:
+      "Path práctico para frontend seniors: FastAPI, scripts LLM, RAG ligero, agentes con tools y evals. Progreso y XP en Adolfo.\n\nMódulo: /learn/python-ai",
+    provider: "Adolfo",
+    url: "/learn/python-ai",
+    hours: 24,
+    modality: "online",
+    sector: "IA · Python · FastAPI",
+    location: "Global · online",
+    targetAudience: "Frontend / Product Engineers añadiendo Python+IA",
+  },
+  {
+    source: "local",
     externalId: "english-songs",
     title: "Aprender inglés con canciones",
     description:

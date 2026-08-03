@@ -1,8 +1,11 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { MotionFallIn } from "@/components/atoms/motion-fall-in";
 import { FpCertificateCard } from "@/components/molecules/fp-certificate-card";
 import { FpSearchForm } from "@/components/molecules/fp-search-form";
 import type { FpCertificateVM } from "@/domain/fp/fp.vm";
+
+const MAX_ANIMATED = 24;
 
 type FpCatalogTemplateProps = {
   items: FpCertificateVM[];
@@ -30,7 +33,7 @@ export async function FpCatalogTemplate({
         <p className="text-sm font-medium text-teal-800 dark:text-teal-300">
           {t("badge")}
         </p>
-        <h1 className="text-3xl font-bold">{t("title")}</h1>
+        <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
         <p className="text-muted-foreground">{t("subtitle")}</p>
         <p className="text-sm text-muted-foreground">
           {t("resultCount", { count: items.length, total })}
@@ -43,11 +46,17 @@ export async function FpCatalogTemplate({
         <p className="text-sm text-muted-foreground">{t("empty")}</p>
       ) : (
         <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {items.map((item) => (
+          {items.map((item, index) => (
             <li key={item.id} className="flex">
-              <div className="w-full">
-                <FpCertificateCard item={item} />
-              </div>
+              {index < MAX_ANIMATED ? (
+                <MotionFallIn index={index} className="w-full">
+                  <FpCertificateCard item={item} />
+                </MotionFallIn>
+              ) : (
+                <div className="w-full">
+                  <FpCertificateCard item={item} />
+                </div>
+              )}
             </li>
           ))}
         </ul>

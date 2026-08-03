@@ -12,6 +12,10 @@ type LessonCompleteButtonProps = {
   lessonSlug: string;
   completed: boolean;
   isLoggedIn: boolean;
+  /** Base path for login redirect, e.g. `/learn/python-ai`. */
+  progressBasePath?: string;
+  /** next-intl namespace with completeHint / markComplete keys. */
+  i18nNamespace?: string;
 };
 
 export function LessonCompleteButton({
@@ -19,14 +23,17 @@ export function LessonCompleteButton({
   lessonSlug,
   completed,
   isLoggedIn,
+  progressBasePath = "/learn/ai-agents",
+  i18nNamespace = "aiAgents",
 }: LessonCompleteButtonProps) {
-  const t = useTranslations("aiAgents");
+  const t = useTranslations(i18nNamespace as "aiAgents" | "pythonAi");
   const router = useRouter();
   const [pending, startTransition] = useTransition();
+  const loginUrl = `/login?callbackUrl=${progressBasePath}/${lessonSlug}`;
 
   function handleToggle() {
     if (!isLoggedIn) {
-      router.push(`/login?callbackUrl=/learn/ai-agents/${lessonSlug}`);
+      router.push(loginUrl);
       return;
     }
 
@@ -35,7 +42,7 @@ export function LessonCompleteButton({
 
       if (!result.ok) {
         if (result.error === "loginRequired") {
-          router.push(`/login?callbackUrl=/learn/ai-agents/${lessonSlug}`);
+          router.push(loginUrl);
         }
         return;
       }

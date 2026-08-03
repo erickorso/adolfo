@@ -20,6 +20,11 @@ import type {
 import type { QuizSubmitResult } from "@/domain/learning/ai-agents/quizzes/quiz.types";
 import { scoreQuizAnswers } from "@/domain/learning/ai-agents/quizzes/score-quiz";
 import { computeStreakUpdate } from "@/domain/learning/streak";
+import { PYTHON_AI_MODULE_ID } from "@/domain/learning/python-ai/module.constants";
+import {
+  getLessonBySlug as getPythonAiLessonBySlug,
+  PYTHON_AI_LESSONS,
+} from "@/domain/learning/python-ai/lessons";
 
 export type LessonMissionState = {
   readme: boolean;
@@ -62,11 +67,20 @@ function resolveTotalLessons(moduleId: string): number {
   if (moduleId === AI_AGENTS_MODULE_ID) {
     return AI_AGENTS_LESSONS.length;
   }
+  if (moduleId === PYTHON_AI_MODULE_ID) {
+    return PYTHON_AI_LESSONS.length;
+  }
   return 0;
 }
 
 function assertLessonExists(moduleId: string, lessonSlug: string): void {
   if (moduleId === AI_AGENTS_MODULE_ID && !getLessonBySlug(lessonSlug)) {
+    throw new Error("Lección no encontrada");
+  }
+  if (
+    moduleId === PYTHON_AI_MODULE_ID &&
+    !getPythonAiLessonBySlug(lessonSlug)
+  ) {
     throw new Error("Lección no encontrada");
   }
 }

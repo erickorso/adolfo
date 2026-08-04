@@ -26,7 +26,9 @@ export function LessonCompleteButton({
   progressBasePath = "/learn/ai-agents",
   i18nNamespace = "aiAgents",
 }: LessonCompleteButtonProps) {
-  const t = useTranslations(i18nNamespace as "aiAgents" | "pythonAi");
+  const t = useTranslations(
+    i18nNamespace as "aiAgents" | "pythonAi" | "architecturePractices",
+  );
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const loginUrl = `/login?callbackUrl=${progressBasePath}/${lessonSlug}`;

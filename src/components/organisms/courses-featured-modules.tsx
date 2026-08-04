@@ -7,6 +7,7 @@ import {
   Boxes,
   Languages,
   GraduationCap,
+  Layers,
   type LucideIcon,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -19,7 +20,14 @@ type ModuleItem = {
   title: string;
   hint: string;
   body?: string;
-  icon: "languages" | "boxes" | "gauge" | "bot" | "graduation" | "music";
+  icon:
+    | "languages"
+    | "boxes"
+    | "gauge"
+    | "bot"
+    | "graduation"
+    | "music"
+    | "layers";
   iconClass: string;
 };
 
@@ -40,6 +48,7 @@ const ICONS: Record<ModuleItem["icon"], LucideIcon> = {
   bot: Bot,
   graduation: GraduationCap,
   music: Music,
+  layers: Layers,
 };
 
 export function CoursesFeaturedModules({

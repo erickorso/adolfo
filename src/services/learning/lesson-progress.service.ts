@@ -25,6 +25,11 @@ import {
   getLessonBySlug as getPythonAiLessonBySlug,
   PYTHON_AI_LESSONS,
 } from "@/domain/learning/python-ai/lessons";
+import { ARCHITECTURE_PRACTICES_MODULE_ID } from "@/domain/learning/architecture-practices/module.constants";
+import {
+  getLessonBySlug as getArchitecturePracticesLessonBySlug,
+  ARCHITECTURE_PRACTICES_LESSONS,
+} from "@/domain/learning/architecture-practices/lessons";
 
 export type LessonMissionState = {
   readme: boolean;
@@ -70,6 +75,9 @@ function resolveTotalLessons(moduleId: string): number {
   if (moduleId === PYTHON_AI_MODULE_ID) {
     return PYTHON_AI_LESSONS.length;
   }
+  if (moduleId === ARCHITECTURE_PRACTICES_MODULE_ID) {
+    return ARCHITECTURE_PRACTICES_LESSONS.length;
+  }
   return 0;
 }
 
@@ -80,6 +88,12 @@ function assertLessonExists(moduleId: string, lessonSlug: string): void {
   if (
     moduleId === PYTHON_AI_MODULE_ID &&
     !getPythonAiLessonBySlug(lessonSlug)
+  ) {
+    throw new Error("Lección no encontrada");
+  }
+  if (
+    moduleId === ARCHITECTURE_PRACTICES_MODULE_ID &&
+    !getArchitecturePracticesLessonBySlug(lessonSlug)
   ) {
     throw new Error("Lección no encontrada");
   }

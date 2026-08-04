@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cheat Sheet — Pipeline + Kafka (Analytics)</title>
+  <style>
+    @page { size: A4; margin: 10mm 12mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #0f172a;
+      background: #fff;
+      font-size: 9.3pt;
+      line-height: 1.38;
+    }
+    .page { max-width: 980px; margin: 0 auto; }
+    .header {
+      border-bottom: 3px solid #2563eb;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    .title {
+      margin: 0;
+      font-size: 20pt;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+    .subtitle {
+      margin: 4px 0 0;
+      color: #475569;
+      font-size: 9.2pt;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .card {
+      border: 1px solid #dbe3ee;
+      border-radius: 8px;
+      padding: 8px 10px;
+      break-inside: avoid;
+      background: #fcfdff;
+    }
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 10pt;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #1d4ed8;
+    }
+    .card h3 {
+      margin: 8px 0 4px;
+      font-size: 9pt;
+      color: #0f172a;
+    }
+    pre {
+      margin: 5px 0 7px;
+      padding: 7px 8px;
+      border-radius: 6px;
+      background: #0f172a;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 7.9pt;
+      line-height: 1.33;
+    }
+    ul { margin: 4px 0 0 16px; padding: 0; }
+    li { margin: 2px 0; }
+    .note {
+      margin-top: 6px;
+      padding: 6px 8px;
+      border-left: 3px solid #8b5cf6;
+      background: #f8f5ff;
+      color: #312e81;
+      font-size: 8.2pt;
+    }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+    .pill {
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 7.8pt;
+      font-weight: 700;
+    }
+    .wide { grid-column: 1 / -1; }
+    .footer { margin-top: 10px; color: #64748b; font-size: 7.8pt; text-align: right; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <h1 class="title">Pipeline + Kafka (Analytics) — Cheat Sheet</h1>
+      <p class="subtitle">
+        Qué dibujar y qué decir en 5–10 minutos. Enfoque: ingestion, colas, agregación, near-real-time y consistencia.
+      </p>
+    </header>
+
+    <section class="grid">
+      <article class="card wide">
+        <h2>Diagrama base (1 minuto)</h2>
+        <pre>[Player/SDK] -> [Ingest API] -> [Kafka topic: playback-events]
+                 |                       |
+                 |                       +-> partitions (por contentId o userId)
+                 |
+                 +-> (opcional) auth / rate-limit / dedupe
+
+[Consumer group: aggregators] -> [DB: Postgres/Mongo read models] -> [API] -> [React dashboard]
+
+Observabilidad: lag, throughput, error rate, DLQ, last_processed_ts</pre>
+        <div class="pill-row">
+          <span class="pill">Topic</span><span class="pill">Partitions</span><span class="pill">Consumer group</span>
+          <span class="pill">At-least-once</span><span class="pill">Idempotencia</span><span class="pill">Lag</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Por qué Kafka (vs escribir directo a DB)</h2>
+        <ul>
+          <li><strong>Desacopla</strong> ingestion del procesamiento (picos sin tumbar DB).</li>
+          <li><strong>Retries</strong> y <strong>reprocesamiento</strong> (rebuild de métricas).</li>
+          <li><strong>Escalado</strong> independiente: más consumers sin tocar el SDK.</li>
+          <li><strong>Orden</strong> por key (dentro de una partition) y backpressure.</li>
+        </ul>
+        <div class="note">
+          Talking point: “La cola evita que el API de ingestion sea CPU/DB-bound. La DB queda para modelos de lectura.”
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Qué pre-agregar (read models)</h2>
+        <h3>Regla</h3>
+        <ul>
+          <li>Eventos crudos (10M/día) no se consultan desde UI.</li>
+          <li>Pre-agregar por <strong>ventanas</strong>: hora / día.</li>
+        </ul>
+        <h3>Ejemplo de tabla</h3>
+        <pre>-- Postgres: métricas por hora
+metrics_hourly(
+  hour_ts timestamptz,
+  content_id text,
+  country_code text,
+  plays int,
+  total_duration_sec bigint,
+  PRIMARY KEY (hour_ts, content_id, country_code)
+)</pre>
+        <div class="note">
+          UI: query simple con GROUP BY sobre tabla agregada, no sobre events.
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Entrega: near-real-time (&lt;5 min)</h2>
+        <ul>
+          <li><strong>Lag</strong> objetivo: p95 &lt; 2–5 min.</li>
+          <li>Batch corto (ej. 30–60s) o micro-batch por offsets.</li>
+          <li>Optimizar hot paths: upserts por clave compuesta.</li>
+        </ul>
+        <h3>UI si hay atraso</h3>
+        <ul>
+          <li>Mostrar <strong>last_processed_ts</strong> y badge “data delayed”.</li>
+          <li>No “mentir”: transparencia &gt; exactitud falsa.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Semánticas de entrega</h2>
+        <h3>At-least-once (lo común)</h3>
+        <ul>
+          <li>Puede procesar duplicados → requiere idempotencia.</li>
+        </ul>
+        <h3>Exactly-once</h3>
+        <ul>
+          <li>Más complejo (transacciones, tooling). No siempre necesario en métricas.</li>
+        </ul>
+        <div class="note">
+          Para métricas agregadas, <strong>at-least-once + idempotencia</strong> suele ser suficiente.
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Idempotencia (clave para no inflar plays)</h2>
+        <h3>Opciones</h3>
+        <ul>
+          <li><strong>Event ID</strong> único (SDK lo genera) + tabla de dedupe.</li>
+          <li>Si no hay ID: hash de (userId, contentId, timestamp, sessionId).</li>
+        </ul>
+        <pre>-- Dedupe simple
+processed_events(
+  event_id text PRIMARY KEY,
+  processed_at timestamptz default now()
+)</pre>
+        <pre>-- Consumer (pseudo)
+BEGIN;
+INSERT INTO processed_events(event_id) VALUES ($id)
+  ON CONFLICT DO NOTHING;
+-- si insertó => aplicar upsert a metrics_hourly
+COMMIT;</pre>
+      </article>
+
+      <article class="card wide">
+        <h2>Talking points (respuestas cortas)</h2>
+        <pre>1) ¿Por qué Kafka?
+Desacopla ingestion del cómputo, absorbe picos, permite retries y re-procesar,
+y escalar consumers sin tocar el productor.
+
+2) ¿Dónde agregás?
+En consumers: pre-agrego por hora/día + content (+ country). La UI lee read models.
+
+3) ¿Qué pasa con duplicados?
+At-least-once => idempotencia: event_id + tabla processed_events (o hash).
+
+4) ¿Qué mostrás si hay atraso?
+last_processed_ts + indicador de delay. Transparencia al usuario.
+
+5) ¿Tu experiencia real?
+“No operé Kafka en prod; sí diseñé contratos API, workers/colas, idempotencia y
+tests de contrato. Entiendo el patrón pub/sub y lo aplico con analogías reales.”</pre>
+      </article>
+
+      <article class="card">
+        <h2>Observabilidad mínima</h2>
+        <ul>
+          <li><strong>consumer lag</strong> (por partition)</li>
+          <li>throughput (events/s), p95 processing time</li>
+          <li>error rate + retries</li>
+          <li>DLQ (dead-letter) para poison messages</li>
+          <li>last_processed_ts (para UI)</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Fallback si no hay Kafka</h2>
+        <ul>
+          <li>Webhook/API → <strong>queue</strong> (SQS/Bull/Redis) → worker → DB.</li>
+          <li>Mismo diseño: dedupe, retries, backpressure, métricas.</li>
+        </ul>
+        <div class="note">
+          Útil si te preguntan: “¿Cómo lo harías en MVP?”.
+        </div>
+      </article>
+    </section>
+
+    <p class="footer">Erick Vargas Ramos · Prep Mediastream · Pipeline / Kafka / Analytics</p>
+  </main>
+</body>
+</html>
+

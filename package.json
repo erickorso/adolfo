@@ -30,6 +30,7 @@
     "probe:apis": "tsx scripts/probe-public-apis-live.ts",
     "dev:metrics-api": "npm run dev --prefix backend",
     "dev:kit-api": "npm run dev --prefix services/kit-api",
+    "dev:mobile-api": "services/mobile-api/.venv/Scripts/python -m uvicorn app.main:app --reload --port 4002 --app-dir services/mobile-api",
     "typecheck:kit-api": "npm run typecheck --prefix services/kit-api",
     "test:kit-api": "npm run test --prefix services/kit-api",
     "mfe:dev": "npm run dev --prefix mfe-demo",

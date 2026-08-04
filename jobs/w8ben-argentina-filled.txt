@@ -1,0 +1,104 @@
+W-8BEN — Erick Vargas Ramos (residente fiscal ARGENTINA)
+============================================================
+Completar en el portal. Reemplazá lo entre [CORCHETES] con tus datos reales.
+No inventar CUIT ni fecha de nacimiento — deben coincidir con AFIP.
+
+────────────────────────────────────────────────────────────
+PART I — Identification of Beneficial Owner
+────────────────────────────────────────────────────────────
+
+1  Name of individual who is the beneficial owner
+   Erick Vargas Ramos
+
+2  Country of citizenship
+   [Argentina / Venezuela — tu pasaporte real; NO es lo mismo que residencia fiscal]
+
+3  Permanent residence address (street, apt. or suite no., or rural route)
+   [Calle y número, piso/depto]
+   [Código postal]
+   San Sebastián de los Reyes, Madrid
+   Spain
+
+   (Dirección donde vivís hoy — puede ser España aunque tributés en Argentina)
+
+4  Mailing address (if different from above)
+   [Dejar vacío o repetir la misma si coincide]
+
+5  U.S. taxpayer identification number (SSN or ITIN), if required
+   [VACÍO — no tenés SSN/ITIN]
+
+6a Foreign tax identifying number (FTIN)
+   [TU CUIT — 11 dígitos, ej. 20-12345678-9]
+
+6b Check if FTIN not legally required
+   [NO marcar — tenés CUIT]
+
+7  Reference number(s)
+   [VACÍO]
+
+8  Date of birth (MM-DD-YYYY)
+   [TU FECHA — formato USA: mes-día-año, ej. 03-15-1988]
+
+────────────────────────────────────────────────────────────
+PART II — Claim of Tax Treaty Benefits
+────────────────────────────────────────────────────────────
+
+9  I certify that the beneficial owner is a resident of ___ within the meaning
+   of the income tax treaty between the United States and that country.
+
+   → Argentina
+
+10 Special rates and conditions (if applicable — see instructions):
+
+   Article and paragraph:
+   Article 7(1)
+
+   % rate of withholding:
+   0.00
+
+   Type of income:
+   Other  (o la opción más cercana a "services" / "personal services")
+
+   Explain the additional conditions…:
+   Income from personal/professional services performed entirely outside
+   the United States. The beneficial owner is a resident of Argentina for
+   tax purposes, has no permanent establishment in the United States, and
+   is not performing services within the United States.
+
+   (Copiar/pegar el párrafo de arriba en el campo de texto largo)
+
+────────────────────────────────────────────────────────────
+PART III — Certification
+────────────────────────────────────────────────────────────
+
+• Under penalties of perjury, I declare that I have examined the information
+  on this form and to the best of my knowledge and belief it is true, correct,
+  and complete.
+
+• Capacity in which acting: Individual (beneficial owner)
+
+• Date: [fecha de hoy — MM-DD-YYYY]
+
+• Signature: Erick Vargas Ramos
+  (firma digital o manuscrita según el portal)
+
+────────────────────────────────────────────────────────────
+CHECKLIST RÁPIDO
+────────────────────────────────────────────────────────────
+
+☐ Ciudadanía (campo 2) = pasaporte
+☐ Residencia fiscal (campo 9) = Argentina
+☐ CUIT (6a) = el mismo que usás en AFIP
+☐ NO marcar Spain en el tratado si tributás en Argentina
+☐ DOB en formato MM-DD-YYYY (no DD-MM-YYYY)
+
+────────────────────────────────────────────────────────────
+NOTAS
+────────────────────────────────────────────────────────────
+
+• Tratado aplicable: Argentina – Estados Unidos (no España).
+• Si la empresa usa Deel/Remote/Rippling, suelen aceptar este W-8BEN tal cual.
+• Impuestos en Argentina (monotributo / autónomo / relación de dependencia
+  en el exterior) son aparte — consultá contador AFIP si cobrás en USD.
+• Si más adelante pasás a residente fiscal español, hay que enviar W-8BEN nuevo
+  con Spain + NIE/NIF.

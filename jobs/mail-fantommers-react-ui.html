@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mail — Fantommers Senior React UI</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Calibri, Arial, sans-serif;
+      font-size: 11pt;
+      line-height: 1.5;
+      color: #1a1a2e;
+      background: #f1f5f9;
+    }
+
+    .mail-tool {
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1rem 2rem;
+    }
+
+    .mail-tool__header {
+      margin-bottom: 1rem;
+    }
+
+    .mail-tool__title {
+      margin: 0 0 0.25rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .mail-tool__meta {
+      margin: 0;
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+
+    .mail-tool__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .mail-tool__button {
+      border: none;
+      border-radius: 0.375rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #7c3aed;
+      color: #fff;
+    }
+
+    .mail-tool__button:hover {
+      background: #6d28d9;
+    }
+
+    .mail-tool__button--secondary {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .mail-tool__button--secondary:hover {
+      background: #cbd5e1;
+    }
+
+    .mail-tool__status {
+      min-height: 1.25rem;
+      margin: 0 0 0.5rem;
+      font-size: 0.8125rem;
+      color: #059669;
+      font-weight: 600;
+    }
+
+    .mail-tool__field-label {
+      display: block;
+      margin-bottom: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+    }
+
+    .mail-tool__textarea {
+      width: 100%;
+      min-height: 28rem;
+      padding: 1rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.55;
+      color: #0f172a;
+      background: #fff;
+      resize: vertical;
+    }
+
+    .mail-tool__textarea:focus {
+      outline: 2px solid #a78bfa;
+      outline-offset: 1px;
+    }
+
+    .mail-tool__hint {
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <main class="mail-tool">
+    <header class="mail-tool__header">
+      <h1 class="mail-tool__title">Fantommers — Senior React UI Developer</h1>
+      <p class="mail-tool__meta">Para: rrhh@fantommers.com · Verónica Noemí Menna</p>
+    </header>
+
+    <div class="mail-tool__actions">
+      <button type="button" class="mail-tool__button" id="copy-all">Copiar todo el correo</button>
+      <button type="button" class="mail-tool__button mail-tool__button--secondary" id="copy-body">Copiar solo cuerpo</button>
+    </div>
+
+    <p class="mail-tool__status" id="status" role="status" aria-live="polite"></p>
+
+    <label class="mail-tool__field-label" for="mail-content">Texto plano (sin formato de fondo)</label>
+    <textarea class="mail-tool__textarea" id="mail-content" readonly></textarea>
+
+    <p class="mail-tool__hint">El botón copia texto plano al portapapeles — listo para Gmail/Outlook.</p>
+  </main>
+
+  <script>
+    const subject = "Senior React UI Developer — Erick Vargas Ramos";
+
+    const body = `Hola Verónica,
+
+Vi tu publicación del puesto Senior React UI Developer y me interesa postularme.
+
+Soy Senior Frontend Engineer / Lead con más de 14 años en React, TypeScript y Next.js, trabajando en remoto con equipos internacionales. Actualmente lidero frontend en Krunchbox (productos de analítica enterprise con interfaces complejas, ag-Grid y design patterns reutilizables). Antes estuve en J.P. Morgan (dashboards financieros en producción), Spark Digital (Dow Jones, AMC+ — alto tráfico, SEO y accesibilidad) y Globant.
+
+Encajo con lo que buscan:
+- Componentes reutilizables, accesibles y performantes (WCAG, code review, TypeScript strict)
+- Traducción Figma → código con criterio visual y responsive
+- Design systems y documentación (Storybook en proyectos anteriores)
+- Next.js, testing (Jest, Vitest, Playwright, RTL), Git/PRs en equipos distribuidos
+
+Inglés fluido — reuniones, Slack, documentación y PRs en inglés a diario.
+
+Vivo en Madrid (España) y trabajo 100% remoto; entiendo que priorizan Rosario/Santa Fe, pero el rol remoto me encaja bien por zona horaria y experiencia con equipos LATAM/US/EU.
+
+Adjunto CV. Quedo disponible para una charla.
+
+Saludos,
+Erick Vargas Ramos
+erickorso@gmail.com
++34 614 769 119
+LinkedIn: https://linkedin.com/in/erick-vargas-ramos-1ab86b102
+GitHub: https://github.com/erickorso/adolfo`;
+
+    const fullMail = `Asunto: ${subject}
+
+${body}`;
+
+    const textarea = document.getElementById("mail-content");
+    const status = document.getElementById("status");
+
+    textarea.value = fullMail;
+
+    async function copyText(text, message) {
+      try {
+        await navigator.clipboard.writeText(text);
+        status.textContent = message;
+        setTimeout(() => {
+          status.textContent = "";
+        }, 2500);
+      } catch {
+        textarea.select();
+        document.execCommand("copy");
+        status.textContent = message + " (método alternativo)";
+      }
+    }
+
+    document.getElementById("copy-all").addEventListener("click", () => {
+      copyText(fullMail, "✓ Copiado: asunto + cuerpo");
+    });
+
+    document.getElementById("copy-body").addEventListener("click", () => {
+      copyText(body, "✓ Copiado: solo cuerpo");
+    });
+  </script>
+</body>
+</html>

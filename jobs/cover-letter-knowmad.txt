@@ -1,0 +1,23 @@
+Hola equipo knowmad mood,
+
+Me postulo al rol Frontend React Senior - Mentor (Líder de equipo), 100% remoto, porque encaja con mi perfil actual: liderazgo técnico hands-on en React/TypeScript y mentoring de equipos.
+
+Soy Frontend Lead en Krunchbox: lidero un equipo de 3 ingenieros, defino arquitectura frontend (Next.js/React, TypeScript estricto), code review, testing (Jest/Playwright) y entrega continua en productos de analítica retail a escala. Antes pasé dos años en J.P. Morgan construyendo dashboards financieros en producción con React y Next.js.
+
+Encaje con lo que pedís:
+- React + Redux / ecosistema moderno (y experiencia transferible a vuestro stack).
+- Calidad y testing: unitarios + E2E (Playwright/Cypress).
+- Liderazgo técnico: buenas prácticas SDLC, PRs, documentación y subir el listón del equipo.
+- Experiencia en UIs complejas y arquitecturas escalables; familiaridad con patrones shell/microfrontends y APIs REST.
+- Inglés fluido y español nativo; disponible 100% remoto desde Madrid (San Sebastián de los Reyes).
+
+Me motiva el reto de retail a escala (Inditex) y aportar como mentor senior: código en producción, reviews sólidas y modernización del stack junto al arquitecto.
+
+Quedo atento para avanzar en el proceso.
+
+Un saludo,
+Erick Vargas Ramos
+erickorso@gmail.com
++34 614 769 119
+LinkedIn: https://linkedin.com/in/erick-vargas-ramos-1ab86b102
+GitHub: https://github.com/erickorso/adolfo

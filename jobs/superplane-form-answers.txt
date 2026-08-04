@@ -1,0 +1,39 @@
+# SuperPlane — Product Engineer (Ashby form answers)
+
+Apply: https://jobs.ashbyhq.com/superplane/ee9d219f-f5e9-4893-8f1a-7c25b5d20b3e
+
+---
+
+## What's the most impactful thing you've built and shipped in the last two years?
+
+Pluvia at Krunchbox — a B2B retail analytics product where buyers explore sales and inventory across stores, categories, and time. Early versions froze on filter changes with 100k+ rows, so users fled to Excel.
+
+I owned the frontend architecture end to end: moved the grid to ag-Grid server-side row model, defined a stable filter/sort/pagination contract with backend, added short-lived cache keys for common queries, and tightened UX (debounced filters, fixed KPI columns). Typical filter ops dropped under ~300ms and retailers could explore in-product again.
+
+In parallel I shipped a Next.js application shell for an AI assistant with streaming state that survives navigation across 30+ routes — so AI UX didn't remount and lose in-flight chats. That mix of product taste, performance, and AI-in-the-loop shipping is how I work day to day (also on Adolfo: https://github.com/erickorso/adolfo · https://adolfo-nine.vercel.app).
+
+---
+
+## Desired compensation
+
+€60,000 – €70,000 EUR / year (remote from Madrid, Spain)
+
+---
+
+## Your LinkedIn profile
+
+https://linkedin.com/in/erick-vargas-ramos-1ab86b102
+
+---
+
+## Your GitHub username
+
+erickorso
+
+(Not the full repo URL — Ashby asks for the username.)
+
+---
+
+## Link to your pull request in superplanehq/superplane
+
+https://github.com/superplanehq/superplane/pull/6529

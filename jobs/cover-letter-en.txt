@@ -1,18 +1,15 @@
+Dear Hiring Team,
 
+I’m applying for this role because it matches how I work: own the web foundation end-to-end, ship carefully and fast, and leave systems other people can safely build on—not just screens.
 
-Hi,
+I’m a Senior Frontend engineer / lead with 14+ years shipping production web apps. As Frontend Lead at Krunchbox, I own architecture for Krunchbox 2.0 and Pluvia (React, TypeScript, data-heavy UIs at scale), including a centralized application shell for AI-assistant streaming state, shared patterns across many views, Jest/Playwright coverage, and leadership of a 3-person remote team. Before that I built production financial dashboards at J.P. Morgan, and high-traffic frontends at Spark Digital (Dow Jones, AMC+).
 
-I'm applying for this role because it aligns with my focus on React, TypeScript, and scalable frontend architecture in remote, product-driven teams.
+What excites me about this opportunity is building reliable product UI and shared infrastructure—components, CI/CD, and quality guardrails—while using AI agents daily with judgment on security, reliability, and maintainability. I’ve practiced that on Adolfo (https://github.com/erickorso/adolfo): React/TypeScript, GitHub Actions, provider abstractions, and clear specs so AI drafts while I own correctness. I’m comfortable owning features end-to-end, collaborating with product and design, and raising the bar through code review and mentoring.
 
-I bring 14+ years of software development experience, with a strong focus on front-end engineering and technical leadership. Most recently I'm Frontend Lead at Krunchbox, architecting Krunchbox 2.0 and Pluvia (enterprise retail analytics with advanced ag-Grid). Before that I spent two years at J.P. Morgan building complex financial dashboards with React, Next.js, and TypeScript.
-
-I'm comfortable owning features end-to-end, reviewing code, mentoring developers, and collaborating asynchronously across time zones. I'm based in Spain, fully remote, and fluent in English.
-
-I'd welcome the chance to discuss how I can contribute to your team.
+I’m based in Spain, fully remote, fluent in English, and I thrive in async-first cultures. I’d welcome the chance to discuss how I can contribute to your team.
 
 Best regards,
 Erick Vargas Ramos
-erickorso@gmail.com
-+34 614 769 119
-LinkedIn: https://linkedin.com/in/erick-vargas-ramos-1ab86b102
+erickorso@gmail.com · +34 614 769 119
 GitHub: https://github.com/erickorso/adolfo
+LinkedIn: https://linkedin.com/in/erick-vargas-ramos-1ab86b102

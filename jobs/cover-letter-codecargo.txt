@@ -1,0 +1,28 @@
+Subject: Frontend Software Engineer
+
+To: careers@codecargo.com
+
+---
+
+Hi CodeCargo team,
+
+I’m applying for the Frontend Software Engineer role (Remote / Hybrid). I build production-grade Next.js/React interfaces—not UI assembly—and I care about speed, accessibility, and how the product feels as it scales.
+
+I’m a Senior Frontend engineer / Frontend Lead with 14+ years shipping web apps. At Krunchbox I own architecture for data-heavy products (React, TypeScript, Next.js), including a centralized application shell for AI-assistant streaming state, shared patterns across many views, Jest/Playwright coverage, and leadership of a 3-person remote team. Before that I built regulated financial dashboards at J.P. Morgan and high-traffic frontends at Spark Digital (Dow Jones, AMC+).
+
+What I’d bring to CodeCargo:
+- Next.js in production: App Router, server/client boundaries, routing, and disciplined data fetching
+- Performance and UX: rendering cost, caching, responsive UI, and accessibility as defaults
+- API and real-time integration: streaming/assistant UIs and backend collaboration without treating the frontend as a thin shell
+- Design-system thinking: reusable components, consistency, and review culture that raises the bar
+- Startup pace with senior judgment—daily AI-assisted work with ownership of correctness (I practice this on Adolfo: https://github.com/erickorso/adolfo · live: https://adolfo-nine.vercel.app)
+
+I’m based in Madrid (Spain), available remote/hybrid, fluent in English, and comfortable async with product, design, and backend. Resume attached.
+
+Happy to walk through a recent frontend architecture or performance win on a call.
+
+Best regards,
+Erick Vargas Ramos
+erickorso@gmail.com · +34 614 769 119
+GitHub: https://github.com/erickorso/adolfo
+LinkedIn: https://linkedin.com/in/erick-vargas-ramos-1ab86b102

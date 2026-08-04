@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ejemplos — Entrevista React (Preguntas seleccionadas)</title>
+  <style>
+    @page { size: A4; margin: 8mm 10mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #0f172a;
+      background: #fff;
+      font-size: 7.8pt;
+      line-height: 1.32;
+    }
+    .page { max-width: 980px; margin: 0 auto; }
+    .header {
+      border-bottom: 3px solid #2563eb;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+    .title { margin: 0; font-size: 16pt; font-weight: 800; }
+    .subtitle { margin: 3px 0 0; color: #475569; font-size: 8pt; }
+    .section {
+      margin: 8px 0 5px;
+      padding: 4px 8px;
+      background: #1e40af;
+      color: #fff;
+      border-radius: 6px;
+      font-size: 8.5pt;
+      font-weight: 700;
+      break-after: avoid;
+    }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .card {
+      border: 1px solid #dbe3ee;
+      border-radius: 7px;
+      padding: 6px 8px;
+      break-inside: avoid;
+      background: #fcfdff;
+    }
+    .card .n {
+      display: inline-block;
+      font-weight: 800;
+      color: #2563eb;
+      font-size: 8pt;
+      margin-right: 4px;
+    }
+    .card h3 {
+      margin: 0 0 4px;
+      font-size: 8pt;
+      color: #0f172a;
+    }
+    .card .lbl {
+      margin: 3px 0 1px;
+      font-size: 7pt;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    pre {
+      margin: 2px 0 4px;
+      padding: 5px 7px;
+      background: #1e293b;
+      color: #e2e8f0;
+      border-radius: 5px;
+      font-size: 6.6pt;
+      line-height: 1.28;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .full { grid-column: 1 / -1; }
+    .footer { margin-top: 8px; font-size: 7pt; color: #64748b; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <h1 class="title">Ejemplos de código — Entrevista React</h1>
+      <p class="subtitle">Preguntas 9, 12, 18, 22–30, 39, 40, 44–45, 49, 52, 55, 61–64, 67–69, 73–78, 82, 84, 97</p>
+    </header>
+
+    <div class="section">React base</div>
+    <div class="grid">
+      <section class="card">
+        <h3><span class="n">9.</span> Controlled vs Uncontrolled</h3>
+        <p class="lbl">Ej. 1 — Controlado</p>
+        <pre>function Search() {
+  const [q, setQ] = useState('')
+  return (
+    &lt;input
+      value={q}
+      onChange={e =&gt; setQ(e.target.value)}
+      aria-label="Buscar"
+    /&gt;
+  )
+}</pre>
+        <p class="lbl">Ej. 2 — No controlado + ref</p>
+        <pre>function ProfileForm() {
+  const nameRef = useRef&lt;HTMLInputElement&gt;(null)
+  const submit = () =&gt; {
+    const name = nameRef.current?.value ?? ''
+    saveProfile({ name })
+  }
+  return &lt;input ref={nameRef} defaultValue="" /&gt;
+}</pre>
+        <p class="lbl">Ej. 3 — React Hook Form (híbrido)</p>
+        <pre>const { register, handleSubmit } = useForm&lt;Form&gt;()
+return (
+  &lt;form onSubmit={handleSubmit(onSubmit)}&gt;
+    &lt;input {...register('email')} /&gt;
+  &lt;/form&gt;
+)</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">12.</span> Strict Mode (dev)</h3>
+        <p class="lbl">Ej. 1 — Efecto no idempotente (bug visible)</p>
+        <pre>// En dev Strict Mode monta 2 veces → doble fetch
+useEffect(() =&gt; {
+  fetch('/api/stats').then(setStats) // ❌ sin cleanup
+}, [])
+
+// ✅ Fix: AbortController o flag
+useEffect(() =&gt; {
+  const ctrl = new AbortController()
+  fetch('/api/stats', { signal: ctrl.signal })
+    .then(r =&gt; r.json()).then(setStats)
+  return () =&gt; ctrl.abort()
+}, [])</pre>
+        <p class="lbl">Ej. 2 — layout.tsx</p>
+        <pre>// app/layout.tsx
+&lt;StrictMode&gt;
+  {children}
+&lt;/StrictMode&gt;
+// Solo dev; prod no duplica</pre>
+      </section>
+    </div>
+
+    <div class="section">Hooks (18, 22–30)</div>
+    <div class="grid">
+      <section class="card">
+        <h3><span class="n">18.</span> useEffect vs useLayoutEffect</h3>
+        <p class="lbl">Ej. 1 — useEffect (analytics, no bloquea paint)</p>
+        <pre>useEffect(() =&gt; {
+  trackPageView(pathname)
+}, [pathname])</pre>
+        <p class="lbl">Ej. 2 — useLayoutEffect (medir DOM, sin flicker)</p>
+        <pre>const ref = useRef&lt;HTMLDivElement&gt;(null)
+const [h, setH] = useState(0)
+
+useLayoutEffect(() =&gt; {
+  if (ref.current) setH(ref.current.offsetHeight)
+}, [items])
+
+return &lt;div ref={ref} style={{ height: h }}&gt;...&lt;/div&gt;</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">22.</span> useMemo</h3>
+        <p class="lbl">Ej. 1 — Cálculo caro</p>
+        <pre>const visible = useMemo(
+  () =&gt; rows.filter(r =&gt; r.active &amp;&amp; r.score &gt; min),
+  [rows, min],
+)</pre>
+        <p class="lbl">Ej. 2 — Referencia estable (columnDefs)</p>
+        <pre>const columnDefs = useMemo(
+  () =&gt; buildColumns(locale),
+  [locale],
+)</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">23.</span> useCallback</h3>
+        <p class="lbl">Ej. 1 — Hijo memoizado</p>
+        <pre>const onSelect = useCallback((id: string) =&gt; {
+  setSelected(id)
+}, [])
+
+return &lt;MemoRow item={row} onSelect={onSelect} /&gt;</pre>
+        <p class="lbl">Ej. 2 — Dep de useEffect</p>
+        <pre>const load = useCallback(async () =&gt; {
+  const data = await fetchPolicies(filters)
+  setPolicies(data)
+}, [filters])
+
+useEffect(() =&gt; { load() }, [load])</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">24.</span> useReducer</h3>
+        <p class="lbl">Ej. 1 — Wizard multi-step</p>
+        <pre>type State = { step: number; data: FormData }
+type Action =
+  | { type: 'NEXT' }
+  | { type: 'SET_FIELD'; field: string; value: string }
+
+function reducer(s: State, a: Action): State {
+  switch (a.type) {
+    case 'NEXT': return { ...s, step: s.step + 1 }
+    case 'SET_FIELD':
+      return { ...s, data: { ...s.data, [a.field]: a.value } }
+    default: return s
+  }
+}
+
+const [state, dispatch] = useReducer(reducer, { step: 0, data: {} })</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">25.</span> Custom hook</h3>
+        <p class="lbl">Ej. 1 — useDebounce</p>
+        <pre>function useDebounce&lt;T&gt;(value: T, ms = 300) {
+  const [debounced, setDebounced] = useState(value)
+  useEffect(() =&gt; {
+    const t = setTimeout(() =&gt; setDebounced(value), ms)
+    return () =&gt; clearTimeout(t)
+  }, [value, ms])
+  return debounced
+}
+
+// const q = useDebounce(search, 300)</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">26.</span> useContext (split)</h3>
+        <p class="lbl">Ej. 1 — Contexts separados</p>
+        <pre>const ThemeCtx = createContext('light')
+const UserCtx = createContext&lt;User | null&gt;(null)
+
+// ❌ un solo AppContext con theme+user+cart
+// ✅ consumidor de tema no re-render por cambio de cart</pre>
+        <p class="lbl">Ej. 2 — Valor memoizado</p>
+        <pre>const value = useMemo(
+  () =&gt; ({ user, signOut }),
+  [user, signOut],
+)
+return &lt;UserCtx.Provider value={value}&gt;{children}&lt;/UserCtx.Provider&gt;</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">27.</span> useId</h3>
+        <pre>function Field({ label }: { label: string }) {
+  const id = useId()
+  return (
+    &lt;&gt;
+      &lt;label htmlFor={id}&gt;{label}&lt;/label&gt;
+      &lt;input id={id} aria-describedby={`${id}-hint`} /&gt;
+      &lt;span id={`${id}-hint`}&gt;Opcional&lt;/span&gt;
+    &lt;/&gt;
+  )
+}</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">28.</span> useTransition / useDeferredValue</h3>
+        <p class="lbl">Ej. 1 — useTransition</p>
+        <pre>const [pending, startTransition] = useTransition()
+const [filter, setFilter] = useState('')
+
+const onChange = (v: string) =&gt; {
+  setFilter(v) // input instantáneo
+  startTransition(() =&gt; setHeavyFilter(v)) // lista diferida
+}</pre>
+        <p class="lbl">Ej. 2 — useDeferredValue</p>
+        <pre>const [text, setText] = useState('')
+const deferred = useDeferredValue(text)
+const list = useMemo(() =&gt; filterHuge(text), [deferred])</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">29.</span> Stale closure</h3>
+        <p class="lbl">Ej. 1 — Bug</p>
+        <pre>useEffect(() =&gt; {
+  const id = setInterval(() =&gt; {
+    setCount(count + 1) // siempre count inicial
+  }, 1000)
+  return () =&gt; clearInterval(id)
+}, []) // ❌ deps vacías</pre>
+        <p class="lbl">Ej. 2 — Fix funcional</p>
+        <pre>setInterval(() =&gt; {
+  setCount(c =&gt; c + 1) // ✅ siempre actual
+}, 1000)</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">30.</span> React Compiler</h3>
+        <p class="lbl">Antes (manual)</p>
+        <pre>const Child = memo(function Child({ onClick }: Props) {
+  return &lt;button onClick={onClick}&gt;OK&lt;/button&gt;
+})
+const onClick = useCallback(() =&gt; save(), [save])</pre>
+        <p class="lbl">Con Compiler (concepto)</p>
+        <pre>// El compilador memoiza automáticamente
+// si las deps son estables — menos boilerplate
+function Child({ onClick }: Props) {
+  return &lt;button onClick={onClick}&gt;OK&lt;/button&gt;
+}</pre>
+      </section>
+    </div>
+
+    <div class="section">Patrones (39–40)</div>
+    <div class="grid">
+      <section class="card">
+        <h3><span class="n">39.</span> Anti-patterns</h3>
+        <p class="lbl">❌ Derivar estado en useEffect</p>
+        <pre>const [fullName, setFullName] = useState('')
+useEffect(() =&gt; {
+  setFullName(`${first} ${last}`) // innecesario
+}, [first, last])
+
+// ✅
+const fullName = `${first} ${last}`</pre>
+        <p class="lbl">❌ Mutar state</p>
+        <pre>items.push(newItem)      // ❌
+setItems([...items, newItem]) // ✅</pre>
+        <p class="lbl">❌ Index como key</p>
+        <pre>{list.map((x, i) =&gt; &lt;Row key={i} /&gt;)}     // ❌
+{list.map(x =&gt; &lt;Row key={x.id} /&gt;)} // ✅</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">40.</span> Suspense</h3>
+        <p class="lbl">Ej. 1 — lazy + Suspense</p>
+        <pre>const Chart = lazy(() =&gt; import('./Chart'))
+
+&lt;Suspense fallback={&lt;ChartSkeleton /&gt;}&gt;
+  &lt;Chart data={data} /&gt;
+&lt;/Suspense&gt;</pre>
+        <p class="lbl">Ej. 2 — Next loading.tsx</p>
+        <pre>// app/dashboard/loading.tsx
+export default function Loading() {
+  return &lt;DashboardSkeleton /&gt;
+}
+// Suspense boundary automático por segmento</pre>
+        <p class="lbl">Ej. 3 — use() con promise (RSC/client)</p>
+        <pre>function Comments({ promise }: { promise: Promise&lt;Comment[]&gt; }) {
+  const comments = use(promise)
+  return comments.map(c =&gt; &lt;li key={c.id}&gt;{c.text}&lt;/li&gt;)
+}</pre>
+      </section>
+    </div>
+
+    <div class="section">Next.js (44–45, 49, 52, 55)</div>
+    <div class="grid">
+      <section class="card">
+        <h3><span class="n">44.</span> Fetch en Server Components</h3>
+        <p class="lbl">Ej. 1 — Cache por defecto (SSG/ISR)</p>
+        <pre>// app/policies/page.tsx — Server Component
+export default async function PoliciesPage() {
+  const res = await fetch('https://api/policies', {
+    next: { revalidate: 60 }, // ISR 60s
+  })
+  const policies = await res.json()
+  return &lt;PolicyList items={policies} /&gt;
+}</pre>
+        <p class="lbl">Ej. 2 — Dinámico sin cache</p>
+        <pre>const res = await fetch(url, { cache: 'no-store' })
+// o: export const dynamic = 'force-dynamic'</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">45.</span> Route Handlers</h3>
+        <p class="lbl">Ej. 1 — GET con Zod</p>
+        <pre>// app/api/policies/route.ts
+import { NextResponse } from 'next/server'
+import { parseQuery } from '@/schemas/policy'
+
+export async function GET(req: Request) {
+  const url = new URL(req.url)
+  const parsed = parseQuery(Object.fromEntries(url.searchParams))
+  if (!parsed.success)
+    return NextResponse.json({ error: parsed.error }, { status: 400 })
+  const data = await policyService.list(parsed.data)
+  return NextResponse.json(data)
+}</pre>
+        <p class="lbl">Ej. 2 — POST</p>
+        <pre>export async function POST(req: Request) {
+  const body = await req.json()
+  const created = await policyService.create(body)
+  return NextResponse.json(created, { status: 201 })
+}</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">49.</span> Server Actions</h3>
+        <p class="lbl">Ej. 1 — Action + useActionState</p>
+        <pre>// actions.ts
+'use server'
+export async function updatePolicy(_: State, fd: FormData) {
+  const parsed = schema.safeParse({ id: fd.get('id') })
+  if (!parsed.success) return { error: 'Invalid' }
+  await db.policy.update(parsed.data)
+  revalidatePath('/policies')
+  return { ok: true }
+}
+
+// form.tsx — 'use client'
+const [state, action, pending] = useActionState(updatePolicy, {})</pre>
+        <p class="lbl">Ej. 2 — Invocar desde botón</p>
+        <pre>&lt;form action={deletePolicy}&gt;
+  &lt;button type="submit"&gt;Delete&lt;/button&gt;
+&lt;/form&gt;</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">52.</span> Parallel & Intercepting Routes</h3>
+        <p class="lbl">Estructura — modal con URL</p>
+        <pre>app/
+  layout.tsx          // {children} {modal}
+  @modal/
+    default.tsx       // null
+    (.)photo/[id]/
+      page.tsx        // intercepta /photo/[id]
+  photo/[id]/page.tsx // página full al refresh directo</pre>
+        <p class="lbl">layout.tsx</p>
+        <pre>export default function Layout({
+  children, modal,
+}: { children: ReactNode; modal: ReactNode }) {
+  return (
+    &lt;&gt;
+      {children}
+      {modal}
+    &lt;/&gt;
+  )
+}</pre>
+      </section>
+
+      <section class="card full">
+        <h3><span class="n">55.</span> Caching Next 15</h3>
+        <p class="lbl">Ej. 1 — Fetch + tags</p>
+        <pre>await fetch(url, { next: { tags: ['policies'] } })
+
+// Tras mutación:
+import { revalidateTag } from 'next/cache'
+revalidateTag('policies')</pre>
+        <p class="lbl">Ej. 2 — revalidatePath</p>
+        <pre>revalidatePath('/dashboard')</pre>
+        <p class="lbl">Ej. 3 — Router Cache (cliente)</p>
+        <pre>// Navegación back/forward usa cache cliente ~30s
+// Forzar fresh: router.refresh()</pre>
+      </section>
+    </div>
+
+    <div class="section">Estado global (61–64)</div>
+    <div class="grid">
+      <section class="card">
+        <h3><span class="n">61.</span> Selectores memoizados (reselect)</h3>
+        <pre>const selectActivePolicies = createSelector(
+  [(s: RootState) =&gt; s.policies.byId,
+   (s: RootState) =&gt; s.policies.allIds],
+  (byId, ids) =&gt; ids.map(id =&gt; byId[id]).filter(p =&gt; p.active),
+)
+
+// useSelector(selectActivePolicies)
+// Solo recalcula si byId o ids cambian</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">62.</span> Redux vs Context</h3>
+        <p class="lbl">Context — tema (poco cambio)</p>
+        <pre>const theme = useContext(ThemeContext)</pre>
+        <p class="lbl">Redux — updates frecuentes + devtools</p>
+        <pre>const items = useSelector(s =&gt; s.cart.items)
+dispatch(cartSlice.actions.addItem(product))</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">63.</span> Server vs Client state</h3>
+        <p class="lbl">Server — React Query</p>
+        <pre>const { data } = useQuery({
+  queryKey: ['policies', id],
+  queryFn: () =&gt; fetchPolicy(id),
+})</pre>
+        <p class="lbl">Client — UI local</p>
+        <pre>const [modalOpen, setModalOpen] = useState(false)
+const [step, setStep] = useState(1)</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">64.</span> Zustand / Jotai</h3>
+        <p class="lbl">Zustand — store simple</p>
+        <pre>const useUIStore = create&lt;{ sidebar: boolean;
+  toggle: () =&gt; void }&gt;(set =&gt; ({
+  sidebar: false,
+  toggle: () =&gt; set(s =&gt; ({ sidebar: !s.sidebar })),
+}))
+const open = useUIStore(s =&gt; s.sidebar)</pre>
+        <p class="lbl">Jotai — átomo</p>
+        <pre>const countAtom = atom(0)
+const [count, setCount] = useAtom(countAtom)</pre>
+      </section>
+    </div>
+
+    <div class="section">Performance (67–69, 73–78)</div>
+    <div class="grid">
+      <section class="card">
+        <h3><span class="n">67.</span> React.memo</h3>
+        <pre>const Row = memo(function Row({ item, onSelect }: Props) {
+  return (
+    &lt;tr onClick={() =&gt; onSelect(item.id)}&gt;
+      &lt;td&gt;{item.name}&lt;/td&gt;
+    &lt;/tr&gt;
+  )
+}, (prev, next) =&gt; prev.item.id === next.item.id)</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">68.</span> Virtualización</h3>
+        <pre>import { useVirtualizer } from '@tanstack/react-virtual'
+
+const parentRef = useRef&lt;HTMLDivElement&gt;(null)
+const rowVirtualizer = useVirtualizer({
+  count: rows.length,
+  getScrollElement: () =&gt; parentRef.current,
+  estimateSize: () =&gt; 36,
+})
+
+// Solo renderiza ~20 filas visibles de 100k</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">69.</span> Code splitting</h3>
+        <p class="lbl">React.lazy</p>
+        <pre>const Admin = lazy(() =&gt; import('./AdminPanel'))</pre>
+        <p class="lbl">Next dynamic</p>
+        <pre>const Map = dynamic(() =&gt; import('./Map'), {
+  ssr: false,
+  loading: () =&gt; &lt;MapSkeleton /&gt;,
+})</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">73.</span> Debounce vs Throttle</h3>
+        <p class="lbl">Debounce — búsqueda</p>
+        <pre>const debouncedQ = useDebounce(query, 300)
+useEffect(() =&gt; { searchApi(debouncedQ) }, [debouncedQ])</pre>
+        <p class="lbl">Throttle — scroll</p>
+        <pre>useEffect(() =&gt; {
+  const onScroll = throttle(() =&gt; setY(window.scrollY), 100)
+  window.addEventListener('scroll', onScroll)
+  return () =&gt; window.removeEventListener('scroll', onScroll)
+}, [])</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">74.</span> Bundle analysis</h3>
+        <pre>// next.config.ts
+import bundleAnalyzer from '@next/bundle-analyzer'
+const withAnalyzer = bundleAnalyzer({ enabled: true })
+export default withAnalyzer({ /* config */ })
+
+// ANALYZE=true npm run build</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">75.</span> Tree shaking</h3>
+        <p class="lbl">✅ Named import ESM</p>
+        <pre>import { debounce } from 'lodash-es'</pre>
+        <p class="lbl">❌ Import default / barrel</p>
+        <pre>import _ from 'lodash'        // trae todo
+import { x } from '@/utils'   // barrel enorme</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">76.</span> Prefetch / preload</h3>
+        <p class="lbl">Next Link</p>
+        <pre>&lt;Link href="/policies" prefetch&gt;Policies&lt;/Link&gt;</pre>
+        <p class="lbl">React Query hover</p>
+        <pre>onMouseEnter={() =&gt;
+  queryClient.prefetchQuery({
+    queryKey: ['policy', id],
+    queryFn: () =&gt; fetchPolicy(id),
+  })
+}</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">77.</span> Optimistic updates</h3>
+        <p class="lbl">React Query</p>
+        <pre>useMutation({
+  mutationFn: toggleLike,
+  onMutate: async (id) =&gt; {
+    await queryClient.cancelQueries({ queryKey: ['posts'] })
+    const prev = queryClient.getQueryData(['posts'])
+    queryClient.setQueryData(['posts'], old =&gt;
+      old.map(p =&gt; p.id === id ? { ...p, liked: true } : p))
+    return { prev }
+  },
+  onError: (_e, _id, ctx) =&gt;
+    queryClient.setQueryData(['posts'], ctx.prev),
+})</pre>
+        <p class="lbl">useOptimistic (React 19)</p>
+        <pre>const [optimistic, add] = useOptimistic(items,
+  (state, newItem) =&gt; [...state, newItem])</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">78.</span> Memoización excesiva (anti)</h3>
+        <pre>// ❌ memo en cada átomo sin profiler
+const Label = memo(({ text }) =&gt; &lt;span&gt;{text}&lt;/span&gt;)
+
+// ✅ solo hot path medido
+const GridCell = memo(HeavyCell) // 10k celdas</pre>
+      </section>
+    </div>
+
+    <div class="section">TypeScript (82, 84) · Errores (97)</div>
+    <div class="grid">
+      <section class="card">
+        <h3><span class="n">82.</span> Generics en componentes</h3>
+        <pre>type ListProps&lt;T&gt; = {
+  items: T[]
+  keyFn: (item: T) =&gt; string
+  render: (item: T) =&gt; ReactNode
+}
+
+function List&lt;T&gt;({ items, keyFn, render }: ListProps&lt;T&gt;) {
+  return (
+    &lt;ul&gt;
+      {items.map(item =&gt; (
+        &lt;li key={keyFn(item)}&gt;{render(item)}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  )
+}
+
+// &lt;List items={policies} keyFn={p =&gt; p.id} render={p =&gt; p.name} /&gt;</pre>
+      </section>
+
+      <section class="card">
+        <h3><span class="n">84.</span> Utility types</h3>
+        <pre>type Policy = { id: string; name: string; premium: number }
+
+type PolicyCard = Pick&lt;Policy, 'id' | 'name'&gt;
+type PolicyDraft = Partial&lt;Policy&gt;
+type PolicyUpdate = Omit&lt;Policy, 'id'&gt;
+type ById = Record&lt;string, Policy&gt;
+
+const routes = {
+  home: '/',
+  policies: '/policies',
+} as const satisfies Record&lt;string, `/${string}`&gt;</pre>
+      </section>
+
+      <section class="card full">
+        <h3><span class="n">97.</span> Manejo de errores en producción</h3>
+        <p class="lbl">Ej. 1 — error.tsx (segmento Next)</p>
+        <pre>'use client'
+export default function Error({ error, reset }: {
+  error: Error &amp; { digest?: string }
+  reset: () =&gt; void
+}) {
+  useEffect(() =&gt; { logToSentry(error) }, [error])
+  return (
+    &lt;main&gt;
+      &lt;h1&gt;Algo falló&lt;/h1&gt;
+      &lt;button onClick={reset}&gt;Reintentar&lt;/button&gt;
+    &lt;/main&gt;
+  )
+}</pre>
+        <p class="lbl">Ej. 2 — Boundary por widget + retry</p>
+        <pre>&lt;ErrorBoundary fallback={&lt;ChartError onRetry={refetch} /&gt;}&gt;
+  &lt;SalesChart /&gt;
+&lt;/ErrorBoundary&gt;</pre>
+        <p class="lbl">Ej. 3 — API layer con backoff</p>
+        <pre>async function fetchWithRetry(url: string, retries = 3) {
+  for (let i = 0; i &lt; retries; i++) {
+    try {
+      const res = await fetch(url)
+      if (res.ok) return res.json()
+      if (res.status &lt; 500) throw new ApiError(res.status)
+    } catch (e) {
+      if (i === retries - 1) throw e
+      await sleep(2 ** i * 200) // backoff solo 5xx/red
+    }
+  }
+}</pre>
+      </section>
+    </div>
+
+    <p class="footer">React Interview Examples · Erick Vargas · jobs/react-interview-examples.pdf</p>
+  </div>
+</body>
+</html>

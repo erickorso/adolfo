@@ -61,7 +61,13 @@ curl -s http://localhost:4002/api/v1/auth/me -H "Authorization: Bearer <token>"
 
 ## Docker / Railway
 
-Root Directory: `services/mobile-api`. Set `DATABASE_URL` + `MOBILE_JWT_SECRET`.
+Dashboard: [railway.app/new](https://railway.app/new) · [dashboard](https://railway.app/dashboard)
+
+1. New Project → GitHub `erickorso/adolfo`
+2. **Root Directory:** `services/mobile-api` (usa `Dockerfile` + `railway.toml`)
+3. Variables: `DATABASE_URL`, `MOBILE_JWT_SECRET`, `ADOLFO_BASE_URL=https://adolfo-nine.vercel.app`, `JOBS_INGEST_SECRET`
+4. Networking → **Generate Domain** → `https://<servicio>.up.railway.app`
+5. Health: `GET /health` debe devolver `ingest_secret_configured: true`
 
 ```bash
 docker build -t adolfo-mobile-api .

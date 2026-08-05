@@ -1,0 +1,21 @@
+Hi Landbot team,
+
+I'm applying for the Senior Frontend Engineer - AI SaaS role because it matches how I work: React/TypeScript product engineering, strong testing culture, and shipping frequently with clear ownership.
+
+I'm Frontend Lead at Krunchbox, where I own architecture for data-heavy React platforms (Krunchbox 2.0 / Pluvia) with strict TypeScript, reusable UI patterns, and automated testing (unit through E2E). Before that I spent two years at J.P. Morgan building production financial dashboards with React and Next.js—performance, accessibility, and release discipline under regulated constraints.
+
+What I bring to Landbot specifically:
+- Go-to frontend quality mindset: Vitest/Jest + Playwright, testable components, and pragmatic coverage where it protects users.
+- Experience scaling complex UIs and mentoring engineers while still writing production code daily.
+- Comfort with Redux/modern state patterns and performance work on large client-side apps.
+- Genuine interest in conversational/AI product UX—connecting interface decisions to real user outcomes, not vanity metrics.
+- Fluent English and Spanish, eligible to work in Spain (Madrid area), open to your hybrid/remote model.
+
+I'd love to help raise the frontend bar at Landbot and ship experiences that make chatbot building feel fast, reliable, and delightful.
+
+Best regards,
+Erick Vargas Ramos
+erickorso@gmail.com
++34 614 769 119
+LinkedIn: https://linkedin.com/in/erick-vargas-ramos-1ab86b102
+GitHub: https://github.com/erickorso/adolfo

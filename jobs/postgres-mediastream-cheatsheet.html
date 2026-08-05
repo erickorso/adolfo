@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mediastream Cheat Sheet — SQL, Postgres y Pipeline</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 10mm 12mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #0f172a;
+      background: #fff;
+      font-size: 9.2pt;
+      line-height: 1.38;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .header {
+      border-bottom: 3px solid #2563eb;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 20pt;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .subtitle {
+      margin: 4px 0 0;
+      color: #475569;
+      font-size: 9.2pt;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .card {
+      border: 1px solid #dbe3ee;
+      border-radius: 8px;
+      padding: 8px 10px;
+      break-inside: avoid;
+      background: #fcfdff;
+    }
+
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 10pt;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #1d4ed8;
+    }
+
+    .card h3 {
+      margin: 8px 0 4px;
+      font-size: 9pt;
+      color: #0f172a;
+    }
+
+    pre {
+      margin: 5px 0 7px;
+      padding: 7px 8px;
+      border-radius: 6px;
+      background: #0f172a;
+      color: #e2e8f0;
+      overflow: hidden;
+      white-space: pre-wrap;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 7.9pt;
+      line-height: 1.33;
+    }
+
+    ul {
+      margin: 4px 0 0 16px;
+      padding: 0;
+    }
+
+    li {
+      margin: 2px 0;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 4px;
+    }
+
+    .pill {
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 7.8pt;
+      font-weight: 700;
+    }
+
+    .note {
+      margin-top: 6px;
+      padding: 6px 8px;
+      border-left: 3px solid #8b5cf6;
+      background: #f8f5ff;
+      color: #312e81;
+      font-size: 8.2pt;
+    }
+
+    .wide {
+      grid-column: 1 / -1;
+    }
+
+    .footer {
+      margin-top: 10px;
+      color: #64748b;
+      font-size: 7.8pt;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <h1 class="title">Mediastream Cheat Sheet</h1>
+      <p class="subtitle">
+        SQL + PostgreSQL + pipeline analytics. Condensado para entrevista tecnica: CRUD, joins,
+        agregaciones, time-series, indices, JSONB, Kafka y respuestas cortas.
+      </p>
+    </header>
+
+    <section class="grid">
+      <article class="card">
+        <h2>DDL + CRUD</h2>
+        <pre>CREATE TABLE usuarios (
+  id SERIAL PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
+  activo BOOLEAN DEFAULT true,
+  salario NUMERIC(10,2),
+  creado_en TIMESTAMP DEFAULT NOW()
+);
+
+ALTER TABLE usuarios ADD COLUMN edad INT;
+ALTER TABLE usuarios ALTER COLUMN nombre TYPE VARCHAR(200);
+ALTER TABLE usuarios DROP COLUMN activo;</pre>
+        <pre>INSERT INTO usuarios (nombre, email)
+VALUES ('Erick', 'erick@email.com')
+RETURNING id;
+
+SELECT nombre, salario
+FROM usuarios
+WHERE salario > 3000
+ORDER BY salario DESC
+LIMIT 10 OFFSET 0;
+
+UPDATE usuarios SET salario = salario * 1.1 WHERE id = 1;
+DELETE FROM usuarios WHERE id = 1;</pre>
+      </article>
+
+      <article class="card">
+        <h2>Filtros utiles</h2>
+        <pre>WHERE nombre LIKE 'Er%'
+WHERE nombre ILIKE 'er%'
+WHERE creado_en BETWEEN '2026-01-01' AND '2026-12-31'
+WHERE id IN (1,2,3,4)</pre>
+        <h3>Time-series / analytics</h3>
+        <pre>SELECT DATE_TRUNC('hour', created_at) AS hour,
+       COUNT(*) AS plays
+FROM events
+WHERE created_at >= NOW() - INTERVAL '24 hours'
+GROUP BY 1
+ORDER BY 1;</pre>
+        <div class="note">
+          Para dashboards: casi siempre filtrar por rango de fechas, agrupar por hora/dia y
+          devolver <code>{ rows, total, meta }</code>.
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>GROUP BY + HAVING</h2>
+        <pre>SELECT departamento,
+       COUNT(*) AS total,
+       ROUND(AVG(salario), 2) AS sueldo_medio
+FROM empleados
+GROUP BY departamento
+HAVING AVG(salario) > 2500;</pre>
+        <h3>Top content ultimos 7 dias</h3>
+        <pre>SELECT content_id,
+       COUNT(*) AS plays,
+       SUM(duration_sec) AS total_duration_sec
+FROM events
+WHERE event_type = 'play'
+  AND created_at >= NOW() - INTERVAL '7 days'
+GROUP BY content_id
+ORDER BY plays DESC, content_id ASC
+LIMIT 5;</pre>
+      </article>
+
+      <article class="card">
+        <h2>Joins</h2>
+        <pre>SELECT u.nombre, p.total
+FROM usuarios u
+INNER JOIN pedidos p ON u.id = p.usuario_id;</pre>
+        <pre>SELECT u.nombre, p.total
+FROM usuarios u
+LEFT JOIN pedidos p ON u.id = p.usuario_id;</pre>
+        <h3>Regla mental</h3>
+        <ul>
+          <li><strong>INNER</strong>: solo coincidencias.</li>
+          <li><strong>LEFT</strong>: mantener tabla izquierda aunque falten hijos.</li>
+          <li>En analytics: evitar N+1; preferir query agregada + indice correcto.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Postgres que suma puntos</h2>
+        <pre>INSERT INTO usuarios (id, nombre, email)
+VALUES (1, 'Erick Ramos', 'erick@email.com')
+ON CONFLICT (id)
+DO UPDATE SET nombre = EXCLUDED.nombre;</pre>
+        <pre>CREATE TABLE proyectos (
+  id SERIAL PRIMARY KEY,
+  datos JSONB
+);
+
+SELECT datos->>'nombre' FROM proyectos;
+SELECT * FROM proyectos
+WHERE datos->'tags' @> '["react"]';</pre>
+        <pre>SELECT DISTINCT ON (departamento)
+       departamento, nombre, salario
+FROM empleados
+ORDER BY departamento, salario DESC;</pre>
+      </article>
+
+      <article class="card">
+        <h2>Rendimiento</h2>
+        <pre>CREATE INDEX idx_usuarios_email ON usuarios(email);
+
+CREATE INDEX idx_events_created_content
+ON events(created_at, content_id);</pre>
+        <pre>EXPLAIN ANALYZE
+SELECT *
+FROM usuarios
+WHERE email = 'erick@email.com';</pre>
+        <ul>
+          <li>Indexar columnas de <code>WHERE</code>, <code>JOIN</code> y ordenacion frecuente.</li>
+          <li>Para metrics: comunes <code>(created_at, content_id)</code>, <code>(country_code, created_at)</code>.</li>
+          <li>Si el dashboard recalcula siempre lo mismo: materialized views / pre-aggregates.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Window functions</h2>
+        <pre>SELECT *
+FROM (
+  SELECT content_id,
+         country_code,
+         COUNT(*) AS plays,
+         ROW_NUMBER() OVER (
+           PARTITION BY country_code
+           ORDER BY COUNT(*) DESC
+         ) AS rn
+  FROM events
+  GROUP BY content_id, country_code
+) t
+WHERE rn <= 3;</pre>
+        <div class="pill-row">
+          <span class="pill">ROW_NUMBER</span>
+          <span class="pill">RANK</span>
+          <span class="pill">PARTITION BY</span>
+          <span class="pill">DATE_TRUNC</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Mongo vs Postgres</h2>
+        <ul>
+          <li><strong>Postgres</strong>: joins, agregaciones SQL, time-series, consistencia.</li>
+          <li><strong>MongoDB</strong>: documentos flexibles, metadata anidada, esquemas cambiantes.</li>
+          <li><strong>Tu frase</strong>: "SQL es mi dia a dia; Mongo lo usaria para eventos o read models flexibles."</li>
+        </ul>
+        <h3>Kafka / pipeline</h3>
+        <pre>[Player SDK] -> [Ingest API] -> [Kafka]
+-> [Consumer/Aggregator] -> [Postgres/Mongo]
+-> [API] -> [React dashboard]</pre>
+        <ul>
+          <li>Kafka desacopla ingestion de lectura y suaviza picos.</li>
+          <li>Consumer idempotente + at-least-once.</li>
+          <li>Si no operaste Kafka: mencionar colas/workers/webhooks como analogia real.</li>
+        </ul>
+      </article>
+
+      <article class="card wide">
+        <h2>Respuestas cortas de entrevista</h2>
+        <pre>1) Por que cola y no escribir directo a DB?
+Porque desacopla ingestion del consumo, absorbe picos, permite retries,
+reprocesamiento e independientes readers sin bloquear el API principal.
+
+2) Donde pre-agregarias?
+Por hora / content / country. El dashboard lee tablas agregadas y no eventos crudos.
+
+3) Que mostrar si el pipeline va 2 min atrasado?
+Ultimo timestamp procesado + badge "data delayed" para transparencia.
+
+4) Tu historia fuerte?
+Pluvia: 100k+ filas, ag-Grid SSRM, contrato API estable, filtros tipicos <300 ms.
+
+5) Tu gap honesto?
+No opere Kafka en prod, pero entiendo el patron y ya trabaje con APIs,
+workers, validacion, observabilidad y read models en Postgres.</pre>
+      </article>
+    </section>
+
+    <p class="footer">Erick Vargas Ramos · Prep Mediastream · SQL / Postgres / Analytics</p>
+  </main>
+</body>
+</html>

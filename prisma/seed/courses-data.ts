@@ -139,6 +139,20 @@ export const SEED_COURSES: SeedCourseSpec[] = [
   },
   {
     source: "local",
+    externalId: "architecture-practices",
+    title: "Buenas prácticas: SOLID, TDD, DDD, Hexagonal",
+    description:
+      "Módulo práctico para Product Engineers (TS/React): SOLID, TDD, DDD y arquitectura hexagonal con ejemplos FE, entregables y pitch de entrevista.\n\nMódulo: /learn/architecture-practices",
+    provider: "Adolfo",
+    url: "/learn/architecture-practices",
+    hours: 12,
+    modality: "online",
+    sector: "Arquitectura · TypeScript · React",
+    location: "Global · online",
+    targetAudience: "Frontend / Product Engineers (entrevistas y diseño)",
+  },
+  {
+    source: "local",
     externalId: "english-songs",
     title: "Aprender inglés con canciones",
     description:

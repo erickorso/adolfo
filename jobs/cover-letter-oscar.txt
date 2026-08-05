@@ -1,0 +1,21 @@
+Hi Oscar Mobility team,
+
+I'm applying for the Senior React Engineer role because the stack and the product problem fit how I work: React/Next.js/TypeScript platforms with strong UX, performance, and multi-market concerns.
+
+I'm Frontend Lead at Krunchbox, owning architecture for data-heavy React apps (Next.js App Router, TypeScript, Tailwind, testing with Jest/Playwright). Previously I spent two years at J.P. Morgan shipping production dashboards with React and Next.js—SEO/performance-minded delivery, accessible UI, and frequent releases.
+
+Why Oscar Mobility:
+- Clear product surface (booking + dealer tools) where frontend quality directly affects conversion and partner ops.
+- Next.js + TypeScript + Tailwind is my day-to-day stack; happy to ramp Storyblok/headless CMS quickly (similar patterns to content-driven Next apps).
+- Experience building scalable UIs, REST integrations, i18n/multi-locale readiness, and mentoring while staying hands-on.
+- Based in Spain (San Sebastián de los Reyes / Madrid area), open to hybrid/remote within the EU, fluent English.
+
+GitHub: https://github.com/erickorso/adolfo
+LinkedIn: https://linkedin.com/in/erick-vargas-ramos-1ab86b102
+
+Happy to complete the skills test on short notice.
+
+Best regards,
+Erick Vargas Ramos
+erickorso@gmail.com
++34 614 769 119

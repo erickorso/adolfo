@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Viewnext / Atradius — Prep entrevista</title>
+  <style>
+    @page { size: A4; margin: 10mm 12mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #0f172a;
+      background: #fff;
+      font-size: 9pt;
+      line-height: 1.35;
+    }
+    .page { max-width: 980px; margin: 0 auto; }
+    .header {
+      border-bottom: 3px solid #7c3aed;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    .title { margin: 0; font-size: 18pt; font-weight: 800; }
+    .subtitle { margin: 4px 0 0; color: #475569; font-size: 9pt; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .card {
+      border: 1px solid #dbe3ee;
+      border-radius: 8px;
+      padding: 7px 9px;
+      break-inside: avoid;
+      background: #fcfdff;
+    }
+    .card h2 {
+      margin: 0 0 5px;
+      font-size: 9.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #6d28d9;
+    }
+    .card h3 { margin: 6px 0 3px; font-size: 8.5pt; }
+    .full { grid-column: 1 / -1; }
+    ul { margin: 4px 0; padding-left: 16px; }
+    li { margin: 2px 0; }
+    pre {
+      margin: 4px 0;
+      padding: 6px 8px;
+      background: #f1f5f9;
+      border-radius: 6px;
+      font-size: 7.5pt;
+      line-height: 1.3;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 8pt; }
+    th, td {
+      border: 1px solid #e2e8f0;
+      padding: 4px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #f8fafc; }
+    .check { list-style: none; padding-left: 0; }
+    .check li::before { content: "☐ "; }
+    .tag {
+      display: inline-block;
+      background: #ede9fe;
+      color: #5b21b6;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 7.5pt;
+      font-weight: 600;
+    }
+    .pitch { background: #fffbeb; border-color: #fcd34d; }
+    .gap { background: #fef2f2; border-color: #fecaca; }
+    .footer {
+      margin-top: 8px;
+      font-size: 7.5pt;
+      color: #64748b;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <h1 class="title">Viewnext / Zemsania — Atradius</h1>
+      <p class="subtitle">
+        <span class="tag">Front React</span>
+        <span class="tag">Inglés alto</span>
+        <span class="tag">100% remoto</span>
+        <span class="tag">~41k€ SBA</span>
+        · Erick Vargas Ramos · +34 614 769 119
+      </p>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Checklist (15 min antes)</h2>
+        <ul class="check">
+          <li>Link / teléfono listo</li>
+          <li>Cámara, mic, auriculares</li>
+          <li>Pitch EN × 2 ensayado</li>
+          <li>Ejemplos: Pluvia, JPM, Adolfo</li>
+          <li>3 preguntas para ellos</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Contexto (2 min)</h2>
+        <table>
+          <tr><th>Zemsania</th><td>Consultora ES ~500. Contrato + HR.</td></tr>
+          <tr><th>Viewnext</th><td>Consultoría digital · grupo IBM España.</td></tr>
+          <tr><th>Atradius</th><td>Seguro crédito / caución. Iberia: Crédito y Caución (GCO).</td></tr>
+          <tr><th>Proyecto</th><td>React · seguros · dashboards · APIs · regulación.</td></tr>
+        </table>
+      </section>
+
+      <section class="card full pitch">
+        <h2>Pitch — 2 min (inglés)</h2>
+        <pre>I'm Erick, Senior Frontend Engineer based in Spain, fully remote.
+
+I have 17+ years in software development, focused on React, TypeScript, and scalable UI. Most recently Frontend Lead at Krunchbox — Pluvia, enterprise analytics with 100k+ rows, strict TypeScript, performance tuning, mentoring.
+
+Before that, two years at J.P. Morgan building regulated financial dashboards with React and Next.js.
+
+I work with React 19, Next.js 15, Tailwind, Vitest. Fluent in English, async distributed teams.
+
+I'm interested because insurance combines complex business rules with long-lived products — similar rigor to banking, where I've delivered — and I'd contribute stable, tested React frontends for Atradius through Viewnext.</pre>
+      </section>
+
+      <section class="card">
+        <h2>CV → JD</h2>
+        <table>
+          <tr><th>Piden</th><th>Tú</th></tr>
+          <tr><td>React</td><td>Lead Krunchbox, JPM 2y</td></tr>
+          <tr><td>React Query</td><td>Gap — ver →</td></tr>
+          <tr><td>Context API</td><td>Auth, locale Adolfo</td></tr>
+          <tr><td>Vitest</td><td>Suite dominio + APIs</td></tr>
+          <tr><td>Performance</td><td>SSRM, memo, debounce</td></tr>
+          <tr><td>Tailwind</td><td>Diario v4</td></tr>
+          <tr><td>Inglés</td><td>Fluido · JPM global</td></tr>
+        </table>
+      </section>
+
+      <section class="card gap">
+        <h2>Gap: React Query (30 s)</h2>
+        <pre>"In my latest projects I used Next.js fetch layers with short-lived cache for grid queries — similar goals to TanStack Query: dedupe, stale data, loading/error states.
+
+I haven't shipped React Query in the last year, but I know useQuery, useMutation, queryKey invalidation — I'd ramp up in the first sprint."
+
+Nombrar: queryKey · staleTime · gcTime · invalidateQueries
+Server state ≠ Context/Redux</pre>
+      </section>
+
+      <section class="card">
+        <h2>Q&A técnico</h2>
+        <h3>Context vs Query vs props</h3>
+        <p>Context: tema, auth, locale. Query: API. Props: local. No Context para datos que cambian mucho.</p>
+        <h3>Optimizar renders</h3>
+        <p>memo · useMemo/useCallback con perfil · keys estables · virtualizar · dynamic import.</p>
+        <h3>Vitest</h3>
+        <p>Dominio puro · vi.mock · job-filters.test.ts · aggregate-top-content.test.ts</p>
+        <h3>Regulado / errores</h3>
+        <p>JPM + Krunchbox B2B · Zod boundary · sin PII en logs cliente.</p>
+      </section>
+
+      <section class="card">
+        <h2>Q&A soft</h2>
+        <table>
+          <tr><th>¿Por qué?</th><td>Estabilidad, remoto, seguros, encaje React+EN</td></tr>
+          <tr><th>Salario</th><td>41k SBA encaja; flexible OK</td></tr>
+          <tr><th>Weakness</th><td>React Query — curva rápida</td></tr>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>Preguntas para ellos</h2>
+        <ol>
+          <li>¿Stack? React 18/19, Vite, state global?</li>
+          <li>¿TanStack Query ya en proyecto?</li>
+          <li>¿Tamaño equipo front, ceremonias?</li>
+          <li>¿APIs: REST, OpenAPI, BFF?</li>
+          <li>¿Tests en PRs — cobertura?</li>
+          <li>¿Core hours remoto?</li>
+          <li>¿Fase Atradius: greenfield / migración?</li>
+          <li>¿Siguiente paso post-call?</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2>Cheat sheet JS</h2>
+        <pre>=== siempre · inmutabilidad spread
+async/await · Promise.all / allSettled
+?.  ??  · map/filter/reduce</pre>
+      </section>
+
+      <section class="card">
+        <h2>React hooks</h2>
+        <table>
+          <tr><th>Hook</th><th>Uso</th></tr>
+          <tr><td>useState</td><td>Local</td></tr>
+          <tr><td>useContext</td><td>Global estable</td></tr>
+          <tr><td>useMemo</td><td>Cálculo caro</td></tr>
+          <tr><td>useCallback</td><td>Fn estable</td></tr>
+          <tr><td>useEffect</td><td>Menos con Query/RSC</td></tr>
+        </table>
+      </section>
+
+      <section class="card full">
+        <h2>React Query · Next · Performance</h2>
+        <pre>useQuery({ queryKey: ['policies', id], queryFn, staleTime: 60_000 })
+useMutation({ mutationFn, onSuccess: () => invalidateQueries(['policies']) })
+
+Next 15: App Router · Server Components · 'use client' · Server Actions · [locale] i18n
+
+Performance: 1.Medir 2.Virtualizar 3.next/image 4.dynamic() 5.Query+memo</pre>
+      </section>
+
+      <section class="card full">
+        <h2>Notas post-entrevista</h2>
+        <p>Contacto Zemsania: _______________ · Viewnext: _______________</p>
+        <p>Siguiente paso: _______________ · Stack: _______________</p>
+      </section>
+    </div>
+
+    <p class="footer">adolfo-nine.vercel.app · github.com/erickorso/adolfo · 14 jul 2026</p>
+  </div>
+</body>
+</html>

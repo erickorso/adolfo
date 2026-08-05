@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Guía TanStack React Query</title>
+  <style>
+    @page { size: A4; margin: 10mm 12mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #0f172a;
+      background: #fff;
+      font-size: 9pt;
+      line-height: 1.38;
+    }
+    .page { max-width: 980px; margin: 0 auto; }
+    .header {
+      border-bottom: 3px solid #ef4444;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    .title { margin: 0; font-size: 18pt; font-weight: 800; }
+    .subtitle { margin: 4px 0 0; color: #475569; font-size: 9pt; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .card {
+      border: 1px solid #dbe3ee;
+      border-radius: 8px;
+      padding: 7px 9px;
+      break-inside: avoid;
+      background: #fcfdff;
+    }
+    .card h2 {
+      margin: 0 0 5px;
+      font-size: 9.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #dc2626;
+    }
+    .card h3 { margin: 6px 0 3px; font-size: 8.5pt; color: #0f172a; }
+    .full { grid-column: 1 / -1; }
+    ul, ol { margin: 4px 0; padding-left: 16px; }
+    li { margin: 2px 0; }
+    pre {
+      margin: 4px 0;
+      padding: 6px 8px;
+      background: #1e293b;
+      color: #e2e8f0;
+      border-radius: 6px;
+      font-size: 7.3pt;
+      line-height: 1.32;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    code { font-family: Consolas, "Courier New", monospace; font-size: 7.5pt; }
+    table { width: 100%; border-collapse: collapse; font-size: 8pt; }
+    th, td {
+      border: 1px solid #e2e8f0;
+      padding: 4px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #f8fafc; }
+    .tip {
+      background: #fef3c7;
+      border-color: #fcd34d;
+      font-size: 8pt;
+    }
+    .footer { margin-top: 8px; font-size: 7.5pt; color: #64748b; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <h1 class="title">TanStack React Query — Guía rápida</h1>
+      <p class="subtitle">Server state · cache · sync · v5 · Entrevistas front React</p>
+    </header>
+
+    <div class="grid">
+      <section class="card full">
+        <h2>¿Qué es y cuándo usarlo?</h2>
+        <p><strong>React Query</strong> gestiona <em>server state</em>: datos que viven en el API, no en React. Cache, refetch, loading/error, deduplicación y sincronización entre componentes.</p>
+        <table>
+          <tr><th>Usar Query</th><th>NO usar Query (usar useState/Context)</th></tr>
+          <tr><td>GET listados, detalle, búsquedas</td><td>Tema UI, modal abierto, step wizard</td></tr>
+          <tr><td>POST/PUT/DELETE al servidor</td><td>Formulario antes de submit</td></tr>
+          <tr><td>Datos compartidos entre pantallas</td><td>Auth token en Context (ok)</td></tr>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>Setup mínimo</h2>
+        <pre>npm i @tanstack/react-query
+
+// app/providers.tsx
+'use client'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useState } from 'react'
+
+export function Providers({ children }) {
+  const [client] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60_000,      // 1 min fresh
+        retry: 1,
+        refetchOnWindowFocus: false,
+      },
+    },
+  }))
+  return (
+    &lt;QueryClientProvider client={client}&gt;
+      {children}
+    &lt;/QueryClientProvider&gt;
+  )
+}</pre>
+      </section>
+
+      <section class="card">
+        <h2>Conceptos clave</h2>
+        <table>
+          <tr><th>Concepto</th><th>Qué hace</th></tr>
+          <tr><td><code>queryKey</code></td><td>ID único del cache. Array jerárquico: <code>['policies', id]</code></td></tr>
+          <tr><td><code>queryFn</code></td><td>Función async que devuelve datos</td></tr>
+          <tr><td><code>staleTime</code></td><td>Tiempo “fresco” — no refetch automático</td></tr>
+          <tr><td><code>gcTime</code></td><td>Tiempo en cache tras quedar unused (antes cacheTime)</td></tr>
+          <tr><td><code>enabled</code></td><td><code>false</code> = no ejecutar hasta condición</td></tr>
+          <tr><td><code>select</code></td><td>Transformar datos antes de render</td></tr>
+          <tr><td><code>placeholderData</code></td><td>UI optimista mientras carga</td></tr>
+        </table>
+      </section>
+
+      <section class="card full">
+        <h2>useQuery — leer datos</h2>
+        <pre>function PolicyDetail({ id }: { id: string }) {
+  const { data, isLoading, isError, error, isFetching, refetch } = useQuery({
+    queryKey: ['policy', id],
+    queryFn: () =&gt; fetch(`/api/policies/${id}`).then(r =&gt; {
+      if (!r.ok) throw new Error('Failed')
+      return r.json()
+    }),
+    staleTime: 5 * 60_000,
+    enabled: !!id,
+  })
+
+  if (isLoading) return &lt;p&gt;Loading…&lt;/p&gt;
+  if (isError) return &lt;p&gt;Error: {error.message}&lt;/p&gt;
+  return (
+    &lt;div&gt;
+      {isFetching &amp;&amp; &lt;span&gt;Updating…&lt;/span&gt;}
+      &lt;h1&gt;{data.name}&lt;/h1&gt;
+      &lt;button onClick={() =&gt; refetch()}&gt;Refresh&lt;/button&gt;
+    &lt;/div&gt;
+  )
+}</pre>
+        <h3>Estados útiles</h3>
+        <table>
+          <tr><th>Flag</th><th>Significado</th></tr>
+          <tr><td><code>isLoading</code></td><td>Primera carga sin cache</td></tr>
+          <tr><td><code>isFetching</code></td><td>Cualquier fetch en curso (incl. background)</td></tr>
+          <tr><td><code>isPending</code></td><td>v5: sin data aún</td></tr>
+          <tr><td><code>isSuccess / isError</code></td><td>Terminal states</td></tr>
+          <tr><td><code>status</code></td><td><code>'pending' | 'error' | 'success'</code></td></tr>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>queryKey — jerarquía</h2>
+        <pre>['policies']                    // lista
+['policies', { status: 'open' }] // lista filtrada
+['policies', policyId]          // detalle
+
+// Invalidar TODO policies:
+invalidateQueries({ queryKey: ['policies'] })
+// También invalida ['policies', id] hijos</pre>
+        <p>Las keys son <strong>serializables</strong> (JSON). Objetos en key = refetch al cambiar filtro.</p>
+      </section>
+
+      <section class="card">
+        <h2>useMutation — escribir</h2>
+        <pre>const queryClient = useQueryClient()
+
+const mutation = useMutation({
+  mutationFn: (body: PolicyInput) =&gt;
+    fetch('/api/policies', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }).then(r =&gt; r.json()),
+  onSuccess: () =&gt; {
+    queryClient.invalidateQueries({ queryKey: ['policies'] })
+  },
+  onError: (err) =&gt; toast.error(err.message),
+})
+
+// Uso
+mutation.mutate({ name: 'Acme' })
+// mutation.isPending, isError, isSuccess</pre>
+      </section>
+
+      <section class="card full">
+        <h2>Patrones avanzados</h2>
+        <h3>Optimistic update</h3>
+        <pre>useMutation({
+  mutationFn: updatePolicy,
+  onMutate: async (newData) =&gt; {
+    await queryClient.cancelQueries({ queryKey: ['policy', id] })
+    const previous = queryClient.getQueryData(['policy', id])
+    queryClient.setQueryData(['policy', id], newData)
+    return { previous }
+  },
+  onError: (_err, _vars, ctx) =&gt; {
+    queryClient.setQueryData(['policy', id], ctx?.previous)
+  },
+  onSettled: () =&gt; {
+    queryClient.invalidateQueries({ queryKey: ['policy', id] })
+  },
+})</pre>
+        <h3>Prefetch + parallel queries</h3>
+        <pre>// Al hover en link
+queryClient.prefetchQuery({
+  queryKey: ['policy', id],
+  queryFn: () =&gt; fetchPolicy(id),
+})
+
+// Varias en paralelo
+const results = useQueries({
+  queries: ids.map(id =&gt; ({
+    queryKey: ['policy', id],
+    queryFn: () =&gt; fetchPolicy(id),
+  })),
+})</pre>
+      </section>
+
+      <section class="card">
+        <h2>useInfiniteQuery</h2>
+        <pre>useInfiniteQuery({
+  queryKey: ['policies'],
+  queryFn: ({ pageParam = 0 }) =&gt;
+    fetchPolicies({ cursor: pageParam }),
+  getNextPageParam: (last) =&gt; last.nextCursor,
+  initialPageParam: 0,
+})
+// data.pages · fetchNextPage()
+// hasNextPage · isFetchingNextPage</pre>
+      </section>
+
+      <section class="card">
+        <h2>Custom hook (patrón)</h2>
+        <pre>function usePolicy(id: string) {
+  return useQuery({
+    queryKey: ['policy', id],
+    queryFn: () =&gt; api.getPolicy(id),
+    enabled: !!id,
+  })
+}
+
+function useUpdatePolicy() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: api.updatePolicy,
+    onSuccess: (_, { id }) =&gt; {
+      qc.invalidateQueries({ queryKey: ['policy', id] })
+    },
+  })
+}</pre>
+      </section>
+
+      <section class="card">
+        <h2>Query vs Context vs Zustand</h2>
+        <table>
+          <tr><th>Tool</th><th>Para</th></tr>
+          <tr><td>React Query</td><td>Datos async del servidor</td></tr>
+          <tr><td>Context</td><td>Theme, locale, auth session</td></tr>
+          <tr><td>Zustand/Redux</td><td>Client state complejo global</td></tr>
+        </table>
+        <p><strong>Anti-pattern:</strong> meter respuestas API en Context → re-renders masivos.</p>
+      </section>
+
+      <section class="card">
+        <h2>Next.js App Router</h2>
+        <ul>
+          <li><code>QueryClientProvider</code> en layout <code>'use client'</code></li>
+          <li>Prefetch en Server Component → <code>dehydrate/hydrate</code> (SSR)</li>
+          <li>Server Components: fetch directo; Client: useQuery</li>
+          <li>No duplicar fetch SC + Query sin hidratar</li>
+        </ul>
+        <pre>// SSR prefetch (avanzado)
+const qc = new QueryClient()
+await qc.prefetchQuery({ queryKey: ['policies'], queryFn: getPolicies })
+const state = dehydrate(qc)
+// pasar state a HydrationBoundary</pre>
+      </section>
+
+      <section class="card full">
+        <h2>Side effects — cómo los maneja Query</h2>
+        <p>Query <strong>no reemplaza</strong> <code>useEffect</code> para todo. Server state → Query/Mutation. UI/DOM → <code>useEffect</code>.</p>
+        <table>
+          <tr><th>Tipo</th><th>Herramienta</th></tr>
+          <tr><td>Fetch + cache + sync</td><td><code>useQuery</code> / <code>useMutation</code></td></tr>
+          <tr><td>Efectos tras POST/PUT/DELETE</td><td>callbacks de <code>useMutation</code></td></tr>
+          <tr><td>Título, analytics, focus</td><td><code>useEffect</code> (si no es del API)</td></tr>
+          <tr><td>Errores globales de queries</td><td><code>QueryCache onError</code></td></tr>
+        </table>
+        <h3>useMutation — ciclo de vida (patrón principal)</h3>
+        <pre>useMutation({
+  mutationFn: updatePolicy,
+  onMutate: async (vars) =&gt; {
+    // ANTES: optimistic update, cancelQueries
+    await queryClient.cancelQueries({ queryKey: ['policy', id] })
+    const previous = queryClient.getQueryData(['policy', id])
+    queryClient.setQueryData(['policy', id], vars)
+    return { previous }
+  },
+  onSuccess: (data, vars) =&gt; {
+    // toast, redirect, invalidate, analytics
+    queryClient.invalidateQueries({ queryKey: ['policies'] })
+  },
+  onError: (err, vars, ctx) =&gt; {
+    // rollback optimistic
+    queryClient.setQueryData(['policy', id], ctx?.previous)
+    toast.error(err.message)
+  },
+  onSettled: () =&gt; {
+    // SIEMPRE al final (ok o error)
+  },
+})</pre>
+        <h3>useQuery — evitar onSuccess (v5)</h3>
+        <p>Mejor derivar en render. Si hace falta efecto en DOM:</p>
+        <pre>const { data, isSuccess } = useQuery({ ... })
+
+useEffect(() =&gt; {
+  if (isSuccess &amp;&amp; data) document.title = data.name
+}, [isSuccess, data])</pre>
+        <h3>Global — QueryCache / MutationCache</h3>
+        <pre>new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error, query) =&gt; log(query.queryKey, error),
+  }),
+  mutationCache: new MutationCache({
+    onSuccess: () =&gt; toast.success('Saved'),
+  }),
+})</pre>
+        <h3>enabled — evitar fetch prematuro (sin useEffect)</h3>
+        <pre>useQuery({
+  queryKey: ['policy', id],
+  queryFn: () =&gt; fetchPolicy(id),
+  enabled: !!id,  // no fetch hasta que id exista
+})</pre>
+        <h3>❌ Anti-patterns</h3>
+        <pre>// ❌ fetch en useEffect
+useEffect(() =&gt; { fetch('/api').then(setData) }, [])
+
+// ✅ useQuery
+
+// ❌ invalidate en useEffect tras flag manual
+useEffect(() =&gt; { if (saved) invalidate(...) }, [saved])
+
+// ✅ onSuccess en useMutation</pre>
+        <p><strong>Entrevista (EN):</strong> “Side effects tied to server ops go in mutation lifecycle hooks; global handlers on QueryCache. I don’t useEffect-fetch — I use enabled and queryKey instead.”</p>
+      </section>
+
+      <section class="card tip">
+        <h2>Entrevista — frases clave</h2>
+        <ul>
+          <li>“Server state is async, shared, and can go stale — Query owns that.”</li>
+          <li>“staleTime vs gcTime: fresh window vs garbage collection.”</li>
+          <li>“Invalidation over manual cache sync after mutations.”</li>
+          <li>“Optimistic UI with onMutate + rollback onError.”</li>
+          <li>“Side effects on mutations: onMutate → onSuccess/onError → onSettled.”</li>
+          <li>“queryKey hierarchy enables granular invalidation.”</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>DevTools + errores</h2>
+        <pre>import { ReactQueryDevtools } from
+  '@tanstack/react-query-devtools'
+
+&lt;ReactQueryDevtools initialIsOpen={false} /&gt;</pre>
+        <ul>
+          <li>Global: <code>QueryCache onError</code> para logging</li>
+          <li>Retry: solo idempotente (GET), no en POST ciego</li>
+          <li><code>throwOnError</code> + Error Boundary opcional</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Comparar con tu SSRM (Pluvia)</h2>
+        <table>
+          <tr><th>Pluvia ag-Grid SSRM</th><th>React Query</th></tr>
+          <tr><td>Cache por combo filtros</td><td>queryKey con filtros</td></tr>
+          <tr><td>Refetch al cambiar página</td><td>queryFn + staleTime</td></tr>
+          <tr><td>Loading overlay grid</td><td>isLoading / isFetching</td></tr>
+          <tr><td>Invalidate tras save</td><td>invalidateQueries</td></tr>
+        </table>
+      </section>
+
+      <section class="card full">
+        <h2>API rápida QueryClient</h2>
+        <pre>queryClient.invalidateQueries({ queryKey: ['policies'] })
+queryClient.setQueryData(['policy', id], newData)
+queryClient.getQueryData(['policy', id])
+queryClient.removeQueries({ queryKey: ['policies'] })
+queryClient.resetQueries()
+queryClient.cancelQueries({ queryKey: ['policy', id] })
+queryClient.prefetchQuery({ queryKey, queryFn })
+queryClient.fetchQuery({ queryKey, queryFn })  // await, siempre fetch</pre>
+      </section>
+    </div>
+
+    <p class="footer">TanStack Query v5 · tanstack.com/query · Erick Vargas · jul 2026</p>
+  </div>
+</body>
+</html>

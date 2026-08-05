@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { AI_AGENTS_MODULE_ID } from "@/domain/learning/ai-agents/module.constants";
 import { PYTHON_AI_MODULE_ID } from "@/domain/learning/python-ai/module.constants";
+import { ARCHITECTURE_PRACTICES_MODULE_ID } from "@/domain/learning/architecture-practices/module.constants";
 import type { QuizSubmitResult } from "@/domain/learning/ai-agents/quizzes/quiz.types";
 import type { LessonToggleResult } from "@/domain/learning/learning.types";
 import {
@@ -49,6 +50,10 @@ function revalidateLearnModule(lessonSlug: string, moduleId: string) {
   if (moduleId === PYTHON_AI_MODULE_ID) {
     revalidatePath("/learn/python-ai");
     revalidatePath(`/learn/python-ai/${lessonSlug}`);
+  }
+  if (moduleId === ARCHITECTURE_PRACTICES_MODULE_ID) {
+    revalidatePath("/learn/architecture-practices");
+    revalidatePath(`/learn/architecture-practices/${lessonSlug}`);
   }
 }
 

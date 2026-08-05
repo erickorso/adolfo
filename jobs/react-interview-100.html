@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>100 Preguntas — Entrevista Frontend React</title>
+  <style>
+    @page { size: A4; margin: 8mm 10mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #0f172a;
+      background: #fff;
+      font-size: 8.2pt;
+      line-height: 1.34;
+    }
+    .page { max-width: 980px; margin: 0 auto; }
+    .header {
+      border-bottom: 3px solid #2563eb;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    .title { margin: 0; font-size: 17pt; font-weight: 800; }
+    .subtitle { margin: 4px 0 0; color: #475569; font-size: 8.5pt; }
+    .toc {
+      margin-bottom: 10px;
+      padding: 6px 9px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      font-size: 7.8pt;
+    }
+    .toc strong { color: #1d4ed8; }
+    .section {
+      margin: 10px 0 6px;
+      padding: 5px 8px;
+      background: #1e40af;
+      color: #fff;
+      border-radius: 6px;
+      font-size: 9pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      break-after: avoid;
+    }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .qa {
+      border: 1px solid #dbe3ee;
+      border-radius: 7px;
+      padding: 5px 7px;
+      break-inside: avoid;
+      background: #fcfdff;
+    }
+    .qa .n {
+      display: inline-block;
+      min-width: 22px;
+      font-weight: 800;
+      color: #2563eb;
+      font-size: 7.5pt;
+    }
+    .qa .q {
+      margin: 0 0 3px;
+      font-weight: 700;
+      font-size: 8pt;
+      color: #0f172a;
+    }
+    .qa .a {
+      margin: 0;
+      color: #334155;
+      font-size: 7.8pt;
+    }
+    .qa code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 7.2pt;
+      background: #f1f5f9;
+      padding: 0 3px;
+      border-radius: 3px;
+    }
+    .card {
+      border: 1px solid #dbe3ee;
+      border-radius: 7px;
+      padding: 7px 9px;
+      break-inside: avoid;
+      background: #fcfdff;
+      margin-bottom: 6px;
+    }
+    .card h3 {
+      margin: 0 0 5px;
+      font-size: 8.5pt;
+      color: #1d4ed8;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .card p { margin: 4px 0; font-size: 7.8pt; color: #334155; }
+    pre {
+      margin: 4px 0;
+      padding: 6px 8px;
+      background: #1e293b;
+      color: #e2e8f0;
+      border-radius: 6px;
+      font-size: 7pt;
+      line-height: 1.3;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+    table { width: 100%; border-collapse: collapse; font-size: 7.5pt; margin: 4px 0; }
+    th, td {
+      border: 1px solid #e2e8f0;
+      padding: 3px 5px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #f8fafc; }
+    .yes { color: #15803d; font-weight: 700; }
+    .no { color: #b91c1c; font-weight: 700; }
+    .full { grid-column: 1 / -1; }
+    .tip {
+      background: #fffbeb;
+      border-color: #fcd34d;
+    }
+    .footer {
+      margin-top: 10px;
+      font-size: 7pt;
+      color: #64748b;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <h1 class="title">100 Preguntas — Entrevista Frontend React</h1>
+      <p class="subtitle">React · Next.js · Redux · Performance · TypeScript · Testing · A11y · Jul 2026</p>
+    </header>
+
+    <div class="toc">
+      <strong>Índice:</strong>
+      React base (1–15) · Hooks (16–30) · Patrones (31–40) · Next.js (41–55) · Estado/Redux (56–65) ·
+      Performance (66–80) · TypeScript (81–85) · Testing (86–90) · A11y/Web (91–95) · Sistema (96–100) ·
+      <strong>Extra:</strong> Errores Krunchbox · useMemo/useCallback
+    </div>
+
+    <!-- REACT FUNDAMENTALS -->
+    <div class="section">1. React — Fundamentos (1–15)</div>
+    <div class="grid">
+      <article class="qa"><p class="q"><span class="n">1.</span> ¿Qué es React y por qué usarlo?</p><p class="a">Librería UI basada en componentes declarativos. Virtual DOM + reconciliación minimizan manipulación directa del DOM. Ecosistema maduro, composición, SSR con Next.</p></article>
+      <article class="qa"><p class="q"><span class="n">2.</span> ¿Virtual DOM vs DOM real?</p><p class="a">React mantiene árbol JS en memoria. Tras un update compara (diff) y aplica solo cambios mínimos al DOM real (commit). No es más rápido siempre, pero simplifica UI compleja.</p></article>
+      <article class="qa"><p class="q"><span class="n">3.</span> ¿Qué es JSX?</p><p class="a">Sintaxis que parece HTML en JS. Se transpila a <code>React.createElement</code>. Una expresión por nodo; <code>className</code> en vez de <code>class</code>.</p></article>
+      <article class="qa"><p class="q"><span class="n">4.</span> ¿Element vs Component?</p><p class="a">Elemento: objeto ligero que describe qué renderizar. Componente: función/clase que devuelve elementos. <code>&lt;Button /&gt;</code> invoca la función del componente.</p></article>
+      <article class="qa"><p class="q"><span class="n">5.</span> ¿Props vs State?</p><p class="a">Props: entrada inmutable del padre. State: datos internos mutables vía <code>setState</code>/<code>useState</code>. Cambios en ambos disparan re-render.</p></article>
+      <article class="qa"><p class="q"><span class="n">6.</span> ¿Unidireccionalidad de datos?</p><p class="a">Datos bajan por props; eventos suben por callbacks. Facilita depuración y flujo predecible vs two-way binding clásico.</p></article>
+      <article class="qa"><p class="q"><span class="n">7.</span> ¿Qué es reconciliación?</p><p class="a">Algoritmo que compara árbol anterior y nuevo. Misma key + mismo tipo → actualiza props. Tipo distinto → desmonta y monta. Keys estables en listas evitan bugs.</p></article>
+      <article class="qa"><p class="q"><span class="n">8.</span> ¿Por qué no usar index como key?</p><p class="a">Reordenar/insertar/borrar reutiliza nodos incorrectos → estado mezclado, inputs corruptos, animaciones rotas. Usa ID estable del dato.</p></article>
+      <article class="qa"><p class="q"><span class="n">9.</span> ¿Controlled vs Uncontrolled?</p><p class="a">Controlled: React controla <code>value</code> + <code>onChange</code>. Uncontrolled: DOM guarda valor vía <code>ref</code>. RHF mezcla ambos para performance en forms grandes.</p></article>
+      <article class="qa"><p class="q"><span class="n">10.</span> ¿Lifting state up?</p><p class="a">Subir estado al ancestro común cuando dos hermanos deben compartirlo. Evita duplicar fuente de verdad.</p></article>
+      <article class="qa"><p class="q"><span class="n">11.</span> ¿Composition vs Inheritance?</p><p class="a">React favorece composición (<code>children</code>, render props, slots). No herencia de clases para extender UI.</p></article>
+      <article class="qa"><p class="q"><span class="n">12.</span> ¿Strict Mode en dev?</p><p class="a">Monta/desmonta y re-ejecuta efectos dos veces en dev para detectar side effects no idempotentes. No afecta producción.</p></article>
+      <article class="qa"><p class="q"><span class="n">13.</span> ¿Error Boundaries?</p><p class="a">Solo class components con <code>getDerivedStateFromError</code>/<code>componentDidCatch</code> capturan errores de render/hijos. No atrapan event handlers ni async. En App Router: <code>error.tsx</code>.</p></article>
+      <article class="qa"><p class="q"><span class="n">14.</span> ¿Portals?</p><p class="a"><code>createPortal</code> renderiza hijos fuera del DOM padre (modales, tooltips) manteniendo contexto React y event bubbling.</p></article>
+      <article class="qa"><p class="q"><span class="n">15.</span> ¿React 19 novedades clave?</p><p class="a">Actions, <code>useActionState</code>, <code>useOptimistic</code>, ref como prop, mejor hidratación, <code>use</code> para promises/context, document metadata en componentes.</p></article>
+    </div>
+
+    <!-- HOOKS -->
+    <div class="section">2. Hooks (16–30)</div>
+    <div class="grid">
+      <article class="qa"><p class="q"><span class="n">16.</span> Reglas de los Hooks</p><p class="a">Solo en top-level (no en if/loops). Solo en componentes funcionales o custom hooks. Garantizan orden estable entre renders.</p></article>
+      <article class="qa"><p class="q"><span class="n">17.</span> ¿useState batching?</p><p class="a">Múltiples <code>setState</code> en un evento se agrupan en un solo re-render. React 18+: batching también en promises/timeouts.</p></article>
+      <article class="qa"><p class="q"><span class="n">18.</span> ¿useEffect vs useLayoutEffect?</p><p class="a"><code>useEffect</code>: tras paint (no bloquea). <code>useLayoutEffect</code>: tras DOM update, antes de paint — mediciones DOM, evitar flicker. En SSR ambos no corren en servidor.</p></article>
+      <article class="qa"><p class="q"><span class="n">19.</span> Dependencias de useEffect</p><p class="a">Array con todo valor externo usado. Omitir = cada render. <code>[]</code> = solo mount. ESLint <code>exhaustive-deps</code> ayuda; no silenciar sin razón.</p></article>
+      <article class="qa"><p class="q"><span class="n">20.</span> Cleanup en useEffect</p><p class="a">Return function para abortar fetch, quitar listeners, clearInterval. Evita memory leaks y race conditions.</p></article>
+      <article class="qa"><p class="q"><span class="n">21.</span> ¿useRef vs useState?</p><p class="a"><code>useRef</code>: mutable sin re-render (DOM refs, timers, flags). <code>useState</code>: cambio visible en UI. No leer/escribir <code>ref.current</code> durante render si afecta output.</p></article>
+      <article class="qa"><p class="q"><span class="n">22.</span> ¿useMemo cuándo?</p><p class="a">Cálculo caro o referencia estable para <code>memo</code>/deps. No por defecto en todo — coste de comparación. Perfil primero.</p></article>
+      <article class="qa"><p class="q"><span class="n">23.</span> ¿useCallback cuándo?</p><p class="a">Estabiliza función pasada a hijo <code>memo</code> o en deps de effect. Innecesario si el hijo no está memoizado.</p></article>
+      <article class="qa"><p class="q"><span class="n">24.</span> ¿useReducer vs useState?</p><p class="a">Reducer para estado complejo, transiciones explícitas, testing del reducer puro. Misma API de dispatch que Redux.</p></article>
+      <article class="qa"><p class="q"><span class="n">25.</span> ¿Custom hooks?</p><p class="a">Funciones <code>use*</code> que encapsulan lógica con hooks. Comparten comportamiento sin HOC/render props. Ej: <code>useDebounce</code>, <code>useMediaQuery</code>.</p></article>
+      <article class="qa"><p class="q"><span class="n">26.</span> ¿useContext gotchas?</p><p class="a">Cualquier cambio de valor re-renderiza todos los consumidores. Split contexts (theme vs user). No para datos de alta frecuencia.</p></article>
+      <article class="qa"><p class="q"><span class="n">27.</span> ¿useId?</p><p class="a">IDs únicos estables SSR/cliente para <code>htmlFor</code>/<code>aria-*</code>. Evita colisiones en hidratación.</p></article>
+      <article class="qa"><p class="q"><span class="n">28.</span> ¿useTransition / useDeferredValue?</p><p class="a">Marcan updates como no urgentes. UI responsive mientras render pesado (filtros, listas). Concurrent features de React 18+.</p></article>
+      <article class="qa"><p class="q"><span class="n">29.</span> Stale closures en hooks</p><p class="a">Callback captura valores viejos si deps incorrectas. Solución: deps correctas, <code>useRef</code> para valor actual, o functional update <code>setCount(c =&gt; c+1)</code>.</p></article>
+      <article class="qa"><p class="q"><span class="n">30.</span> ¿React Compiler (Forget)?</p><p class="a">Compilador que memoiza automáticamente. Reduce necesidad manual de <code>memo</code>/<code>useMemo</code>. Aún adoptando; entender reconciliación sigue siendo clave.</p></article>
+    </div>
+
+    <!-- PATTERNS -->
+    <div class="section">3. Patrones y Arquitectura (31–40)</div>
+    <div class="grid">
+      <article class="qa"><p class="q"><span class="n">31.</span> Container/Presentational</p><p class="a">Separar lógica/datos (container) de UI pura (presentational). Hoy: custom hooks + componentes tontos.</p></article>
+      <article class="qa"><p class="q"><span class="n">32.</span> Compound Components</p><p class="a">API flexible: <code>&lt;Select&gt;&lt;Select.Option /&gt;&lt;/Select&gt;</code> comparten estado interno vía context. Radix, Headless UI.</p></article>
+      <article class="qa"><p class="q"><span class="n">33.</span> Render Props vs HOC</p><p class="a">Render prop: función como child. HOC: envuelve componente. Ambos comparten lógica; hooks los reemplazan en muchos casos. Cuidado wrapper hell.</p></article>
+      <article class="qa"><p class="q"><span class="n">34.</span> Feature-Sliced / por dominio</p><p class="a">Carpetas por feature (<code>policies/</code>, <code>auth/</code>) con ui/hooks/api/types. Escala mejor que solo por tipo técnico.</p></article>
+      <article class="qa"><p class="q"><span class="n">35.</span> Smart vs Dumb components</p><p class="a">Smart: conectan datos/estado. Dumb: solo props. Facilita Storybook, tests y reutilización.</p></article>
+      <article class="qa"><p class="q"><span class="n">36.</span> Atomic Design</p><p class="a">Átomos → moléculas → organismos → templates → pages. Útil en design systems; no dogma de carpetas.</p></article>
+      <article class="qa"><p class="q"><span class="n">37.</span> Colocation</p><p class="a">Mantener estilos, tests y lógica cerca del componente que usan. Menos saltos entre archivos.</p></article>
+      <article class="qa"><p class="q"><span class="n">38.</span> Prop drilling — soluciones</p><p class="a">Composición (<code>children</code>), context acotado, state library (Zustand/Redux), React Query para server state.</p></article>
+      <article class="qa"><p class="q"><span class="n">39.</span> Anti-patterns comunes</p><p class="a">useEffect para derivar estado (usar variable/cálculo), context gigante, index keys, mutar state directamente, fetch sin cleanup/abort.</p></article>
+      <article class="qa"><p class="q"><span class="n">40.</span> Suspense para qué</p><p class="a">Declarar UI de loading mientras hijo async (lazy, RSC, data con <code>use</code>). Boundaries anidados para granularidad.</p></article>
+    </div>
+
+    <!-- NEXT.JS -->
+    <div class="section">4. Next.js — App Router (41–55)</div>
+    <div class="grid">
+      <article class="qa"><p class="q"><span class="n">41.</span> Pages vs App Router</p><p class="a">App Router (13+): layouts anidados, RSC por defecto, streaming, <code>loading.tsx</code>. Pages: <code>getServerSideProps</code>/<code>getStaticProps</code> — legacy pero válido.</p></article>
+      <article class="qa"><p class="q"><span class="n">42.</span> Server vs Client Components</p><p class="a">Server: async, acceso DB/secrets, cero JS al cliente. Client: <code>'use client'</code>, hooks, browser APIs. Componer: server padre + client hijo.</p></article>
+      <article class="qa"><p class="q"><span class="n">43.</span> ¿Cuándo 'use client'?</p><p class="a">useState/useEffect, onClick, context providers, librerías solo browser. Mantener boundary lo más bajo posible.</p></article>
+      <article class="qa"><p class="q"><span class="n">44.</span> Fetch en Server Components</p><p class="a">await fetch en componente server; Next dedupe y cache por defecto. <code>cache: 'no-store'</code> dinámico; <code>revalidate: 60</code> ISR.</p></article>
+      <article class="qa"><p class="q"><span class="n">45.</span> Route Handlers</p><p class="a"><code>app/api/.../route.ts</code> exporta GET/POST. Sustituto de API routes Pages. Edge o Node runtime según necesidad.</p></article>
+      <article class="qa"><p class="q"><span class="n">46.</span> Middleware Next.js</p><p class="a"><code>middleware.ts</code> en edge: auth redirect, locale, headers. Corre antes del render.</p></article>
+      <article class="qa"><p class="q"><span class="n">47.</span> dynamic() import</p><p class="a">Code splitting con loading opcional. <code>ssr: false</code> solo client. Reduce bundle inicial.</p></article>
+      <article class="qa"><p class="q"><span class="n">48.</span> Metadata API</p><p class="a"><code>export const metadata</code> o <code>generateMetadata</code> para SEO, OG tags. Estático o dinámico por ruta.</p></article>
+      <article class="qa"><p class="q"><span class="n">49.</span> Server Actions</p><p class="a">Funciones server invocables desde client forms. Mutaciones sin API REST explícita. Validar siempre en servidor.</p></article>
+      <article class="qa"><p class="q"><span class="n">50.</span> Hydration mismatch</p><p class="a">HTML servidor ≠ primer render cliente (Date.now, window, random). Usar <code>useEffect</code>, <code>suppressHydrationWarning</code> puntual, o render solo client.</p></article>
+      <article class="qa"><p class="q"><span class="n">51.</span> ISR vs SSG vs SSR</p><p class="a">SSG: build time. ISR: SSG + revalidate. SSR: cada request (o cache CDN). Elegir por frescura vs carga.</p></article>
+      <article class="qa"><p class="q"><span class="n">52.</span> Parallel & Intercepting Routes</p><p class="a"><code>@modal</code> slots, <code>(.)photo</code> intercept — modales con URL shareable sin perder contexto de lista.</p></article>
+      <article class="qa"><p class="q"><span class="n">53.</span> next/image</p><p class="a">Lazy load, sizes responsive, WebP/AVIF, evita CLS con width/height. Dominios en <code>next.config</code>.</p></article>
+      <article class="qa"><p class="q"><span class="n">54.</span> Env variables</p><p class="a"><code>NEXT_PUBLIC_*</code> expuesto al browser. Resto solo server. Nunca secrets en client bundle.</p></article>
+      <article class="qa"><p class="q"><span class="n">55.</span> Caching Next 15</p><p class="a">Fetch cache, Full Route Cache, Router Cache cliente. <code>revalidatePath</code>/<code>revalidateTag</code> invalidación on-demand.</p></article>
+    </div>
+
+    <!-- STATE / REDUX -->
+    <div class="section">5. Estado Global — Redux / Alternativas (56–65)</div>
+    <div class="grid">
+      <article class="qa"><p class="q"><span class="n">56.</span> ¿Cuándo Redux?</p><p class="a">Estado global complejo, muchas fuentes de updates, time-travel debug, middleware (sagas). Overkill para UI local o server state.</p></article>
+      <article class="qa"><p class="q"><span class="n">57.</span> Redux Toolkit ventajas</p><p class="a"><code>createSlice</code>, Immer inmutable, <code>configureStore</code>, menos boilerplate. Estándar actual vs Redux clásico.</p></article>
+      <article class="qa"><p class="q"><span class="n">58.</span> Flujo Redux</p><p class="a">UI dispatch action → reducer puro → nuevo state → store → selectors → re-render suscriptores.</p></article>
+      <article class="qa"><p class="q"><span class="n">59.</span> createAsyncThunk</p><p class="a">Thunk con pending/fulfilled/rejected. Integra loading/error en slice sin escribir máquina manual.</p></article>
+      <article class="qa"><p class="q"><span class="n">60.</span> RTK Query</p><p class="a">Cache server state en Redux: endpoints, tags, invalidación. Alternativa a React Query si ya usas Redux.</p></article>
+      <article class="qa"><p class="q"><span class="n">61.</span> Selectores memoizados</p><p class="a"><code>createSelector</code> (reselect) evita recalcular derivados y reduce re-renders en <code>useSelector</code>.</p></article>
+      <article class="qa"><p class="q"><span class="n">62.</span> Redux vs Context</p><p class="a">Context: pocos valores, simple. Redux: updates frecuentes, devtools, middleware, normalización. Context no escala con muchos consumidores.</p></article>
+      <article class="qa"><p class="q"><span class="n">63.</span> Server state vs Client state</p><p class="a">Server: React Query/SWR/RTK Query. Client: UI, modals, wizard step. No duplicar API data en Redux sin necesidad.</p></article>
+      <article class="qa"><p class="q"><span class="n">64.</span> Zustand / Jotai</p><p class="a">Stores ligeros sin boilerplate. Zustand: store único. Jotai: átomos. Bueno para estado medio sin Redux.</p></article>
+      <article class="qa"><p class="q"><span class="n">65.</span> Normalización de estado</p><p class="a">Entidades por ID en objetos (<code>byId</code>, <code>allIds</code>). Evita duplicados y facilita updates parciales (patrón Redux en listas).</p></article>
+    </div>
+
+    <!-- PERFORMANCE -->
+    <div class="section">6. Performance y Optimización (66–80)</div>
+    <div class="grid">
+      <article class="qa"><p class="q"><span class="n">66.</span> Cómo medir performance</p><p class="a">React Profiler, Lighthouse, Web Vitals (LCP, INP, CLS). Chrome Performance tab. Medir antes de optimizar.</p></article>
+      <article class="qa"><p class="q"><span class="n">67.</span> React.memo</p><p class="a">Evita re-render si props shallow-equal. Útil en listas/items pesados. Comparador custom si props complejas.</p></article>
+      <article class="qa"><p class="q"><span class="n">68.</span> Virtualización de listas</p><p class="a">Render solo filas visibles (react-window, tanstack-virtual). Esencial con 10k+ items. Pluvia/ag-Grid patrón enterprise.</p></article>
+      <article class="qa"><p class="q"><span class="n">69.</span> Code splitting</p><p class="a"><code>React.lazy</code> + Suspense, <code>dynamic()</code> en Next, route-based splitting automático. Bundle por ruta/feature.</p></article>
+      <article class="qa"><p class="q"><span class="n">70.</span> Web Vitals — LCP</p><p class="a">Largest Contentful Paint &lt;2.5s. Optimizar hero image, fonts, SSR, CDN, quitar render-blocking JS.</p></article>
+      <article class="qa"><p class="q"><span class="n">71.</span> INP (Interaction to Next Paint)</p><p class="a">Latencia de interacción. Reducir JS largo, usar transitions, workers, dividir tareas, evitar re-renders masivos en input.</p></article>
+      <article class="qa"><p class="q"><span class="n">72.</span> CLS</p><p class="a">Cumulative Layout Shift: reservar espacio imágenes/fonts, no insertar banners encima de contenido, skeletons con altura fija.</p></article>
+      <article class="qa"><p class="q"><span class="n">73.</span> Debounce vs Throttle</p><p class="a">Debounce: ejecuta tras pausa (búsqueda). Throttle: máximo N veces por intervalo (scroll). Ambos reducen trabajo.</p></article>
+      <article class="qa"><p class="q"><span class="n">74.</span> Bundle analysis</p><p class="a"><code>@next/bundle-analyzer</code>, webpack-bundle-analyzer. Detectar librerías pesadas, tree-shaking, imports específicos.</p></article>
+      <article class="qa"><p class="q"><span class="n">75.</span> Tree shaking</p><p class="a">Eliminar código muerto en build. Import named/ESM; evitar barrel files enormes que impiden shake.</p></article>
+      <article class="qa"><p class="q"><span class="n">76.</span> Prefetch y preload</p><p class="a">Next <code>Link</code> prefetch rutas. <code>rel=preload</code> fonts/critical assets. React Query <code>prefetchQuery</code> en hover.</p></article>
+      <article class="qa"><p class="q"><span class="n">77.</span> Optimistic updates</p><p class="a">UI actualiza antes de respuesta server; rollback si falla. React Query <code>onMutate</code>, Redux optimistic reducer, <code>useOptimistic</code>.</p></article>
+      <article class="qa"><p class="q"><span class="n">78.</span> Memoización excesiva</p><p class="a">Anti-pattern: memo en todo. Coste comparación + complejidad. Optimizar hot paths identificados con profiler.</p></article>
+      <article class="qa"><p class="q"><span class="n">79.</span> SSR vs CSR trade-offs</p><p class="a">SSR: SEO, FCP rápido, más carga servidor. CSR: SPA simple, TTI puede tardar. Híbrido RSC es el sweet spot Next.</p></article>
+      <article class="qa"><p class="q"><span class="n">80.</span> Workers / Off-main-thread</p><p class="a">Comlink, Web Workers para parse CSV, cripto, cálculos pesados sin bloquear INP.</p></article>
+    </div>
+
+    <!-- TYPESCRIPT -->
+    <div class="section">7. TypeScript + React (81–85)</div>
+    <div class="grid">
+      <article class="qa"><p class="q"><span class="n">81.</span> Tipar props de componente</p><p class="a"><code>type Props = { title: string; onSave?: () =&gt; void }</code>. <code>React.FC</code> ya no recomendado; función explícita + <code>children?: ReactNode</code>.</p></article>
+      <article class="qa"><p class="q"><span class="n">82.</span> Generics en componentes</p><p class="a"><code>function List&lt;T&gt;({ items, render }: { items: T[]; render: (i: T) =&gt; ReactNode })</code> — reutilizable type-safe.</p></article>
+      <article class="qa"><p class="q"><span class="n">83.</span> Event types</p><p class="a"><code>ChangeEvent&lt;HTMLInputElement&gt;</code>, <code>MouseEvent&lt;HTMLButtonElement&gt;</code>. Inferir del handler evita errores.</p></article>
+      <article class="qa"><p class="q"><span class="n">84.</span> Utility types útiles</p><p class="a"><code>Pick</code>, <code>Omit</code>, <code>Partial</code>, <code>Record</code>, <code>satisfies</code> para props derivadas de API types.</p></article>
+      <article class="qa"><p class="q"><span class="n">85.</span> Tipar hooks custom</p><p class="a">Return type explícito o inferido. Genéricos en hooks de fetch: <code>useApi&lt;Policy&gt;(url)</code>. Never <code>any</code> en boundaries públicos.</p></article>
+    </div>
+
+    <!-- TESTING -->
+    <div class="section">8. Testing (86–90)</div>
+    <div class="grid">
+      <article class="qa"><p class="q"><span class="n">86.</span> Pirámide de testing front</p><p class="a">Muchos unit (dominio, utils), integración (RTL + MSW), pocos E2E (Playwright). No snapshot masivo de árboles.</p></article>
+      <article class="qa"><p class="q"><span class="n">87.</span> Testing Library filosofía</p><p class="a">Testear como usuario: roles, labels, text. <code>getByRole</code> &gt; <code>querySelector</code>. Evitar detalles de implementación.</p></article>
+      <article class="qa"><p class="q"><span class="n">88.</span> Mocking fetch / API</p><p class="a">MSW intercepta red; <code>vi.fn()</code> en Vitest para unit. Probar loading/error/success paths.</p></article>
+      <article class="qa"><p class="q"><span class="n">89.</span> Vitest vs Jest</p><p class="a">API compatible, más rápido con Vite/ESM, <code>vi.mock</code> nativo. Misma mentalidad describe/it/expect.</p></article>
+      <article class="qa"><p class="q"><span class="n">90.</span> Qué testear en un hook</p><p class="a"><code>renderHook</code> + <code>act</code>: estado inicial, transiciones, cleanup, error. Extraer lógica del componente facilita coverage.</p></article>
+    </div>
+
+    <!-- A11Y / WEB -->
+    <div class="section">9. Accesibilidad y Web (91–95)</div>
+    <div class="grid">
+      <article class="qa"><p class="q"><span class="n">91.</span> ARIA cuándo usar</p><p class="a">Primero HTML semántico (<code>button</code>, <code>nav</code>, <code>label</code>). ARIA solo si no hay elemento nativo. <code>aria-live</code> para toasts dinámicos.</p></article>
+      <article class="qa"><p class="q"><span class="n">92.</span> Focus management en modales</p><p class="a">Trap focus, <code>aria-modal</code>, devolver focus al trigger al cerrar. Radix/Headless lo implementan.</p></article>
+      <article class="qa"><p class="q"><span class="n">93.</span> WCAG niveles</p><p class="a">A, AA (estándar legal EU), AAA. Contraste 4.5:1 texto normal, teclado completo, textos alternativos.</p></article>
+      <article class="qa"><p class="q"><span class="n">94.</span> CORS en frontend</p><p class="a">Browser bloquea respuestas cross-origin sin headers CORS del server. Proxy Next rewrites o API same-origin. No “arreglable” solo en client.</p></article>
+      <article class="qa"><p class="q"><span class="n">95.</span> CSP y XSS</p><p class="a">Content-Security-Policy limita scripts. Escapar HTML user input; evitar <code>dangerouslySetInnerHTML</code>. DOMPurify si rich text.</p></article>
+    </div>
+
+    <!-- SYSTEM / BEHAVIORAL -->
+    <div class="section">10. Diseño de Sistema y Behavioral (96–100)</div>
+    <div class="grid">
+      <article class="qa"><p class="q"><span class="n">96.</span> Diseña un dashboard de pólizas</p><p class="a">RSC lista inicial + client grid virtualizado. React Query cache + paginación server. Filtros debounced. Error boundaries por widget. Auth en middleware.</p></article>
+      <article class="qa"><p class="q"><span class="n">97.</span> Manejo de errores en producción</p><p class="a">Boundaries UI, toast + log Sentry, retry con backoff, fallbacks degradados, nunca pantalla blanca sin mensaje.</p></article>
+      <article class="qa"><p class="q"><span class="n">98.</span> Convivencia con legacy jQuery</p><p class="a">Islands React en mounts puntuales, contrato de eventos custom, no doble manipulación DOM, migración incremental por ruta.</p></article>
+      <article class="qa"><p class="q"><span class="n">99.</span> Cómo priorizas deuda técnica</p><p class="a">Impacto × esfuerzo × riesgo. Quick wins en hot paths, tests en dominio crítico, ADRs para decisiones, no big-bang rewrite.</p></article>
+      <article class="qa full tip"><p class="q"><span class="n">100.</span> Pregunta trampa: ¿React es un framework?</p><p class="a">Es librería de UI (Vista). Next.js/Remix sí son frameworks full-stack. React no trae router, data layer ni convenciones de proyecto — tú eliges el stack.</p></article>
+    </div>
+
+    <!-- EXTRA: ERROR HANDLING KRUNCHBOX -->
+    <div class="section">Extra A — Manejo de errores (Krunchbox / Pluvia)</div>
+    <div class="grid">
+      <section class="card full">
+        <h3>Filosofía en B2B enterprise</h3>
+        <p>En Pluvia (analytics retail, 100k+ filas) un fallo en un widget <strong>no tumba el dashboard</strong>. Errores predecibles, mensajes accionables, sin PII en logs cliente. Validar en boundary, mostrar en UI, reportar en servidor.</p>
+        <table>
+          <tr><th>Capa</th><th>Responsabilidad</th><th>Herramienta</th></tr>
+          <tr><td>1. Boundary</td><td>Validar request/response API antes de tocar UI</td><td>Zod <code>safeParse</code> → 400 con <code>fieldErrors</code></td></tr>
+          <tr><td>2. Servicio</td><td>Result tipado, no throw genérico</td><td><code>{ ok: true, data } | { ok: false, error, code }</code></td></tr>
+          <tr><td>3. Fetch hook</td><td>loading · error · empty · success</td><td>React Query / custom hook con AbortController</td></tr>
+          <tr><td>4. Widget UI</td><td>Fallback local si falla un chart/grid</td><td>Error Boundary por widget + retry</td></tr>
+          <tr><td>5. Ruta</td><td>Crash de segmento Next</td><td><code>error.tsx</code> + <code>reset()</code></td></tr>
+          <tr><td>6. Observabilidad</td><td>Stack trace, digest, contexto técnico</td><td>Sentry server; cliente sin emails/IDs sensibles</td></tr>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>Zod en boundary (patrón)</h3>
+        <pre>// schemas/policy.ts
+export const policyQuerySchema = z.object({
+  retailerId: z.string().uuid(),
+  from: z.coerce.date(),
+  to: z.coerce.date(),
+})
+
+export function parsePolicyQuery(raw: unknown) {
+  const parsed = policyQuerySchema.safeParse(raw)
+  if (!parsed.success) {
+    return { success: false as const,
+      error: parsed.error.flatten().fieldErrors }
+  }
+  return { success: true as const, data: parsed.data }
+}
+
+// route.ts → 400 si !success
+// hook → nunca asumir shape del API sin validar</pre>
+      </section>
+
+      <section class="card">
+        <h3>UI por tipo de error</h3>
+        <table>
+          <tr><th>Tipo</th><th>UX</th></tr>
+          <tr><td>400 validación</td><td>Inline en form / resaltar campo</td></tr>
+          <tr><td>401 / 403</td><td>Redirect login o “sin permiso”</td></tr>
+          <tr><td>404</td><td>Empty state + link volver</td></tr>
+          <tr><td>5xx / red</td><td>Toast + botón Reintentar</td></tr>
+          <tr><td>Render crash</td><td>Boundary: mensaje + retry widget</td></tr>
+          <tr><td>Grid SSRM</td><td>ag-Grid overlay error + refetch datasource</td></tr>
+        </table>
+      </section>
+
+      <section class="card full">
+        <h3>Hook + grid (Pluvia-style)</h3>
+        <pre>function useGridData(filters: Filters) {
+  const [state, setState] = useState&lt;
+    'idle' | 'loading' | 'error' | 'success'
+  &gt;('idle')
+  const [error, setError] = useState&lt;AppError | null&gt;(null)
+
+  useEffect(() =&gt; {
+    const ctrl = new AbortController()
+    setState('loading')
+    fetchGrid(filters, { signal: ctrl.signal })
+      .then(res =&gt; {
+        if (!res.ok) throw toAppError(res) // mapea status → code
+        return res.json()
+      })
+      .then(json =&gt; {
+        const parsed = gridResponseSchema.safeParse(json)
+        if (!parsed.success) throw new AppError('INVALID_RESPONSE')
+        setState('success')
+        return parsed.data
+      })
+      .catch(err =&gt; {
+        if (err.name === 'AbortError') return // filtro nuevo, ignorar
+        setError(err)
+        setState('error')
+      })
+    return () =&gt; ctrl.abort()
+  }, [filters])
+
+  return { state, error, retry: () =&gt; ... }
+}
+
+// Retry: solo GET / lecturas idempotentes
+// POST guardar: no auto-retry; confirmar usuario</pre>
+      </section>
+
+      <section class="card">
+        <h3>Error Boundary por widget</h3>
+        <pre>// Dashboard.tsx
+&lt;ErrorBoundary fallback={&lt;ChartError onRetry /&gt;}&gt;
+  &lt;SalesChart data={data} /&gt;
+&lt;/ErrorBoundary&gt;
+&lt;ErrorBoundary fallback={&lt;GridError /&gt;}&gt;
+  &lt;PluviaGrid /&gt;  {/* ag-Grid aislado */}
+&lt;/ErrorBoundary&gt;
+
+// Next App Router: error.tsx por segmento
+// reset() re-renderiza sin full reload</pre>
+      </section>
+
+      <section class="card">
+        <h3>Qué NO hacer (entrevista)</h3>
+        <ul style="margin:4px 0;padding-left:16px;font-size:7.8pt;color:#334155">
+          <li><code>catch {}</code> vacío o solo <code>console.log</code></li>
+          <li>Mostrar stack trace al usuario final</li>
+          <li>Loguear PII (email, policyId) en Sentry cliente</li>
+          <li>Retry automático en POST de pago/guardado</li>
+          <li>Un Error Boundary global sin fallbacks por sección</li>
+          <li>Confiar en shape del API sin Zod/runtime check</li>
+        </ul>
+      </section>
+
+      <section class="card full tip" style="background:#fffbeb;border-color:#fcd34d">
+        <h3>Respuesta entrevista (30 s)</h3>
+        <p>“Capas: Zod en el boundary del API, Result tipado en servicios, estados loading/error/empty en cada widget. Error Boundaries por chart y grid para que un fallo no tire el dashboard. Retry solo en lecturas idempotentes con AbortController en filtros. Logs a Sentry en servidor; en cliente mensajes humanos sin datos sensibles. En Pluvia con ag-Grid SSRM usamos overlay de error y refetch del datasource.”</p>
+      </section>
+    </div>
+
+    <!-- EXTRA: useMemo / useCallback -->
+    <div class="section">Extra B — useMemo / useCallback: cuándo SÍ y cuándo NO</div>
+    <div class="grid">
+      <section class="card full">
+        <h3>Regla de oro</h3>
+        <p><strong>Medir primero</strong> (React Profiler). Memoizar tiene coste: comparar deps + memoria. En Krunchbox/Pluvia solo optimizamos hot paths: celdas de grid, columnDefs, handlers pasados a <code>memo</code> children, filtros sobre datasets grandes.</p>
+      </section>
+
+      <section class="card">
+        <h3>useMemo — SÍ usar</h3>
+        <table>
+          <tr><th>Caso</th><th>Por qué</th></tr>
+          <tr><td>Cálculo caro</td><td>Filtrar/ordenar 10k–100k filas, agregaciones</td></tr>
+          <tr><td>Referencia estable</td><td>Objeto/array pasado a hijo <code>memo()</code> o <code>useEffect</code> deps</td></tr>
+          <tr><td>columnDefs ag-Grid</td><td>Evitar recrear defs cada render → grid no parpadea</td></tr>
+          <tr><td>Context value</td><td><code>useMemo(() =&gt; ({ user, theme }), [user, theme])</code></td></tr>
+          <tr><td>Derivar de props</td><td><code>visibleRows = rows.filter(...)</code> si filter es O(n) grande</td></tr>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>useMemo — NO usar</h3>
+        <table>
+          <tr><th>Caso</th><th>Alternativa</th></tr>
+          <tr><td>Suma, map pequeño (&lt;100 items)</td><td>Cálculo directo en render</td></tr>
+          <tr><td>“Por si acaso” sin profiler</td><td>Nada — YAGNI</td></tr>
+          <tr><td>Primitivos (<code>n * 2</code>)</td><td>Variable normal</td></tr>
+          <tr><td>Estado que debería ser state</td><td><code>useState</code> + effect o derived en evento</td></tr>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>useCallback — SÍ usar</h3>
+        <table>
+          <tr><th>Caso</th><th>Por qué</th></tr>
+          <tr><td>Hijo <code>React.memo</code></td><td>Misma ref de función → skip re-render</td></tr>
+          <tr><td>Deps de <code>useEffect</code></td><td>Evitar re-run infinito del effect</td></tr>
+          <tr><td>Virtual list / grid cell</td><td>Renderer estable por fila (miles de nodos)</td></tr>
+          <tr><td>Callback a lib externa</td><td>ag-Grid <code>onFilterChanged</code>, DnD sensors</td></tr>
+          <tr><td>Custom hook API</td><td>Exponer <code>onSave</code> estable al consumidor</td></tr>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>useCallback — NO usar</h3>
+        <table>
+          <tr><th>Caso</th><th>Por qué</th></tr>
+          <tr><td>Hijo sin <code>memo</code></td><td>Re-renderiza igual; callback no ayuda</td></tr>
+          <tr><td>Handler en botón suelto</td><td>Coste re-render negligible</td></tr>
+          <tr><td>Dentro de listas sin memo item</td><td>N funciones nuevas igualmente</td></tr>
+          <tr><td>Deps cambian cada render</td><td><code>useCallback(fn, [obj])</code> inútil si obj es nuevo</td></tr>
+        </table>
+      </section>
+
+      <section class="card full">
+        <h3>Ejemplo Pluvia — grid + filtros</h3>
+        <pre>const columnDefs = useMemo(() =&gt; buildColumns(locale, permissions), [
+  locale, permissions,
+])
+
+const onFilterChanged = useCallback((model: FilterModel) =&gt; {
+  setFilters(model) // dispara SSRM refetch
+}, [])
+
+const CellRenderer = useMemo(
+  () =&gt; memo(function Cell({ value }: { value: number }) {
+    return &lt;span&gt;{formatCurrency(value)}&lt;/span&gt;
+  }),
+  [locale],
+)
+
+// ❌ useCallback en cada render de 500 filas sin memo
+// ✅ memo en cell + columnDefs estables + debounce filtros</pre>
+      </section>
+
+      <section class="card full">
+        <h3>Árbol de decisión rápido</h3>
+        <pre>¿El cálculo tarda &gt;1ms en Profiler?
+  SÍ → useMemo
+  NO → cálculo inline
+
+¿El hijo está envuelto en memo()?
+  SÍ → useCallback para props función
+  NO → handler inline OK
+
+¿La referencia está en deps de useEffect?
+  SÍ → useCallback o mover lógica dentro del effect
+  NO → no necesario
+
+¿React Compiler / Forget activo en proyecto?
+  SÍ → menos memo manual; seguir midiendo
+  NO → optimizar solo hot paths identificados</pre>
+      </section>
+
+      <section class="card full tip" style="background:#fffbeb;border-color:#fcd34d">
+        <h3>Respuesta entrevista (20 s)</h3>
+        <p>“No memoizo por defecto. Uso useMemo para cálculos caros o referencias estables en grids y context; useCallback cuando paso funciones a hijos memoizados o como deps de effects. En Pluvia perfilamos con Profiler: columnDefs, cell renderers y filtros sobre 100k filas. El resto del árbol se optimiza con virtualización y state colocado, no con memo en todo.”</p>
+      </section>
+    </div>
+
+    <p class="footer">React Interview 100 + Extras · Erick Vargas · jobs/react-interview-100.pdf</p>
+  </div>
+</body>
+</html>

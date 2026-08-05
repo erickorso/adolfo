@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Adolfo — Portfolio one-pager · Erick Vargas</title>
+  <style>
+    @page { size: A4; margin: 0; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      color: #1c1917;
+      background: #f5f0e8;
+      font-size: 9.5pt;
+      line-height: 1.35;
+    }
+    .sheet {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 12mm 12mm 10mm;
+      background:
+        radial-gradient(ellipse 80% 40% at 10% 0%, #efe6d6 0%, transparent 55%),
+        #f5f0e8;
+    }
+    .brand {
+      font-size: 28pt;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 0;
+      color: #292524;
+    }
+    .tag {
+      margin: 2px 0 0;
+      color: #57534e;
+      font-size: 10pt;
+    }
+    .url {
+      margin: 6px 0 0;
+      font-size: 10.5pt;
+      font-weight: 600;
+      color: #44403c;
+      text-decoration: none;
+    }
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      border-bottom: 2px solid #44403c;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+    .who { text-align: right; font-size: 9pt; color: #57534e; max-width: 42%; }
+    .who strong { display: block; color: #1c1917; font-size: 11pt; margin-bottom: 2px; }
+    .blurb {
+      margin: 0 0 12px;
+      max-width: 95%;
+      color: #44403c;
+    }
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin: 0 0 14px;
+    }
+    .stack span {
+      background: #fff;
+      border: 1px solid #d6d3d1;
+      border-radius: 999px;
+      padding: 3px 9px;
+      font-size: 8pt;
+      color: #44403c;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e7e5e4;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .card img {
+      display: block;
+      width: 100%;
+      height: 72mm;
+      object-fit: cover;
+      object-position: top center;
+      background: #e7e5e4;
+    }
+    .card figcaption {
+      padding: 5px 8px 7px;
+      font-size: 8pt;
+      color: #57534e;
+    }
+    .card figcaption strong {
+      display: block;
+      color: #1c1917;
+      font-size: 9pt;
+      margin-bottom: 1px;
+    }
+    .foot {
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px solid #d6d3d1;
+      font-size: 8pt;
+      color: #78716c;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="sheet">
+    <header class="meta">
+      <div>
+        <h1 class="brand">Adolfo</h1>
+        <p class="tag">Live product portfolio — commerce, jobs ingest, courses, public APIs</p>
+        <a class="url" href="https://adolfo-nine.vercel.app">https://adolfo-nine.vercel.app</a>
+      </div>
+      <div class="who">
+        <strong>Erick Vargas Ramos</strong>
+        Senior Frontend / Fullstack · Madrid<br />
+        Next.js · TypeScript · React · Postgres
+      </div>
+    </header>
+
+    <p class="blurb">
+      Production app on Vercel + Neon: Auth.js, catalog/cart, remote jobs ingest (Remotive / Greenhouse / etc.),
+      learning modules with progress, and live public API probes (metrics OAuth-like demo, catalog, demo upstreams).
+      Built as a shippable product, not a static mock.
+    </p>
+
+    <div class="stack">
+      <span>Next.js 16</span>
+      <span>TypeScript</span>
+      <span>React 19</span>
+      <span>Prisma / Postgres</span>
+      <span>Auth.js</span>
+      <span>next-intl</span>
+      <span>Vitest / Playwright</span>
+      <span>Vercel</span>
+    </div>
+
+    <div class="grid">
+      <figure class="card">
+        <img src="adolfo-shot-courses.png" alt="Courses modules in Adolfo" />
+        <figcaption>
+          <strong>Courses</strong>
+          In-app modules: fullstack kit, CWV, AI path, FP certificates.
+        </figcaption>
+      </figure>
+      <figure class="card">
+        <img src="adolfo-shot-jobs.png" alt="Jobs board in Adolfo" />
+        <figcaption>
+          <strong>Jobs</strong>
+          Remote JS/Node ingest — filterable board with live sources.
+        </figcaption>
+      </figure>
+      <figure class="card">
+        <img src="adolfo-shot-apis.png" alt="Public APIs status page" />
+        <figcaption>
+          <strong>Public APIs</strong>
+          Live health + latency for own endpoints and upstreams.
+        </figcaption>
+      </figure>
+      <figure class="card">
+        <img src="adolfo-shot-ai-agents.png" alt="AI Agents course in Adolfo" />
+        <figcaption>
+          <strong>AI Agents</strong>
+          Microsoft 17-lesson path with XP/progress inside the app.
+        </figcaption>
+      </figure>
+    </div>
+
+    <footer class="foot">
+      <span>Also: catalog/checkout · 3D sandbox · Motion UI · Postman collection</span>
+      <span>Repo / live link preferred over this PDF alone</span>
+    </footer>
+  </div>
+</body>
+</html>

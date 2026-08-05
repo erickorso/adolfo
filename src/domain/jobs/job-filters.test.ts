@@ -62,6 +62,29 @@ describe("isEligibleNormalizedJob", () => {
       }),
     ).toBe(false);
   });
+
+  it("respeta keywords de scope custom", () => {
+    expect(
+      isEligibleNormalizedJob(
+        {
+          remote: true,
+          location: "Worldwide",
+          title: "Senior Laravel Engineer",
+        },
+        { keywords: ["laravel", "php"], remoteOnly: true },
+      ),
+    ).toBe(true);
+    expect(
+      isEligibleNormalizedJob(
+        {
+          remote: true,
+          location: "Worldwide",
+          title: "Senior React Developer",
+        },
+        { keywords: ["laravel", "php"], remoteOnly: true },
+      ),
+    ).toBe(false);
+  });
 });
 
 describe("isPublicJobListing", () => {

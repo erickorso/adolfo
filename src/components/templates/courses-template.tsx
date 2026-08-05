@@ -37,6 +37,14 @@ export async function CoursesTemplate({
         "bg-lime-100 text-lime-900 dark:bg-lime-950 dark:text-lime-200",
     },
     {
+      href: "/learn/architecture-practices",
+      title: t("featuredArchitecturePractices"),
+      hint: t("featuredArchitecturePracticesHint"),
+      icon: "layers" as const,
+      iconClass:
+        "bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-200",
+    },
+    {
       href: "/sandbox/kit",
       title: t("featuredFullstackKit"),
       hint: t("featuredFullstackKitHint"),

@@ -1,7 +1,7 @@
 # Job boards — remoto (fuera de LinkedIn/Indeed)
 
 > Perfil: **Senior React/Next.js**, remoto, EU/LATAM/Global · base **España**  
-> Actualizado: **2026-07-05**
+> Actualizado: **2026-07-19** · Búsqueda activa reiniciada (ver `progress.md`)
 
 ---
 
@@ -9,7 +9,8 @@
 
 | Acción | Portales |
 |--------|----------|
-| **Ya usados (applies)** | Get on Board, Remotive, Workable, empleo.qindel.com, LinkedIn inbound |
+| **Activo hoy** | Landbot (applied 19 jul) · rutina LinkedIn + Get on Board + EuropeRemotely + Remotive |
+| **Ya usados (histórico)** | Get on Board, Remotive, Workable, empleo.qindel.com, LinkedIn inbound |
 | **Ingesta automática en Adolfo** (`/es/jobs`) | Remotive, RemoteOK, Arbeitnow, Hacker News, Greenhouse |
 | **Explorar próxima tanda** | EuropeRemotely, Dynamite Jobs, Wellfound, WWR, Built In, Remote 100k |
 | **Evitar / baja prioridad** | GitHub Jobs (cerrado 2017), RezPass (pago — revisar antes) |

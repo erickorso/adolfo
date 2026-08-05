@@ -104,6 +104,8 @@ class ChatMessage(BaseModel):
 class CoachChatRequest(BaseModel):
     message: str = Field(min_length=1, max_length=2000)
     history: list[ChatMessage] = Field(default_factory=list, max_length=8)
+    locale: str | None = Field(default=None, max_length=8)
+    conversation_id: str | None = Field(default=None, max_length=64)
 
 
 class CoachJobRef(BaseModel):
@@ -130,3 +132,31 @@ class CoachChatResponse(BaseModel):
     reply: str
     refs: CoachRefs
     provider: str | None = None
+    conversation_id: str
+
+
+class CoachConversationOut(BaseModel):
+    id: str
+    title: str
+    locale: str
+    created_at: datetime
+    updated_at: datetime
+    message_count: int = 0
+
+
+class CoachMessageOut(BaseModel):
+    id: str
+    role: str
+    content: str
+    created_at: datetime
+    refs: CoachRefs | None = None
+    provider: str | None = None
+
+
+class CoachConversationDetail(BaseModel):
+    id: str
+    title: str
+    locale: str
+    created_at: datetime
+    updated_at: datetime
+    messages: list[CoachMessageOut]

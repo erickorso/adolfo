@@ -10,14 +10,27 @@ from sqlalchemy import and_, func, not_, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import Settings
-from app.models import Course, JobPosting, User, UserRole, UserSearchScope, UserStatus
+from app.gemini_client import gemini_generate_text, validate_user_gemini_key
+from app.models import (
+    CoachConversation,
+    CoachMessage,
+    Course,
+    JobPosting,
+    User,
+    UserRole,
+    UserSearchScope,
+    UserStatus,
+)
 from app.schemas import (
     CourseDetailOut,
     CourseOut,
     CoachChatRequest,
     CoachChatResponse,
+    CoachConversationDetail,
+    CoachConversationOut,
     CoachCourseRef,
     CoachJobRef,
+    CoachMessageOut,
     CoachRefs,
     IngestRequest,
     IngestResponse,
@@ -465,7 +478,7 @@ async def get_course(db: AsyncSession, course_id: str) -> CourseDetailOut:
     return _course_to_detail(row)
 
 
-COACH_SYSTEM = """Sos el Career Coach de Adolfo (app mobile de jobs + cursos).
+COACH_SYSTEM_ES = """Sos el Career Coach de Adolfo (app mobile de jobs + cursos).
 Reglas:
 - Respondé en español, claro y accionable (bullets cortos).
 - Usá SOLO vacantes y cursos del bloque CONTEXT. No inventes IDs, empresas ni URLs.
@@ -473,6 +486,20 @@ Reglas:
 - Relacioná gaps del usuario con cursos del catálogo y vacantes concretas por título.
 - No digas que sos un modelo genérico; sos el coach del producto.
 """
+
+COACH_SYSTEM_EN = """You are Adolfo's Career Coach (mobile app for jobs + courses).
+Rules:
+- Reply in English, clear and actionable (short bullets).
+- Use ONLY openings and courses from the CONTEXT block. Do not invent IDs, companies, or URLs.
+- If context is empty or insufficient, ask the user to adjust Scope (keywords / search).
+- Relate user gaps to catalog courses and concrete openings by title.
+- Do not say you are a generic model; you are the product coach.
+"""
+
+
+def coach_system_prompt(locale: str | None) -> str:
+    lang = (locale or "es").strip().lower()[:2]
+    return COACH_SYSTEM_EN if lang == "en" else COACH_SYSTEM_ES
 
 
 def _clip(text: str | None, n: int = 400) -> str:
@@ -531,18 +558,239 @@ async def _coach_job_rows(
     return list(result.scalars().all())
 
 
+def _title_from_message(text: str) -> str:
+    t = " ".join(text.strip().split())
+    if not t:
+        return "New chat"
+    return t if len(t) <= 72 else t[:71] + "…"
+
+
+def _refs_from_meta(meta: object | None) -> CoachRefs | None:
+    if not isinstance(meta, dict):
+        return None
+    jobs_raw = meta.get("jobs") or []
+    courses_raw = meta.get("courses") or []
+    jobs: list[CoachJobRef] = []
+    courses: list[CoachCourseRef] = []
+    if isinstance(jobs_raw, list):
+        for j in jobs_raw:
+            if isinstance(j, dict) and j.get("id") and j.get("title"):
+                jobs.append(
+                    CoachJobRef(
+                        id=str(j["id"]),
+                        title=str(j["title"]),
+                        company=str(j.get("company") or ""),
+                        url=str(j.get("url") or ""),
+                    )
+                )
+    if isinstance(courses_raw, list):
+        for c in courses_raw:
+            if isinstance(c, dict) and c.get("id") and c.get("title"):
+                courses.append(
+                    CoachCourseRef(
+                        id=str(c["id"]),
+                        title=str(c["title"]),
+                        provider=str(c.get("provider") or ""),
+                        hours=int(c.get("hours") or 0),
+                        url=str(c.get("url") or ""),
+                    )
+                )
+    if not jobs and not courses:
+        return None
+    return CoachRefs(jobs=jobs, courses=courses)
+
+
+async def list_coach_conversations(
+    db: AsyncSession,
+    user_id: str,
+    *,
+    limit: int = 40,
+) -> list[CoachConversationOut]:
+    stmt = (
+        select(CoachConversation)
+        .where(CoachConversation.user_id == user_id)
+        .order_by(CoachConversation.updated_at.desc())
+        .limit(limit)
+    )
+    rows = list((await db.execute(stmt)).scalars().all())
+    out: list[CoachConversationOut] = []
+    for row in rows:
+        count = await db.scalar(
+            select(func.count())
+            .select_from(CoachMessage)
+            .where(CoachMessage.conversation_id == row.id)
+        )
+        out.append(
+            CoachConversationOut(
+                id=row.id,
+                title=row.title,
+                locale=row.locale,
+                created_at=row.created_at,
+                updated_at=row.updated_at,
+                message_count=int(count or 0),
+            )
+        )
+    return out
+
+
+async def get_coach_conversation(
+    db: AsyncSession,
+    user_id: str,
+    conversation_id: str,
+) -> CoachConversationDetail:
+    conv = await db.get(CoachConversation, conversation_id)
+    if conv is None or conv.user_id != user_id:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Conversación no encontrada",
+        )
+    msgs = list(
+        (
+            await db.execute(
+                select(CoachMessage)
+                .where(CoachMessage.conversation_id == conversation_id)
+                .order_by(CoachMessage.created_at.asc())
+            )
+        )
+        .scalars()
+        .all()
+    )
+    messages: list[CoachMessageOut] = []
+    for m in msgs:
+        refs = _refs_from_meta(m.meta)
+        provider = None
+        if isinstance(m.meta, dict):
+            provider = m.meta.get("provider")
+            if provider is not None:
+                provider = str(provider)
+        messages.append(
+            CoachMessageOut(
+                id=m.id,
+                role=m.role,
+                content=m.content,
+                created_at=m.created_at,
+                refs=refs,
+                provider=provider,
+            )
+        )
+    return CoachConversationDetail(
+        id=conv.id,
+        title=conv.title,
+        locale=conv.locale,
+        created_at=conv.created_at,
+        updated_at=conv.updated_at,
+        messages=messages,
+    )
+
+
+async def create_coach_conversation(
+    db: AsyncSession,
+    user_id: str,
+    *,
+    locale: str | None = None,
+    title: str | None = None,
+) -> CoachConversationOut:
+    now = datetime.now(UTC).replace(tzinfo=None)
+    lang = (locale or "es").strip().lower()[:2] or "es"
+    row = CoachConversation(
+        id=f"cc{secrets.token_hex(12)}",
+        user_id=user_id,
+        title=(title or ("Nuevo chat" if lang == "es" else "New chat")).strip()[:120],
+        locale=lang,
+        created_at=now,
+        updated_at=now,
+    )
+    db.add(row)
+    await db.commit()
+    await db.refresh(row)
+    return CoachConversationOut(
+        id=row.id,
+        title=row.title,
+        locale=row.locale,
+        created_at=row.created_at,
+        updated_at=row.updated_at,
+        message_count=0,
+    )
+
+
+async def delete_coach_conversation(
+    db: AsyncSession,
+    user_id: str,
+    conversation_id: str,
+) -> None:
+    conv = await db.get(CoachConversation, conversation_id)
+    if conv is None or conv.user_id != user_id:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Conversación no encontrada",
+        )
+    await db.delete(conv)
+    await db.commit()
+
+
+async def _get_or_create_conversation(
+    db: AsyncSession,
+    user_id: str,
+    conversation_id: str | None,
+    locale: str | None,
+) -> CoachConversation:
+    if conversation_id:
+        conv = await db.get(CoachConversation, conversation_id)
+        if conv is None or conv.user_id != user_id:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Conversación no encontrada",
+            )
+        return conv
+    created = await create_coach_conversation(db, user_id, locale=locale)
+    conv = await db.get(CoachConversation, created.id)
+    assert conv is not None
+    return conv
+
+
 async def coach_chat(
     db: AsyncSession,
     user: User,
     body: CoachChatRequest,
     settings: Settings,
+    user_gemini_key: str | None = None,
 ) -> CoachChatResponse:
+    byok_key = validate_user_gemini_key(user_gemini_key)
     secret = settings.adolfo_bearer_secret
-    if not secret:
+    if not byok_key and not secret:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="AI no configurada (AI_GENERATE_SECRET o JOBS_INGEST_SECRET)",
         )
+
+    conv = await _get_or_create_conversation(
+        db, user.id, body.conversation_id, body.locale
+    )
+    if body.locale:
+        conv.locale = body.locale.strip().lower()[:2] or conv.locale
+
+    # Historial: preferir DB (últimos 8); fallback al body del cliente.
+    db_msgs = list(
+        (
+            await db.execute(
+                select(CoachMessage)
+                .where(CoachMessage.conversation_id == conv.id)
+                .order_by(CoachMessage.created_at.asc())
+            )
+        )
+        .scalars()
+        .all()
+    )
+    if db_msgs:
+        history_source = [
+            {"role": m.role, "content": m.content}
+            for m in db_msgs
+            if m.role in ("user", "assistant")
+        ][-8:]
+    else:
+        history_source = [
+            {"role": h.role, "content": h.content} for h in body.history[-8:]
+        ]
 
     scope = await get_user_scope(db, user.id)
     job_rows = await _coach_job_rows(
@@ -587,53 +835,100 @@ async def coach_chat(
         "courses": courses_ctx,
     }
     history_lines = []
-    for turn in body.history[-8:]:
-        history_lines.append(f"{turn.role.upper()}: {turn.content.strip()}")
+    for turn in history_source:
+        history_lines.append(f"{turn['role'].upper()}: {turn['content'].strip()}")
 
+    reply_instruction = (
+        "Reply to the USER using the CONTEXT."
+        if (body.locale or conv.locale or "es").strip().lower()[:2] == "en"
+        else "Respondé al USER usando el CONTEXT."
+    )
     prompt = (
         "CONTEXT (JSON):\n"
         f"{json.dumps(context, ensure_ascii=False)}\n\n"
         + ("CHAT:\n" + "\n".join(history_lines) + "\n\n" if history_lines else "")
         + f"USER: {body.message.strip()}\n\n"
-        "Respondé al USER usando el CONTEXT."
+        + reply_instruction
     )
+    system = coach_system_prompt(body.locale or conv.locale)
 
-    base = settings.adolfo_base_url.rstrip("/")
-    try:
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            res = await client.post(
-                f"{base}/api/ai/generate",
-                headers={
-                    "Authorization": f"Bearer {secret}",
-                    "Content-Type": "application/json",
-                },
-                json={
-                    "system": COACH_SYSTEM,
-                    "prompt": prompt,
-                    "maxOutputTokens": 1200,
-                    "temperature": 0.4,
+    if byok_key:
+        reply, provider = await gemini_generate_text(
+            api_key=byok_key,
+            model=settings.gemini_model,
+            system=system,
+            prompt=prompt,
+            max_output_tokens=1200,
+            temperature=0.4,
+        )
+    else:
+        base = settings.adolfo_base_url.rstrip("/")
+        try:
+            async with httpx.AsyncClient(timeout=60.0) as client:
+                res = await client.post(
+                    f"{base}/api/ai/generate",
+                    headers={
+                        "Authorization": f"Bearer {secret}",
+                        "Content-Type": "application/json",
+                    },
+                    json={
+                        "system": system,
+                        "prompt": prompt,
+                        "maxOutputTokens": 1200,
+                        "temperature": 0.4,
+                    },
+                )
+        except httpx.RequestError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_502_BAD_GATEWAY,
+                detail=f"No se pudo contactar Adolfo AI: {exc}",
+            ) from exc
+
+        if res.status_code == 429:
+            try:
+                payload = res.json()
+            except Exception:
+                payload = {}
+            raise HTTPException(
+                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                detail={
+                    "code": "AI_QUOTA",
+                    "message": payload.get("error")
+                    or "Cuota de IA de Adolfo agotada. Agregá tu API key Gemini.",
+                    "retryAfterSec": payload.get("retryAfterSec"),
                 },
             )
-            res.raise_for_status()
-            data = res.json()
-    except httpx.HTTPStatusError as exc:
-        detail = exc.response.text[:400] or exc.response.reason_phrase
-        raise HTTPException(
-            status_code=status.HTTP_502_BAD_GATEWAY,
-            detail=f"AI generate falló: {detail}",
-        ) from exc
-    except httpx.RequestError as exc:
-        raise HTTPException(
-            status_code=status.HTTP_502_BAD_GATEWAY,
-            detail=f"No se pudo contactar Adolfo AI: {exc}",
-        ) from exc
+        if not res.is_success:
+            detail = res.text[:400] or res.reason_phrase
+            try:
+                payload = res.json()
+                if payload.get("code") == "AI_QUOTA":
+                    raise HTTPException(
+                        status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                        detail={
+                            "code": "AI_QUOTA",
+                            "message": payload.get("error")
+                            or "Cuota de IA de Adolfo agotada.",
+                            "retryAfterSec": payload.get("retryAfterSec"),
+                        },
+                    )
+            except HTTPException:
+                raise
+            except Exception:
+                pass
+            raise HTTPException(
+                status_code=status.HTTP_502_BAD_GATEWAY,
+                detail=f"AI generate falló: {detail}",
+            )
 
-    reply = (data.get("text") or "").strip()
-    if not reply:
-        raise HTTPException(
-            status_code=status.HTTP_502_BAD_GATEWAY,
-            detail="AI devolvió respuesta vacía",
-        )
+        data = res.json()
+        reply = (data.get("text") or "").strip()
+        provider = data.get("provider")
+        if not reply:
+            raise HTTPException(
+                status_code=status.HTTP_502_BAD_GATEWAY,
+                detail="AI devolvió respuesta vacía",
+            )
 
     refs = CoachRefs(
         jobs=[
@@ -656,8 +951,39 @@ async def coach_chat(
             for c in courses
         ],
     )
+
+    now = datetime.now(UTC).replace(tzinfo=None)
+    is_first = len(db_msgs) == 0
+    user_msg = CoachMessage(
+        id=f"cm{secrets.token_hex(12)}",
+        conversation_id=conv.id,
+        role="user",
+        content=body.message.strip(),
+        meta=None,
+        created_at=now,
+    )
+    assistant_msg = CoachMessage(
+        id=f"cm{secrets.token_hex(12)}",
+        conversation_id=conv.id,
+        role="assistant",
+        content=reply,
+        meta={
+            "jobs": [j.model_dump() for j in refs.jobs],
+            "courses": [c.model_dump() for c in refs.courses],
+            "provider": provider,
+        },
+        created_at=now,
+    )
+    db.add(user_msg)
+    db.add(assistant_msg)
+    if is_first or conv.title in ("New chat", "Nuevo chat"):
+        conv.title = _title_from_message(body.message)
+    conv.updated_at = now
+    await db.commit()
+
     return CoachChatResponse(
         reply=reply,
         refs=refs,
-        provider=data.get("provider"),
+        provider=provider,
+        conversation_id=conv.id,
     )

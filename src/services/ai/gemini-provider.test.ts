@@ -37,12 +37,30 @@ describe("GeminiProvider", () => {
     server.use(
       http.post(
         "https://generativelanguage.googleapis.com/v1beta/models/:rest",
-        () => new HttpResponse("nope", { status: 429 }),
+        () => new HttpResponse("nope", { status: 500 }),
       ),
     );
     const provider = new GeminiProvider("k", "gemini-2.0-flash");
     await expect(provider.generateText({ prompt: "x" })).rejects.toThrow(
       AiProviderError,
     );
+  });
+
+  it("marca AI_QUOTA ante 429", async () => {
+    server.use(
+      http.post(
+        "https://generativelanguage.googleapis.com/v1beta/models/:rest",
+        () =>
+          new HttpResponse(JSON.stringify({ error: { status: "RESOURCE_EXHAUSTED" } }), {
+            status: 429,
+          }),
+      ),
+    );
+    const provider = new GeminiProvider("k", "gemini-2.0-flash");
+    await expect(provider.generateText({ prompt: "x" })).rejects.toMatchObject({
+      name: "AiProviderError",
+      code: "AI_QUOTA",
+      httpStatus: 429,
+    });
   });
 });

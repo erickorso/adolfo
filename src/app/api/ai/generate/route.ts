@@ -61,7 +61,17 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ text, provider: aiProvider.id });
   } catch (err) {
     if (err instanceof AiProviderError) {
-      return NextResponse.json({ error: err.message }, { status: 502 });
+      const status = err.httpStatus ?? 502;
+      return NextResponse.json(
+        {
+          error: err.message,
+          code: err.code ?? "AI_PROVIDER",
+          ...(err.retryAfterSec != null
+            ? { retryAfterSec: err.retryAfterSec }
+            : {}),
+        },
+        { status },
+      );
     }
     throw err;
   }

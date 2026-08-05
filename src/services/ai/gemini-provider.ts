@@ -54,7 +54,33 @@ export class GeminiProvider implements AiProvider {
 
     if (!res.ok) {
       const detail = await res.text();
-      throw new AiProviderError(`Gemini respondió ${res.status}: ${detail}`);
+      const lower = detail.toLowerCase();
+      const isQuota =
+        res.status === 429 ||
+        lower.includes("resource_exhausted") ||
+        lower.includes("quota") ||
+        lower.includes("rate limit");
+      if (isQuota) {
+        const retryHeader = res.headers.get("retry-after");
+        const retryAfterSec = retryHeader
+          ? Number.parseInt(retryHeader, 10)
+          : undefined;
+        throw new AiProviderError(
+          `Cuota de Gemini agotada (${res.status}): ${detail}`,
+          {
+            code: "AI_QUOTA",
+            httpStatus: 429,
+            retryAfterSec:
+              Number.isFinite(retryAfterSec) && (retryAfterSec ?? 0) > 0
+                ? retryAfterSec
+                : undefined,
+          },
+        );
+      }
+      throw new AiProviderError(`Gemini respondió ${res.status}: ${detail}`, {
+        code: "AI_PROVIDER",
+        httpStatus: 502,
+      });
     }
 
     const data = (await res.json()) as GeminiResponse;

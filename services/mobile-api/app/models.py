@@ -99,3 +99,25 @@ class Course(Base):
     )
     free: Mapped[bool] = mapped_column(Boolean, default=True)
     hidden: Mapped[bool] = mapped_column(Boolean, default=False, server_default=false())
+
+
+class CoachConversation(Base):
+    __tablename__ = "CoachConversation"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    user_id: Mapped[str] = mapped_column("userId", String, index=True)
+    title: Mapped[str] = mapped_column(String, default="New chat")
+    locale: Mapped[str] = mapped_column(String, default="es")
+    created_at: Mapped[datetime] = mapped_column("createdAt", DateTime)
+    updated_at: Mapped[datetime] = mapped_column("updatedAt", DateTime)
+
+
+class CoachMessage(Base):
+    __tablename__ = "CoachMessage"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    conversation_id: Mapped[str] = mapped_column("conversationId", String, index=True)
+    role: Mapped[str] = mapped_column(String)
+    content: Mapped[str] = mapped_column(Text)
+    meta: Mapped[dict | list | None] = mapped_column(JSONB, nullable=True)
+    created_at: Mapped[datetime] = mapped_column("createdAt", DateTime)

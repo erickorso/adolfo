@@ -35,6 +35,8 @@ class Settings(BaseSettings):
     adolfo_base_url: str = "http://127.0.0.1:3000"
     jobs_ingest_secret: str | None = None
     ai_generate_secret: str | None = None
+    # Modelo para BYOK (user key → Gemini directo desde el BFF)
+    gemini_model: str = "gemini-2.5-flash"
 
     @property
     def adolfo_bearer_secret(self) -> str:

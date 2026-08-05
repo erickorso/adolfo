@@ -92,6 +92,7 @@ model User {
   lessonProgress    LessonProgress[]
   learningProfile   LearningProfile?
   searchScope       UserSearchScope?
+  coachConversations CoachConversation[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
@@ -515,6 +516,34 @@ model UserSearchScope {
   courseQuery String   @default("")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+/// Conversación del Career Coach (mobile). Lista lineal de mensajes.
+model CoachConversation {
+  id        String         @id @default(cuid())
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  title     String         @default("New chat")
+  locale    String         @default("es")
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  messages  CoachMessage[]
+
+  @@index([userId, updatedAt])
+}
+
+model CoachMessage {
+  id             String            @id @default(cuid())
+  conversation   CoachConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId String
+  /// user | assistant
+  role           String
+  content        String
+  /// Refs jobs/courses / provider (JSON).
+  meta           Json?
+  createdAt      DateTime          @default(now())
+
+  @@index([conversationId, createdAt])
 }
 
 // ──────────────────────────────────────────────────────────────

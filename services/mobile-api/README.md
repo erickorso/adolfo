@@ -27,7 +27,11 @@ Desde la raíz del monorepo: `npm run dev:mobile-api`
 | GET | `/api/v1/auth/me` | Bearer | perfil |
 | GET | `/api/v1/me/scope` | Bearer | Preferencias de búsqueda del usuario |
 | PUT | `/api/v1/me/scope` | Bearer | Upsert keywords + job/course query |
-| POST | `/api/v1/coach/chat` | Bearer | Career Coach (contexto scope+jobs+courses → Adolfo AI) |
+| GET | `/api/v1/coach/conversations` | Bearer | Listado de chats del user |
+| POST | `/api/v1/coach/conversations` | Bearer | Nueva conversación (`?locale=`) |
+| GET | `/api/v1/coach/conversations/{id}` | Bearer | Detalle + mensajes |
+| DELETE | `/api/v1/coach/conversations/{id}` | Bearer | Borrar chat |
+| POST | `/api/v1/coach/chat` | Bearer | Career Coach. Body: `conversation_id?`, `locale?`. Opcional `X-User-Gemini-Key`. Persiste mensajes. |
 | GET | `/api/v1/jobs` | — | `q`, `keywords` (CSV scope), limit |
 | POST | `/api/v1/jobs/ingest` | — | Proxy a Adolfo; body `{ keywords?, remote_only? }` |
 | GET | `/api/v1/jobs/{id}` | — | detalle + description |
@@ -57,7 +61,7 @@ curl -s http://localhost:4002/api/v1/auth/me -H "Authorization: Bearer <token>"
 | `MOBILE_CORS_ORIGINS` | no | CSV de orígenes |
 | `ADOLFO_BASE_URL` | para ingest/AI | Next.js local/prod (default `http://127.0.0.1:3000`) |
 | `JOBS_INGEST_SECRET` | para ingest/AI | Bearer Adolfo (ingest + AI si no hay AI_GENERATE_SECRET) |
-| `AI_GENERATE_SECRET` | opcional | Bearer específico para `/api/ai/generate` |
+| `GEMINI_MODEL` | BYOK | default `gemini-2.5-flash` (header `X-User-Gemini-Key`) |
 
 ## Producción: [Render](https://render.com)
 
@@ -85,7 +89,7 @@ docker run --env-file .env -p 4002:4002 adolfo-mobile-api
 - No usa cookies de Auth.js: token propio (`iss: adolfo-mobile-api`).
 - Password hash compatible con `bcryptjs` de Next (misma columna `User.passwordHash`).
 - Login/register devuelven `scope` y corren ingest con keywords del usuario (`ingest` / `ingest_error`).
-- Coach: `POST /api/v1/coach/chat` arma contexto (scope + jobs + courses) y proxy a Adolfo `/api/ai/generate`.
+- Coach: `POST /api/v1/coach/chat` arma contexto (scope + jobs + courses). Sin key de user → proxy Adolfo `/api/ai/generate`. Con `X-User-Gemini-Key` → Gemini directo (BYOK). Cuota Adolfo → `429` `{ code: AI_QUOTA }`.
 - Jobs: filtros públicos (remote, no Madrid, keywords de scope o JS/FE, 10 días).
 - `POST /api/v1/jobs/ingest` y Coach requieren Next corriendo + secret Bearer.
 - No migra schema: solo lee/escribe tablas existentes (incl. `UserSearchScope`).

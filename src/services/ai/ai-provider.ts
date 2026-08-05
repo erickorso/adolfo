@@ -20,8 +20,22 @@ export interface AiProvider {
 
 /** Error tipado para fallos del proveedor de IA. */
 export class AiProviderError extends Error {
-  constructor(message: string) {
+  readonly code?: "AI_QUOTA" | "AI_PROVIDER";
+  readonly httpStatus?: number;
+  readonly retryAfterSec?: number;
+
+  constructor(
+    message: string,
+    opts?: {
+      code?: "AI_QUOTA" | "AI_PROVIDER";
+      httpStatus?: number;
+      retryAfterSec?: number;
+    },
+  ) {
     super(message);
     this.name = "AiProviderError";
+    this.code = opts?.code;
+    this.httpStatus = opts?.httpStatus;
+    this.retryAfterSec = opts?.retryAfterSec;
   }
 }

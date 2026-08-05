@@ -4,17 +4,21 @@ from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 _MOBILE_ROOT = Path(__file__).resolve().parents[1]
-_ADOLFO_ROOT = Path(__file__).resolve().parents[3]
+# Monorepo local: .../adolfo/services/mobile-api/app → parents[3] = adolfo.
+# Docker/Render: /app/app/config.py → solo parents[0..2]; no hay monorepo root.
+_cfg_path = Path(__file__).resolve()
+_ADOLFO_ROOT = _cfg_path.parents[3] if len(_cfg_path.parents) > 3 else None
+
+_ENV_FILES: tuple[Path, ...] = (
+    _MOBILE_ROOT / ".env",
+    _MOBILE_ROOT / ".env.local",
+    *((_ADOLFO_ROOT / ".env", _ADOLFO_ROOT / ".env.local") if _ADOLFO_ROOT else ()),
+)
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=(
-            _MOBILE_ROOT / ".env",
-            _MOBILE_ROOT / ".env.local",
-            _ADOLFO_ROOT / ".env",
-            _ADOLFO_ROOT / ".env.local",
-        ),
+        env_file=_ENV_FILES,
         env_file_encoding="utf-8",
         extra="ignore",
     )

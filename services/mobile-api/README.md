@@ -59,15 +59,21 @@ curl -s http://localhost:4002/api/v1/auth/me -H "Authorization: Bearer <token>"
 | `JOBS_INGEST_SECRET` | para ingest/AI | Bearer Adolfo (ingest + AI si no hay AI_GENERATE_SECRET) |
 | `AI_GENERATE_SECRET` | opcional | Bearer específico para `/api/ai/generate` |
 
-## Docker / Railway
+## Producción: [Render](https://render.com)
 
-Dashboard: [railway.app/new](https://railway.app/new) · [dashboard](https://railway.app/dashboard)
+Servicio: **https://adolfo-mobile-api.onrender.com**  
+Dashboard: [dashboard.render.com](https://dashboard.render.com) · Web Service Docker · repo `erickorso/adolfo` · branch `main`
 
-1. New Project → GitHub `erickorso/adolfo`
-2. **Root Directory:** `services/mobile-api` (usa `Dockerfile` + `railway.toml`)
-3. Variables: `DATABASE_URL`, `MOBILE_JWT_SECRET`, `ADOLFO_BASE_URL=https://adolfo-nine.vercel.app`, `JOBS_INGEST_SECRET`
-4. Networking → **Generate Domain** → `https://<servicio>.up.railway.app`
-5. Health: `GET /health` debe devolver `ingest_secret_configured: true`
+| Setting | Valor |
+|---------|--------|
+| Root Directory | `services/mobile-api` |
+| Health Check Path | `/health` |
+| Env | `DATABASE_URL`, `MOBILE_JWT_SECRET`, `ADOLFO_BASE_URL=https://adolfo-nine.vercel.app`, `JOBS_INGEST_SECRET` |
+
+Health: [GET /health](https://adolfo-mobile-api.onrender.com/health) → `ingest_secret_configured: true`  
+Free tier: cold start ~50s.
+
+## Docker (local)
 
 ```bash
 docker build -t adolfo-mobile-api .

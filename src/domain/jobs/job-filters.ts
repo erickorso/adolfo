@@ -78,32 +78,55 @@ export function isPublicJobListing(job: {
   );
 }
 
-export function isEligibleNormalizedJob(job: {
-  remote: boolean;
-  location?: string | null;
-  title?: string;
-  description?: string | null;
-  postedAt?: Date | null;
-}): boolean {
-  if (!job.remote || isMadridJob(job)) {
+export function isEligibleNormalizedJob(
+  job: {
+    remote: boolean;
+    location?: string | null;
+    title?: string;
+    description?: string | null;
+    postedAt?: Date | null;
+  },
+  query: JobQuery = {
+    keywords: [...JS_NODE_JOB_QUERY_KEYWORDS],
+    remoteOnly: true,
+  },
+): boolean {
+  if (query.remoteOnly !== false && !job.remote) {
     return false;
   }
-  if (!matchesJsNodeJobText(job.title ?? "", job.description)) {
+  if (isMadridJob(job)) {
     return false;
   }
   if (job.postedAt && !isWithinActiveJobWindow(job.postedAt, job.postedAt)) {
     return false;
   }
-  return true;
+  const keywords =
+    query.keywords && query.keywords.length > 0
+      ? query.keywords
+      : [...JS_NODE_JOB_QUERY_KEYWORDS];
+  return matchesJobIngestQuery(
+    {
+      title: job.title ?? "",
+      company: "",
+      description: job.description ?? null,
+      remote: job.remote,
+    },
+    { keywords, remoteOnly: false },
+  );
 }
 
-/** Cláusula Prisma: título o descripción matchea stack JS/Node. */
-export function jsNodeTitleWhereClause() {
-  const titleOrDescription = JS_NODE_JOB_QUERY_KEYWORDS.flatMap((kw) => [
+/** Cláusula Prisma: título o descripción matchea alguna keyword. */
+export function keywordTitleWhereClause(keywords: readonly string[]) {
+  const titleOrDescription = keywords.flatMap((kw) => [
     { title: { contains: kw, mode: "insensitive" as const } },
     { description: { contains: kw, mode: "insensitive" as const } },
   ]);
   return { OR: titleOrDescription };
+}
+
+/** Cláusula Prisma: título o descripción matchea stack JS/Node. */
+export function jsNodeTitleWhereClause() {
+  return keywordTitleWhereClause(JS_NODE_JOB_QUERY_KEYWORDS);
 }
 
 /** Filtro de keywords en ingesta (título + descripción + company). */

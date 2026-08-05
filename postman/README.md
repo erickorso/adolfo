@@ -57,7 +57,7 @@ Formato: **Postman Collection v2.1.0** (`schema.getpostman.com/json/collection/v
 | POST | `/api/cart/clear` | cookie (form) |
 | POST | `/api/checkout` | sesión + cookie |
 | POST | `/api/webhooks/uala` | — |
-| GET, POST | `/api/jobs/ingest` | Bearer (+ rota imagen-semana) |
+| GET, POST | `/api/jobs/ingest` | Bearer (+ rota imagen-semana). POST body opcional: `{ keywords?, remoteOnly? }` |
 | GET, POST | `/api/rates/ingest` | Bearer |
 | GET, POST | `/api/catalog/imagen-semana/rotate` | Bearer (manual; también vía jobs ingest) |
 | POST | `/api/ai/generate` | Bearer (`AI_GENERATE_SECRET` o `JOBS_INGEST_SECRET`) |

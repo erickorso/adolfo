@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app import __version__
 from app.config import get_settings
 from app.db import engine
-from app.routers import auth, courses, health, jobs
+from app.routers import auth, coach, courses, health, jobs, me
 
 
 @asynccontextmanager
@@ -32,6 +32,8 @@ def create_app() -> FastAPI:
     )
     app.include_router(health.router)
     app.include_router(auth.router)
+    app.include_router(me.router)
+    app.include_router(coach.router)
     app.include_router(jobs.router)
     app.include_router(courses.router)
     return app

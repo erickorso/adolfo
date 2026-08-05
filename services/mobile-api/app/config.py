@@ -1,4 +1,3 @@
-from functools import lru_cache
 from pathlib import Path
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
@@ -28,6 +27,15 @@ class Settings(BaseSettings):
         "http://localhost:3000,http://127.0.0.1:3000,http://localhost:8081"
     )
     mobile_jwt_algorithm: str = "HS256"
+    # Proxy ingest / AI → Next.js Adolfo
+    adolfo_base_url: str = "http://127.0.0.1:3000"
+    jobs_ingest_secret: str | None = None
+    ai_generate_secret: str | None = None
+
+    @property
+    def adolfo_bearer_secret(self) -> str:
+        """Bearer para ingest y /api/ai/generate."""
+        return (self.ai_generate_secret or self.jobs_ingest_secret or "").strip()
 
     @property
     def async_database_url(self) -> str:
@@ -59,6 +67,7 @@ class Settings(BaseSettings):
         return [o.strip() for o in self.mobile_cors_origins.split(",") if o.strip()]
 
 
-@lru_cache
 def get_settings() -> Settings:
+    # Sin cache: permite recargar JOBS_INGEST_SECRET / ADOLFO_BASE_URL al editar .env
+    # (lru_cache dejaba el BFF con secret vacío tras el primer boot).
     return Settings()  # type: ignore[call-arg]

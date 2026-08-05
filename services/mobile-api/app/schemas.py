@@ -24,11 +24,38 @@ class UserOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
+class SearchScopeOut(BaseModel):
+    job_keywords: list[str] = Field(default_factory=list)
+    job_query: str = ""
+    course_query: str = ""
+
+
+class SearchScopeUpdate(BaseModel):
+    job_keywords: list[str] | None = Field(default=None, max_length=40)
+    job_query: str | None = Field(default=None, max_length=200)
+    course_query: str | None = Field(default=None, max_length=200)
+
+
+class IngestRequest(BaseModel):
+    keywords: list[str] | None = Field(default=None, min_length=1, max_length=40)
+    remote_only: bool | None = None
+
+
+class IngestResponse(BaseModel):
+    ingested: int
+    sources: list[str] | None = None
+    query: dict | None = None
+    imagen_semana: object | None = None
+
+
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     expires_in_minutes: int
     user: UserOut
+    scope: SearchScopeOut | None = None
+    ingest: IngestResponse | None = None
+    ingest_error: str | None = None
 
 
 class JobOut(BaseModel):
@@ -67,3 +94,39 @@ class CourseDetailOut(CourseOut):
     description: str | None
     source: str
     external_id: str | None
+
+
+class ChatMessage(BaseModel):
+    role: str = Field(pattern="^(user|assistant)$")
+    content: str = Field(min_length=1, max_length=4000)
+
+
+class CoachChatRequest(BaseModel):
+    message: str = Field(min_length=1, max_length=2000)
+    history: list[ChatMessage] = Field(default_factory=list, max_length=8)
+
+
+class CoachJobRef(BaseModel):
+    id: str
+    title: str
+    company: str
+    url: str
+
+
+class CoachCourseRef(BaseModel):
+    id: str
+    title: str
+    provider: str
+    hours: int
+    url: str
+
+
+class CoachRefs(BaseModel):
+    jobs: list[CoachJobRef] = Field(default_factory=list)
+    courses: list[CoachCourseRef] = Field(default_factory=list)
+
+
+class CoachChatResponse(BaseModel):
+    reply: str
+    refs: CoachRefs
+    provider: str | None = None

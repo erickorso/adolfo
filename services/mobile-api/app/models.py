@@ -4,6 +4,7 @@ from datetime import datetime
 from enum import StrEnum
 
 from sqlalchemy import Boolean, DateTime, Enum, Integer, String, Text, false
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db import Base
@@ -46,6 +47,18 @@ class User(Base):
     password_hash: Mapped[str | None] = mapped_column("passwordHash", String, nullable=True)
     role: Mapped[UserRole] = mapped_column(user_role_enum, default=UserRole.CUSTOMER)
     status: Mapped[UserStatus] = mapped_column(user_status_enum, default=UserStatus.ACTIVE)
+    created_at: Mapped[datetime] = mapped_column("createdAt", DateTime)
+    updated_at: Mapped[datetime] = mapped_column("updatedAt", DateTime)
+
+
+class UserSearchScope(Base):
+    __tablename__ = "UserSearchScope"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    user_id: Mapped[str] = mapped_column("userId", String, unique=True, index=True)
+    job_keywords: Mapped[list] = mapped_column("jobKeywords", JSONB, default=list)
+    job_query: Mapped[str] = mapped_column("jobQuery", String, default="")
+    course_query: Mapped[str] = mapped_column("courseQuery", String, default="")
     created_at: Mapped[datetime] = mapped_column("createdAt", DateTime)
     updated_at: Mapped[datetime] = mapped_column("updatedAt", DateTime)
 

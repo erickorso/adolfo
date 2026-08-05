@@ -91,6 +91,7 @@ model User {
   courseEnrollments CourseEnrollment[]
   lessonProgress    LessonProgress[]
   learningProfile   LearningProfile?
+  searchScope       UserSearchScope?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
@@ -499,6 +500,21 @@ model LearningProfile {
   lastActivityDate DateTime?
   certificateEarnedAt DateTime?
   updatedAt        DateTime  @updatedAt
+}
+
+/// Preferencias de búsqueda mobile (jobs scope + queries).
+model UserSearchScope {
+  id          String   @id @default(cuid())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String   @unique
+  /// Keywords de ingest / listado jobs (JSON array de strings).
+  jobKeywords Json     @default("[]")
+  /// Última búsqueda libre en Jobs.
+  jobQuery    String   @default("")
+  /// Búsqueda default / última en Courses.
+  courseQuery String   @default("")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 // ──────────────────────────────────────────────────────────────

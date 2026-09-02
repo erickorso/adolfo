@@ -12,8 +12,8 @@ import { useFormStatus } from "react-dom";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import {
-  ENGLISH_A1_EXERCISE_INITIAL_STATE,
   submitEnglishA1ExerciseAction,
+  type EnglishA1ExerciseActionState,
 } from "@/app/[locale]/learn/english-a1/actions";
 import { EnglishA1ChoiceExercise } from "@/components/molecules/english-a1-choice-exercise";
 import { EnglishA1FillBlankExercise } from "@/components/molecules/english-a1-fill-blank-exercise";
@@ -25,6 +25,10 @@ import { cn } from "@/lib/utils";
 type OptimisticResult = {
   exerciseId: string;
   correct: boolean;
+};
+
+const ENGLISH_A1_EXERCISE_INITIAL_STATE: EnglishA1ExerciseActionState = {
+  ok: false,
 };
 
 type EnglishA1ExerciseSessionProps = {
@@ -64,6 +68,7 @@ export function EnglishA1ExerciseSession({
   const t = useTranslations("englishA1");
   const router = useRouter();
   const startedAt = useRef(Date.now());
+  const durationInputRef = useRef<HTMLInputElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [lastFeedback, setLastFeedback] = useState<{
@@ -123,30 +128,27 @@ export function EnglishA1ExerciseSession({
       ? Math.round((optimisticCorrect.length / exercises.length) * 100)
       : initialScorePercent;
 
-  function handleFormAction(formData: FormData) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     if (!isLoggedIn) {
+      event.preventDefault();
       router.push(`/login?callbackUrl=/learn/english-a1/${lessonSlug}`);
       return;
     }
 
     if (!currentAnswer.trim()) {
+      event.preventDefault();
       return;
     }
 
-    formData.set("exerciseId", current.id);
-    formData.set("answer", currentAnswer);
-    formData.set("lessonSlug", lessonSlug);
-    formData.set("locale", locale);
-    formData.set(
-      "durationMs",
-      String(Math.max(0, Date.now() - startedAt.current)),
-    );
+    if (durationInputRef.current) {
+      durationInputRef.current.value = String(
+        Math.max(0, Date.now() - startedAt.current),
+      );
+    }
 
     startTransition(() => {
       addOptimisticCorrect({ exerciseId: current.id, correct: true });
     });
-
-    formAction(formData);
   }
 
   return (
@@ -180,7 +182,21 @@ export function EnglishA1ExerciseSession({
         </p>
       ) : null}
 
-      <form action={handleFormAction} className="flex flex-col gap-4">
+      <form
+        action={formAction}
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-4"
+      >
+        <input type="hidden" name="exerciseId" value={current.id} />
+        <input type="hidden" name="answer" value={currentAnswer} />
+        <input type="hidden" name="lessonSlug" value={lessonSlug} />
+        <input type="hidden" name="locale" value={locale} />
+        <input
+          ref={durationInputRef}
+          type="hidden"
+          name="durationMs"
+          defaultValue="0"
+        />
         {current.type === "choice" ? (
           <EnglishA1ChoiceExercise
             exercise={current}

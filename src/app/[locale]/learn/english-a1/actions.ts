@@ -17,8 +17,6 @@ export type EnglishA1ExerciseActionState = {
   explanation?: string;
 };
 
-const INITIAL_STATE: EnglishA1ExerciseActionState = { ok: false };
-
 export async function submitEnglishA1ExerciseAction(
   _prev: EnglishA1ExerciseActionState,
   formData: FormData,
@@ -66,9 +64,8 @@ export async function submitEnglishA1ExerciseAction(
       lessonScorePercent: result.lessonScorePercent,
       explanation,
     };
-  } catch {
+  } catch (error) {
+    console.error("[english-a1] submitExerciseAttempt failed", error);
     return { ok: false, error: "notFound" };
   }
 }
-
-export { INITIAL_STATE as ENGLISH_A1_EXERCISE_INITIAL_STATE };

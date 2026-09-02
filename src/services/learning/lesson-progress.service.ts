@@ -30,6 +30,11 @@ import {
   getLessonBySlug as getArchitecturePracticesLessonBySlug,
   ARCHITECTURE_PRACTICES_LESSONS,
 } from "@/domain/learning/architecture-practices/lessons";
+import { ENGLISH_A1_MODULE_ID } from "@/domain/learning/english-a1/module.constants";
+import {
+  getLessonBySlug as getEnglishA1LessonBySlug,
+  ENGLISH_A1_LESSONS,
+} from "@/domain/learning/english-a1/lessons";
 
 export type LessonMissionState = {
   readme: boolean;
@@ -78,6 +83,9 @@ function resolveTotalLessons(moduleId: string): number {
   if (moduleId === ARCHITECTURE_PRACTICES_MODULE_ID) {
     return ARCHITECTURE_PRACTICES_LESSONS.length;
   }
+  if (moduleId === ENGLISH_A1_MODULE_ID) {
+    return ENGLISH_A1_LESSONS.length;
+  }
   return 0;
 }
 
@@ -94,6 +102,12 @@ function assertLessonExists(moduleId: string, lessonSlug: string): void {
   if (
     moduleId === ARCHITECTURE_PRACTICES_MODULE_ID &&
     !getArchitecturePracticesLessonBySlug(lessonSlug)
+  ) {
+    throw new Error("Lección no encontrada");
+  }
+  if (
+    moduleId === ENGLISH_A1_MODULE_ID &&
+    !getEnglishA1LessonBySlug(lessonSlug)
   ) {
     throw new Error("Lección no encontrada");
   }

@@ -8,6 +8,7 @@ const INTERNAL_MODULE_PATHS: Record<string, string> = {
   "local:python-deutsch": "/learn/python-deutsch",
   "local:python-ai": "/learn/python-ai",
   "local:architecture-practices": "/learn/architecture-practices",
+  "local:english-a1": "/learn/english-a1",
 };
 
 export function getCourseInternalModulePath(

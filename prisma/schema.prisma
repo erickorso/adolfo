@@ -90,6 +90,7 @@ model User {
   jobApplications JobApplication[]
   courseEnrollments CourseEnrollment[]
   lessonProgress    LessonProgress[]
+  exerciseAttempts  ExerciseAttempt[]
   learningProfile   LearningProfile?
   searchScope       UserSearchScope?
   coachConversations CoachConversation[]
@@ -489,6 +490,23 @@ model LessonProgress {
 
   @@unique([userId, moduleId, lessonSlug])
   @@index([userId, moduleId])
+}
+
+/// Intento de ejercicio (english-a1 y módulos interactivos granulares).
+model ExerciseAttempt {
+  id         String   @id @default(cuid())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  moduleId   String
+  lessonSlug String
+  exerciseId String
+  correct    Boolean
+  answer     String
+  durationMs Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  @@index([userId, moduleId, createdAt])
+  @@index([userId, moduleId, lessonSlug])
 }
 
 /// XP acumulado y racha de estudio del usuario.

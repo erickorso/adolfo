@@ -83,6 +83,14 @@ export async function CoursesTemplate({
       iconClass:
         "bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-200",
     },
+    {
+      href: "/learn/english-a1",
+      title: t("featuredEnglishA1"),
+      hint: t("featuredEnglishA1Hint"),
+      icon: "languages" as const,
+      iconClass:
+        "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200",
+    },
   ];
 
   const gravityChips = [

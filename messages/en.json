@@ -335,6 +335,8 @@
     "featuredInternalBody": "Courses with integrated content: lessons, PDFs, and tracking inside the app.",
     "featuredSongsEnglish": "Learn English with songs",
     "featuredSongsEnglishHint": "EN/ES lyrics, PDF, and idiom notes — start with Toy Story.",
+    "featuredEnglishA1": "English A1 — interactive practice",
+    "featuredEnglishA1Hint": "To be and present simple — Duolingo-style exercises with login and XP.",
     "featuredWebPerformance": "Web Performance & CWV",
     "featuredWebPerformanceHint": "Real Adolfo RUM, Lighthouse vs field, LCP/INP/CLS playbook.",
     "featuredFullstackKit": "Fullstack Kit — Node + React + Postgres",

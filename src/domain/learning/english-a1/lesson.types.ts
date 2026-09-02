@@ -10,4 +10,6 @@ export type EnglishA1Lesson = {
   title: LocalizedText;
   summary: LocalizedText;
   tip: LocalizedText;
+  /** Apuntes del cole (ficha Present Simple / to be). */
+  grammar: LocalizedText;
 };

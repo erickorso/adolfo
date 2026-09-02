@@ -162,6 +162,20 @@ const PRESENT_SIMPLE_AFF: EnglishA1Exercise[] = [
   {
     id: "ps-aff-1",
     type: "choice",
+    prompt: {
+      es: "¿Cuándo usamos present simple?",
+      en: "When do we use present simple?",
+    },
+    options: [
+      { id: "a", text: { es: "Hábitos y rutinas", en: "Habits and routines" } },
+      { id: "b", text: { es: "Solo ayer", en: "Only yesterday" } },
+      { id: "c", text: { es: "Solo mañana", en: "Only tomorrow" } },
+    ],
+    correctOptionId: "a",
+  },
+  {
+    id: "ps-aff-2",
+    type: "choice",
     prompt: { es: "She ___ English.", en: "She ___ English." },
     options: [
       { id: "a", text: { es: "likes", en: "likes" } },
@@ -171,27 +185,117 @@ const PRESENT_SIMPLE_AFF: EnglishA1Exercise[] = [
     correctOptionId: "a",
   },
   {
-    id: "ps-aff-2",
+    id: "ps-aff-3",
     type: "fill-blank",
     prompt: { es: "They ___ football on Sundays.", en: "They ___ football on Sundays." },
     acceptedAnswers: ["play"],
   },
   {
-    id: "ps-aff-3",
+    id: "ps-aff-4",
     type: "choice",
-    prompt: { es: "He ___ to school by bus.", en: "He ___ to school by bus." },
+    prompt: {
+      es: "Palabra clave del present simple:",
+      en: "Present simple signal word:",
+    },
     options: [
-      { id: "a", text: { es: "goes", en: "goes" } },
-      { id: "b", text: { es: "go", en: "go" } },
+      { id: "a", text: { es: "every day", en: "every day" } },
+      { id: "b", text: { es: "yesterday", en: "yesterday" } },
+      { id: "c", text: { es: "now", en: "now" } },
     ],
     correctOptionId: "a",
   },
   {
-    id: "ps-aff-4",
+    id: "ps-aff-5",
     type: "word-bank",
-    prompt: { es: "Armá: I like pizza", en: "Build: I like pizza" },
-    words: ["pizza", "like", "I"],
-    correctOrder: ["I", "like", "pizza"],
+    prompt: { es: "Armá: The Sun rises in the east", en: "Build: The Sun rises in the east" },
+    words: ["Sun", "The", "east", "in", "rises", "the"],
+    correctOrder: ["The", "Sun", "rises", "in", "the", "east"],
+  },
+];
+
+const PRESENT_SIMPLE_NEGATIVE: EnglishA1Exercise[] = [
+  {
+    id: "ps-neg-1",
+    type: "choice",
+    prompt: { es: "I ___ like spinach.", en: "I ___ like spinach." },
+    options: [
+      { id: "a", text: { es: "don't", en: "don't" } },
+      { id: "b", text: { es: "doesn't", en: "doesn't" } },
+      { id: "c", text: { es: "isn't", en: "isn't" } },
+    ],
+    correctOptionId: "a",
+  },
+  {
+    id: "ps-neg-2",
+    type: "fill-blank",
+    prompt: { es: "She ___ watch TV.", en: "She ___ watch TV." },
+    acceptedAnswers: ["doesn't", "does not"],
+  },
+  {
+    id: "ps-neg-3",
+    type: "choice",
+    prompt: {
+      es: "Correcto: She doesn't like broccoli.",
+      en: "Correct: She doesn't like broccoli.",
+    },
+    options: [
+      { id: "a", text: { es: "Sí — doesn't + verbo base", en: "Yes — doesn't + base verb" } },
+      { id: "b", text: { es: "No — debe ser doesn't likes", en: "No — should be doesn't likes" } },
+    ],
+    correctOptionId: "a",
+  },
+  {
+    id: "ps-neg-4",
+    type: "word-bank",
+    prompt: { es: "Armá: They don't play tennis", en: "Build: They don't play tennis" },
+    words: ["don't", "They", "tennis", "play"],
+    correctOrder: ["They", "don't", "play", "tennis"],
+  },
+];
+
+const PRESENT_SIMPLE_SPELLING: EnglishA1Exercise[] = [
+  {
+    id: "ps-sp-1",
+    type: "fill-blank",
+    prompt: { es: "He ___ (watch) TV every evening.", en: "He ___ (watch) TV every evening." },
+    acceptedAnswers: ["watches"],
+  },
+  {
+    id: "ps-sp-2",
+    type: "fill-blank",
+    prompt: { es: "She ___ (study) English.", en: "She ___ (study) English." },
+    acceptedAnswers: ["studies"],
+  },
+  {
+    id: "ps-sp-3",
+    type: "choice",
+    prompt: { es: "He ___ a bike.", en: "He ___ a bike." },
+    options: [
+      { id: "a", text: { es: "has", en: "has" } },
+      { id: "b", text: { es: "have", en: "have" } },
+      { id: "c", text: { es: "haves", en: "haves" } },
+    ],
+    correctOptionId: "a",
+  },
+  {
+    id: "ps-sp-4",
+    type: "fill-blank",
+    prompt: { es: "She ___ (go) to school by bus.", en: "She ___ (go) to school by bus." },
+    acceptedAnswers: ["goes"],
+  },
+  {
+    id: "ps-sp-5",
+    type: "choice",
+    prompt: {
+      es: "¿Quién lleva -s en present simple?",
+      en: "Who takes -s in present simple?",
+    },
+    options: [
+      { id: "a", text: { es: "he / she / it", en: "he / she / it" } },
+      { id: "b", text: { es: "solo I", en: "only I" } },
+      { id: "c", text: { es: "todos igual", en: "everyone the same" } },
+    ],
+    correctOptionId: "a",
   },
 ];
 
@@ -216,7 +320,24 @@ const PRESENT_SIMPLE_Q: EnglishA1Exercise[] = [
   {
     id: "ps-q-3",
     type: "choice",
-    prompt: { es: "Does he play tennis? — No, he ___", en: "Does he play tennis? — No, he ___" },
+    prompt: {
+      es: "Do you go to school by bus? — Yes, ___",
+      en: "Do you go to school by bus? — Yes, ___",
+    },
+    options: [
+      { id: "a", text: { es: "I do", en: "I do" } },
+      { id: "b", text: { es: "I am", en: "I am" } },
+      { id: "c", text: { es: "she does", en: "she does" } },
+    ],
+    correctOptionId: "a",
+  },
+  {
+    id: "ps-q-4",
+    type: "choice",
+    prompt: {
+      es: "Does she play the piano? — No, she ___",
+      en: "Does she play the piano? — No, she ___",
+    },
     options: [
       { id: "a", text: { es: "doesn't", en: "doesn't" } },
       { id: "b", text: { es: "don't", en: "don't" } },
@@ -225,7 +346,7 @@ const PRESENT_SIMPLE_Q: EnglishA1Exercise[] = [
     correctOptionId: "a",
   },
   {
-    id: "ps-q-4",
+    id: "ps-q-5",
     type: "word-bank",
     prompt: { es: "Armá: Do they live here?", en: "Build: Do they live here?" },
     words: ["they", "Do", "here?", "live"],
@@ -233,14 +354,92 @@ const PRESENT_SIMPLE_Q: EnglishA1Exercise[] = [
   },
 ];
 
+const PRESENT_SIMPLE_WH: EnglishA1Exercise[] = [
+  {
+    id: "ps-wh-1",
+    type: "word-bank",
+    prompt: {
+      es: "Armá: Where do you go to school?",
+      en: "Build: Where do you go to school?",
+    },
+    words: ["you", "Where", "school?", "do", "go", "to"],
+    correctOrder: ["Where", "do", "you", "go", "to", "school?"],
+  },
+  {
+    id: "ps-wh-2",
+    type: "word-bank",
+    prompt: { es: "Armá: What do you do?", en: "Build: What do you do?" },
+    words: ["What", "you", "do?", "do"],
+    correctOrder: ["What", "do", "you", "do?"],
+  },
+  {
+    id: "ps-wh-3",
+    type: "word-bank",
+    prompt: { es: "Armá: When do you get up?", en: "Build: When do you get up?" },
+    words: ["get", "When", "up?", "you", "do"],
+    correctOrder: ["When", "do", "you", "get", "up?"],
+  },
+  {
+    id: "ps-wh-4",
+    type: "word-bank",
+    prompt: {
+      es: "Armá: Why do you eat so much chocolate?",
+      en: "Build: Why do you eat so much chocolate?",
+    },
+    words: ["you", "Why", "chocolate?", "do", "eat", "much", "so"],
+    correctOrder: ["Why", "do", "you", "eat", "so", "much", "chocolate?"],
+  },
+  {
+    id: "ps-wh-5",
+    type: "word-bank",
+    prompt: {
+      es: "Armá: Who does she meet on Saturdays?",
+      en: "Build: Who does she meet on Saturdays?",
+    },
+    words: ["Saturdays?", "Who", "she", "on", "does", "meet"],
+    correctOrder: ["Who", "does", "she", "meet", "on", "Saturdays?"],
+  },
+  {
+    id: "ps-wh-6",
+    type: "word-bank",
+    prompt: {
+      es: "Armá: Which colour do you prefer?",
+      en: "Build: Which colour do you prefer?",
+    },
+    words: ["you", "Which", "prefer?", "colour", "do"],
+    correctOrder: ["Which", "colour", "do", "you", "prefer?"],
+  },
+  {
+    id: "ps-wh-7",
+    type: "word-bank",
+    prompt: {
+      es: "Armá: How do you cook pasta?",
+      en: "Build: How do you cook pasta?",
+    },
+    words: ["you", "How", "pasta?", "cook", "do"],
+    correctOrder: ["How", "do", "you", "cook", "pasta?"],
+  },
+  {
+    id: "ps-wh-8",
+    type: "word-bank",
+    prompt: {
+      es: "Armá: Where do you play tennis?",
+      en: "Build: Where do you play tennis?",
+    },
+    words: ["you", "Where", "tennis?", "play", "do"],
+    correctOrder: ["Where", "do", "you", "play", "tennis?"],
+  },
+];
+
 const REVIEW_MIX: EnglishA1Exercise[] = [
   {
     id: "rev-1",
     type: "choice",
-    prompt: { es: "I ___ 8 years old.", en: "I ___ 8 years old." },
+    prompt: { es: "Water ___ at 100°C.", en: "Water ___ at 100°C." },
     options: [
-      { id: "a", text: { es: "am", en: "am" } },
-      { id: "b", text: { es: "have", en: "have" } },
+      { id: "a", text: { es: "boils", en: "boils" } },
+      { id: "b", text: { es: "is boiling", en: "is boiling" } },
+      { id: "c", text: { es: "boiled", en: "boiled" } },
     ],
     correctOptionId: "a",
   },
@@ -270,6 +469,20 @@ const REVIEW_MIX: EnglishA1Exercise[] = [
   {
     id: "rev-5",
     type: "choice",
+    prompt: {
+      es: "Where ___ you play tennis?",
+      en: "Where ___ you play tennis?",
+    },
+    options: [
+      { id: "a", text: { es: "do", en: "do" } },
+      { id: "b", text: { es: "does", en: "does" } },
+      { id: "c", text: { es: "are", en: "are" } },
+    ],
+    correctOptionId: "a",
+  },
+  {
+    id: "rev-6",
+    type: "choice",
     prompt: { es: "They ___ at home now.", en: "They ___ at home now." },
     options: [
       { id: "a", text: { es: "are", en: "are" } },
@@ -285,7 +498,10 @@ const EXERCISES_BY_LESSON: Record<string, EnglishA1Exercise[]> = {
   "to-be-negative": TO_BE_NEGATIVE,
   "to-be-questions": TO_BE_QUESTIONS,
   "present-simple-affirmative": PRESENT_SIMPLE_AFF,
+  "present-simple-negative": PRESENT_SIMPLE_NEGATIVE,
+  "present-simple-spelling": PRESENT_SIMPLE_SPELLING,
   "present-simple-questions": PRESENT_SIMPLE_Q,
+  "present-simple-wh-questions": PRESENT_SIMPLE_WH,
   "review-mix": REVIEW_MIX,
 };
 

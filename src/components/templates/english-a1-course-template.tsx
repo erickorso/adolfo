@@ -29,6 +29,15 @@ export async function EnglishA1CourseTemplate() {
           <li>{t("aboutPoint3")}</li>
         </ul>
         <p className="mt-4 text-sm">
+          <a
+            href="/courses/school-present-simple-ficha.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium underline"
+          >
+            {t("schoolSheetPdf")}
+          </a>
+          {" · "}
           <Link href="/learn/songs-english" className="font-medium underline">
             {t("relatedSongs")}
           </Link>

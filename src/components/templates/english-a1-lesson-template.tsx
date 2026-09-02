@@ -1,7 +1,7 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
-import { EnglishA1ExerciseSession } from "@/components/organisms/english-a1-exercise-session";
+import { EnglishA1LessonClient } from "@/components/organisms/english-a1-lesson-client";
 import {
   getAdjacentLessons,
   getLessonBySlug,
@@ -75,28 +75,17 @@ export async function EnglishA1LessonTemplate({
         </p>
       </header>
 
-      <section className="rounded-lg border border-violet-200 bg-violet-50/50 p-5 dark:border-violet-900 dark:bg-violet-950/20">
-        <h2 className="mb-2 text-base font-semibold">{t("grammarTitle")}</h2>
-        <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
-          {lessonLocalizedText(locale, lesson.grammar)}
-        </p>
-      </section>
-
-      <section className="rounded-lg border border-sky-200 bg-sky-50/50 p-5 dark:border-sky-900 dark:bg-sky-950/20">
-        <h2 className="mb-2 text-base font-semibold">{t("tipTitle")}</h2>
-        <p className="text-sm text-muted-foreground">
-          {lessonLocalizedText(locale, lesson.tip)}
-        </p>
-      </section>
-
-      <EnglishA1ExerciseSession
+      <EnglishA1LessonClient
+        lesson={lesson}
+        locale={locale}
         exercises={exercises}
         lessonSlug={slug}
-        locale={locale}
         isLoggedIn={Boolean(user)}
         initialCorrectIds={stats.correctExerciseIds}
         initialScorePercent={stats.scorePercent}
         lessonPassed={stats.passed}
+        tipTitle={t("tipTitle")}
+        grammarTitle={t("grammarTitle")}
       />
 
       <nav

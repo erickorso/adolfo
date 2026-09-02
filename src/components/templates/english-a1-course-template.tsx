@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { EnglishA1LessonList } from "@/components/molecules/english-a1-lesson-list";
 import { EnglishA1ModuleProgress } from "@/components/organisms/english-a1-module-progress";
+import { EnglishA1CourseClient } from "@/components/organisms/english-a1-course-client";
 import { ENGLISH_A1_MODULE_ID } from "@/domain/learning/english-a1/module.constants";
 import { getModuleProgress } from "@/services/learning/lesson-progress.service";
 import { getCurrentUser } from "@/services/users/user.service";
@@ -28,21 +29,46 @@ export async function EnglishA1CourseTemplate() {
           <li>{t("aboutPoint2")}</li>
           <li>{t("aboutPoint3")}</li>
         </ul>
+        <ul className="mt-4 flex flex-col gap-1 text-sm">
+          <li>
+            <a
+              href="/courses/school-present-simple-ficha.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium underline"
+            >
+              {t("schoolSheetPdf")}
+            </a>
+          </li>
+          <li>
+            <a
+              href="/courses/school-present-simple-workbook.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium underline"
+            >
+              {t("schoolWorkbookPdf")}
+            </a>
+          </li>
+          <li>
+            <a
+              href="/courses/school-present-simple-poster.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium underline"
+            >
+              {t("schoolPosterPdf")}
+            </a>
+          </li>
+        </ul>
         <p className="mt-4 text-sm">
-          <a
-            href="/courses/school-present-simple-ficha.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium underline"
-          >
-            {t("schoolSheetPdf")}
-          </a>
-          {" · "}
           <Link href="/learn/songs-english" className="font-medium underline">
             {t("relatedSongs")}
           </Link>
         </p>
       </section>
+
+      <EnglishA1CourseClient />
 
       <section aria-labelledby="english-a1-lessons-heading">
         <h2

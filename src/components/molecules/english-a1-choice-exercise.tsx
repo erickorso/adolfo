@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { lessonLocalizedText } from "@/domain/learning/english-a1/lesson.types";
+import { EnglishA1DictionaryText } from "@/components/molecules/english-a1-dictionary-text";
 import type { ChoiceExercise } from "@/domain/learning/english-a1/exercise.types";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +30,9 @@ export function EnglishA1ChoiceExercise({
   return (
     <fieldset className="flex flex-col gap-3" disabled={disabled}>
       <legend className="text-sm font-semibold">
-        {lessonLocalizedText(locale, exercise.prompt)}
+        <EnglishA1DictionaryText
+          text={lessonLocalizedText(locale, exercise.prompt)}
+        />
       </legend>
       <div className="flex flex-col gap-2" role="radiogroup">
         {exercise.options.map((option) => {

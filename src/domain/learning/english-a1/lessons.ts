@@ -168,12 +168,46 @@ export const ENGLISH_A1_LESSONS: EnglishA1Lesson[] = [
     },
   },
   {
-    slug: "review-mix",
+    slug: "present-continuous",
     order: 9,
+    title: { es: "Present continuous", en: "Present continuous" },
+    summary: {
+      es: "Acciones ahora: am/is/are + verbo-ing.",
+      en: "Actions now: am/is/are + verb-ing.",
+    },
+    tip: {
+      es: "Palabras clave: now, right now, at the moment, currently.",
+      en: "Signal words: now, right now, at the moment, currently.",
+    },
+    grammar: {
+      es: "PRESENT CONTINUOUS\n\n¿Cuándo?\n· Ahora mismo (I am playing now)\n· Situación temporal (We are living in Madrid)\n· Algo que está pasando these days\n\nFORMA: am / is / are + verbo-ing\nNegativo: I am not playing · He isn't reading\nPreguntas: Are you playing? · Is she reading?\n\nSPELLING -ing:\nplay→playing · write→writing · run→running\n\nPalabras: now · right now · at the moment · today · currently",
+      en: "PRESENT CONTINUOUS\n\nWhen?\n· Right now (I am playing now)\n· Temporary (We are living in Madrid)\n· Happening these days\n\nFORM: am / is / are + verb-ing\nNegative: I am not playing · He isn't reading\nQuestions: Are you playing? · Is she reading?\n\nSPELLING -ing:\nplay→playing · write→writing · run→running\n\nSignal words: now · right now · at the moment · today · currently",
+    },
+  },
+  {
+    slug: "daily-routine-tom",
+    order: 10,
+    title: { es: "Lectura: Tom's day", en: "Reading: Tom's day" },
+    summary: {
+      es: "Texto del workbook del cole — rutina en present simple.",
+      en: "School workbook text — daily routine in present simple.",
+    },
+    tip: {
+      es: "Tom lives in Manchester. Subrayá los verbos en present simple.",
+      en: "Tom lives in Manchester. Underline the present simple verbs.",
+    },
+    grammar: {
+      es: "READING — TOM'S DAY\n\nTom is ten years old. He lives in Manchester, England. He goes to school from Monday to Friday. He gets up at 7:00 and has breakfast at 7:30. He goes to school at 8:15. He has lunch at school. After school he plays football with his friends. He likes comics and video games. He doesn't like vegetables but he eats fruit. He has dinner at 7:00 and goes to bed at 9:30.\n\nTrue or false del cole:\n· Tom is ten · He lives in Manchester · He plays football after school",
+      en: "READING — TOM'S DAY\n\nTom is ten years old. He lives in Manchester, England. He goes to school from Monday to Friday. He gets up at 7:00 and has breakfast at 7:30. He goes to school at 8:15. He has lunch at school. After school he plays football with his friends. He likes comics and video games. He doesn't like vegetables but he eats fruit. He has dinner at 7:00 and goes to bed at 9:30.\n\nSchool true or false:\n· Tom is ten · He lives in Manchester · He plays football after school",
+    },
+  },
+  {
+    slug: "review-mix",
+    order: 11,
     title: { es: "Repaso ficha del cole", en: "School sheet review" },
     summary: {
-      es: "Mezcla: to be + present simple (ficha 3 páginas).",
-      en: "Mix: to be + present simple (3-page sheet).",
+      es: "Mezcla: to be + present simple + continuous (fichas del cole).",
+      en: "Mix: to be + present simple + continuous (school sheets).",
     },
     tip: {
       es: "Leé la frase entera: ¿to be o present simple? ¿afirmativo, negativo o pregunta?",

@@ -431,6 +431,112 @@ const PRESENT_SIMPLE_WH: EnglishA1Exercise[] = [
   },
 ];
 
+const PRESENT_CONTINUOUS: EnglishA1Exercise[] = [
+  {
+    id: "pc-1",
+    type: "choice",
+    prompt: { es: "Look! He ___ football now.", en: "Look! He ___ football now." },
+    options: [
+      { id: "a", text: { es: "is playing", en: "is playing" } },
+      { id: "b", text: { es: "plays", en: "plays" } },
+      { id: "c", text: { es: "played", en: "played" } },
+    ],
+    correctOptionId: "a",
+  },
+  {
+    id: "pc-2",
+    type: "fill-blank",
+    prompt: { es: "She ___ (read) her book now.", en: "She ___ (read) her book now." },
+    acceptedAnswers: ["is reading", "'s reading"],
+  },
+  {
+    id: "pc-3",
+    type: "choice",
+    prompt: { es: "They ___ watching TV.", en: "They ___ watching TV." },
+    options: [
+      { id: "a", text: { es: "aren't", en: "aren't" } },
+      { id: "b", text: { es: "don't", en: "don't" } },
+      { id: "c", text: { es: "isn't", en: "isn't" } },
+    ],
+    correctOptionId: "a",
+  },
+  {
+    id: "pc-4",
+    type: "fill-blank",
+    prompt: { es: "run → ___ (-ing)", en: "run → ___ (-ing)" },
+    acceptedAnswers: ["running"],
+  },
+  {
+    id: "pc-5",
+    type: "word-bank",
+    prompt: { es: "Armá: Are you playing now?", en: "Build: Are you playing now?" },
+    words: ["you", "Are", "now?", "playing"],
+    correctOrder: ["Are", "you", "playing", "now?"],
+  },
+];
+
+const DAILY_ROUTINE_TOM: EnglishA1Exercise[] = [
+  {
+    id: "tom-1",
+    type: "choice",
+    prompt: { es: "Tom is ___ years old.", en: "Tom is ___ years old." },
+    options: [
+      { id: "a", text: { es: "ten", en: "ten" } },
+      { id: "b", text: { es: "eleven", en: "eleven" } },
+    ],
+    correctOptionId: "a",
+  },
+  {
+    id: "tom-2",
+    type: "choice",
+    prompt: { es: "Tom lives in ___", en: "Tom lives in ___" },
+    options: [
+      { id: "a", text: { es: "Manchester", en: "Manchester" } },
+      { id: "b", text: { es: "Madrid", en: "Madrid" } },
+    ],
+    correctOptionId: "a",
+  },
+  {
+    id: "tom-3",
+    type: "fill-blank",
+    prompt: { es: "Tom ___ up at 7:00.", en: "Tom ___ up at 7:00." },
+    acceptedAnswers: ["gets"],
+  },
+  {
+    id: "tom-4",
+    type: "choice",
+    prompt: {
+      es: "After school Tom ___ football.",
+      en: "After school Tom ___ football.",
+    },
+    options: [
+      { id: "a", text: { es: "plays", en: "plays" } },
+      { id: "b", text: { es: "is playing always", en: "is playing always" } },
+    ],
+    correctOptionId: "a",
+  },
+  {
+    id: "tom-5",
+    type: "choice",
+    prompt: { es: "Tom doesn't like ___", en: "Tom doesn't like ___" },
+    options: [
+      { id: "a", text: { es: "vegetables", en: "vegetables" } },
+      { id: "b", text: { es: "fruit", en: "fruit" } },
+    ],
+    correctOptionId: "a",
+  },
+  {
+    id: "tom-6",
+    type: "word-bank",
+    prompt: {
+      es: "Armá: He goes to bed at 9:30",
+      en: "Build: He goes to bed at 9:30",
+    },
+    words: ["bed", "He", "9:30", "goes", "at", "to"],
+    correctOrder: ["He", "goes", "to", "bed", "at", "9:30"],
+  },
+];
+
 const REVIEW_MIX: EnglishA1Exercise[] = [
   {
     id: "rev-1",
@@ -502,6 +608,8 @@ const EXERCISES_BY_LESSON: Record<string, EnglishA1Exercise[]> = {
   "present-simple-spelling": PRESENT_SIMPLE_SPELLING,
   "present-simple-questions": PRESENT_SIMPLE_Q,
   "present-simple-wh-questions": PRESENT_SIMPLE_WH,
+  "present-continuous": PRESENT_CONTINUOUS,
+  "daily-routine-tom": DAILY_ROUTINE_TOM,
   "review-mix": REVIEW_MIX,
 };
 

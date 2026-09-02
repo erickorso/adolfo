@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { EnglishA1DictionaryText } from "@/components/molecules/english-a1-dictionary-text";
 import { lessonLocalizedText } from "@/domain/learning/english-a1/lesson.types";
 import type { FillBlankExercise } from "@/domain/learning/english-a1/exercise.types";
 import { cn } from "@/lib/utils";
@@ -29,7 +30,9 @@ export function EnglishA1FillBlankExercise({
   return (
     <div className="flex flex-col gap-3">
       <label htmlFor={`fill-${exercise.id}`} className="text-sm font-semibold">
-        {lessonLocalizedText(locale, exercise.prompt)}
+        <EnglishA1DictionaryText
+          text={lessonLocalizedText(locale, exercise.prompt)}
+        />
       </label>
       <input
         id={`fill-${exercise.id}`}

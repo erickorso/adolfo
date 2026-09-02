@@ -1,6 +1,7 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { LearnModuleShell } from "@/components/templates/learn-module-shell";
+import { EnglishA1LessonPageShell } from "@/components/organisms/english-a1-lesson-page-shell";
 import { EnglishA1LessonTemplate } from "@/components/templates/english-a1-lesson-template";
 import { getLessonBySlug } from "@/domain/learning/english-a1/lessons";
 import { lessonLocalizedText } from "@/domain/learning/english-a1/lesson.types";
@@ -22,13 +23,15 @@ export default async function EnglishA1LessonPage({ params }: PageProps) {
   ]);
 
   return (
-    <LearnModuleShell
-      title={lessonLocalizedText(locale, lesson.title)}
-      subtitle={lessonLocalizedText(locale, lesson.summary)}
-      badge={`${t("badge")} · ${t("lessonNumber", { n: lesson.order + 1 })}`}
-      wide
-    >
-      <EnglishA1LessonTemplate params={params} />
-    </LearnModuleShell>
+    <EnglishA1LessonPageShell>
+      <LearnModuleShell
+        title={lessonLocalizedText(locale, lesson.title)}
+        subtitle={lessonLocalizedText(locale, lesson.summary)}
+        badge={`${t("badge")} · ${t("lessonNumber", { n: lesson.order + 1 })}`}
+        wide
+      >
+        <EnglishA1LessonTemplate params={params} />
+      </LearnModuleShell>
+    </EnglishA1LessonPageShell>
   );
 }

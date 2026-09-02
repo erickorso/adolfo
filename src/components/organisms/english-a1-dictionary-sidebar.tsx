@@ -6,7 +6,13 @@ import { useEnglishA1Vocab } from "@/components/organisms/english-a1-vocab-provi
 import { ENGLISH_A1_VOCAB_LIST } from "@/domain/learning/english-a1/vocabulary";
 import { cn } from "@/lib/utils";
 
-export function EnglishA1DictionarySidebar() {
+type EnglishA1DictionarySidebarProps = {
+  embedded?: boolean;
+};
+
+export function EnglishA1DictionarySidebar({
+  embedded = false,
+}: EnglishA1DictionarySidebarProps) {
   const t = useTranslations("englishA1");
   const { openWord } = useEnglishA1Vocab();
   const [query, setQuery] = useState("");
@@ -26,7 +32,11 @@ export function EnglishA1DictionarySidebar() {
 
   return (
     <aside
-      className="rounded-lg border border-border bg-card p-4 lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto"
+      className={cn(
+        !embedded &&
+          "rounded-lg border border-border bg-card p-4 lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto",
+        embedded && "bg-transparent p-0",
+      )}
       aria-labelledby="english-a1-dictionary-sidebar-heading"
     >
       <h2

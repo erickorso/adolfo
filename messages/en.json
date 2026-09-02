@@ -136,6 +136,8 @@
     "dictionaryCount": "{count} words",
     "dictionaryWordLabel": "English",
     "dictionaryClose": "Close",
+    "dictionaryOpen": "Open dictionary",
+    "dictionaryPanelClose": "Close dictionary",
     "dictionaryCategory": "Topic: {category}",
     "dictionaryCat_all": "All",
     "dictionaryCat_greetings": "Greetings",

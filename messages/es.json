@@ -136,6 +136,8 @@
     "dictionaryCount": "{count} palabras",
     "dictionaryWordLabel": "Inglés",
     "dictionaryClose": "Cerrar",
+    "dictionaryOpen": "Abrir diccionario",
+    "dictionaryPanelClose": "Cerrar diccionario",
     "dictionaryCategory": "Tema: {category}",
     "dictionaryCat_all": "Todas",
     "dictionaryCat_greetings": "Saludos",

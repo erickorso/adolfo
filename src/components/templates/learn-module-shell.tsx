@@ -5,6 +5,7 @@ type LearnModuleShellProps = {
   title: string;
   subtitle?: string;
   badge?: string;
+  wide?: boolean;
   children: ReactNode;
 };
 
@@ -12,10 +13,13 @@ export function LearnModuleShell({
   title,
   subtitle,
   badge = "AI Agents Path",
+  wide = false,
   children,
 }: LearnModuleShellProps) {
   return (
-    <div className="learn-path mx-auto flex max-w-3xl flex-col gap-8 px-4 py-10">
+    <div
+      className={`learn-path mx-auto flex flex-col gap-8 px-4 py-10 ${wide ? "max-w-7xl" : "max-w-3xl"}`}
+    >
       <header className="learn-path__hero flex flex-col gap-3">
         <span className="learn-path__hero-badge">
           <Sparkles className="size-3.5" aria-hidden />

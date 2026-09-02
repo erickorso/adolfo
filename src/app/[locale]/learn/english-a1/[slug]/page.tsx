@@ -25,7 +25,8 @@ export default async function EnglishA1LessonPage({ params }: PageProps) {
     <LearnModuleShell
       title={lessonLocalizedText(locale, lesson.title)}
       subtitle={lessonLocalizedText(locale, lesson.summary)}
-      badge={t("badge")}
+      badge={`${t("badge")} · ${t("lessonNumber", { n: lesson.order + 1 })}`}
+      wide
     >
       <EnglishA1LessonTemplate params={params} />
     </LearnModuleShell>

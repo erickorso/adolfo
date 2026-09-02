@@ -178,7 +178,12 @@
     "noExercises": "No exercises in this lesson.",
     "wordBankPlaceholder": "Tap words in order…",
     "wordBankUndo": "Undo",
-    "exerciseDotsLabel": "Exercise progress"
+    "exerciseDotsLabel": "Exercise progress",
+    "completedLessonsTitle": "Completed lessons",
+    "noCompletedLessons": "You haven't completed any lessons yet.",
+    "reviewLesson": "Review →",
+    "lessonScore": "{percent}%",
+    "currentLesson": "You are here"
   },
   "common": {
     "back": "← Back to catalog",

@@ -2,9 +2,11 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { EnglishA1LessonClient } from "@/components/organisms/english-a1-lesson-client";
+import type { CompletedLessonNote } from "@/components/organisms/english-a1-lessons-notes-sidebar";
 import {
   getAdjacentLessons,
   getLessonBySlug,
+  ENGLISH_A1_LESSONS,
 } from "@/domain/learning/english-a1/lessons";
 import { getExercisesForLesson } from "@/domain/learning/english-a1/exercises";
 import { lessonLocalizedText } from "@/domain/learning/english-a1/lesson.types";
@@ -17,6 +19,37 @@ import { getCurrentUser } from "@/services/users/user.service";
 type EnglishA1LessonTemplateProps = {
   params: Promise<{ slug: string }>;
 };
+
+async function getCompletedLessonNotes(
+  userId: string | null,
+  locale: string,
+  currentSlug: string,
+): Promise<CompletedLessonNote[]> {
+  if (!userId) {
+    return [];
+  }
+
+  const completedSlugs = (
+    await getModuleProgress(userId, ENGLISH_A1_MODULE_ID)
+  ).completedSlugs;
+
+  const lessons = ENGLISH_A1_LESSONS.filter((lesson) =>
+    completedSlugs.includes(lesson.slug),
+  ).sort((a, b) => a.order - b.order);
+
+  const stats = await Promise.all(
+    lessons.map((lesson) => getLessonExerciseStats(userId, lesson.slug)),
+  );
+
+  return lessons.map((lesson, index) => ({
+    slug: lesson.slug,
+    order: lesson.order,
+    title: lessonLocalizedText(locale, lesson.title),
+    grammar: lessonLocalizedText(locale, lesson.grammar),
+    scorePercent: stats[index]?.scorePercent ?? 0,
+    isCurrent: lesson.slug === currentSlug,
+  }));
+}
 
 export async function EnglishA1LessonTemplate({
   params,
@@ -53,27 +86,19 @@ export async function EnglishA1LessonTemplate({
     );
   }
 
-  const exercises = getExercisesForLesson(slug);
-  const stats = await getLessonExerciseStats(user?.id ?? null, slug);
-  const { prev, next } = getAdjacentLessons(slug);
+  const [exercises, stats, completedLessons, { prev, next }] =
+    await Promise.all([
+      Promise.resolve(getExercisesForLesson(slug)),
+      getLessonExerciseStats(user?.id ?? null, slug),
+      getCompletedLessonNotes(user?.id ?? null, locale, slug),
+      Promise.resolve(getAdjacentLessons(slug)),
+    ]);
 
   return (
     <article className="flex flex-col gap-6">
       <Link href="/learn/english-a1" className="text-sm underline">
         {t("backToModule")}
       </Link>
-
-      <header className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted-foreground">
-          {t("lessonNumber", { n: lesson.order + 1 })}
-        </p>
-        <h1 className="text-2xl font-bold tracking-tight">
-          {lessonLocalizedText(locale, lesson.title)}
-        </h1>
-        <p className="text-muted-foreground">
-          {lessonLocalizedText(locale, lesson.summary)}
-        </p>
-      </header>
 
       <EnglishA1LessonClient
         lesson={lesson}
@@ -86,6 +111,7 @@ export async function EnglishA1LessonTemplate({
         lessonPassed={stats.passed}
         tipTitle={t("tipTitle")}
         grammarTitle={t("grammarTitle")}
+        completedLessons={completedLessons}
       />
 
       <nav
